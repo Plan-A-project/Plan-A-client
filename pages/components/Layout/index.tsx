@@ -4,9 +4,10 @@ import Footer from "../Footer";
 
 type PageLayoutProps = {
   children: ReactNode;
+  footer?: boolean;
 };
 
-const PageLayout = ({ children }: PageLayoutProps) => {
+const PageLayout = ({ children, footer }: PageLayoutProps) => {
   return (
     <Container
       sx={{ "&::-webkit-scrollbar": { display: "none" } }}
@@ -20,7 +21,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
       }}
     >
       <Box>{children}</Box>
-      <Footer />
+      {footer ? <Footer /> : ""}
     </Container>
   );
 };
