@@ -11,16 +11,12 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import PageLayout from "../components/Layout";
 import CustomInput from "../components/CustomInput";
+import Header from "../components/Header";
 
 const index = () => {
   return (
     <PageLayout>
-      <Flex align={"center"}>
-        <ChevronLeftIcon focusable={true} boxSize={9} />
-        <Heading as="h2" size="md">
-          로그인
-        </Heading>
-      </Flex>
+      <Header headingText="로그인" />
       <Stack padding={"16px"}>
         <CustomInput
           label="이메일"

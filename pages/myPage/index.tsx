@@ -17,7 +17,7 @@ import DarkModeButton from "../components/DarkModeButton";
 
 const index = () => {
   return (
-    <PageLayout>
+    <PageLayout footer>
       <Container>
         <Text fontSize={20} fontWeight={600}>
           내 정보
