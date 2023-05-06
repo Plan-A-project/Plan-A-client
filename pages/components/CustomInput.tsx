@@ -11,12 +11,14 @@ interface CustomInputProps {
   label: string;
   placeholder: string;
   errorMessage?: string;
+  height?: string;
 }
 
 const CustomInput = ({
   label,
   placeholder,
   errorMessage,
+  height,
 }: CustomInputProps) => {
   const [input, setInput] = useState("");
 
@@ -33,6 +35,7 @@ const CustomInput = ({
         value={input}
         onChange={handleInputChange}
         placeholder={placeholder}
+        h={height}
       />
       {!isError ? (
         <FormHelperText></FormHelperText>

@@ -28,12 +28,15 @@ const index = () => {
   return (
     <PageLayout>
       <Header headingText="게시글 관리" />
-      <Container>
+      <Container mt={"16px"}>
         <Tabs isFitted isLazy variant="soft-rounded" colorScheme="blue">
           <TabList border={"1px solid grey"} borderRadius={"10px"} p={"6px"}>
             <Tab borderRadius={"8px"}>내 게시글</Tab>
             <Tab borderRadius={"8px"}>내 댓글</Tab>
           </TabList>
+          <Text fontSize={"12px"} fontWeight={600} mt={"16px"}>
+            최신순
+          </Text>
           <TabPanels>
             <TabPanel>
               <Stack divider={<StackDivider borderColor="gray.200" />}>
@@ -44,12 +47,14 @@ const index = () => {
               </Stack>
             </TabPanel>
             <TabPanel>
-              <MyComment />
-              <MyComment />
-              <MyComment />
-              <MyComment />
-              <MyComment />
-              <MyComment />
+              <Stack divider={<StackDivider borderColor="gray.200" />}>
+                <MyComment />
+                <MyComment />
+                <MyComment />
+                <MyComment />
+                <MyComment />
+                <MyComment />
+              </Stack>
             </TabPanel>
           </TabPanels>
         </Tabs>
