@@ -11,6 +11,8 @@ import BoardStack from "@/components/board/BoardStack";
 import BoardBaseForm from "@/components/board/BoardBaseForm";
 import BoardCategory from "@/components/board/BoardCategory";
 import BoardCheckOption from "@/components/board/BoardCheckOption";
+import BoardComment from "@/components/board/BoardComment";
+import BoardCommentList from "@/components/board/BoardCommentList";
 
 export default function Home() {
   return (
@@ -75,6 +77,24 @@ export default function Home() {
         <BoardCheckOption label="공지로 올리기" />
         <BoardBaseForm />
       </Flex>
+      <Divider h={"120px"} />
+
+      <BoardCommentList>
+        <BoardComment
+          profileImage="https://via.placeholder.com/150"
+          username="하이"
+          depth={0}
+          content="댓글입니다."
+          withProfile
+        />
+        <BoardComment
+          username="하이"
+          depth={0}
+          content="댓글입니다."
+          withProfile
+        />
+        <BoardComment username="하이" depth={0} content="댓글입니다." />
+      </BoardCommentList>
     </AppContainer>
   );
 }
