@@ -1,6 +1,6 @@
 import React from "react";
 import PageLayout from "../components/Layout";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon, QuestionOutlineIcon } from "@chakra-ui/icons";
 import { Flex, Heading, Stack, Button } from "@chakra-ui/react";
 import CustomInput from "../components/CustomInput";
 
@@ -19,7 +19,7 @@ const index = () => {
           placeholder="이름을 입력해 주세요"
           title="이름"
           type="text"
-          //   errorMessage="이메일 주소 전체를 입력해주세요."
+          errorMessage="이름을 입력해 주세요"
         />
         <CustomInput
           label="signupEmail"
@@ -33,7 +33,8 @@ const index = () => {
           placeholder="yourID"
           title="위챗 or 카카오톡 아이디"
           type="text"
-          //   errorMessage="이메일 주소 전체를 입력해주세요."
+          errorMessage="이메일 주소 전체를 입력해주세요."
+          icon={QuestionOutlineIcon}
         />
         <CustomInput
           label="signupPassword"
