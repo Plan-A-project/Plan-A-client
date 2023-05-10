@@ -41,11 +41,7 @@ const index = () => {
                     학교 이메일 계정을 입력해주세요.
                   </Text>
                 </Stack>
-                <CustomInput
-                  label="이메일"
-                  placeholder="youremail@email.com"
-                  height="52px"
-                />
+                <CustomInput label="이메일" placeholder="youremail@email.com" />
                 <Button h={"52px"} mt={"16px"}>
                   인증하기
                 </Button>
