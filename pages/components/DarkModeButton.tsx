@@ -1,27 +1,22 @@
-import { Button, Text, Switch } from "@chakra-ui/react";
-import { useState } from "react";
+import { Switch, FormLabel } from "@chakra-ui/react";
 
 const DarkModeButton = () => {
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleButtonClick = () => {
-    setIsChecked(!isChecked);
-  };
-
   return (
-    <Button
+    <FormLabel
+      htmlFor="dark-mode"
       display={"flex"}
       justifyContent={"space-between"}
+      alignItems={"center"}
       paddingX={"5px"}
-      _hover={{ bg: "transparent" }}
-      backgroundColor={"transparent"}
-      onClick={handleButtonClick}
+      width={"100%"}
+      height={"100%"}
+      fontSize={16}
+      fontWeight={400}
+      _hover={{ cursor: "pointer" }}
     >
-      <Text fontSize={16} fontWeight={400}>
-        다크모드
-      </Text>
-      <Switch size="md" isChecked={isChecked} />
-    </Button>
+      다크모드
+      <Switch id="dark-mode" size="md" />
+    </FormLabel>
   );
 };
 
