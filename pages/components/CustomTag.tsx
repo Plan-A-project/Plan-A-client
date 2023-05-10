@@ -8,12 +8,7 @@ interface CustomTagProps {
 
 const CustomTag = ({ title, color }: CustomTagProps) => {
   return (
-    <Tag
-      w={"fit-content"}
-      colorScheme={color}
-      fontWeight={600}
-      fontSize={"12px"}
-    >
+    <Tag w={"fit-content"} colorScheme={color} textStyle={"caption1"}>
       {title}
     </Tag>
   );

@@ -5,20 +5,26 @@ import {
   FormHelperText,
   FormErrorMessage,
   Input,
+  Flex,
 } from "@chakra-ui/react";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 interface CustomInputProps {
+  title: string;
   label: string;
   placeholder: string;
   errorMessage?: string;
   height?: string;
+  type: string;
 }
 
 const CustomInput = ({
   label,
+  title,
   placeholder,
   errorMessage,
   height,
+  type,
 }: CustomInputProps) => {
   const [input, setInput] = useState("");
 
@@ -29,18 +35,43 @@ const CustomInput = ({
 
   return (
     <FormControl isInvalid={isError}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel
+        fontSize={"12px"}
+        fontWeight={"400"}
+        lineHeight={"14px"}
+        color={"#75788A"}
+        htmlFor={label}
+      >
+        {title}
+      </FormLabel>
       <Input
-        type="email"
+        type={type}
         value={input}
         onChange={handleInputChange}
         placeholder={placeholder}
         h={height}
+        fontSize={"16px"}
+        fontWeight={"400"}
+        lineHeight={"20px"}
+        _placeholder={{
+          fontSize: "16px",
+          fontWeight: "400",
+          lineHeight: "20px",
+        }}
+        id={label}
       />
       {!isError ? (
         <FormHelperText></FormHelperText>
       ) : (
-        <FormErrorMessage>{errorMessage}</FormErrorMessage>
+        <FormErrorMessage
+          fontSize={"12px"}
+          fontWeight={"400"}
+          lineHeight={"14px"}
+          color={"#F90B66"}
+        >
+          <IoCloseCircleOutline style={{ marginRight: "6px" }} />
+          {errorMessage}
+        </FormErrorMessage>
       )}
     </FormControl>
   );

@@ -10,7 +10,7 @@ const AccountChangeItem = ({ title, icon }: AccountChangeItemProps) => {
   return (
     <Flex align={"center"} gap={"12px"} h={"52px"}>
       <Icon as={icon} w={"24px"} h={"24px"} />
-      <Text fontSize={"16px"}>{title}</Text>
+      <Text textStyle={"body1"}>{title}</Text>
     </Flex>
   );
 };

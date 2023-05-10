@@ -10,8 +10,7 @@ const DarkModeButton = () => {
       paddingX={"5px"}
       width={"100%"}
       height={"100%"}
-      fontSize={16}
-      fontWeight={400}
+      textStyle={"body1"}
       _hover={{ cursor: "pointer" }}
     >
       다크모드

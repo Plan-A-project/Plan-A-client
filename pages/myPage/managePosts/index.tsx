@@ -31,14 +31,18 @@ const index = () => {
       <Container mt={"16px"}>
         <Tabs isFitted isLazy variant="soft-rounded" colorScheme="blue">
           <TabList border={"1px solid grey"} borderRadius={"10px"} p={"6px"}>
-            <Tab borderRadius={"8px"}>내 게시글</Tab>
-            <Tab borderRadius={"8px"}>내 댓글</Tab>
+            <Tab borderRadius={"8px"} textStyle={"subtitle2"}>
+              내 게시글
+            </Tab>
+            <Tab borderRadius={"8px"} textStyle={"subtitle2"}>
+              내 댓글
+            </Tab>
           </TabList>
-          <Text fontSize={"12px"} fontWeight={600} mt={"16px"}>
+          <Text textStyle={"caption1"} mt={"16px"}>
             최신순
           </Text>
           <TabPanels>
-            <TabPanel>
+            <TabPanel px={0}>
               <Stack divider={<StackDivider borderColor="gray.200" />}>
                 <MyPost />
                 <MyPost />
@@ -46,7 +50,7 @@ const index = () => {
                 <MyPost />
               </Stack>
             </TabPanel>
-            <TabPanel>
+            <TabPanel px={0}>
               <Stack divider={<StackDivider borderColor="gray.200" />}>
                 <MyComment />
                 <MyComment />
