@@ -5,17 +5,16 @@ import { BsChatRightText } from "react-icons/bs";
 
 const MyPost = () => {
   return (
-    <Stack>
-      <Tag w={"fit-content"} colorScheme="linkedin">
+    <Stack spacing={0}>
+      <Tag w={"fit-content"} colorScheme="linkedin" textStyle={"caption2"}>
         취업 게시판
       </Tag>
-      <Flex justify={"space-between"}>
+      <Flex justify={"space-between"} pt={"8px"}>
         <Stack spacing={"4px"}>
-          <Heading fontSize={"16px"}>3월 대기업 공채 리스트</Heading>
+          <Text textStyle={"subtitle1"}>3월 대기업 공채 리스트</Text>
           <Text
-            fontSize={"14px"}
-            lineHeight={"17px"}
-            // isTruncated={true}
+            textStyle={"body1"}
+            color={"#75788A"}
             maxW={"239px"}
             noOfLines={[1, 2]}
           >
@@ -30,17 +29,17 @@ const MyPost = () => {
           src="https://images.unsplash.com/photo-1683223585296-a993e814bdcd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3695&q=80"
         />
       </Flex>
-      <Flex justify={"space-between"}>
-        <Text fontSize={"10px"}>2023.03.11</Text>
+      <Flex justify={"space-between"} pt={"14px"}>
+        <Text textStyle={"overline"}>2023.03.11</Text>
         <Flex gap={"8px"}>
           <Flex align={"center"} justify={"center"} gap={"5px"}>
             <Icon as={BsChatRightText} w={"14px"} h={"12px"} />
-            <Text fontSize={"10px"}>24</Text>
+            <Text textStyle={"overline"}>24</Text>
           </Flex>
           <Flex gap={"8px"}>
             <Flex align={"center"} justify={"center"} gap={"5px"}>
               <Icon as={SlHeart} w={"14px"} h={"12px"} />
-              <Text fontSize={"10px"}>486</Text>
+              <Text textStyle={"overline"}>486</Text>
             </Flex>
           </Flex>
         </Flex>

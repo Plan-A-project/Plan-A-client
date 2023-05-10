@@ -13,31 +13,41 @@ const index = () => {
           회원가입
         </Heading>
       </Flex>
-      <Stack padding={"16px"} spacing={"16px"}>
+      <Stack padding={"16px"} spacing={"25px"}>
         <CustomInput
-          label="이름"
+          label="username"
           placeholder="이름을 입력해 주세요"
+          title="이름"
+          type="text"
           //   errorMessage="이메일 주소 전체를 입력해주세요."
         />
         <CustomInput
-          label="이메일"
+          label="signupEmail"
           placeholder="youremail@email.com"
           errorMessage="이메일 주소 전체를 입력해주세요."
+          title="이메일"
+          type="email"
         />
         <CustomInput
-          label="위챗 or 카카오톡 아이디"
+          label="weChatOrKakaoID"
           placeholder="yourID"
+          title="위챗 or 카카오톡 아이디"
+          type="text"
           //   errorMessage="이메일 주소 전체를 입력해주세요."
         />
         <CustomInput
-          label="비밀번호"
+          label="signupPassword"
           placeholder="영어, 숫자, 특수문자 포함 8~20자"
           errorMessage="비밀번호는 영어, 숫자, 특수문자 포함 8~20자 입니다."
+          title="비밀번호"
+          type="password"
         />
         <CustomInput
-          label="비밀번호 확인"
+          label="passwordConfirm"
           placeholder="비밀번호를 한 번 더 입력해 주세요"
           errorMessage="비밀번호가 일치하지 않아요."
+          title="비밀번호 확인"
+          type="password"
         />
       </Stack>
       <Stack px={"16px"}>

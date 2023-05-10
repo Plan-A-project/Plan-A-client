@@ -19,14 +19,18 @@ const index = () => {
       <Header headingText="로그인" />
       <Stack padding={"16px"}>
         <CustomInput
-          label="이메일"
+          label="email"
           placeholder="youremail@email.com"
           errorMessage="이메일 주소 전체를 입력해주세요."
+          title="이메일"
+          type="email"
         />
         <CustomInput
-          label="비밀번호"
+          label="password"
           placeholder="영어, 숫자, 특수문자 포함 8~20자"
           errorMessage="최소 8자리 이상으로 입력해주세요."
+          title="비밀번호"
+          type="password"
         />
         <Stack paddingTop={"129px"}>
           <Button height={"52px"}>로그인하기</Button>
