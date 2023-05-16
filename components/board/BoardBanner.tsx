@@ -1,27 +1,27 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Button, ButtonProps, Tag, Text } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
+import IconNotice from "../icons/IconNotice";
+import IconForward from "../icons/IconForward";
 
 const BoardBanner: React.FC<PropsWithChildren<ButtonProps>> = ({
   children,
   ...props
 }) => {
   return (
-    <Button h={14} p={"0 12px"} display={"flex"} w={"100%"} {...props}>
-      <Tag
-        color={"teal.400"}
-        background={"teal.100"}
-        variant={"solid"}
-        fontWeight={"semibold"}
-        p={"3px 6px"}
-        mr={2}
-      >
-        운영자
-      </Tag>
+    <Button
+      h={"72px"}
+      p={"0 12px"}
+      display={"flex"}
+      w={"100%"}
+      bg={"#F7F8FA"}
+      {...props}
+    >
+      <IconNotice style={{ marginRight: 8 }} />
 
       <Text
-        fontWeight={"normal"}
-        fontSize={"md"}
+        fontWeight={"semibold"}
+        fontSize={"lg"}
         lineHeight={"5"}
         flex={1}
         textAlign={"left"}
@@ -29,7 +29,7 @@ const BoardBanner: React.FC<PropsWithChildren<ButtonProps>> = ({
         {children}
       </Text>
 
-      <ChevronRightIcon boxSize={4} />
+      <IconForward />
     </Button>
   );
 };
