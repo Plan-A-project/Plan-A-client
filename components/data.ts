@@ -1,3 +1,4 @@
+// Timetable 용 Mock 데이터입니다
 export const COURSES = [
   {
     day: "월",

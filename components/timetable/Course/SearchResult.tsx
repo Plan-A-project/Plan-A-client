@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Icons } from "@/assets/icons";
 
-function ClassCard() {
+export default function ClassCard() {
   return (
     <Flex w="100%" gap={3}>
       <Box bg="#F8F8F8" p={4} flex="1">

@@ -1,1 +1,1 @@
-export { default } from "../../components/views";
+export { default } from "../../components/timetable";
