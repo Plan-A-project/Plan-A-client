@@ -8,6 +8,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import IconPhoto from "../icons/IconPhoto";
 
 const formProps: ChakraProps = {
   border: "none",
@@ -41,7 +42,15 @@ const BoardBaseForm = () => {
           사진 첨부 (최대 10장)
         </Text>
         <HStack overflowX={"auto"} spacing={3} pb={4}>
-          <Button w={14} height={14} flexShrink={0}></Button>
+          <Button
+            w={14}
+            height={14}
+            flexShrink={0}
+            variant={"outline"}
+            borderStyle={"dashed"}
+          >
+            <IconPhoto />
+          </Button>
           <Box
             w={14}
             h={14}
