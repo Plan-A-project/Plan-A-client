@@ -8,6 +8,7 @@ import {
   DrawerBody,
   Text,
   Box,
+  Center,
 } from "@chakra-ui/react";
 
 type IBottomDrawer = {
