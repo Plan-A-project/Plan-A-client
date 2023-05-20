@@ -1,11 +1,11 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import TimeTableContent from "./TimetableContent";
-import { COURSES } from "../../data";
+import { MYCOURSES } from "../../data";
 
 export default function Timetable() {
   return (
     <Box>
-      {COURSES ? (
+      {MYCOURSES ? (
         <Center bg="#F8F8F8" p={4}>
           <TimeTableContent />
         </Center>

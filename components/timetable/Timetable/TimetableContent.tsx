@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import { COURSES } from "../../data";
+import { MYCOURSES } from "../../data";
 
 export default function TimeTableContent() {
   const days = ["월", "화", "수", "목", "금"];
@@ -47,7 +47,7 @@ export default function TimeTableContent() {
                 <Text fontSize="xs">{hour}</Text>
               </Td>
               {days.map((day) => {
-                const event = COURSES.find(
+                const event = MYCOURSES.find(
                   (e) => e.day === day && e.time === hour
                 );
                 if (!event) {

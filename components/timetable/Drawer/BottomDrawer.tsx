@@ -27,7 +27,7 @@ export default function BottomDrawer({
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Button colorScheme="gray" onClick={onOpen}>
+      <Button colorScheme="gray" onClick={onOpen} mb={2} mt={2}>
         {btnContent}
       </Button>
       <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
