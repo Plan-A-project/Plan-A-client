@@ -1,4 +1,4 @@
-import { Grid } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 import "rmc-picker/assets/index.css";
 import SemesterTab from "./Timetable/SemesterTab";
 import Timetable from "./Timetable/Timetable";
@@ -8,12 +8,12 @@ import WriteCommentDrawer from "./Drawer/WriteCommentDrawer";
 
 export default function Main() {
   return (
-    <Grid p="16px">
+    <Box p="16px">
       <SemesterTab />
       <Timetable />
       <Searchbar />
       <WriteCommentDrawer />
       {/* <SearchResult /> */}
-    </Grid>
+    </Box>
   );
 }

@@ -6,7 +6,9 @@ import {
   Th,
   Tbody,
   Td,
+  Text,
 } from "@chakra-ui/react";
+import styled from "@emotion/styled";
 import { COURSES } from "../../data";
 
 export default function TimeTableContent() {
@@ -28,7 +30,7 @@ export default function TimeTableContent() {
   ];
 
   return (
-    <TableContainer w="100%">
+    <TableContainer>
       <Table>
         <Thead>
           <Tr>
@@ -39,9 +41,11 @@ export default function TimeTableContent() {
           </Tr>
         </Thead>
         <Tbody>
-          {hours.map((hour) => (
+          {hours.map((hour, idx) => (
             <Tr key={hour}>
-              <Td>{hour}</Td>
+              <Td>
+                <Text fontSize="xs">{hour}</Text>
+              </Td>
               {days.map((day) => {
                 const event = COURSES.find(
                   (e) => e.day === day && e.time === hour
@@ -51,8 +55,14 @@ export default function TimeTableContent() {
                 }
                 const rowSpan = event.duration || 1;
                 return (
-                  <Td key={`${day}-${hour}`} rowSpan={rowSpan} bg="gray.300">
-                    {event.title}
+                  <Td
+                    key={`${day}-${hour}`}
+                    rowSpan={rowSpan}
+                    bg="gray.300"
+                    p="0"
+                  >
+                    <Text fontSize="xs">{event.title}</Text>
+                    <Text fontSize="xs">{event.location}</Text>
                   </Td>
                 );
               })}
