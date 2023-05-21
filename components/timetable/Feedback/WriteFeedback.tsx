@@ -17,6 +17,7 @@ import { useState } from "react";
 
 export default function WriteComment() {
   const [rating, setRating] = useState(0);
+
   return (
     <Stack border="1px" borderColor="gray.200" p={4} w="100%">
       <Flex>
