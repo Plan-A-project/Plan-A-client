@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { myCoursesAtom } from "@/state/atoms/timetableAtom";
 import { useRecoilState } from "recoil";
-import { MouseEvent } from "react";
+import { useState, useRef, MouseEvent } from "react";
 
 export default function TimeTableContent() {
   const days = ["월", "화", "수", "목", "금"];
@@ -30,13 +30,29 @@ export default function TimeTableContent() {
     "8pm",
   ];
   const [myCourses, setMyCourses] = useRecoilState(myCoursesAtom);
+  const [isLongPressed, setIsLongPressed] = useState(false);
+  const timer = useRef<NodeJS.Timeout | null>(null); // 임시저장용도
 
-  function deleteCourseOnClick(e: MouseEvent<HTMLElement>, courseCode: number) {
+  function deleteCourseOnClick(courseCode: number) {
     setMyCourses((myCourses) =>
       myCourses.filter((c) => c.courseCode !== courseCode)
     );
   }
-  
+
+  function handleMouseDown() {
+    timer.current = setTimeout(() => {
+      setIsLongPressed(true);
+    }, 1000);
+  }
+
+  function handleMouseUp(e: MouseEvent<HTMLElement>, courseCode: number) {
+    if (timer.current) {
+      clearTimeout(timer.current);
+      deleteCourseOnClick(courseCode);
+    }
+    setIsLongPressed(false);
+  }
+
   return (
     <TableContainer>
       <Table>
@@ -68,7 +84,8 @@ export default function TimeTableContent() {
                     rowSpan={rowSpan}
                     bg="gray.300"
                     p="0"
-                    onClick={(e) => deleteCourseOnClick(e, event.courseCode)}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={(e) => handleMouseUp(e, event.courseCode)}
                   >
                     <Text fontSize="xs">{event.title}</Text>
                     <Text fontSize="xs">{event.location}</Text>
