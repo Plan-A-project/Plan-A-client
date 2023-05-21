@@ -5,6 +5,7 @@ import StarEmpty from "./star-empty.svg";
 import StarBig from "./star-big.svg";
 import CaretLeft from "./caret-left.svg";
 import SbClose from "./searchbar-close.svg";
+import Check from "./check.svg";
 
 export const Icons = {
   CaretDown,
@@ -14,4 +15,5 @@ export const Icons = {
   StarBig,
   CaretLeft,
   SbClose,
+  Check,
 };

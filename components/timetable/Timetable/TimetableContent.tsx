@@ -13,6 +13,8 @@ import { myCoursesAtom } from "@/state/atoms/timetableAtom";
 import { useRecoilState } from "recoil";
 import { useState, useRef, MouseEvent } from "react";
 import DeleteTimetableDrawer from "../Drawer/DeleteTimetableDrawer";
+import { usePopup } from "@/hooks/usePopup";
+import PopupTop from "../Popup/PopupTop";
 
 export default function TimeTableContent() {
   const days = ["월", "화", "수", "목", "금"];
@@ -37,6 +39,7 @@ export default function TimeTableContent() {
   const [clickedCourseCode, setClickedCourseCode] = useState<number>(-1);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isActivated, activatePopup } = usePopup();
 
   function deleteCourseOnClick(courseCode: number) {
     setMyCourses((myCourses) =>
@@ -59,8 +62,18 @@ export default function TimeTableContent() {
     setIsLongPressed(false);
   }
 
+  const timerProps = {
+    isOpen,
+    onOpen,
+    onClose,
+    deleteCourseOnClick,
+    isActivated,
+    activatePopup,
+  };
+
   return (
     <>
+      {isActivated && <PopupTop content="삭제되었습니다." />}
       <TableContainer>
         <Table>
           <Thead>
@@ -100,11 +113,8 @@ export default function TimeTableContent() {
                       </Td>
                       {isOpen && clickedCourseCode === event.courseCode && (
                         <DeleteTimetableDrawer
-                          isOpen={isOpen}
-                          onOpen={onOpen}
-                          onClose={onClose}
+                          {...timerProps}
                           course={event}
-                          deleteCourseOnClick={deleteCourseOnClick}
                         />
                       )}
                     </>
