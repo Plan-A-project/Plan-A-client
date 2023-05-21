@@ -1,34 +1,18 @@
-import {
-  VStack,
-  Flex,
-  Box,
-  HStack,
-  Text,
-  Button,
-  Image,
-} from "@chakra-ui/react";
-import { Icons } from "@/assets/icons";
+import { useDisclosure, Button, Box, Flex } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { usePopup } from "@/hooks/usePopup";
 import PopupTop from "../Popup/PopupTop";
+import ViewFeedbackDrawer from "../Drawer/ViewFeedbackDrawer";
+import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
+import CourseBox from "../Course/CourseBox";
 
-type IClassCard = {
-  day: string;
-  time: string;
-  duration: number;
-  title: string;
-  location: string;
-  professor: string;
-  rating: number;
-  courseCode: number;
-};
-
-export default function SingleClass(course: IClassCard) {
+export default function SingleClass(course: ICourse) {
   const [myCourse, setMyCourses] = useRecoilState(myCoursesAtom);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { isActivated, activatePopup } = usePopup();
 
-  function addCourseOnCLick(newCourse: IClassCard) {
+  function addCourseOnCLick(newCourse: ICourse) {
     setMyCourses((myCourses) => [...myCourses, newCourse]);
     activatePopup();
   }
@@ -37,27 +21,18 @@ export default function SingleClass(course: IClassCard) {
     return myCourse.find((c) => c.courseCode === courseCode);
   }
 
-  function displayFeedbackDrawer(courseCode: number) {}
+  const drawerProps = {
+    isOpen,
+    onOpen,
+    onClose,
+    addCourseOnCLick,
+  };
 
   return (
     <>
       {isActivated && <PopupTop content="시간표에 추가되었습니다." />}
       <Flex w="100%" gap={2} mb={2} mt={2}>
-        <Box bg="#F8F8F8" p={4} flex="1">
-          <HStack onClick={() => displayFeedbackDrawer(course.courseCode)}>
-            <Text>{course.title}</Text>
-            <Flex>
-              <Image src={Icons.Star.src} alt="rating" />
-              {course.rating} / 5.0
-            </Flex>
-          </HStack>
-          <div>
-            {course.day} {course.time}
-          </div>
-          <div>
-            {course.location} / {course.professor}
-          </div>
-        </Box>
+        <CourseBox course={course} onOpen={onOpen} />
         <Box>
           <Button
             h="100%"
@@ -72,6 +47,7 @@ export default function SingleClass(course: IClassCard) {
           </Button>
         </Box>
       </Flex>
+      {isOpen && <ViewFeedbackDrawer {...drawerProps} course={course} />}
     </>
   );
 }
