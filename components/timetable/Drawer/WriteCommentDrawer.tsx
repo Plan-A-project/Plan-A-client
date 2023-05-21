@@ -1,7 +1,8 @@
 import BottomDrawer from "./BottomDrawer";
 import { VStack } from "@chakra-ui/react";
 import CourseComment from "../Course/CourseComment";
-import { MYCOURSES } from "@/components/data";
+import { myCoursesAtom } from "@/state/atoms/timetableAtom";
+import { useRecoilValue } from "recoil";
 
 export default function WriteCommentDrawer() {
   const props = {
@@ -10,10 +11,12 @@ export default function WriteCommentDrawer() {
     drawerText: "",
   };
 
+  const myCourses = useRecoilValue(myCoursesAtom);
+
   return (
     <BottomDrawer {...props}>
       <VStack h="80vh">
-        {MYCOURSES.map((props, idx) => (
+        {myCourses.map((props, idx) => (
           <CourseComment {...props} key={idx} />
         ))}
       </VStack>

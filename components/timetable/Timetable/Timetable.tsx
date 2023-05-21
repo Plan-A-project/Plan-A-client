@@ -1,11 +1,14 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import TimeTableContent from "./TimetableContent";
-import { MYCOURSES } from "../../data";
+import { myCoursesAtom } from "@/state/atoms/timetableAtom";
+import { useRecoilValue } from "recoil";
 
 export default function Timetable() {
+  const myCourses = useRecoilValue(myCoursesAtom);
+
   return (
     <Box>
-      {MYCOURSES ? (
+      {myCourses ? (
         <Center bg="#F8F8F8" p={4}>
           <TimeTableContent />
         </Center>

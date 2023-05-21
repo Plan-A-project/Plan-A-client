@@ -8,8 +8,9 @@ import {
   Td,
   Text,
 } from "@chakra-ui/react";
-import styled from "@emotion/styled";
-import { MYCOURSES } from "../../data";
+import { myCoursesAtom } from "@/state/atoms/timetableAtom";
+import { useRecoilState } from "recoil";
+import { MouseEvent } from "react";
 
 export default function TimeTableContent() {
   const days = ["월", "화", "수", "목", "금"];
@@ -28,7 +29,14 @@ export default function TimeTableContent() {
     "7pm",
     "8pm",
   ];
+  const [myCourses, setMyCourses] = useRecoilState(myCoursesAtom);
 
+  function deleteCourseOnClick(e: MouseEvent<HTMLElement>, courseCode: number) {
+    setMyCourses((myCourses) =>
+      myCourses.filter((c) => c.courseCode !== courseCode)
+    );
+  }
+  
   return (
     <TableContainer>
       <Table>
@@ -41,13 +49,13 @@ export default function TimeTableContent() {
           </Tr>
         </Thead>
         <Tbody>
-          {hours.map((hour, idx) => (
+          {hours.map((hour) => (
             <Tr key={hour}>
               <Td>
                 <Text fontSize="xs">{hour}</Text>
               </Td>
               {days.map((day) => {
-                const event = MYCOURSES.find(
+                const event = myCourses.find(
                   (e) => e.day === day && e.time === hour
                 );
                 if (!event) {
@@ -60,6 +68,7 @@ export default function TimeTableContent() {
                     rowSpan={rowSpan}
                     bg="gray.300"
                     p="0"
+                    onClick={(e) => deleteCourseOnClick(e, event.courseCode)}
                   >
                     <Text fontSize="xs">{event.title}</Text>
                     <Text fontSize="xs">{event.location}</Text>

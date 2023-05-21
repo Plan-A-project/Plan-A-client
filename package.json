@@ -23,6 +23,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-schedule-selector": "^3.0.2",
+    "recoil": "^0.7.7",
     "rmc-picker": "^5.0.10",
     "typescript": "5.0.4",
     "uuid": "^9.0.0"

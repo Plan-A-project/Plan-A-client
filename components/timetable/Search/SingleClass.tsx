@@ -8,6 +8,8 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { Icons } from "@/assets/icons";
+import { useRecoilState } from "recoil";
+import { myCoursesAtom } from "@/state/atoms/timetableAtom";
 
 type IClassCard = {
   day: string;
@@ -17,9 +19,16 @@ type IClassCard = {
   location: string;
   professor: string;
   rating: number;
+  courseCode: number;
 };
 
 export default function SingleClass(course: IClassCard) {
+  const [myCourse, setMyCourses] = useRecoilState(myCoursesAtom);
+
+  function addCourseOnCLick(newCourse: IClassCard) {
+    setMyCourses((myCourses) => [...myCourses, newCourse]);
+  }
+
   return (
     <Flex w="100%" gap={2} mb={2} mt={2}>
       <Box bg="#F8F8F8" p={4} flex="1">
@@ -38,7 +47,7 @@ export default function SingleClass(course: IClassCard) {
         </div>
       </Box>
       <Box>
-        <Button h="100%" bg="gray.300">
+        <Button h="100%" bg="gray.300" onClick={() => addCourseOnCLick(course)}>
           추가
         </Button>
       </Box>
