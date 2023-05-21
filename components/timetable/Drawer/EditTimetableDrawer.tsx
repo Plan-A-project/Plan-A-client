@@ -1,11 +1,23 @@
 import BottomDrawer from "./BottomDrawer";
-import { RadioGroup, Radio, Stack, Box, Button } from "@chakra-ui/react";
+import {
+  RadioGroup,
+  Radio,
+  Stack,
+  Box,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 export default function WriteCommentDrawer() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const props = {
     btnContent: "시간표 편집",
     drawerHeader: "시간표 편집",
     drawerText: "중복된 과목 중 하나만 선택해주세요.",
+    isOpen,
+    onOpen,
+    onClose,
   };
 
   return (
