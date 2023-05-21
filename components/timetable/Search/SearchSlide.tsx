@@ -8,12 +8,19 @@ import {
   Center,
   Slide,
 } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { SearchContext } from "./SearchResult";
 
 export default function SearchSlidePage() {
   const { isOpen, onToggle, searchword, updateSearchword, resetSearchword } =
     useContext(SearchContext);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isOpen]);
 
   return (
     <>
@@ -30,6 +37,7 @@ export default function SearchSlidePage() {
               border="none"
               value={searchword}
               onChange={updateSearchword}
+              ref={searchInputRef}
             />
             <InputRightElement onClick={resetSearchword}>
               <Image

@@ -29,6 +29,10 @@ export default function SingleClass(course: IClassCard) {
     setMyCourses((myCourses) => [...myCourses, newCourse]);
   }
 
+  function checkIfCourseAdded(courseCode: number) {
+    return myCourse.find((c) => c.courseCode === courseCode);
+  }
+
   return (
     <Flex w="100%" gap={2} mb={2} mt={2}>
       <Box bg="#F8F8F8" p={4} flex="1">
@@ -47,7 +51,15 @@ export default function SingleClass(course: IClassCard) {
         </div>
       </Box>
       <Box>
-        <Button h="100%" bg="gray.300" onClick={() => addCourseOnCLick(course)}>
+        <Button
+          h="100%"
+          bg={checkIfCourseAdded(course.courseCode) ? "gray.100" : "gray.300"}
+          color={
+            checkIfCourseAdded(course.courseCode) ? "gray.400" : "gray.500"
+          }
+          isDisabled={checkIfCourseAdded(course.courseCode) ? true : false}
+          onClick={() => addCourseOnCLick(course)}
+        >
           추가
         </Button>
       </Box>

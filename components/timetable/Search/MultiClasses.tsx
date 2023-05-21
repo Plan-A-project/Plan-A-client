@@ -4,6 +4,7 @@ import SingleClass from "./SingleClass";
 import { useContext } from "react";
 import { SearchContext } from "./SearchResult";
 
+
 export default function MultiClasses() {
   const { searchword } = useContext(SearchContext);
 
