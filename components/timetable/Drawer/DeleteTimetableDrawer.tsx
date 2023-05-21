@@ -1,6 +1,6 @@
 import BottomDrawer from "./BottomDrawer";
 import { RadioGroup, Radio, Stack, Box, Button } from "@chakra-ui/react";
-import { ICourse } from "@/state/atoms/timetableAtom";
+import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
 import { usePopup } from "@/hooks/usePopup";
 import PopupTop from "../Popup/PopupTop";
 

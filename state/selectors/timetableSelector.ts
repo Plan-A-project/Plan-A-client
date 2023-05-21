@@ -1,5 +1,5 @@
 import { selector } from "recoil";
-import { ICourse, myCoursesAtom } from "@/state/atoms/timetableAtom";
+// import { ICourse, myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 
 // // 내 선택 과목 조회
 // const getMyCourseList = selector<ICourse[]>({

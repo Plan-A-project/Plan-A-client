@@ -9,7 +9,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { myCoursesAtom } from "@/state/atoms/timetableAtom";
+import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { useRecoilState } from "recoil";
 import { useState, useRef, MouseEvent } from "react";
 import DeleteTimetableDrawer from "../Drawer/DeleteTimetableDrawer";
@@ -112,10 +112,7 @@ export default function TimeTableContent() {
                         <Text fontSize="xs">{event.location}</Text>
                       </Td>
                       {isOpen && clickedCourseCode === event.courseCode && (
-                        <DeleteTimetableDrawer
-                          {...timerProps}
-                          course={event}
-                        />
+                        <DeleteTimetableDrawer {...timerProps} course={event} />
                       )}
                     </>
                   );

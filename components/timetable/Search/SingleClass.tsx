@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Icons } from "@/assets/icons";
 import { useRecoilState } from "recoil";
-import { myCoursesAtom } from "@/state/atoms/timetableAtom";
+import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { usePopup } from "@/hooks/usePopup";
 import PopupTop from "../Popup/PopupTop";
 
@@ -26,7 +26,7 @@ type IClassCard = {
 
 export default function SingleClass(course: IClassCard) {
   const [myCourse, setMyCourses] = useRecoilState(myCoursesAtom);
-  const {isActivated, activatePopup} = usePopup();
+  const { isActivated, activatePopup } = usePopup();
 
   function addCourseOnCLick(newCourse: IClassCard) {
     setMyCourses((myCourses) => [...myCourses, newCourse]);
@@ -37,12 +37,14 @@ export default function SingleClass(course: IClassCard) {
     return myCourse.find((c) => c.courseCode === courseCode);
   }
 
+  function displayFeedbackDrawer(courseCode: number) {}
+
   return (
     <>
       {isActivated && <PopupTop content="시간표에 추가되었습니다." />}
       <Flex w="100%" gap={2} mb={2} mt={2}>
         <Box bg="#F8F8F8" p={4} flex="1">
-          <HStack>
+          <HStack onClick={() => displayFeedbackDrawer(course.courseCode)}>
             <Text>{course.title}</Text>
             <Flex>
               <Image src={Icons.Star.src} alt="rating" />

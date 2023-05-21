@@ -1,21 +1,21 @@
 import { Flex, Box, HStack, Text, Image } from "@chakra-ui/react";
 import { Icons } from "@/assets/icons";
-import WriteComment from "../Comment/WriteComment";
+import WriteFeedback from "../Feedback/WriteFeedback";
 import { useState } from "react";
 
-type ICourseComment = {
+type ICourseFeedback = {
   title: string;
   time: string;
   location: string;
   professor: string;
 };
 
-export default function CourseComment({
+export default function CourseFeedback({
   title,
   time,
   location,
   professor,
-}: ICourseComment) {
+}: ICourseFeedback) {
   const [isClicked, setIsClicked] = useState(false);
   return (
     <>
@@ -40,7 +40,7 @@ export default function CourseComment({
       </Flex>
       {isClicked && (
         <Box borderRadius="md" border="0.5px" borderColor="gray.200" w="100%">
-          <WriteComment />
+          <WriteFeedback />
         </Box>
       )}
     </>

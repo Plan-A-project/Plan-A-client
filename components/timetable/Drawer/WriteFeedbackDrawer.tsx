@@ -1,11 +1,11 @@
 import BottomDrawer from "./BottomDrawer";
 import { VStack, useDisclosure } from "@chakra-ui/react";
-import CourseComment from "../Course/CourseComment";
-import { myCoursesAtom } from "@/state/atoms/timetableAtom";
+import CourseFeedback from "../Course/CourseFeedback";
+import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { useRecoilValue } from "recoil";
 import { DrawerButton } from "./BottomDrawer";
 
-export default function WriteCommentDrawer() {
+export default function WriteFeedbackDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const props = {
@@ -25,7 +25,7 @@ export default function WriteCommentDrawer() {
       <BottomDrawer {...props}>
         <VStack h="80vh">
           {myCourses.map((props, idx) => (
-            <CourseComment {...props} key={idx} />
+            <CourseFeedback {...props} key={idx} />
           ))}
         </VStack>
       </BottomDrawer>
