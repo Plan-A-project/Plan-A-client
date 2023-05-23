@@ -15,7 +15,6 @@ const PageLayout = ({ children, footer }: PageLayoutProps) => {
         width: "375px",
         height: "812px",
         border: "1px solid black",
-        // borderBottom: "none",
         overflowY: "scroll",
         padding: 0,
       }}

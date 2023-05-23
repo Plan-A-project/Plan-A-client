@@ -33,7 +33,7 @@ const index = () => {
             title="비밀번호"
             type="password"
           />
-          <Stack paddingTop={"129px"}>
+          <Stack paddingTop={"129px"} spacing={"16px"}>
             <Button height={"52px"} type="submit">
               로그인하기
             </Button>
