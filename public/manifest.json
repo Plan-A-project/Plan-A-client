@@ -1,0 +1,9 @@
+{
+    "name": "인플리",
+    "short_name": "인플리",
+    "theme_color": "#2196f3",
+    "background_color": "#fff",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/"
+  }
