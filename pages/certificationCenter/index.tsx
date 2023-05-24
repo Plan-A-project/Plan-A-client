@@ -1,10 +1,10 @@
-import React from "react";
-import PageLayout from "../components/Layout";
-import Header from "../components/Header";
+import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Container, Flex, Stack, Text } from "@chakra-ui/react";
+
 import CertificationCategoryButton from "../components/CertificationCategoryButton";
 import CustomTag from "../components/CustomTag";
-import { CheckCircleIcon } from "@chakra-ui/icons";
+import Header from "../components/Header";
+import PageLayout from "../components/Layout";
 
 const index = () => {
   return (

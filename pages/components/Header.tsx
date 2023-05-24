@@ -1,6 +1,5 @@
-import React from "react";
-import { Flex, Text } from "@chakra-ui/react";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { Flex, Text } from "@chakra-ui/react";
 
 interface HeaderProps {
   headingText: string;

@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
+
 import {
   FormControl,
   FormLabel,
@@ -10,6 +11,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { IoCloseCircleOutline } from "react-icons/io5";
+
 import {
   emailRegex,
   nicknameRegex,
@@ -45,8 +47,8 @@ const CustomInput = ({
     const Regex = new RegExp(regex);
     const isError = Regex.test(input);
     !isError
-      ? setError((prev) => (prev = true))
-      : setError((prev) => (prev = false));
+      ? setError(prev => (prev = true))
+      : setError(prev => (prev = false));
   };
 
   const getTypeOfError = () => {
@@ -70,8 +72,8 @@ const CustomInput = ({
   };
 
   const toggleTooltip = () => {
-    setShowTooltip((prev) => (prev = true));
-    setTimeout(() => setShowTooltip((prev) => (prev = false)), 3000);
+    setShowTooltip(prev => (prev = true));
+    setTimeout(() => setShowTooltip(prev => (prev = false)), 3000);
   };
 
   return (

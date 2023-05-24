@@ -1,6 +1,3 @@
-import Header from "@/pages/components/Header";
-import PageLayout from "@/pages/components/Layout";
-import React from "react";
 import {
   Tabs,
   TabList,
@@ -19,10 +16,13 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { SlHeart } from "react-icons/sl";
 import { BsChatRightText } from "react-icons/bs";
-import MyPost from "@/pages/components/MyPost";
+import { SlHeart } from "react-icons/sl";
+
+import Header from "@/pages/components/Header";
+import PageLayout from "@/pages/components/Layout";
 import MyComment from "@/pages/components/MyComment";
+import MyPost from "@/pages/components/MyPost";
 
 const index = () => {
   return (

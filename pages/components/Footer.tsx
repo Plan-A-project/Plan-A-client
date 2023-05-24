@@ -1,20 +1,9 @@
-import React from "react";
-import {
-  Stack,
-  HStack,
-  VStack,
-  Box,
-  IconButton,
-  Icon,
-  Button,
-  Flex,
-  Divider,
-} from "@chakra-ui/react";
-import { MdHomeFilled } from "react-icons/md";
-import { BsCalendarEventFill } from "react-icons/bs";
-import { HiChatBubbleLeftRight } from "react-icons/hi2";
-import { FaUserCircle, FaClipboardList } from "react-icons/fa";
+import { HStack, Icon, Button, Flex } from "@chakra-ui/react";
 import { Container } from "@chakra-ui/react";
+import { BsCalendarEventFill } from "react-icons/bs";
+import { FaUserCircle, FaClipboardList } from "react-icons/fa";
+import { HiChatBubbleLeftRight } from "react-icons/hi2";
+import { MdHomeFilled } from "react-icons/md";
 import { isTemplateExpression } from "typescript";
 
 const Footer = () => {
@@ -33,7 +22,12 @@ const Footer = () => {
       borderTopRadius={24}
     >
       {menuItem.map(item => (
-        <Button colorScheme="transparent" size="md" color={"black"}>
+        <Button
+          key={item.id}
+          colorScheme="transparent"
+          size="md"
+          color={"black"}
+        >
           <Flex direction="column" align="center" gap={1.5}>
             <Icon as={item.icon} boxSize={6} color={"grey"} />
             <span style={{ fontWeight: 400 }}>{item.title}</span>
