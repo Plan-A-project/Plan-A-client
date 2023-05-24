@@ -15,8 +15,16 @@ import { BsCalendarEventFill } from "react-icons/bs";
 import { HiChatBubbleLeftRight } from "react-icons/hi2";
 import { FaUserCircle, FaClipboardList } from "react-icons/fa";
 import { Container } from "@chakra-ui/react";
+import { isTemplateExpression } from "typescript";
 
 const Footer = () => {
+  const menuItem = [
+    { id: 1, title: "홈", icon: MdHomeFilled },
+    { id: 2, title: "시간표", icon: BsCalendarEventFill },
+    { id: 3, title: "익명게시판", icon: HiChatBubbleLeftRight },
+    { id: 4, title: "정보공유", icon: FaClipboardList },
+    { id: 5, title: "내 정보", icon: FaUserCircle },
+  ];
   return (
     <HStack
       justify="space-between"
@@ -24,36 +32,14 @@ const Footer = () => {
       border={"1px solid #ECECEF"}
       borderTopRadius={24}
     >
-      <Button colorScheme="transparent" size="md" color={"black"}>
-        <Flex direction="column" align="center" gap={1.5}>
-          <Icon as={MdHomeFilled} boxSize={6} color={"grey"} />
-          <span style={{ fontWeight: 400 }}>홈</span>
-        </Flex>
-      </Button>
-      <Button colorScheme="transparent" size="md" color={"black"}>
-        <Flex direction="column" align="center" gap={1.5}>
-          <Icon as={BsCalendarEventFill} boxSize={6} color={"grey"} />
-          <span style={{ fontWeight: 400 }}>시간표</span>
-        </Flex>
-      </Button>
-      <Button colorScheme="transparent" size="md" color={"black"}>
-        <Flex direction="column" align="center" gap={1.5}>
-          <Icon as={HiChatBubbleLeftRight} boxSize={6} color={"grey"} />
-          <span style={{ fontWeight: 400 }}>익명게시판</span>
-        </Flex>
-      </Button>
-      <Button colorScheme="transparent" size="md" color={"black"}>
-        <Flex direction="column" align="center" gap={1.5}>
-          <Icon as={FaClipboardList} boxSize={6} color={"grey"} />
-          <span style={{ fontWeight: 400 }}>정보공유</span>
-        </Flex>
-      </Button>
-      <Button colorScheme="transparent" size="md" color={"black"}>
-        <Flex direction="column" align="center" gap={1.5}>
-          <Icon as={FaUserCircle} boxSize={6} color={"grey"} />
-          <span style={{ fontWeight: 400 }}>내 정보</span>
-        </Flex>
-      </Button>
+      {menuItem.map(item => (
+        <Button colorScheme="transparent" size="md" color={"black"}>
+          <Flex direction="column" align="center" gap={1.5}>
+            <Icon as={item.icon} boxSize={6} color={"grey"} />
+            <span style={{ fontWeight: 400 }}>{item.title}</span>
+          </Flex>
+        </Button>
+      ))}
     </HStack>
   );
 };
