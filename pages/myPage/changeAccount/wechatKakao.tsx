@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Stack, Text } from "@chakra-ui/layout";
 
@@ -7,7 +7,9 @@ import CustomInput from "@/pages/components/CustomInput";
 import Header from "@/pages/components/Header";
 import PageLayout from "@/pages/components/Layout";
 
-const wechatKakao = () => {
+const WechatKakao = () => {
+  const [validation, setValidation] = useState(false);
+
   return (
     <PageLayout>
       <Header headingText="계정 변경" />
@@ -20,11 +22,16 @@ const wechatKakao = () => {
           title="위챗 or 카카오톡 아이디"
           placeholder=""
           type="text"
+          setValidation={setValidation}
         />
-        <CustomButton title="변경하기" disabled={true} buttonStyle="filled" />
+        <CustomButton
+          title="변경하기"
+          disabled={!validation}
+          buttonStyle="filled"
+        />
       </Stack>
     </PageLayout>
   );
 };
 
-export default wechatKakao;
+export default WechatKakao;

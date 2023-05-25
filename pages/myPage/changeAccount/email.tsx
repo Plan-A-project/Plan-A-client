@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Stack, Text, VStack } from "@chakra-ui/layout";
 
@@ -7,7 +7,10 @@ import CustomInput from "@/pages/components/CustomInput";
 import Header from "@/pages/components/Header";
 import PageLayout from "@/pages/components/Layout";
 
-const email = () => {
+const Email = () => {
+  const [emailValidation, setEmailValidation] = useState(false);
+  const [confirmCodeValidation, setConfirmCodeValidation] = useState(false);
+
   return (
     <PageLayout>
       <Header headingText="계정 변경" />
@@ -18,13 +21,20 @@ const email = () => {
           title="이메일"
           placeholder="youremail@email.com"
           type="email"
+          setValidation={setEmailValidation}
+          errorMessage="이메일 형식에 맞게 입력해주세요."
         />
-        <CustomButton title="인증하기" disabled={true} buttonStyle="bordered" />
+        <CustomButton
+          title="인증하기"
+          disabled={!emailValidation}
+          buttonStyle="bordered"
+        />
         <CustomInput
-          label="certificationCode"
+          label="confirmCode"
           title="인증코드"
           placeholder="djkfjdiafjdg789"
           type="text"
+          setValidation={setConfirmCodeValidation}
         />
         <div></div>
         <CustomButton title="변경하기" disabled={true} buttonStyle="filled" />
@@ -33,4 +43,4 @@ const email = () => {
   );
 };
 
-export default email;
+export default Email;

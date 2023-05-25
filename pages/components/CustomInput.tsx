@@ -1,4 +1,11 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import {
   FormControl,
@@ -24,7 +31,7 @@ interface CustomInputProps {
   errorMessage?: string;
   type: string;
   icon?: any;
-  setValidation?: Dispatch<SetStateAction<boolean>>;
+  setValidation: Dispatch<SetStateAction<boolean>>;
 }
 
 const CustomInput = ({
@@ -55,7 +62,13 @@ const CustomInput = ({
     }
   };
 
-  const getTypeOfError = () => {
+  const isNotEmpty = (value: any) => {
+    value.target.value === ""
+      ? setValidation(prev => (prev = false))
+      : setValidation(prev => (prev = true));
+  };
+
+  const getTypeOfError = (e: any) => {
     switch (title) {
       case "이름":
         getIsRegexError(usernameRegex);
@@ -66,11 +79,14 @@ const CustomInput = ({
       case "비밀번호":
         getIsRegexError(passwordRegex);
         break;
-      case "비밀번호":
+      case "비밀번호 확인":
         getIsRegexError(passwordRegex);
         break;
       case "닉네임":
         getIsRegexError(nicknameRegex);
+        break;
+      case "위챗 or 카카오톡 아이디":
+        isNotEmpty(e);
         break;
     }
   };
@@ -124,24 +140,22 @@ const CustomInput = ({
         value={input}
         onChange={e => {
           handleInputChange(e);
-          getTypeOfError();
+          getTypeOfError(e);
         }}
         placeholder={placeholder}
         h={"52px"}
-        fontSize={"16px"}
-        fontWeight={"400"}
-        lineHeight={"20px"}
         borderRadius={"16px"}
         _placeholder={{
-          fontSize: "16px",
-          fontWeight: "400",
-          lineHeight: "20px",
+          textStyle: "body2",
+          color: "disabled",
         }}
+        textStyle={"body2"}
+        border={"none"}
+        color="#303136"
+        background={"background2"}
         focusBorderColor="primary.500"
         errorBorderColor="error"
-        // isRequired
         id={label}
-        // onBlur={getTypeOfError}
       />
       {error && (
         <FormErrorMessage
