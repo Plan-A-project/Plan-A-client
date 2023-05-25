@@ -1,17 +1,13 @@
 import React from "react";
-import {
-  Heading,
-  Flex,
-  Stack,
-  Button,
-  Text,
-  Box,
-  Container,
-} from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import PageLayout from "../components/Layout";
+
+import { ChevronRightIcon } from "@chakra-ui/icons";
+import { Stack, Button, Text, Box, Container } from "@chakra-ui/react";
+
+import CustomButton from "@/components/common/CustomButton";
+
 import CustomInput from "../components/CustomInput";
 import Header from "../components/Header";
+import PageLayout from "../components/Layout";
 
 const index = () => {
   return (
@@ -34,10 +30,7 @@ const index = () => {
             type="password"
           />
           <Stack paddingTop={"129px"} spacing={"16px"}>
-            <Button height={"52px"} type="submit">
-              로그인하기
-            </Button>
-
+            <CustomButton title="로그인하기" buttonStyle="filled" />
             <Stack
               border={"1px solid grey"}
               height={"72px"}

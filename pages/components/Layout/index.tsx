@@ -1,5 +1,7 @@
 import React, { ReactNode } from "react";
+
 import { Box, Container } from "@chakra-ui/react";
+
 import Footer from "../Footer";
 
 type PageLayoutProps = {
@@ -16,7 +18,8 @@ const PageLayout = ({ children, footer }: PageLayoutProps) => {
         height: "812px",
         border: "1px solid black",
         overflowY: "scroll",
-        padding: 0,
+        padding: "0",
+        paddingBottom: "72px",
       }}
     >
       <Box>{children}</Box>

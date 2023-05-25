@@ -1,12 +1,10 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 
 import {
   FormControl,
   FormLabel,
-  FormHelperText,
   FormErrorMessage,
   Input,
-  Flex,
   Icon,
   Tooltip,
 } from "@chakra-ui/react";
@@ -26,6 +24,7 @@ interface CustomInputProps {
   errorMessage?: string;
   type: string;
   icon?: any;
+  setValidation?: Dispatch<SetStateAction<boolean>>;
 }
 
 const CustomInput = ({
@@ -35,6 +34,7 @@ const CustomInput = ({
   errorMessage,
   type,
   icon,
+  setValidation,
 }: CustomInputProps) => {
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
@@ -46,9 +46,13 @@ const CustomInput = ({
   const getIsRegexError = (regex: RegExp) => {
     const Regex = new RegExp(regex);
     const isError = Regex.test(input);
-    !isError
-      ? setError(prev => (prev = true))
-      : setError(prev => (prev = false));
+    if (!isError) {
+      setError(prev => (prev = true));
+      setValidation(prev => (prev = false));
+    } else {
+      setError(prev => (prev = false));
+      setValidation(prev => (prev = true));
+    }
   };
 
   const getTypeOfError = () => {
@@ -118,27 +122,33 @@ const CustomInput = ({
       <Input
         type={type}
         value={input}
-        onChange={handleInputChange}
+        onChange={e => {
+          handleInputChange(e);
+          getTypeOfError();
+        }}
         placeholder={placeholder}
         h={"52px"}
         fontSize={"16px"}
         fontWeight={"400"}
         lineHeight={"20px"}
+        borderRadius={"16px"}
         _placeholder={{
           fontSize: "16px",
           fontWeight: "400",
           lineHeight: "20px",
         }}
+        focusBorderColor="primary.500"
+        errorBorderColor="error"
         // isRequired
         id={label}
-        onBlur={getTypeOfError}
+        // onBlur={getTypeOfError}
       />
       {error && (
         <FormErrorMessage
           fontSize={"12px"}
           fontWeight={"400"}
           lineHeight={"14px"}
-          color={"#F90B66"}
+          color="error"
         >
           <IoCloseCircleOutline style={{ marginRight: "6px" }} />
           {errorMessage}
