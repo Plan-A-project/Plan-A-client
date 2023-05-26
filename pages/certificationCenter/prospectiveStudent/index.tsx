@@ -5,7 +5,6 @@ import FileAttachmentInput from "@/components/common/FileAttachmentInput";
 import CheckCircleIcon from "@/components/icons/CheckCircleIcon";
 import Header from "@/pages/components/Header";
 import PageLayout from "@/pages/components/Layout";
-import CustomButton from "@/components/common/CustomButton";
 
 const index = () => {
   return (
