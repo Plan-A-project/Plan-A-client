@@ -1,7 +1,8 @@
-import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Container, Flex, Text } from "@chakra-ui/layout";
-import { Button, Stack } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
 
+import FileAttachmentInput from "@/components/common/FileAttachmentInput";
+import CheckCircleIcon from "@/components/icons/CheckCircleIcon";
 import Header from "@/pages/components/Header";
 import PageLayout from "@/pages/components/Layout";
 
@@ -22,33 +23,20 @@ const index = () => {
           </Text>
           <Stack spacing={"4px"}>
             <Flex justify={"flex-start"} align={"center"} gap={"6px"}>
-              <CheckCircleIcon color={"blue.300"} />
+              <CheckCircleIcon />
               <Text fontSize={"14px"} fontWeight={400}>
                 휴대폰으로 찍은 이미지, 캡쳐 이미지 모두 가능합니다.
               </Text>
             </Flex>
             <Flex justify={"flex-start"} align={"center"} gap={"6px"}>
-              <CheckCircleIcon color={"blue.300"} />
+              <CheckCircleIcon />
               <Text fontSize={"14px"} fontWeight={400}>
                 서류 제출 후 승인까지 최대 48시간이 소요될 수 있습니다.
               </Text>
             </Flex>
           </Stack>
         </Stack>
-        <Stack spacing={"16px"}>
-          <Button
-            h={"52px"}
-            mt={"16px"}
-            border={"1px solid blue"}
-            bg={"transparent"}
-            color={"blue"}
-          >
-            파일첨부
-          </Button>
-          <Button h={"52px"} mt={"16px"}>
-            인증하기
-          </Button>
-        </Stack>
+        <FileAttachmentInput title="파일 첨부" />
       </Container>
     </PageLayout>
   );

@@ -7,7 +7,6 @@ const DarkModeButton = () => {
       display={"flex"}
       justifyContent={"space-between"}
       alignItems={"center"}
-      paddingX={"5px"}
       width={"100%"}
       height={"100%"}
       textStyle={"body1"}
