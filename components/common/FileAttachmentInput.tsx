@@ -52,6 +52,7 @@ const FileAttachmentInput = ({ title }: FileAttachmentInputType) => {
       </Button>
       <Input
         type="file"
+        accept="image/*"
         display={"none"}
         ref={inputRef}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
