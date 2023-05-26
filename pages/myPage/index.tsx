@@ -55,7 +55,7 @@ const index = () => {
           <Stack spacing={25} px={"24px"} pt={"3.5px"}>
             <Link href="">
               <Text textStyle={"body1"} width={"fit-content"}>
-                인증하기
+                인증센터
               </Text>
             </Link>
             <Link href="">
