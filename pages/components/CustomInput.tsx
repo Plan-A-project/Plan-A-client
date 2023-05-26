@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 
 import {
   FormControl,
@@ -54,18 +47,16 @@ const CustomInput = ({
     const Regex = new RegExp(regex);
     const isError = Regex.test(input);
     if (!isError) {
-      setError(prev => (prev = true));
-      setValidation(prev => (prev = false));
+      setError(true);
+      setValidation(false);
     } else {
-      setError(prev => (prev = false));
-      setValidation(prev => (prev = true));
+      setError(false);
+      setValidation(true);
     }
   };
 
   const isNotEmpty = (value: any) => {
-    value.target.value === ""
-      ? setValidation(prev => (prev = false))
-      : setValidation(prev => (prev = true));
+    value.target.value === "" ? setValidation(false) : setValidation(true);
   };
 
   const getTypeOfError = (e: any) => {

@@ -1,7 +1,8 @@
-import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Container, Flex, Text } from "@chakra-ui/layout";
 import { Button, Stack } from "@chakra-ui/react";
 
+import FileAttachmentInput from "@/components/common/FileAttachmentInput";
+import CheckCircleIcon from "@/components/icons/CheckCircleIcon";
 import Header from "@/pages/components/Header";
 import PageLayout from "@/pages/components/Layout";
 
@@ -10,7 +11,7 @@ const index = () => {
     <PageLayout>
       <Header headingText="인증센터" />
       <Container>
-        <Text fontSize={"20px"} fontWeight={600} my={"24px"}>
+        <Text textStyle={"headline1"} color={"grey.900"} my={"24px"}>
           예비 입학생
         </Text>
         <Stack spacing={"12px"}>
@@ -28,7 +29,7 @@ const index = () => {
               fontSize={"14px"}
               fontWeight={400}
             >
-              <CheckCircleIcon color={"blue.300"} />
+              <CheckCircleIcon />
               가능 서류 : 입학증명서, 합격 링크
             </Flex>
             <Flex
@@ -38,7 +39,7 @@ const index = () => {
               fontSize={"14px"}
               fontWeight={400}
             >
-              <CheckCircleIcon color={"blue.300"} />
+              <CheckCircleIcon />
               휴대폰으로 찍은 이미지, 캡쳐 이미지 모두 가능합니다.
             </Flex>
             <Flex
@@ -48,22 +49,12 @@ const index = () => {
               fontSize={"14px"}
               fontWeight={400}
             >
-              <CheckCircleIcon color={"blue.300"} />
+              <CheckCircleIcon />
               서류 제출 후 승인까지 최대 48시간이 소요될 수 있습니다.
             </Flex>
           </Stack>
         </Stack>
-        <Stack spacing={"16px"} mt={"48px"}>
-          <Button
-            h={"52px"}
-            border={"1px solid blue"}
-            color={"blue"}
-            bg={"transparent"}
-          >
-            파일 첨부
-          </Button>
-          <Button h={"52px"}>인증하기</Button>
-        </Stack>
+        <FileAttachmentInput title="파일첨부" />
       </Container>
     </PageLayout>
   );
