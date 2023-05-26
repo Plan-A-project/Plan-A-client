@@ -1,15 +1,22 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import {
   FormControl,
   FormLabel,
-  FormHelperText,
   FormErrorMessage,
   Input,
-  Flex,
   Icon,
   Tooltip,
 } from "@chakra-ui/react";
 import { IoCloseCircleOutline } from "react-icons/io5";
+
 import {
   emailRegex,
   nicknameRegex,
@@ -24,6 +31,7 @@ interface CustomInputProps {
   errorMessage?: string;
   type: string;
   icon?: any;
+  setValidation: Dispatch<SetStateAction<boolean>>;
 }
 
 const CustomInput = ({
@@ -33,6 +41,7 @@ const CustomInput = ({
   errorMessage,
   type,
   icon,
+  setValidation,
 }: CustomInputProps) => {
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
@@ -44,12 +53,22 @@ const CustomInput = ({
   const getIsRegexError = (regex: RegExp) => {
     const Regex = new RegExp(regex);
     const isError = Regex.test(input);
-    !isError
-      ? setError((prev) => (prev = true))
-      : setError((prev) => (prev = false));
+    if (!isError) {
+      setError(prev => (prev = true));
+      setValidation(prev => (prev = false));
+    } else {
+      setError(prev => (prev = false));
+      setValidation(prev => (prev = true));
+    }
   };
 
-  const getTypeOfError = () => {
+  const isNotEmpty = (value: any) => {
+    value.target.value === ""
+      ? setValidation(prev => (prev = false))
+      : setValidation(prev => (prev = true));
+  };
+
+  const getTypeOfError = (e: any) => {
     switch (title) {
       case "이름":
         getIsRegexError(usernameRegex);
@@ -60,18 +79,21 @@ const CustomInput = ({
       case "비밀번호":
         getIsRegexError(passwordRegex);
         break;
-      case "비밀번호":
+      case "비밀번호 확인":
         getIsRegexError(passwordRegex);
         break;
       case "닉네임":
         getIsRegexError(nicknameRegex);
         break;
+      case "위챗 or 카카오톡 아이디":
+        isNotEmpty(e);
+        break;
     }
   };
 
   const toggleTooltip = () => {
-    setShowTooltip((prev) => (prev = true));
-    setTimeout(() => setShowTooltip((prev) => (prev = false)), 3000);
+    setShowTooltip(prev => (prev = true));
+    setTimeout(() => setShowTooltip(prev => (prev = false)), 3000);
   };
 
   return (
@@ -116,27 +138,31 @@ const CustomInput = ({
       <Input
         type={type}
         value={input}
-        onChange={handleInputChange}
+        onChange={e => {
+          handleInputChange(e);
+          getTypeOfError(e);
+        }}
         placeholder={placeholder}
         h={"52px"}
-        fontSize={"16px"}
-        fontWeight={"400"}
-        lineHeight={"20px"}
+        borderRadius={"16px"}
         _placeholder={{
-          fontSize: "16px",
-          fontWeight: "400",
-          lineHeight: "20px",
+          textStyle: "body2",
+          color: "disabled",
         }}
-        // isRequired
+        textStyle={"body2"}
+        border={"none"}
+        color="#303136"
+        background={"background2"}
+        focusBorderColor="primary.500"
+        errorBorderColor="error"
         id={label}
-        onBlur={getTypeOfError}
       />
       {error && (
         <FormErrorMessage
           fontSize={"12px"}
           fontWeight={"400"}
           lineHeight={"14px"}
-          color={"#F90B66"}
+          color="error"
         >
           <IoCloseCircleOutline style={{ marginRight: "6px" }} />
           {errorMessage}

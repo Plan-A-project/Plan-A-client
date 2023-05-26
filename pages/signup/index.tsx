@@ -1,18 +1,16 @@
 import React from "react";
-import PageLayout from "../components/Layout";
+
 import { ChevronLeftIcon, QuestionOutlineIcon } from "@chakra-ui/icons";
 import { Flex, Heading, Stack, Button } from "@chakra-ui/react";
+
 import CustomInput from "../components/CustomInput";
+import Header from "../components/Header";
+import PageLayout from "../components/Layout";
 
 const index = () => {
   return (
     <PageLayout>
-      <Flex align={"center"}>
-        <ChevronLeftIcon focusable={true} boxSize={9} />
-        <Heading as="h2" size="md">
-          회원가입
-        </Heading>
-      </Flex>
+      <Header headingText="회원가입" />
       <Stack padding={"16px"} spacing={"25px"}>
         <CustomInput
           label="username"

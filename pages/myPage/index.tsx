@@ -1,32 +1,31 @@
-import React from "react";
 import {
   Text,
-  Box,
   Flex,
   Stack,
   Button,
-  Switch,
   Container,
   Icon,
-  Tag,
   Center,
 } from "@chakra-ui/react";
-import PageLayout from "../components/Layout";
-import { FaUserCircle } from "react-icons/fa";
-import DarkModeButton from "../components/DarkModeButton";
-import CustomTag from "../components/CustomTag";
 import Link from "next/link";
+import { FaUserCircle } from "react-icons/fa";
+
+import CustomTag from "../components/CustomTag";
+import DarkModeButton from "../components/DarkModeButton";
+import PageLayout from "../components/Layout";
 
 const index = () => {
   return (
     <PageLayout footer>
       <Container>
-        <Text textStyle={"headline1"}>내 정보</Text>
+        <Text textStyle="headline1">내 정보</Text>
         <Stack spacing={47} width={343} mt={"14.5px"} mb={"24px"}>
           <Stack spacing={10.5}>
             <Flex justify={"space-between"}>
-              <Text textStyle={"headline2"}>계정</Text>
-              <Text textStyle={"body2"}>변경</Text>
+              <Text textStyle="headline2">계정</Text>
+              <Link href={"/myPage/changeAccount/confirmPassword"}>
+                <Text textStyle={"body2"}>변경</Text>
+              </Link>
             </Flex>
             <Container bgColor="#F7F8FA" borderRadius={8}>
               <Center paddingY={"20px"}>
@@ -39,7 +38,7 @@ const index = () => {
                   />
                   <Stack spacing={0}>
                     <Flex gap={2} align={"center"}>
-                      <Text textStyle={"body1"}>닉네임</Text>
+                      <Text textStyle="body1">닉네임</Text>
                       <CustomTag title="학생" color="blue" />
                     </Flex>
                     <Text textStyle={"body1"}>email@email.com</Text>
