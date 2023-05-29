@@ -1,34 +1,31 @@
-import BottomDrawer from "./BottomDrawer";
-import { VStack, useDisclosure } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import CourseFeedback from "../Course/CourseFeedback";
 import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { useRecoilValue } from "recoil";
 import { DrawerButton } from "./BottomDrawer";
+import useDrawer from "@/hooks/useDrawer";
 
 export default function WriteFeedbackDrawer() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const myCourses = useRecoilValue(myCoursesAtom);
+  const children = (
+    <VStack>
+      {myCourses.map((props, idx) => (
+        <CourseFeedback {...props} key={idx} />
+      ))}
+    </VStack>
+  );
 
   const props = {
-    btnContent: "후기작성",
-    drawerHeader: "후기작성",
-    drawerText: "",
-    isOpen,
-    onOpen,
-    onClose,
+    header: "후기작성",
+    children: children,
   };
 
-  const myCourses = useRecoilValue(myCoursesAtom);
+  const [onOpen, Toastbar] = useDrawer(props);
 
   return (
     <>
       <DrawerButton btnContent={"후기 작성"} onOpen={onOpen} />
-      <BottomDrawer {...props}>
-        <VStack h="80vh">
-          {myCourses.map((props, idx) => (
-            <CourseFeedback {...props} key={idx} />
-          ))}
-        </VStack>
-      </BottomDrawer>
+      <Toastbar />
     </>
   );
 }

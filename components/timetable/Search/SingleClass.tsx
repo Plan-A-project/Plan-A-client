@@ -1,32 +1,46 @@
-import { useDisclosure, Button, Box, Flex } from "@chakra-ui/react";
+import { Button, Box, Flex, VStack } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { usePopup } from "@/hooks/usePopup";
 import PopupTop from "../Popup/PopupTop";
-import ViewFeedbackDrawer from "../Drawer/ViewFeedbackDrawer";
 import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
 import CourseBox from "../Course/CourseBox";
+import useDrawer from "@/hooks/useDrawer";
+import { FEEDBACK } from "@/components/data";
+import FeedbackBox from "../Feedback/FeedbackBox";
 
 export default function SingleClass(course: ICourse) {
   const [myCourse, setMyCourses] = useRecoilState(myCoursesAtom);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { isActivated, activatePopup } = usePopup();
 
   function addCourseOnCLick(newCourse: ICourse) {
-    setMyCourses((myCourses) => [...myCourses, newCourse]);
+    setMyCourses(myCourses => [...myCourses, newCourse]);
     activatePopup();
   }
 
   function checkIfCourseAdded(courseCode: number) {
-    return myCourse.find((c) => c.courseCode === courseCode);
+    return myCourse.find(c => c.courseCode === courseCode);
   }
 
-  const drawerProps = {
-    isOpen,
-    onOpen,
-    onClose,
-    addCourseOnCLick,
+  const children = (
+    <>
+      <CourseBox course={course} />
+      <VStack>
+        {FEEDBACK.map((props, idx) => (
+          <FeedbackBox {...props} key={idx} />
+        ))}
+      </VStack>
+    </>
+  );
+
+  const props = {
+    header: "강의후기",
+    btnContent: "내 시간표에 추가",
+    btnHandler: () => addCourseOnCLick(course),
+    children: children,
   };
+
+  const [onOpen, Toastbar] = useDrawer(props);
 
   return (
     <>
@@ -47,7 +61,7 @@ export default function SingleClass(course: ICourse) {
           </Button>
         </Box>
       </Flex>
-      {isOpen && <ViewFeedbackDrawer {...drawerProps} course={course} />}
+      <Toastbar />
     </>
   );
 }
