@@ -83,8 +83,8 @@ const CustomInput = ({
   };
 
   const toggleTooltip = () => {
-    setShowTooltip(prev => (prev = true));
-    setTimeout(() => setShowTooltip(prev => (prev = false)), 3000);
+    setShowTooltip(true);
+    setTimeout(() => setShowTooltip(false), 3000);
   };
 
   return (

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Stack, Button, Text, Box, Container } from "@chakra-ui/react";
+import { Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
 import CustomButton from "@/components/common/CustomButton";
+import RightArrowIcon from "@/components/icons/RightArrowIcon";
 
 import CustomInput from "../components/CustomInput";
 import Header from "../components/Header";
@@ -59,9 +59,14 @@ const Login = () => {
             >
               <Text textStyle={"caption2"}>계정이 없다면?</Text>
               <Link href={"/signup"}>
-                <Text textStyle={"subtitle1"}>
+                <Text
+                  textStyle={"subtitle1"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  gap={"12px"}
+                >
                   회원가입하기
-                  <ChevronRightIcon boxSize={6} />
+                  <RightArrowIcon />
                 </Text>
               </Link>
             </Stack>

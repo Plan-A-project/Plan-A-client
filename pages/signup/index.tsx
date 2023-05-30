@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { ChevronLeftIcon, QuestionOutlineIcon } from "@chakra-ui/icons";
-import { Flex, Heading, Stack, Button } from "@chakra-ui/react";
+import { QuestionOutlineIcon } from "@chakra-ui/icons";
+import { Stack } from "@chakra-ui/react";
 
 import CustomButton from "@/components/common/CustomButton";
 

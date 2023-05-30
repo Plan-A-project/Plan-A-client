@@ -1,11 +1,4 @@
-import {
-  Stack,
-  Flex,
-  Icon,
-  Text,
-  StackDivider,
-  Button,
-} from "@chakra-ui/react";
+import { Stack, StackDivider } from "@chakra-ui/react";
 import { FaSquare } from "react-icons/fa";
 
 import AccountChangeItem from "@/pages/components/AccountChangeItem";
