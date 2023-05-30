@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Stack, Text, VStack } from "@chakra-ui/layout";
+import { Stack, Text } from "@chakra-ui/layout";
 
 import CustomButton from "@/components/common/CustomButton";
 import CustomInput from "@/pages/components/CustomInput";

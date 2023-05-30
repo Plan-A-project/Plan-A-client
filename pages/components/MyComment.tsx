@@ -5,10 +5,10 @@ const MyComment = () => {
   return (
     <Stack>
       <Stack spacing={"8px"}>
-        <Text textStyle={"body1"}>
+        <Text textStyle={"body2"} color={"grey.900"}>
           내가 작성한 댓글 내가 작성한 댓글 내가 작성한 댓글
         </Text>
-        <Text textStyle={"overline"} color={"#75788A"}>
+        <Text textStyle={"overline"} color={"grey.600"}>
           2023.04.01
         </Text>
       </Stack>

@@ -1,5 +1,5 @@
 import { Container, Flex, Text } from "@chakra-ui/layout";
-import { Button, Stack } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
 
 import FileAttachmentInput from "@/components/common/FileAttachmentInput";
 import CheckCircleIcon from "@/components/icons/CheckCircleIcon";

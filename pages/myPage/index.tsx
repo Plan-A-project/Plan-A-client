@@ -4,12 +4,10 @@ import {
   Stack,
   Button,
   Container,
-  Icon,
   Center,
   Box,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { FaUserCircle } from "react-icons/fa";
 
 import DeviderWave from "@/components/icons/DeviderWave";
 import UserAvatar from "@/components/icons/UserAvatar";
@@ -53,7 +51,7 @@ const index = () => {
             </Container>
           </Box>
           <Stack spacing={25} px={"24px"} pt={"3.5px"}>
-            <Link href="">
+            <Link href="/certificationCenter">
               <Text textStyle={"body1"} width={"fit-content"}>
                 인증센터
               </Text>

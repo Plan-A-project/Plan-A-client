@@ -1,24 +1,6 @@
-import {
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Container,
-  Stack,
-  Tag,
-  Heading,
-  StackDivider,
-  Flex,
-  Text,
-  Button,
-  Image,
-  Icon,
-} from "@chakra-ui/react";
-import Link from "next/link";
-import { BsChatRightText } from "react-icons/bs";
-import { SlHeart } from "react-icons/sl";
+import { TabPanel, Stack, StackDivider, Text } from "@chakra-ui/react";
 
+import CustomTabs from "@/components/common/CustomTabs";
 import Header from "@/pages/components/Header";
 import PageLayout from "@/pages/components/Layout";
 import MyComment from "@/pages/components/MyComment";
@@ -28,41 +10,32 @@ const index = () => {
   return (
     <PageLayout>
       <Header headingText="게시글 관리" />
-      <Container mt={"16px"}>
-        <Tabs isFitted isLazy variant="soft-rounded" colorScheme="blue">
-          <TabList border={"1px solid grey"} borderRadius={"10px"} p={"6px"}>
-            <Tab borderRadius={"8px"} textStyle={"subtitle2"}>
-              내 게시글
-            </Tab>
-            <Tab borderRadius={"8px"} textStyle={"subtitle2"}>
-              내 댓글
-            </Tab>
-          </TabList>
-          <Text textStyle={"caption1"} mt={"16px"}>
+      <CustomTabs menu1="내 게시글" menu2="내 댓글">
+        <TabPanel p={0}>
+          <Text textStyle={"caption1"} my={"16px"}>
             최신순
           </Text>
-          <TabPanels>
-            <TabPanel px={0}>
-              <Stack divider={<StackDivider borderColor="gray.200" />}>
-                <MyPost />
-                <MyPost />
-                <MyPost />
-                <MyPost />
-              </Stack>
-            </TabPanel>
-            <TabPanel px={0}>
-              <Stack divider={<StackDivider borderColor="gray.200" />}>
-                <MyComment />
-                <MyComment />
-                <MyComment />
-                <MyComment />
-                <MyComment />
-                <MyComment />
-              </Stack>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Container>
+          <Stack divider={<StackDivider borderColor="grey.100" />}>
+            <MyPost />
+            <MyPost />
+            <MyPost />
+            <MyPost />
+          </Stack>
+        </TabPanel>
+        <TabPanel p={0}>
+          <Text textStyle={"caption1"} my={"16px"}>
+            최신순
+          </Text>
+          <Stack divider={<StackDivider borderColor="grey.100" />}>
+            <MyComment />
+            <MyComment />
+            <MyComment />
+            <MyComment />
+            <MyComment />
+            <MyComment />
+          </Stack>
+        </TabPanel>
+      </CustomTabs>
     </PageLayout>
   );
 };
