@@ -1,13 +1,15 @@
 import { Button, Box, Flex, VStack } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
-import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
-import { usePopup } from "@/hooks/usePopup";
-import PopupTop from "../Popup/PopupTop";
-import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
-import CourseBox from "../Course/CourseBox";
-import useDrawer from "@/hooks/useDrawer";
+
 import { FEEDBACK } from "@/components/data";
+import useDrawer from "@/hooks/useDrawer";
+import { usePopup } from "@/hooks/usePopup";
+import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
+import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
+
+import CourseBox from "../Course/CourseBox";
 import FeedbackBox from "../Feedback/FeedbackBox";
+import PopupTop from "../Popup/PopupTop";
 
 export default function SingleClass(course: ICourse) {
   const [myCourse, setMyCourses] = useRecoilState(myCoursesAtom);

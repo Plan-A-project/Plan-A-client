@@ -1,5 +1,6 @@
-import Picker from "rmc-picker/lib/Picker";
 import { useState } from "react";
+
+import Picker from "rmc-picker/lib/Picker";
 
 type ISScrollablePicker = {
   values: number[];
@@ -18,7 +19,7 @@ export default function ScrollablePicker({ values }: ISScrollablePicker) {
       items.push(
         <Picker.Item value={i} key={i}>
           {values[i]}
-        </Picker.Item>
+        </Picker.Item>,
       );
     }
     return items;

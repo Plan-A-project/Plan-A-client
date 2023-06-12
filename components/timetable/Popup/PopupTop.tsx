@@ -1,4 +1,5 @@
 import { HStack, Text, Image } from "@chakra-ui/react";
+
 import { Icons } from "@/assets/icons";
 
 export default function PopupTop({ content }: { content: string }) {

@@ -1,12 +1,14 @@
-import Searchbar from "./Searchbar";
-import MultiClasses from "./MultiClasses";
 import {
   useState,
   createContext,
   MouseEventHandler,
   ChangeEventHandler,
 } from "react";
+
 import { useDisclosure } from "@chakra-ui/react";
+
+import MultiClasses from "./MultiClasses";
+import Searchbar from "./Searchbar";
 
 type ISearchbar = {
   searchword: string;
@@ -18,9 +20,12 @@ type ISearchbar = {
 
 export const SearchContext = createContext<ISearchbar>({
   searchword: "",
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   updateSearchword: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   resetSearchword: () => {},
   isOpen: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onToggle: () => {},
 });
 
@@ -28,7 +33,7 @@ export default function SearchResult() {
   const [searchword, setSearchword] = useState<string>("");
   const { isOpen, onToggle } = useDisclosure();
 
-  const updateSearchword: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const updateSearchword: ChangeEventHandler<HTMLInputElement> = event => {
     const newValue = event.target.value;
     setSearchword(newValue);
   };

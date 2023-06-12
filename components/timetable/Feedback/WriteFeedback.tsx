@@ -1,4 +1,5 @@
-import { Icons } from "@/assets/icons";
+import { useState } from "react";
+
 import {
   Stack,
   Flex,
@@ -12,8 +13,10 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
+
+import { Icons } from "@/assets/icons";
+
 import ScrollablePicker from "./ScrollablePicker";
-import { useState } from "react";
 
 export default function WriteComment() {
   const [rating, setRating] = useState(0);

@@ -1,4 +1,3 @@
-import BottomDrawer from "./BottomDrawer";
 import {
   RadioGroup,
   Radio,
@@ -7,6 +6,8 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
+
+import BottomDrawer from "./BottomDrawer";
 
 export default function WriteCommentDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();

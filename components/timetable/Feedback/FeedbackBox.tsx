@@ -1,5 +1,6 @@
-import { Icons } from "@/assets/icons";
 import { Box, Flex, Text, Image } from "@chakra-ui/react";
+
+import { Icons } from "@/assets/icons";
 
 type IFeedback = {
   rating: number;

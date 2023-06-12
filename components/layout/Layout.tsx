@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import Header from "./Header";
+import { Header } from "./Header";
 import Navbar from "./Navbar";
 
 interface Props {

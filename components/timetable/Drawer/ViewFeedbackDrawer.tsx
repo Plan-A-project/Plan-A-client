@@ -1,10 +1,12 @@
-import BottomDrawer from "./BottomDrawer";
 import { VStack, Button } from "@chakra-ui/react";
-import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { useRecoilValue } from "recoil";
-import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
-import CourseBox from "../Course/CourseBox";
+
 import { FEEDBACK } from "@/components/data";
+import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
+import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
+
+import BottomDrawer from "./BottomDrawer";
+import CourseBox from "../Course/CourseBox";
 import FeedbackBox from "../Feedback/FeedbackBox";
 
 type IViewFeedbackDrawer = {
@@ -36,15 +38,17 @@ export default function ViewFeedbackDrawer({
   return (
     <>
       <BottomDrawer {...props}>
-        <CourseBox course={course} />
-        <VStack h="60vh">
-          {FEEDBACK.map((props, idx) => (
-            <FeedbackBox {...props} key={idx} />
-          ))}
-        </VStack>
-        <Button w="100%" onClick={() => addCourseOnCLick(course)}>
-          내 시간표에 추가
-        </Button>
+        <>
+          <CourseBox course={course} />
+          <VStack h="60vh">
+            {FEEDBACK.map((props, idx) => (
+              <FeedbackBox {...props} key={idx} />
+            ))}
+          </VStack>
+          <Button w="100%" onClick={() => addCourseOnCLick(course)}>
+            내 시간표에 추가
+          </Button>
+        </>
       </BottomDrawer>
     </>
   );

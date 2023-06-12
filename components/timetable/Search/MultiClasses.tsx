@@ -1,16 +1,18 @@
-import { Box } from "@chakra-ui/react";
-import { ALLCOURSES } from "@/components/data";
-import SingleClass from "./SingleClass";
 import { useContext } from "react";
-import { SearchContext } from "./SearchResult";
 
+import { Box } from "@chakra-ui/react";
+
+import { ALLCOURSES } from "@/components/data";
+
+import { SearchContext } from "./SearchResult";
+import SingleClass from "./SingleClass";
 
 export default function MultiClasses() {
   const { searchword } = useContext(SearchContext);
 
   return (
     <Box>
-      {ALLCOURSES.map((course) => {
+      {ALLCOURSES.map(course => {
         if (
           course.title.includes(searchword) ||
           course.courseCode.toString().includes(searchword)

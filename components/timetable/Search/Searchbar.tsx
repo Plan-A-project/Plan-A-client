@@ -1,4 +1,5 @@
-import { Icons } from "@/assets/icons";
+import { useContext } from "react";
+
 import {
   InputGroup,
   InputLeftElement,
@@ -6,9 +7,11 @@ import {
   Image,
   useDisclosure,
 } from "@chakra-ui/react";
-import SearchSlidePage from "./SearchSlide";
-import { useContext } from "react";
+
+import { Icons } from "@/assets/icons";
+
 import { SearchContext } from "./SearchResult";
+import SearchSlidePage from "./SearchSlide";
 
 export default function Searchbar() {
   const { isOpen, onToggle, searchword } = useContext(SearchContext);

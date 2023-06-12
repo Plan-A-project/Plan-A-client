@@ -1,5 +1,7 @@
 import { useState } from "react";
+
 import { HStack } from "@chakra-ui/react";
+
 import DropDown from "./DropDown";
 
 export default function SemesterTab() {

@@ -1,3 +1,5 @@
+import { useState, useRef, MouseEvent } from "react";
+
 import {
   TableContainer,
   Table,
@@ -9,11 +11,12 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { useRecoilState } from "recoil";
-import { useState, useRef, MouseEvent } from "react";
-import DeleteTimetableDrawer from "../Drawer/DeleteTimetableDrawer";
+
 import { usePopup } from "@/hooks/usePopup";
+import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
+
+import DeleteTimetableDrawer from "../Drawer/DeleteTimetableDrawer";
 import PopupTop from "../Popup/PopupTop";
 
 export default function TimeTableContent() {
@@ -42,8 +45,8 @@ export default function TimeTableContent() {
   const { isActivated, activatePopup } = usePopup();
 
   function deleteCourseOnClick(courseCode: number) {
-    setMyCourses((myCourses) =>
-      myCourses.filter((c) => c.courseCode !== courseCode)
+    setMyCourses(myCourses =>
+      myCourses.filter(c => c.courseCode !== courseCode),
     );
   }
 
@@ -79,20 +82,20 @@ export default function TimeTableContent() {
           <Thead>
             <Tr>
               <Th></Th>
-              {days.map((day) => (
+              {days.map(day => (
                 <Th key={day}>{day}</Th>
               ))}
             </Tr>
           </Thead>
           <Tbody>
-            {hours.map((hour) => (
+            {hours.map(hour => (
               <Tr key={hour}>
                 <Td>
                   <Text fontSize="xs">{hour}</Text>
                 </Td>
-                {days.map((day) => {
+                {days.map(day => {
                   const event = myCourses.find(
-                    (e) => e.day === day && e.time === hour
+                    e => e.day === day && e.time === hour,
                   );
                   if (!event) {
                     return <Td key={`${day}-${hour}`}></Td>;
@@ -106,7 +109,7 @@ export default function TimeTableContent() {
                         bg="gray.300"
                         p="0"
                         onMouseDown={handleMouseDown}
-                        onMouseUp={(e) => handleMouseUp(e, event.courseCode)}
+                        onMouseUp={e => handleMouseUp(e, event.courseCode)}
                       >
                         <Text fontSize="xs">{event.title}</Text>
                         <Text fontSize="xs">{event.location}</Text>
