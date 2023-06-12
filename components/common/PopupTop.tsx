@@ -14,7 +14,7 @@ export default function PopupTop({ content }: { content: string }) {
       zIndex="20"
       bg="white"
     >
-      <Image src={Icons.Check.src} />
+      <Image src={Icons.Check.src} alt="check icon" />
       <Text fontWeight="bold">{content}</Text>
     </HStack>
   );

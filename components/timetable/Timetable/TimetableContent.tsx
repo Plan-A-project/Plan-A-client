@@ -17,7 +17,6 @@ import { usePopup } from "@/hooks/usePopup";
 import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 
 import DeleteTimetableDrawer from "../Drawer/DeleteTimetableDrawer";
-import PopupTop from "../Popup/PopupTop";
 
 export default function TimeTableContent() {
   const days = ["월", "화", "수", "목", "금"];
@@ -42,7 +41,7 @@ export default function TimeTableContent() {
   const [clickedCourseCode, setClickedCourseCode] = useState<number>(-1);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isActivated, activatePopup } = usePopup();
+  const [isActivated, activatePopup, Popup] = usePopup("삭제되었습니다.");
 
   function deleteCourseOnClick(courseCode: number) {
     setMyCourses(myCourses =>
@@ -76,7 +75,7 @@ export default function TimeTableContent() {
 
   return (
     <>
-      {isActivated && <PopupTop content="삭제되었습니다." />}
+      {isActivated && <Popup />}
       <TableContainer>
         <Table>
           <Thead>
