@@ -1,4 +1,5 @@
-import { Icons } from "@/assets/icons";
+import { useContext, useEffect, useRef } from "react";
+
 import {
   InputGroup,
   InputRightElement,
@@ -8,7 +9,9 @@ import {
   Center,
   Slide,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useRef } from "react";
+
+import { Icons } from "@/assets/icons";
+
 import { SearchContext } from "./SearchResult";
 
 export default function SearchSlidePage() {

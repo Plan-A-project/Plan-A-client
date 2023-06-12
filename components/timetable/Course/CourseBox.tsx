@@ -1,6 +1,7 @@
-import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
 import { Flex, Box, HStack, Text, Image } from "@chakra-ui/react";
+
 import { Icons } from "@/assets/icons";
+import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
 
 type ICourseBox = {
   course: ICourse;

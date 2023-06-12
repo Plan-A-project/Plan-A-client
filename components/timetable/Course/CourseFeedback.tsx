@@ -1,7 +1,10 @@
-import { Flex, Box, HStack, Text, Image } from "@chakra-ui/react";
-import { Icons } from "@/assets/icons";
-import WriteComment from "../Feedback/WriteFeedback";
 import { useState } from "react";
+
+import { Flex, Box, HStack, Text, Image } from "@chakra-ui/react";
+
+import { Icons } from "@/assets/icons";
+
+import WriteComment from "../Feedback/WriteFeedback";
 
 type ICourseComment = {
   title: string;
@@ -25,7 +28,7 @@ export default function CourseComment({
         p={4}
         bg="#F8F8F8"
         borderRadius="md"
-        onClick={() => setIsClicked((isClicked) => !isClicked)}
+        onClick={() => setIsClicked(isClicked => !isClicked)}
       >
         <Box flex="1">
           <HStack>

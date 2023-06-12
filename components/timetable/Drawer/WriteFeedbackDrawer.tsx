@@ -1,9 +1,11 @@
 import { VStack } from "@chakra-ui/react";
-import CourseFeedback from "../Course/CourseFeedback";
-import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { useRecoilValue } from "recoil";
-import { DrawerButton } from "./BottomDrawer";
+
 import useDrawer from "@/hooks/useDrawer";
+import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
+
+import { DrawerButton } from "./BottomDrawer";
+import CourseFeedback from "../Course/CourseFeedback";
 
 export default function WriteFeedbackDrawer() {
   const myCourses = useRecoilValue(myCoursesAtom);

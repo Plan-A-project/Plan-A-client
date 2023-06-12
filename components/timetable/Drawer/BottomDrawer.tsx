@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 export type IBottomDrawer = {
-  header: string;
+  header?: string;
   subtitle?: string;
   btnContent?: string;
   btnHandler?: (...args: any[]) => void;

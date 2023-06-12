@@ -1,7 +1,9 @@
-import BottomDrawer from "./BottomDrawer";
 import { RadioGroup, Radio, Stack, Box, Button } from "@chakra-ui/react";
-import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
+
 import { usePopup } from "@/hooks/usePopup";
+import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
+
+import BottomDrawer from "./BottomDrawer";
 import PopupTop from "../Popup/PopupTop";
 
 type IDeleteTimetableDrawer = {
