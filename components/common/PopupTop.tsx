@@ -1,6 +1,6 @@
-import { HStack, Text, Image } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 
-import { Icons } from "@/assets/icons";
+import Check from "../icons/Check";
 
 export default function PopupTop({ content }: { content: string }) {
   return (
@@ -14,7 +14,7 @@ export default function PopupTop({ content }: { content: string }) {
       zIndex="20"
       bg="white"
     >
-      <Image src={Icons.Check.src} alt="check icon" />
+      <Check />
       <Text fontWeight="bold">{content}</Text>
     </HStack>
   );

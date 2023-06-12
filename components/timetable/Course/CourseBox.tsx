@@ -1,6 +1,6 @@
-import { Flex, Box, HStack, Text, Image } from "@chakra-ui/react";
+import { Flex, Box, HStack, Text } from "@chakra-ui/react";
 
-import { Icons } from "@/assets/icons";
+import StarFilled from "@/components/icons/StarFilled";
 import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
 
 type ICourseBox = {
@@ -14,7 +14,7 @@ export default function CourseBox({ course, onOpen }: ICourseBox) {
       <HStack onClick={onOpen}>
         <Text>{course.title}</Text>
         <Flex>
-          <Image src={Icons.Star.src} alt="rating" />
+          <StarFilled />
           {course.rating} / 5.0
         </Flex>
       </HStack>

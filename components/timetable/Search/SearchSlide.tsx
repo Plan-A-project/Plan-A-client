@@ -10,7 +10,8 @@ import {
   Slide,
 } from "@chakra-ui/react";
 
-import { Icons } from "@/assets/icons";
+import CaretLeft from "@/components/icons/CaretLeft";
+import Close from "@/components/icons/Close";
 
 import { SearchContext } from "./SearchResult";
 
@@ -31,7 +32,7 @@ export default function SearchSlidePage() {
         <Box bg="white" h="100%" p={4}>
           <InputGroup>
             <Center onClick={onToggle}>
-              <Image src={Icons.CaretLeft.src} alt="뒤로 돌아가기" mr={3} />
+              <CaretLeft />
             </Center>
             <Input
               type="text"
@@ -43,11 +44,7 @@ export default function SearchSlidePage() {
               ref={searchInputRef}
             />
             <InputRightElement onClick={resetSearchword}>
-              <Image
-                src={Icons.SbClose.src}
-                alt="검색어 취소"
-                color="gray.300"
-              />
+              <Close />
             </InputRightElement>
           </InputGroup>
         </Box>

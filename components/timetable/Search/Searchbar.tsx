@@ -1,14 +1,8 @@
 import { useContext } from "react";
 
-import {
-  InputGroup,
-  InputLeftElement,
-  Input,
-  Image,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { InputGroup, InputLeftElement, Input } from "@chakra-ui/react";
 
-import { Icons } from "@/assets/icons";
+import Search from "@/components/icons/Search";
 
 import { SearchContext } from "./SearchResult";
 import SearchSlidePage from "./SearchSlide";
@@ -20,7 +14,7 @@ export default function Searchbar() {
     <>
       <InputGroup>
         <InputLeftElement pointerEvents="none">
-          <Image src={Icons.Search.src} alt="시간표 검색바" color="gray.300" />
+          <Search />
         </InputLeftElement>
         <Input
           type="text"
