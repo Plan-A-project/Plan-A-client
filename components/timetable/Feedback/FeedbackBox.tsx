@@ -1,6 +1,6 @@
-import { Box, Flex, Text, Image } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
-import { Icons } from "@/assets/icons";
+import StarFilled from "@/components/icons/StarFilled";
 
 type IFeedback = {
   rating: number;
@@ -12,7 +12,7 @@ export default function FeedbackBox(feedback: IFeedback) {
   return (
     <Box p={2} borderBottom="1px" borderColor="gray.200">
       <Flex>
-        <Image src={Icons.Star.src} alt="rating icon" />
+        <StarFilled />
         <Text>{feedback.rating} / 5</Text>
       </Flex>
       <Box>{feedback.content}</Box>

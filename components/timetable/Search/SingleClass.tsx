@@ -9,11 +9,11 @@ import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
 
 import CourseBox from "../Course/CourseBox";
 import FeedbackBox from "../Feedback/FeedbackBox";
-import PopupTop from "../Popup/PopupTop";
 
 export default function SingleClass(course: ICourse) {
   const [myCourse, setMyCourses] = useRecoilState(myCoursesAtom);
-  const { isActivated, activatePopup } = usePopup();
+  const [isActivated, activatePopup, Popup] =
+    usePopup("시간표에 추가되었습니다.");
 
   function addCourseOnCLick(newCourse: ICourse) {
     setMyCourses(myCourses => [...myCourses, newCourse]);
@@ -46,7 +46,7 @@ export default function SingleClass(course: ICourse) {
 
   return (
     <>
-      {isActivated && <PopupTop content="시간표에 추가되었습니다." />}
+      {isActivated && <Popup />}
       <Flex w="100%" gap={2} mb={2} mt={2}>
         <CourseBox course={course} onOpen={onOpen} />
         <Box>

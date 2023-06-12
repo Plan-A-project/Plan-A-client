@@ -2,45 +2,46 @@ import {
   Button,
   Drawer,
   DrawerOverlay,
-  DrawerHeader,
   DrawerContent,
   DrawerBody,
   Text,
 } from "@chakra-ui/react";
 
-type IBottomDrawer = {
-  header: string;
-  subtitle: string | undefined;
+export type IBottomDrawer = {
+  header?: string;
+  subtitle?: string;
   btnContent?: string;
-  btnHandler?: () => void;
+  btnHandler?: (...args: any[]) => void;
+  children: JSX.Element;
   isOpen: boolean;
   onClose: () => void;
-  children: string | JSX.Element | JSX.Element[];
 };
 
 export default function BottomDrawer({
-  header,
-  subtitle,
   btnContent,
   btnHandler,
+  header,
+  subtitle,
   isOpen,
   onClose,
   children,
 }: IBottomDrawer) {
   return (
-    <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
-      <DrawerOverlay />
-      <DrawerContent borderRadius="2xl">
-        <DrawerHeader>
+    <>
+      <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent borderRadius="2xl">
           {header}
           <Text fontSize="sm">{subtitle && subtitle}</Text>
-        </DrawerHeader>
-        <DrawerBody>{children}</DrawerBody>
-        <Button bg="gray.300" onClick={btnHandler}>
-          {btnContent}
-        </Button>
-      </DrawerContent>
-    </Drawer>
+          <DrawerBody>{children}</DrawerBody>
+          {btnContent && (
+            <Button colorScheme="gray" onClick={btnHandler} mb={2} mt={2}>
+              {btnContent}
+            </Button>
+          )}
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 }
 

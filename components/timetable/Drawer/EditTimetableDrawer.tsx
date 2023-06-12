@@ -7,7 +7,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import BottomDrawer from "./BottomDrawer";
+import BottomDrawer from "@/components/common/BottomDrawer";
 
 export default function WriteCommentDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -14,7 +14,8 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
-import { Icons } from "@/assets/icons";
+import StarEmpty from "@/components/icons/StarEmpty";
+import StarFilled from "@/components/icons/StarFilled";
 
 import ScrollablePicker from "./ScrollablePicker";
 
@@ -35,31 +36,21 @@ export default function WriteComment() {
         <Text>별점</Text>
         <Text>4 / 5</Text>
         <HStack gap={1}>
-          <Image
-            src={rating < 1 ? Icons.StarEmpty.src : Icons.StarBig.src}
-            alt="rating"
-            onClick={() => setRating(1)}
-          />
-          <Image
-            src={rating < 2 ? Icons.StarEmpty.src : Icons.StarBig.src}
-            alt="rating"
-            onClick={() => setRating(2)}
-          />
-          <Image
-            src={rating < 3 ? Icons.StarEmpty.src : Icons.StarBig.src}
-            alt="rating"
-            onClick={() => setRating(3)}
-          />
-          <Image
-            src={rating < 4 ? Icons.StarEmpty.src : Icons.StarBig.src}
-            alt="rating"
-            onClick={() => setRating(4)}
-          />
-          <Image
-            src={rating < 5 ? Icons.StarEmpty.src : Icons.StarBig.src}
-            alt="rating"
-            onClick={() => setRating(5)}
-          />
+          <Box onClick={() => setRating(1)}>
+            {rating < 1 ? <StarEmpty /> : <StarFilled />}
+          </Box>
+          <Box onClick={() => setRating(2)}>
+            {rating < 2 ? <StarEmpty /> : <StarFilled />}
+          </Box>
+          <Box onClick={() => setRating(3)}>
+            {rating < 3 ? <StarEmpty /> : <StarFilled />}
+          </Box>
+          <Box onClick={() => setRating(4)}>
+            {rating < 4 ? <StarEmpty /> : <StarFilled />}
+          </Box>
+          <Box onClick={() => setRating(5)}>
+            {rating < 5 ? <StarEmpty /> : <StarFilled />}
+          </Box>
         </HStack>
       </HStack>
       <Divider />

@@ -1,10 +1,7 @@
-import { RadioGroup, Radio, Stack, Box, Button } from "@chakra-ui/react";
+import { RadioGroup, Radio, Stack, Box } from "@chakra-ui/react";
 
-import { usePopup } from "@/hooks/usePopup";
+import BottomDrawer from "@/components/common/BottomDrawer";
 import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
-
-import BottomDrawer from "./BottomDrawer";
-import PopupTop from "../Popup/PopupTop";
 
 type IDeleteTimetableDrawer = {
   isOpen: boolean;
@@ -22,11 +19,11 @@ export default function DeleteTimetableDrawer({
   onClose,
   course,
   deleteCourseOnClick,
-  isActivated,
   activatePopup,
 }: IDeleteTimetableDrawer) {
   const props = {
     btnContent: "시간표 편집",
+    btnHandler: () => handleDeleteOnClick(course.courseCode),
     drawerHeader: "시간표 편집",
     drawerText: "",
     isOpen,
@@ -55,12 +52,6 @@ export default function DeleteTimetableDrawer({
                 </div>
               </Box>
             </Radio>
-            <Button
-              bg="gray.300"
-              onClick={() => handleDeleteOnClick(course.courseCode)}
-            >
-              삭제하기
-            </Button>
           </Stack>
         </RadioGroup>
       </BottomDrawer>

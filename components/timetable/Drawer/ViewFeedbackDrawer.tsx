@@ -1,11 +1,11 @@
 import { VStack, Button } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 
+import BottomDrawer from "@/components/common/BottomDrawer";
 import { FEEDBACK } from "@/components/data";
 import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
 
-import BottomDrawer from "./BottomDrawer";
 import CourseBox from "../Course/CourseBox";
 import FeedbackBox from "../Feedback/FeedbackBox";
 
@@ -33,7 +33,7 @@ export default function ViewFeedbackDrawer({
     onClose,
   };
 
-  const myCourses = useRecoilValue(myCoursesAtom);
+  // const myCourses = useRecoilValue(myCoursesAtom);
 
   return (
     <>
