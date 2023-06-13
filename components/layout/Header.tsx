@@ -2,7 +2,10 @@ import { Flex } from "@chakra-ui/react";
 
 import { SearchIcon, AlarmIcon, Logo } from "@/components/icons";
 
-export function Header() {
+
+export default function Header() {
+
+
   return (
     <Flex bg={"#FFFFFF"} justify="space-between" p={"0.6rem 1rem"}>
       <Logo />

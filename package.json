@@ -35,11 +35,13 @@
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
+
     "eslint-plugin-prettier": "^4.2.1",
     "react-schedule-selector": "^3.0.2",
     "recoil": "^0.7.7",
     "rmc-picker": "^5.0.10",
     "typescript": "5.0.4",
     "@types/uuid": "^9.0.1"
+
   }
 }
