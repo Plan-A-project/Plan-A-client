@@ -1,5 +1,6 @@
-import { Box } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
+
+import { Box } from "@chakra-ui/react";
 
 const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
   return (

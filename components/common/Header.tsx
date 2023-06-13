@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Text, TextProps, chakra } from "@chakra-ui/react";
-import IconBack from "../icons/IconBack";
 import { useRouter } from "next/router";
+
+import IconBack from "../icons/IconBack";
 
 type TitleProps = {
   text: React.ReactNode;

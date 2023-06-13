@@ -8,6 +8,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import Image from "next/image";
+
 import IconPhoto from "../icons/IconPhoto";
 
 const formProps: ChakraProps = {

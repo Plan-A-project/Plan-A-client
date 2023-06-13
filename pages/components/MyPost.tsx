@@ -1,7 +1,8 @@
 import React from "react";
+
 import { Stack, Tag, Flex, Heading, Text, Image, Icon } from "@chakra-ui/react";
-import { SlHeart } from "react-icons/sl";
 import { BsChatRightText } from "react-icons/bs";
+import { SlHeart } from "react-icons/sl";
 
 const MyPost = () => {
   return (

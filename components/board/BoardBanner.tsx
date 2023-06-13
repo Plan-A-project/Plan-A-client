@@ -1,8 +1,10 @@
+import { PropsWithChildren } from "react";
+
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Button, ButtonProps, Tag, Text } from "@chakra-ui/react";
-import { PropsWithChildren } from "react";
-import IconNotice from "../icons/IconNotice";
+
 import IconForward from "../icons/IconForward";
+import IconNotice from "../icons/IconNotice";
 
 const BoardBanner: React.FC<PropsWithChildren<ButtonProps>> = ({
   children,

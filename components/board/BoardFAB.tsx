@@ -1,5 +1,5 @@
-import { IconButton } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
+import { IconButton } from "@chakra-ui/react";
 
 type BoardFABProps = {
   right?: number;

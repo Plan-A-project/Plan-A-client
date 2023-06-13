@@ -1,14 +1,15 @@
+import { NextPage } from "next";
+import Link from "next/link";
+
 import BoardBanner from "@/components/board/BoardBanner";
 import BoardFAB from "@/components/board/BoardFAB";
 import BoardItem from "@/components/board/BoardItem";
 import BoardItemContent from "@/components/board/BoardItemContent";
 import BoardStack from "@/components/board/BoardStack";
-import BoardTab from "@/components/board/BoardTabs";
 import AppContainer from "@/components/common/AppContainer";
 import Header from "@/components/common/Header";
 import IconSearch from "@/components/icons/IconSearch";
-import { NextPage } from "next";
-import Link from "next/link";
+import { useSorter } from "@/hooks/useSorter";
 
 function getAllPosts() {
   return (
@@ -38,16 +39,17 @@ function getAllPosts() {
   );
 }
 
-function getPopularPosts() {}
-
 const Anonymous: NextPage = () => {
+  const [getSortButton] = useSorter();
+
   return (
     <AppContainer>
       <Header leftTitle title="익명게시판" rightNode={<IconSearch />} />
 
       <BoardBanner my={4}>게시판 이용 규칙 안내</BoardBanner>
+      {getSortButton()}
+      {getAllPosts()}
 
-      <BoardTab leftTab={getAllPosts()} rightTab={<></>} />
       <Link href="/anonymous/write">
         <BoardFAB />
       </Link>

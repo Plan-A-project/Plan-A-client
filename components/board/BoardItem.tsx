@@ -1,5 +1,6 @@
-import { Flex, Text, TextProps } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
+
+import { Flex, Text, TextProps } from "@chakra-ui/react";
 
 type BoardItemProps = {
   date?: string;

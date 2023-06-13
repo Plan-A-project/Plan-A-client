@@ -1,8 +1,9 @@
+import { Spacer } from "@chakra-ui/react";
+import { NextPage } from "next";
+
 import BoardBaseForm from "@/components/board/BoardBaseForm";
 import AppContainer from "@/components/common/AppContainer";
 import Header from "@/components/common/Header";
-import { Spacer } from "@chakra-ui/react";
-import { NextPage } from "next";
 
 const Write: NextPage = () => {
   return (

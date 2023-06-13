@@ -1,6 +1,8 @@
 import React from "react";
-import PageLayout from "../components/Layout";
+
 import { Container, Stack, Flex, Button, Text } from "@chakra-ui/react";
+
+import PageLayout from "../components/Layout";
 
 const SignupComplete = () => {
   return (

@@ -1,18 +1,19 @@
-import Header from "@/components/common/Header";
 import { Divider, Flex, Tag } from "@chakra-ui/react";
-import BoardTabs from "@/components/board/BoardTabs";
-import BoardItem from "@/components/board/BoardItem";
-import BoardItemContent from "@/components/board/BoardItemContent";
-import BoardFAB from "@/components/board/BoardFAB";
-import BoardView from "@/components/board/BoardView";
-import AppContainer from "@/components/common/AppContainer";
+
 import BoardBanner from "@/components/board/BoardBanner";
-import BoardStack from "@/components/board/BoardStack";
 import BoardBaseForm from "@/components/board/BoardBaseForm";
 import BoardCategory from "@/components/board/BoardCategory";
 import BoardCheckOption from "@/components/board/BoardCheckOption";
 import BoardComment from "@/components/board/BoardComment";
 import BoardCommentList from "@/components/board/BoardCommentList";
+import BoardFAB from "@/components/board/BoardFAB";
+import BoardItem from "@/components/board/BoardItem";
+import BoardItemContent from "@/components/board/BoardItemContent";
+import BoardStack from "@/components/board/BoardStack";
+import BoardTabs from "@/components/board/BoardTabs";
+import BoardView from "@/components/board/BoardView";
+import AppContainer from "@/components/common/AppContainer";
+import Header from "@/components/common/Header";
 
 export default function Home() {
   return (

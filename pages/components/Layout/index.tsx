@@ -1,5 +1,7 @@
 import React, { ReactNode } from "react";
+
 import { Box, Container } from "@chakra-ui/react";
+
 import Footer from "../Footer";
 
 type PageLayoutProps = {

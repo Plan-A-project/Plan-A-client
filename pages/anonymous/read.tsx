@@ -1,10 +1,11 @@
+import { NextPage } from "next";
+
 import BoardComment from "@/components/board/BoardComment";
 import BoardCommentInput from "@/components/board/BoardCommentInput";
 import BoardCommentList from "@/components/board/BoardCommentList";
 import BoardView from "@/components/board/BoardView";
 import AppContainer from "@/components/common/AppContainer";
 import Header from "@/components/common/Header";
-import { NextPage } from "next";
 
 const Read: NextPage = () => {
   return (

@@ -1,5 +1,6 @@
-import { Stack, StackDivider, StackProps } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
+
+import { Stack, StackDivider, StackProps } from "@chakra-ui/react";
 
 const BoardStack: React.FC<PropsWithChildren<StackProps>> = ({
   children,

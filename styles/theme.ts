@@ -54,6 +54,13 @@ export const theme = extendTheme({
       lineHeight: "17px",
       letterSpacing: "0",
     },
+    body3: {
+      fontFamily: "Pretendard",
+      fontSize: "14px",
+      fontWeight: "regular",
+      lineHeight: "16px",
+      letterSpacing: "0",
+    },
     caption1: {
       fontFamily: "Pretendard",
       fontSize: "12px",
