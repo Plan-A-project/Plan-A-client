@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withPlugins = require("next-compose-plugins");
 const withPWA = require("next-pwa");
 /** @type {import('next').NextConfig} */
@@ -6,13 +7,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "via.placeholder.com",
+        pathname: "/**",
       },
-    ]
-  }
-}
+    ],
+  },
+};
 
 module.exports = withPlugins(
   [
@@ -25,5 +26,5 @@ module.exports = withPlugins(
       },
     ],
   ],
-  nextConfig
+  nextConfig,
 );
