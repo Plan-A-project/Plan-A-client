@@ -1,3 +1,6 @@
+import { useRef } from "react";
+
+import { Button } from "@chakra-ui/react";
 import { NextPage } from "next";
 
 import BoardComment from "@/components/board/BoardComment";
@@ -10,7 +13,7 @@ import Header from "@/components/common/Header";
 const Read: NextPage = () => {
   return (
     <AppContainer>
-      <Header back title="익명게시판" />
+      <Header back title="" />
       <BoardView
         title="제목"
         date="2022.04.04"
