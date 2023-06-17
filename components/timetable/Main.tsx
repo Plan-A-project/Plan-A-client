@@ -19,7 +19,7 @@ export default function Main() {
   };
 
   const [searchword, Searchbar] = useSearchbar(props);
-  const [activatedTab, LineTab] = useLineTab();
+  const [activatedTab, LineTab] = useLineTab(["전체글", "인기글"]);
 
   return (
     <Box p="16px">

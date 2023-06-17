@@ -1,7 +1,7 @@
 export default function Wiggleline({ color }: { color: string }) {
   return (
     <svg
-      width="172"
+      width="100%"
       height="6"
       viewBox="0 0 172 6"
       fill="none"
