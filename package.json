@@ -9,16 +9,39 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
+    "@chakra-ui/layout": "^2.1.19",
+    "@chakra-ui/react": "^2.6.1",
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@aldabil/react-scheduler": "^2.7.9",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
-    "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "framer-motion": "^10.12.7",
     "next": "13.3.0",
     "next-compose-plugins": "^2.2.1",
     "next-pwa": "^5.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.8.0",
+    "recoil": "^0.7.7",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+
+    "eslint-plugin-prettier": "^4.2.1",
+    "react-schedule-selector": "^3.0.2",
+    "recoil": "^0.7.7",
+    "rmc-picker": "^5.0.10",
+    "typescript": "5.0.4",
+    "@types/uuid": "^9.0.1"
+
   }
 }
