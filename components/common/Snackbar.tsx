@@ -2,7 +2,7 @@ import { HStack, Text } from "@chakra-ui/react";
 
 import Check from "../icons/Check";
 
-export default function PopupTop({ content }: { content: string }) {
+export default function Snackbar({ content }: { content: string }) {
   return (
     <HStack
       p={6}
