@@ -1,8 +1,8 @@
 import { useDisclosure } from "@chakra-ui/react";
 
-import BottomDrawer from "@/components/common/BottomDrawer";
+import { default as _BottomDrawer } from "@/components/common/BottomDrawer";
 
-export type toastProps = {
+export type IbottomDrawerProps = {
   header: string;
   subtitle?: string;
   btnContent?: string;
@@ -10,25 +10,16 @@ export type toastProps = {
   children: JSX.Element;
 };
 
-export default function useDrawer({
-  header,
-  subtitle,
-  btnContent,
-  btnHandler,
-  children,
-}: toastProps): [() => void, () => JSX.Element] {
+export default function useDrawer(
+  props: IbottomDrawerProps,
+): [() => void, () => JSX.Element] {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const props = {
-    header,
-    subtitle,
-    btnContent,
-    btnHandler,
+  const _props = {
     isOpen,
     onClose,
-    children,
   };
 
-  const Toastbar = () => <BottomDrawer {...props} />;
-  return [onOpen, Toastbar];
+  const BottomDrawer = () => <_BottomDrawer {...props} {..._props} />;
+  return [onOpen, BottomDrawer];
 }
