@@ -10,25 +10,16 @@ export type IbottomDrawerProps = {
   children: JSX.Element;
 };
 
-export default function useDrawer({
-  header,
-  subtitle,
-  btnContent,
-  btnHandler,
-  children,
-}: IbottomDrawerProps): [() => void, () => JSX.Element] {
+export default function useDrawer(
+  props: IbottomDrawerProps,
+): [() => void, () => JSX.Element] {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const props = {
-    header,
-    subtitle,
-    btnContent,
-    btnHandler,
+  const _props = {
     isOpen,
     onClose,
-    children,
   };
 
-  const BottomDrawer = () => <_BottomDrawer {...props} />;
+  const BottomDrawer = () => <_BottomDrawer {...props} {..._props} />;
   return [onOpen, BottomDrawer];
 }
