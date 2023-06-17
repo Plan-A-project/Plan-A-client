@@ -5,6 +5,7 @@ import {
   DrawerContent,
   DrawerBody,
   Text,
+  Heading,
 } from "@chakra-ui/react";
 
 export type IBottomDrawer = {
@@ -17,25 +18,36 @@ export type IBottomDrawer = {
   onClose: () => void;
 };
 
+type IDrawerButton = {
+  btnContent: string;
+  onOpen: () => void;
+};
+
 export default function BottomDrawer({
-  btnContent,
-  btnHandler,
-  header,
-  subtitle,
+  btnContent, // drawer 내부 하단 버튼
+  btnHandler, // drawer 내부 버튼 클릭 핸들러
+  header, // drawer header
+  subtitle, // drawer 하단 text
   isOpen,
   onClose,
-  children,
+  children, // drawer 내부 컨텐츠
 }: IBottomDrawer) {
   return (
     <>
       <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent borderRadius="2xl">
-          {header}
-          <Text fontSize="sm">{subtitle && subtitle}</Text>
-          <DrawerBody>{children}</DrawerBody>
+        <DrawerContent borderRadius="2xl" px={5}>
+          {header && (
+            <Heading fontSize={"xl"} mt={5}>
+              {header}
+            </Heading>
+          )}
+          {subtitle && <Text fontSize={"sm"}>{subtitle}</Text>}
+          <DrawerBody p={0} my={4}>
+            {children}
+          </DrawerBody>
           {btnContent && (
-            <Button colorScheme="gray" onClick={btnHandler} mb={2} mt={2}>
+            <Button colorScheme="primary" onClick={btnHandler} mb={4}>
               {btnContent}
             </Button>
           )}
@@ -44,11 +56,6 @@ export default function BottomDrawer({
     </>
   );
 }
-
-type IDrawerButton = {
-  btnContent: string;
-  onOpen: () => void;
-};
 
 export function DrawerButton({ btnContent, onOpen }: IDrawerButton) {
   return (

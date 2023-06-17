@@ -42,7 +42,7 @@ export default function SingleClass(course: ICourse) {
     children: children,
   };
 
-  const [onOpen, Toastbar] = useDrawer(props);
+  const [onOpen, BottomDrawer] = useDrawer(props);
 
   return (
     <>
@@ -63,7 +63,7 @@ export default function SingleClass(course: ICourse) {
           </Button>
         </Box>
       </Flex>
-      <Toastbar />
+      <BottomDrawer />
     </>
   );
 }

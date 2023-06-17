@@ -10,7 +10,7 @@ import CourseFeedback from "../Course/CourseFeedback";
 export default function WriteFeedbackDrawer() {
   const myCourses = useRecoilValue(myCoursesAtom);
   const children = (
-    <VStack>
+    <VStack p={0}>
       {myCourses.map((props, idx) => (
         <CourseFeedback {...props} key={idx} />
       ))}
@@ -19,15 +19,17 @@ export default function WriteFeedbackDrawer() {
 
   const props = {
     header: "후기작성",
+    subtitle: "후기를 작성해주세요",
     children: children,
+    btnContent: "삭제하기",
   };
 
-  const [onOpen, Toastbar] = useDrawer(props);
+  const [onOpen, ButtonDrawer] = useDrawer(props);
 
   return (
     <>
       <DrawerButton btnContent={"후기 작성"} onOpen={onOpen} />
-      <Toastbar />
+      <ButtonDrawer />
     </>
   );
 }
