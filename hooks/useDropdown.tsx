@@ -109,7 +109,7 @@ export function useDropdown({
               sx={{
                 padding: "12px 16px",
                 height: "auto",
-                "-webkit-tap-highlight-color": "transparent",
+                WebkitTapHighlightColor: "transparent",
               }}
               borderRadius={0}
               variant={"unstyled"}
