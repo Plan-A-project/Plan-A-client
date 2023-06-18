@@ -7,10 +7,10 @@ type ArrowTransform = {
 };
 
 const arrowTransform: ArrowTransform = {
-  up: "rotate(45deg)",
-  down: "rotate(225deg)",
-  right: "rotate(135deg)",
-  left: "rotate(-45deg)",
+  up: "rotate(0deg)",
+  down: "rotate(180deg)",
+  right: "rotate(90deg)",
+  left: "rotate(270deg)",
 };
 
 const IconArrow: React.FC<
