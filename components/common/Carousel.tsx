@@ -26,6 +26,7 @@ type WithInterval = {
 type CarouselProps = PropsWithChildren<
   {
     loop?: boolean;
+    onClick?: (index: number) => void;
   } & (WithInterval | WithoutInterval)
 >;
 
@@ -34,6 +35,7 @@ const Carousel: React.FC<CarouselProps> = ({
   children,
   auto,
   interval,
+  onClick,
 }) => {
   const [width, setWidth] = useState<number>(0);
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -200,6 +202,10 @@ const Carousel: React.FC<CarouselProps> = ({
     adjustHandler.current = requestAnimationFrame(adjustProgress);
   }
 
+  function handleClick() {
+    onClick?.(index - 1);
+  }
+
   return (
     <Box
       overflow="hidden"
@@ -212,6 +218,7 @@ const Carousel: React.FC<CarouselProps> = ({
       onMouseDown={handleSlideStart}
       onMouseMove={handleSlideMove}
       onMouseUp={handleSlideEnd}
+      onClick={handleClick}
     >
       <Box
         display="flex"
