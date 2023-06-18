@@ -11,9 +11,9 @@ const BoardFAB: React.FC<BoardFABProps> = ({ right, bottom, onClick }) => {
   return (
     <IconButton
       aria-label="게시글 작성"
-      bg="blue.400"
-      _hover={{ bg: "blue.500" }}
-      _active={{ bg: "blue.600" }}
+      bg="primary.500"
+      _hover={{ bg: "primary.600" }}
+      _active={{ bg: "primary.700" }}
       color={"white"}
       borderRadius={"full"}
       w={10}
