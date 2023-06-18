@@ -132,4 +132,54 @@ export const theme = extendTheme({
     lg: "960px",
     xl: "1200px",
   },
+  components: {
+    Button: {
+      variants: {
+        solid: {
+          bg: "primary.500",
+          color: "white",
+          _hover: {
+            bg: "primary.300",
+          },
+          _active: {
+            bg: "primary.300",
+          },
+          _disabled: {
+            bg: "#DBDCE1",
+          },
+        },
+      },
+      outline: {
+        border: "1px solid",
+        borderColor: "primary.500",
+        color: "primary.500",
+        bg: "white",
+        _hover: {
+          bg: "primary.50",
+        },
+        _active: {
+          bg: "primary.50",
+        },
+        _disabled: {
+          bg: "white",
+          borderColor: "#DBDCE1",
+          color: "#DBDCE1",
+        },
+      },
+      ghost: {
+        bg: "white",
+        color: "primary.500",
+        _hover: {
+          bg: "primary.50",
+        },
+        _active: {
+          bg: "primary.50",
+        },
+        _disabled: {
+          bg: "white",
+          color: "#DBDCE1",
+        },
+      },
+    },
+  },
 });
