@@ -1,6 +1,3 @@
-import { useRef } from "react";
-
-import { Button } from "@chakra-ui/react";
 import { NextPage } from "next";
 
 import BoardComment from "@/components/board/BoardComment";
