@@ -1,6 +1,8 @@
 import { Flex } from "@chakra-ui/react";
 
-import { SearchIcon, AlarmIcon, Logo } from "@/components/icons";
+import AlarmIcon from "@/components/icons/AlarmIcon";
+import Logo from "@/components/icons/Logo";
+import SearchIcon from "@/components/icons/SearchIcon";
 
 export default function Header() {
   return (

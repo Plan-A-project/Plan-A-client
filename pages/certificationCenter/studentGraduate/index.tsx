@@ -1,6 +1,6 @@
-import PageLayout from "@/pages/components/Layout";
 import React from "react";
-import Header from "@/pages/components/Header";
+
+import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Container, Flex, Stack, Text } from "@chakra-ui/layout";
 import {
   Button,
@@ -10,8 +10,11 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+
+import Header from "@/pages/components/Header";
+import PageLayout from "@/pages/components/Layout";
+
 import CustomInput from "../../components/CustomInput";
-import { CheckCircleIcon } from "@chakra-ui/icons";
 
 const index = () => {
   return (

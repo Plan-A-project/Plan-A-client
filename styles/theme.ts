@@ -43,15 +43,22 @@ export const theme = extendTheme({
     body1: {
       fontFamily: "Pretendard",
       fontSize: "16px",
-      fontWeight: "regular",
+      fontWeight: "normal",
       lineHeight: "20px",
       letterSpacing: "0",
     },
     body2: {
       fontFamily: "Pretendard",
       fontSize: "14px",
-      fontWeight: "regular",
+      fontWeight: "normal",
       lineHeight: "17px",
+      letterSpacing: "0",
+    },
+    body3: {
+      fontFamily: "Pretendard",
+      fontSize: "14px",
+      fontWeight: "normal",
+      lineHeight: "16px",
       letterSpacing: "0",
     },
     caption1: {
@@ -64,14 +71,14 @@ export const theme = extendTheme({
     caption2: {
       fontFamily: "Pretendard",
       fontSize: "12px",
-      fontWeight: "regular",
+      fontWeight: "normal",
       lineHeight: "14px",
       letterSpacing: "0",
     },
     overline: {
       fontFamily: "Pretendard",
       fontSize: "10px",
-      fontWeight: "regular",
+      fontWeight: "",
       lineHeight: "12px",
       letterSpacing: "0",
     },
@@ -85,7 +92,7 @@ export const theme = extendTheme({
     timetable2: {
       fontFamily: "Pretendard",
       fontSize: "7px",
-      fontWeight: "regular",
+      fontWeight: "normal",
       lineHeight: "8px",
       letterSpacing: "0",
     },
@@ -96,7 +103,7 @@ export const theme = extendTheme({
       100: "#D2E0F9",
       200: "#AFCAF8",
       300: "#80ABF5",
-      400: "#4282F0",
+      normal: "#4282F0",
       500: "#3F52E4",
       600: "#2D42E1",
       700: "#1C30C9",
@@ -108,7 +115,7 @@ export const theme = extendTheme({
       100: "#C5F2EE",
       200: "#93E7DF",
       300: "#58DACE",
-      400: "#2DC8B9",
+      normal: "#2DC8B9",
       500: "#00AB9A",
       600: "#008F81",
       700: "#007065",
@@ -124,5 +131,55 @@ export const theme = extendTheme({
     md: "768px",
     lg: "960px",
     xl: "1200px",
+  },
+  components: {
+    Button: {
+      variants: {
+        solid: {
+          bg: "primary.500",
+          color: "white",
+          _hover: {
+            bg: "primary.300",
+          },
+          _active: {
+            bg: "primary.300",
+          },
+          _disabled: {
+            bg: "#DBDCE1",
+          },
+        },
+      },
+      outline: {
+        border: "1px solid",
+        borderColor: "primary.500",
+        color: "primary.500",
+        bg: "white",
+        _hover: {
+          bg: "primary.50",
+        },
+        _active: {
+          bg: "primary.50",
+        },
+        _disabled: {
+          bg: "white",
+          borderColor: "#DBDCE1",
+          color: "#DBDCE1",
+        },
+      },
+      ghost: {
+        bg: "white",
+        color: "primary.500",
+        _hover: {
+          bg: "primary.50",
+        },
+        _active: {
+          bg: "primary.50",
+        },
+        _disabled: {
+          bg: "white",
+          color: "#DBDCE1",
+        },
+      },
+    },
   },
 });
