@@ -1,6 +1,7 @@
 import {
   ForwardRefExoticComponent,
   PropsWithChildren,
+  RefObject,
   forwardRef,
 } from "react";
 
@@ -9,7 +10,11 @@ import { Button, ButtonProps } from "@chakra-ui/react";
 
 import IconArrow from "@/components/icons/IconArrow";
 
-type FABComponent = ForwardRefExoticComponent<FABProps> & {
+type FABComponent = ForwardRefExoticComponent<
+  FABProps & {
+    ref?: RefObject<HTMLButtonElement>;
+  }
+> & {
   Add: typeof Add;
   Up: typeof Up;
 };

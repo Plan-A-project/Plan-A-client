@@ -2,6 +2,7 @@ import {
   ForwardRefExoticComponent,
   PropsWithChildren,
   ReactNode,
+  RefObject,
   forwardRef,
 } from "react";
 
@@ -11,7 +12,11 @@ import IconForward from "@/components/icons/IconForward";
 import IconNotice from "@/components/icons/IconNotice";
 import IconNoticeMark from "@/components/icons/IconNoticeMark";
 
-type BannerComponent = ForwardRefExoticComponent<BannerProps> & {
+type BannerComponent = ForwardRefExoticComponent<
+  BannerProps & {
+    ref?: RefObject<HTMLDivElement>;
+  }
+> & {
   TextBanner: typeof TextBanner;
   AlertBanner: typeof AlertBanner;
 };
