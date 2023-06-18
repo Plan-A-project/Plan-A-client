@@ -10,7 +10,7 @@ type IDeleteTimetableDrawer = {
   course: ICourse;
   deleteCourseOnClick: (courseCode: number) => void;
   isActivated: boolean;
-  activatePopup: () => void;
+  activateSnackbar: () => void;
 };
 
 export default function DeleteTimetableDrawer({
@@ -19,7 +19,7 @@ export default function DeleteTimetableDrawer({
   onClose,
   course,
   deleteCourseOnClick,
-  activatePopup,
+  activateSnackbar,
 }: IDeleteTimetableDrawer) {
   const props = {
     btnContent: "시간표 편집",
@@ -33,7 +33,7 @@ export default function DeleteTimetableDrawer({
 
   function handleDeleteOnClick(courseCode: number) {
     deleteCourseOnClick(courseCode);
-    activatePopup();
+    activateSnackbar();
   }
 
   return (

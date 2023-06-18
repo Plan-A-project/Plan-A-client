@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
-import { usePopup } from "@/hooks/usePopup";
+import useSnackbar from "@/hooks/useSnackbar";
 import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 
 import DeleteTimetableDrawer from "../Drawer/DeleteTimetableDrawer";
@@ -41,7 +41,8 @@ export default function TimeTableContent() {
   const [clickedCourseCode, setClickedCourseCode] = useState<number>(-1);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isActivated, activatePopup, Popup] = usePopup("삭제되었습니다.");
+  const [isActivated, activateSnackbar, Snackbar] =
+    useSnackbar("삭제되었습니다.");
 
   function deleteCourseOnClick(courseCode: number) {
     setMyCourses(myCourses =>
@@ -70,12 +71,12 @@ export default function TimeTableContent() {
     onClose,
     deleteCourseOnClick,
     isActivated,
-    activatePopup,
+    activateSnackbar,
   };
 
   return (
     <>
-      {isActivated && <Popup />}
+      {isActivated && <Snackbar />}
       <TableContainer>
         <Table>
           <Thead>

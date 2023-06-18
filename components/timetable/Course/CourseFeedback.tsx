@@ -23,9 +23,7 @@ export default function CourseComment({
   return (
     <>
       <Flex
-        w="100%"
-        gap={3}
-        p={4}
+        w={"100%"}
         bg="#F8F8F8"
         borderRadius="md"
         onClick={() => setIsClicked(isClicked => !isClicked)}

@@ -4,7 +4,7 @@ import AlarmIcon from "@/components/icons/AlarmIcon";
 import Logo from "@/components/icons/Logo";
 import SearchIcon from "@/components/icons/SearchIcon";
 
-export function Header() {
+export default function Header() {
   return (
     <Flex bg={"#FFFFFF"} justify="space-between" p={"0.6rem 1rem"}>
       <Logo />
