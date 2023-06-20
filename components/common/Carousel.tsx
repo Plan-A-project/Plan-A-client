@@ -27,6 +27,7 @@ type CarouselProps = PropsWithChildren<
   {
     loop?: boolean;
     onClick?: (index: number) => void;
+    withIndicator?: boolean;
   } & (WithInterval | WithoutInterval)
 >;
 
@@ -35,6 +36,7 @@ const Carousel: React.FC<CarouselProps> = ({
   children,
   auto,
   interval,
+  withIndicator,
   onClick,
 }) => {
   const [width, setWidth] = useState<number>(0);
@@ -240,28 +242,30 @@ const Carousel: React.FC<CarouselProps> = ({
       >
         {children}
       </Box>
-      <Box
-        sx={{
-          position: "relative",
-          width: "100%",
-          height: "0",
-        }}
-      >
-        <Text
+      {withIndicator && (
+        <Box
           sx={{
-            position: "absolute",
-            bottom: 1,
-            right: 0,
-            left: 0,
-            pointerEvents: "none",
-            color: "#C8C9D0",
+            position: "relative",
+            width: "100%",
+            height: "0",
           }}
-          textAlign="center"
-          textStyle="overline"
         >
-          {`${index} / ${childrenCount}`}
-        </Text>
-      </Box>
+          <Text
+            sx={{
+              position: "absolute",
+              bottom: 1,
+              right: 0,
+              left: 0,
+              pointerEvents: "none",
+              color: "#C8C9D0",
+            }}
+            textAlign="center"
+            textStyle="overline"
+          >
+            {`${index} / ${childrenCount}`}
+          </Text>
+        </Box>
+      )}
     </Box>
   );
 };
