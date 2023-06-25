@@ -13,6 +13,7 @@ import {
 import IconComment from "@/components/icons/IconComment";
 import IconSend from "@/components/icons/IconSend";
 import useFocus from "@/hooks/useFocus";
+import useViewport from "@/hooks/useViewport";
 
 type CommentBarProps = BoxProps & {
   replyTo?: string;
@@ -26,6 +27,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
     const [primary] = useToken("colors", ["primary.500"]);
     const secondary = "#ACAEB9";
     const [text, setText] = useState<string>("");
+    const [, height] = useViewport();
 
     function handleEnterPress(e: KeyboardEvent<HTMLInputElement>) {
       if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -49,7 +51,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
           ref={ref}
           h={"72px"}
           position={"fixed"}
-          bottom={0}
+          top={`${height - 72}px`}
           left={0}
           right={0}
           bg={"white"}
