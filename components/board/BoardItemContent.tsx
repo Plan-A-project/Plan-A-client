@@ -21,12 +21,21 @@ const BoardItemContent: React.FC<BoardItemContentProps> = ({
       <Box flex={1}>
         <Flex gap={2}>
           {leftTag && leftTag}
-          <Text color={"gray.900"} lineHeight={5}>
+          <Text color={"gray.900"} textStyle={"body1"}>
             {title}
           </Text>
         </Flex>
         {description && (
-          <Text fontSize={"sm"} color={"gray.600"}>
+          <Text
+            textStyle={"body2"}
+            color={"gray.600"}
+            sx={{
+              WebkitLineClamp: "2",
+              WebkitBoxOrient: "vertical",
+              display: "-webkit-box",
+              overflow: "hidden",
+            }}
+          >
             {description}
           </Text>
         )}

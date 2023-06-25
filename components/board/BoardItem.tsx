@@ -1,17 +1,22 @@
 import { PropsWithChildren } from "react";
 
 import { Flex, Text, TextProps } from "@chakra-ui/react";
+import { NumberLiteralType } from "typescript";
+
+import IconCommentSmall from "@/components/icons/IconCommentSmall";
+import IconEyes from "@/components/icons/IconEyes";
+import IconHeart from "@/components/icons/IconHeart";
 
 type BoardItemProps = {
   date?: string;
   comments?: number;
   likes?: number;
+  views?: number;
 };
 
 const BottomText = ({ children, ...props }: TextProps) => {
   return (
-    // 0.625 for 10px, xs = 0.75 for 12px
-    <Text fontSize={"xs"} color={"gray.600"} lineHeight={3} {...props}>
+    <Text color={"gray.600"} textStyle={"overline"} {...props}>
       {children}
     </Text>
   );
@@ -22,14 +27,31 @@ const BoardItem: React.FC<PropsWithChildren<BoardItemProps>> = ({
   date,
   comments,
   likes,
+  views,
 }) => {
   return (
     <Flex px={3} py={4} gap={3} direction={"column"}>
       {children}
-      <Flex>
+      <Flex gap={1} align={"center"}>
         <BottomText mr={"auto"}>{date}</BottomText>
-        <BottomText mr={2}> {comments}</BottomText>
-        <BottomText> {likes}</BottomText>
+        {likes && (
+          <>
+            <IconHeart />
+            <BottomText> {likes}</BottomText>
+          </>
+        )}
+        {comments && (
+          <>
+            <IconCommentSmall style={{ marginLeft: 8 }} />
+            <BottomText> {comments}</BottomText>
+          </>
+        )}
+        {views && (
+          <>
+            <IconEyes style={{ marginLeft: 8 }} />
+            <BottomText> {views}</BottomText>
+          </>
+        )}
       </Flex>
     </Flex>
   );

@@ -1,12 +1,9 @@
-import { Box, chakra, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 
-type BoardViewProps = {
-  images?: string[];
-  title: string;
-  content: string;
-  date: string;
-  author?: string;
-};
+import IconCommentSmall from "@/components/icons/IconCommentSmall";
+import IconEyes from "@/components/icons/IconEyes";
+import IconHeart from "@/components/icons/IconHeart";
+import IconSiren from "@/components/icons/IconSiren";
 
 function getImages(images?: string[]): React.ReactNode {
   if (!images) return <></>;
@@ -28,12 +25,26 @@ function getContent(content: string) {
   return lines.map((line, index) => <p key={`${index}:${line}`}>{line}</p>);
 }
 
+type BoardViewProps = {
+  images?: string[];
+  title: string;
+  content: string;
+  date: string;
+  author?: string;
+  like?: number;
+  comment?: number;
+  report?: boolean;
+};
+
 const BoardView: React.FC<BoardViewProps> = ({
   author,
   content,
   date,
   title,
   images,
+  like,
+  comment,
+  report,
 }) => {
   return (
     <>
@@ -41,18 +52,21 @@ const BoardView: React.FC<BoardViewProps> = ({
         {title}
       </Text>
       <Flex
-        justify={"space-between"}
         p={2}
         borderY={"1px solid"}
         borderColor={"gray.100"}
         align={"center"}
         minH={30}
       >
-        <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
+        <Text textStyle={"caption2"} color={"gray.600"} mr={3}>
           {author || "익명"}
         </Text>
-        <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
+        <Text textStyle={"caption2"} color={"gray.600"} mr={"auto"}>
           {date}
+        </Text>
+        <IconEyes />
+        <Text ml={1} textStyle={"overline"}>
+          2
         </Text>
       </Flex>
       <Box px={2} py={4}>
@@ -64,16 +78,19 @@ const BoardView: React.FC<BoardViewProps> = ({
         p={2}
         borderY={"1px solid"}
         borderColor={"gray.100"}
-        gap={3}
         align={"center"}
+        gap={1}
         minH={30}
       >
-        <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-          Likes 2
+        <IconHeart color={"#75788A"} />
+        <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"} mr={2}>
+          {like ?? 0}
         </Text>
-        <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-          Comments 2
+        <IconCommentSmall color={"#75788A"} />
+        <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"} mr={"auto"}>
+          {comment ?? 0}
         </Text>
+        {report && <IconSiren color={"#75788A"} />}
       </Flex>
     </>
   );
