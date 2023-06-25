@@ -48,10 +48,10 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
       <>
         {!withoutDummy && <Box h={"72px"}></Box>}
         <Box
+          style={{ top: `${height - 72}px` }}
           ref={ref}
           h={"72px"}
           position={"fixed"}
-          top={`${height - 72}px`}
           left={0}
           right={0}
           bg={"white"}
@@ -59,6 +59,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
           px={4}
           py={3}
           zIndex={999}
+          transform={"translateZ(0)"}
           {...props}
         >
           <Text

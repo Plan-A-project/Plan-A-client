@@ -1,7 +1,7 @@
 import {
   ForwardRefExoticComponent,
+  ForwardedRef,
   PropsWithChildren,
-  RefObject,
   forwardRef,
 } from "react";
 
@@ -10,13 +10,15 @@ import { Button, ButtonProps } from "@chakra-ui/react";
 
 import IconArrow from "@/components/icons/IconArrow";
 
-type FABComponent = ForwardRefExoticComponent<
+type BaseFABComponent = ForwardRefExoticComponent<
   FABProps & {
-    ref?: RefObject<HTMLButtonElement>;
+    ref?: ForwardedRef<HTMLButtonElement>;
   }
-> & {
-  Add: typeof Add;
-  Up: typeof Up;
+>;
+
+type FABComponent = BaseFABComponent & {
+  Add: BaseFABComponent;
+  Up: BaseFABComponent;
 };
 
 type FABProps = PropsWithChildren<
@@ -54,18 +56,17 @@ const FAB: FABComponent = forwardRef<HTMLButtonElement, FABProps>(
   },
 ) as FABComponent;
 
-const Add: React.FC<FABProps> = props => {
-  return <FAB icon={<AddIcon boxSize={18} />} {...props}></FAB>;
-};
+const Add = forwardRef<HTMLButtonElement, FABProps>((props, ref) => (
+  <FAB ref={ref} icon={<AddIcon boxSize={18} />} {...props}></FAB>
+));
 
-const Up: React.FC<FABProps> = props => {
-  return (
-    <FAB
-      icon={<IconArrow style={{ flexShrink: 0 }} color="white" />}
-      {...props}
-    ></FAB>
-  );
-};
+const Up = forwardRef<HTMLButtonElement, FABProps>((props, ref) => (
+  <FAB
+    ref={ref}
+    icon={<IconArrow style={{ flexShrink: 0 }} color="white" />}
+    {...props}
+  ></FAB>
+));
 
 Add.displayName = "Add";
 Up.displayName = "Up";
