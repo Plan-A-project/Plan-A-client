@@ -1,7 +1,7 @@
 import { Button, Box, Flex, VStack } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 
-import { FEEDBACK } from "@/components/data";
+import { FEEDBACK } from "@/components/timetable/data";
 import useDrawer from "@/hooks/useDrawer";
 import useSnackbar from "@/hooks/useSnackbar";
 import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";

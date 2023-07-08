@@ -1,7 +1,6 @@
 import { Box } from "@chakra-ui/react";
 
 import "rmc-picker/assets/index.css";
-import useLineTab from "@/hooks/useLineTab";
 import useSearchbar from "@/hooks/useSearchbar";
 
 import WriteFeedbackDrawer from "./Drawer/WriteFeedbackDrawer";
@@ -19,11 +18,9 @@ export default function Main() {
   };
 
   const [searchword, Searchbar] = useSearchbar(props);
-  const [activatedTab, LineTab] = useLineTab(["전체글", "인기글"]);
 
   return (
     <Box p="16px">
-      <LineTab />
       <Searchbar />
       <SemesterTab />
       <Timetable />

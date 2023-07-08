@@ -2,7 +2,7 @@ import { VStack, Button } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 
 import BottomDrawer from "@/components/common/BottomDrawer";
-import { FEEDBACK } from "@/components/data";
+import { FEEDBACK } from "@/components/timetable/data";
 import { myCoursesAtom } from "@/state/atoms/timetable/myCoursesAtom";
 import { ICourse } from "@/state/atoms/timetable/myCoursesAtom";
 
