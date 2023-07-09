@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 import { default as _Searchbar } from "@/components/common/Searchbar";
 
@@ -8,8 +8,6 @@ export type SearchbarHookProps = {
   addKeyword?: boolean;
   searchCourse?: boolean;
   handleClick: () => void;
-  //   searchword: string;
-  //   setSearchword: Dispatch<SetStateAction<string>>;
 };
 
 export default function useSearchbar(
