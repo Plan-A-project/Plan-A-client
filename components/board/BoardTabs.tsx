@@ -1,6 +1,8 @@
+import React, { PropsWithChildren } from "react";
+
 import {
+  Image,
   Tab,
-  TabIndicator,
   TabList,
   TabPanel,
   TabPanels,
@@ -8,30 +10,66 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-type BoardTabProps = {
-  leftTab: React.ReactNode;
-  rightTab: React.ReactNode;
-};
+type BoardTabProps = PropsWithChildren<{
+  tabs?: string[];
+  tabIndex?: number;
+  onTabChange?: (index: number) => void;
+}>;
 
-const BoardTab: React.FC<BoardTabProps> = ({ leftTab, rightTab }) => {
+const defaultTabs = ["전체글", "인기글"];
+
+const BoardTab: React.FC<BoardTabProps> = ({
+  tabs,
+  tabIndex,
+  onTabChange,
+  children,
+}) => {
+  const tabList = tabs || defaultTabs;
+  const childrens = React.Children.toArray(children);
+
   return (
-    <Tabs variant={"unstyled"} isFitted mt={6}>
-      <TabList borderBottom={"2px solid"} borderColor={"gray.200"} pb={1}>
-        <Tab>
-          <Text size={"sm"} lineHeight={4}>
-            전체글
-          </Text>
-        </Tab>
-        <Tab>
-          <Text size={"sm"} lineHeight={4}>
-            인기글
-          </Text>
-        </Tab>
+    <Tabs
+      variant={"unstyled"}
+      isFitted
+      mt={6}
+      index={tabIndex}
+      onChange={onTabChange}
+    >
+      <TabList pb={1} borderColor={"primary"} h={9}>
+        {tabList.map((tab, i) => (
+          <Tab
+            key={`${tab}-${i}`}
+            sx={{
+              flexDirection: "column",
+              justifyContent: "space-between",
+              padding: 0,
+            }}
+          >
+            <Text size={"sm"} lineHeight={4}>
+              {tab}
+            </Text>
+            <Image
+              w={"100%"}
+              sx={{
+                "@media screen and (min-width: 440px)": {
+                  transform: "scaleY(0.7)",
+                },
+                "@media screen and (min-width: 740px)": {
+                  transform: "scaleY(0.5)",
+                },
+              }}
+              src={`/assets/wave${i === tabIndex ? "-color" : ""}.svg`}
+              alt=""
+            />
+          </Tab>
+        ))}
       </TabList>
-      <TabIndicator mt={-0.5} height="2px" bg={"gray.600"} left={0} right={0} />
       <TabPanels>
-        <TabPanel p={0}>{leftTab}</TabPanel>
-        <TabPanel p={0}>{rightTab}</TabPanel>
+        {childrens.map((child, i) => (
+          <TabPanel key={`${i}`} p={0}>
+            {child}
+          </TabPanel>
+        ))}
       </TabPanels>
     </Tabs>
   );

@@ -25,9 +25,11 @@ const inputProps: ChakraProps = {
   py: 2,
 };
 
-type BoardBaseFormProps = {};
+type BoardBaseFormProps = {
+  withPhoto?: boolean;
+};
 
-const BoardBaseForm = () => {
+const BoardBaseForm: React.FC<BoardBaseFormProps> = ({ withPhoto }) => {
   return (
     <>
       <Input
@@ -38,38 +40,40 @@ const BoardBaseForm = () => {
         {...inputProps}
         placeholder="제목을 입력해주세요."
       />
-      <Box {...formProps}>
-        <Text fontSize={"sm"} my={3}>
-          사진 첨부 (최대 10장)
-        </Text>
-        <HStack overflowX={"auto"} spacing={3} pb={4}>
-          <Button
-            w={14}
-            height={14}
-            flexShrink={0}
-            variant={"outline"}
-            borderStyle={"dashed"}
-          >
-            <IconPhoto />
-          </Button>
-          <Box
-            w={14}
-            h={14}
-            borderRadius={8}
-            ml={6}
-            overflow={"hidden"}
-            flexShrink={0}
-          >
-            <Image
-              src={"https://via.placeholder.com/56"}
-              width={56}
-              height={56}
-              alt={"이미지"}
-              style={{ objectFit: "cover", width: 56, height: 56 }}
-            />
-          </Box>
-        </HStack>
-      </Box>
+      {withPhoto && (
+        <Box {...formProps}>
+          <Text fontSize={"sm"} my={3}>
+            사진 첨부 (최대 10장)
+          </Text>
+          <HStack overflowX={"auto"} spacing={3} pb={4}>
+            <Button
+              w={14}
+              height={14}
+              flexShrink={0}
+              variant={"outline"}
+              borderStyle={"dashed"}
+            >
+              <IconPhoto />
+            </Button>
+            <Box
+              w={14}
+              h={14}
+              borderRadius={8}
+              ml={6}
+              overflow={"hidden"}
+              flexShrink={0}
+            >
+              <Image
+                src={"https://via.placeholder.com/56"}
+                width={56}
+                height={56}
+                alt={"이미지"}
+                style={{ objectFit: "cover", width: 56, height: 56 }}
+              />
+            </Box>
+          </HStack>
+        </Box>
+      )}
       <Textarea
         mt={2}
         flex={1}
@@ -79,6 +83,8 @@ const BoardBaseForm = () => {
         rows={13}
         {...inputProps}
         p={2}
+        minHeight={"calc(96vh - 120px)"}
+        borderBottom={"none"}
         sx={{ boxShadow: "none !important" }}
       />
     </>

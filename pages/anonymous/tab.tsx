@@ -39,16 +39,20 @@ function getAllPosts() {
   );
 }
 
-function getPopularPosts() {}
+function getPopularPosts() {
+  //
+}
 
-const Anonymous: NextPage = () => {
+const Tab: NextPage = () => {
   return (
     <AppContainer>
       <Header leftTitle title="익명게시판" rightNode={<IconSearch />} />
 
       <BoardBanner my={4}>게시판 이용 규칙 안내</BoardBanner>
 
-      <BoardTab leftTab={getAllPosts()} rightTab={<></>} />
+      <BoardTab tabIndex={0}>
+        {getAllPosts()} {getAllPosts()}
+      </BoardTab>
       <Link href="/anonymous/write">
         <BoardFAB />
       </Link>
@@ -56,4 +60,4 @@ const Anonymous: NextPage = () => {
   );
 };
 
-export default Anonymous;
+export default Tab;

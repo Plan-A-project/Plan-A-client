@@ -1,73 +1,26 @@
 import { ReactNode, useState } from "react";
 
-import { Badge, BadgeProps, HStack } from "@chakra-ui/layout";
+import ChipGroup, { ChipData } from "@/components/common/ChipGroup";
 
-type SortButtonProps = BadgeProps & {
-  checked?: boolean;
-  sort?: SortOption;
-};
-
-const SortButton: React.FC<SortButtonProps> = ({ checked, sort, ...props }) => {
-  const accent = checked ? `${sort?.color || "primary"}.500` : "gray.900";
-  const background = checked ? `${sort?.color || "primary"}.100` : "gray.100";
-  const borderWidth = checked ? "1px" : "0px";
-  return (
-    <Badge
-      background={background}
-      textStyle={"body3"}
-      borderColor={accent}
-      sx={{
-        color: accent,
-        minHeight: "20px",
-        display: "flex",
-        alignItems: "center",
-        borderRadius: "8px",
-        padding: "2px 8px",
-        boxSizing: "border-box",
-        borderStyle: "solid",
-        borderWidth,
-      }}
-      {...props}
-    >
-      {sort?.name}
-    </Badge>
-  );
-};
-
-type SortOption = {
-  name: string;
-  color: string;
-};
-
-const defaultSort = [
+const defaultChips: ChipData[] = [
   {
-    name: "최신순",
-    color: "primary",
+    label: "최신순",
+    checked: true,
   },
   {
-    name: "인기순",
-    color: "primary",
+    label: "인기순",
+    checked: false,
   },
 ];
 
 export function useSorter(
-  sorts: SortOption[] = defaultSort,
+  sorts: ChipData[] = defaultChips,
 ): [() => ReactNode, number] {
-  const [sortIndex, setSortIndex] = useState(0);
+  const [sortsState, setSortsState] = useState(sorts);
+  const sortIndex = sorts.findIndex(sort => sort.checked);
 
   function getComponent() {
-    return (
-      <HStack pb={3}>
-        {sorts.map((sort, index) => (
-          <SortButton
-            key={index}
-            checked={sortIndex === index}
-            sort={sort}
-            onClick={() => setSortIndex(index)}
-          />
-        ))}
-      </HStack>
-    );
+    return <ChipGroup chips={sortsState} onChange={setSortsState} />;
   }
 
   return [getComponent, sortIndex];

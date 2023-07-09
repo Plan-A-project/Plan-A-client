@@ -39,6 +39,7 @@ export function useDropdown({
 
   const isRight = hAlign === "right";
   const isTop = vAlign === "top";
+  const origin = `${isTop ? "bottom" : "top"} ${isRight ? "right" : "left"}`;
 
   const { offsetTop, offsetHeight, offsetLeft, offsetWidth } = ref.current || {
     offsetTop: 0,
@@ -69,7 +70,6 @@ export function useDropdown({
     if (e.currentTarget !== e.target) {
       return;
     }
-    console.log("hi");
     toggle(false);
   }
 
@@ -93,7 +93,7 @@ export function useDropdown({
             borderRadius: "12px",
             position: "absolute",
             transition: "transform 0.2s ease",
-            transformOrigin: "top center",
+            transformOrigin: origin,
             transform: isOpen ? "scale(1)" : "scale(0)",
             background: "white",
             padding: 0,

@@ -1,16 +1,17 @@
 import { NextPage } from "next";
 
 import BoardComment from "@/components/board/BoardComment";
-import BoardCommentInput from "@/components/board/BoardCommentInput";
 import BoardCommentList from "@/components/board/BoardCommentList";
 import BoardView from "@/components/board/BoardView";
 import AppContainer from "@/components/common/AppContainer";
+import CommentBar from "@/components/common/CommentBar";
 import Header from "@/components/common/Header";
+import IconMore from "@/components/icons/IconMore";
 
 const Read: NextPage = () => {
   return (
     <AppContainer>
-      <Header back title="" />
+      <Header back title="" rightNode={<IconMore />} />
       <BoardView
         title="제목"
         date="2022.04.04"
@@ -24,10 +25,10 @@ const Read: NextPage = () => {
       <BoardCommentList>
         <BoardComment username="익명" content="내용" />
         <BoardComment username="익명" content="내용" />
-        <BoardComment username="익명" content="내용" />
+        <BoardComment username="익명" content="내용" reply />
       </BoardCommentList>
 
-      <BoardCommentInput />
+      <CommentBar />
     </AppContainer>
   );
 };
