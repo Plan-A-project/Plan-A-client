@@ -6,9 +6,6 @@ export const theme = extendTheme({
       "html, body": {
         color: "grey.900",
       },
-      // a: {
-      //   color: "teal.500",
-      // },
     },
   },
   textStyles: {
@@ -30,7 +27,7 @@ export const theme = extendTheme({
       fontFamily: "Pretendard",
       fontSize: "18px",
       fontWeight: "semibold",
-      lineHeight: "21px",
+      lineHeight: "24px",
       letterSpacing: "0",
     },
     subtitle2: {
@@ -123,8 +120,15 @@ export const theme = extendTheme({
       900: "#003D36",
     },
     // error: #F90B66,
-    // background1: #FFFFFF,
+    background1: "#FFFFFF",
     // background2: #F7F8FA,
+    grey: {
+      100: "#ECECEF",
+      200: "#DBDCE1",
+      300: "#C8C9D0",
+      500: "#9193A1",
+      900: "#303136",
+    },
   },
   breakpoints: {
     sm: "375px",

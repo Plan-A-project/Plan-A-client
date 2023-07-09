@@ -47,7 +47,12 @@ export default function BottomDrawer({
             {children}
           </DrawerBody>
           {btnContent && (
-            <Button colorScheme="primary" onClick={btnHandler} mb={4}>
+            <Button
+              colorScheme="primary"
+              onClick={btnHandler}
+              mb={4}
+              borderRadius={16}
+            >
               {btnContent}
             </Button>
           )}

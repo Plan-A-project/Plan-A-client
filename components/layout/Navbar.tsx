@@ -1,10 +1,12 @@
 import { Flex } from "@chakra-ui/react";
 
-import HomeIcon from "@/components/icons/HomeIcon";
-import InfoBoardIcon from "@/components/icons/InfoBoardIcon";
-import MainBoardIcon from "@/components/icons/MainBoardIcon";
-import MyProfileIcon from "@/components/icons/MyProfileIcon";
-import TimeTableIcon from "@/components/icons/TimeTableIcon";
+import {
+  TimeTableIcon,
+  InfoBoardIcon,
+  HomeIcon,
+  MainBoardIcon,
+  MyProfileIcon,
+} from "@/components/icons";
 
 export default function Navbar() {
   return (
@@ -18,6 +20,7 @@ export default function Navbar() {
       p="8px 12px"
       gap="8px"
       position="fixed"
+      mt={8}
       bottom={0}
       left={0}
       right={0}
