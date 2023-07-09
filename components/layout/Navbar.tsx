@@ -20,6 +20,7 @@ export default function Navbar() {
       p="8px 12px"
       gap="8px"
       position="fixed"
+      mt={8}
       bottom={0}
       left={0}
       right={0}

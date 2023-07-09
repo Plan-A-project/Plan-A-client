@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Text,
   Box,
@@ -11,11 +12,12 @@ import {
   Tag,
   Center,
 } from "@chakra-ui/react";
-import PageLayout from "../components/Layout";
-import { FaUserCircle } from "react-icons/fa";
-import DarkModeButton from "../components/DarkModeButton";
-import CustomTag from "../components/CustomTag";
 import Link from "next/link";
+import { FaUserCircle } from "react-icons/fa";
+
+import CustomTag from "../components/CustomTag";
+import DarkModeButton from "../components/DarkModeButton";
+import PageLayout from "../components/Layout";
 
 const index = () => {
   return (

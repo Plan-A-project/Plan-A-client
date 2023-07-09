@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
+
 import {
   FormControl,
   FormLabel,
@@ -8,8 +9,11 @@ import {
   Flex,
   Icon,
   Tooltip,
+  Button,
 } from "@chakra-ui/react";
 import { IoCloseCircleOutline } from "react-icons/io5";
+
+import authApis from "@/api/authentication";
 import {
   emailRegex,
   nicknameRegex,
@@ -25,7 +29,6 @@ interface CustomInputProps {
   type: string;
   icon?: any;
 }
-
 const CustomInput = ({
   label,
   title,
@@ -38,18 +41,48 @@ const CustomInput = ({
   const [error, setError] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setInput(e.target.value);
+  const handleEmailValidate = async () => {
+    const data = await authApis.validateEmail({ email: input });
+    console.log(11, data);
+  };
+  const handleNickNameValidate = async () => {
+    const data = await authApis.validateEmail({ email: input });
+    console.log(11, data);
+  };
 
+  type ButtonProps = {
+    type: string;
+  };
+  const ValidateButton: React.FC<ButtonProps> = ({ type }) => {
+    return (
+      <Button
+        h={"52px"}
+        w={"56px"}
+        ml={2}
+        textStyle="subtitle1"
+        color={error || !input ? "grey.500" : "primary.500"}
+        p={2}
+        border={error || !input ? "1px solid #C8C9D0" : "1px solid #3F52E4"}
+        borderRadius={16}
+        bgColor={"background1"}
+        onClick={
+          type === "이메일" ? handleEmailValidate : handleNickNameValidate
+        }
+      >
+        {type === "이메일" ? "인증" : "확인"}
+      </Button>
+    );
+  };
   const getIsRegexError = (regex: RegExp) => {
     const Regex = new RegExp(regex);
     const isError = Regex.test(input);
     !isError
-      ? setError((prev) => (prev = true))
-      : setError((prev) => (prev = false));
+      ? setError(prev => (prev = true))
+      : setError(prev => (prev = false));
   };
 
-  const getTypeOfError = () => {
+  const getTypeOfError = (e: ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
     switch (title) {
       case "이름":
         getIsRegexError(usernameRegex);
@@ -70,8 +103,8 @@ const CustomInput = ({
   };
 
   const toggleTooltip = () => {
-    setShowTooltip((prev) => (prev = true));
-    setTimeout(() => setShowTooltip((prev) => (prev = false)), 3000);
+    setShowTooltip(prev => (prev = true));
+    setTimeout(() => setShowTooltip(prev => (prev = false)), 3000);
   };
 
   return (
@@ -113,24 +146,34 @@ const CustomInput = ({
           </Tooltip>
         )}
       </FormLabel>
-      <Input
-        type={type}
-        value={input}
-        onChange={handleInputChange}
-        placeholder={placeholder}
-        h={"52px"}
-        fontSize={"16px"}
-        fontWeight={"400"}
-        lineHeight={"20px"}
-        _placeholder={{
-          fontSize: "16px",
-          fontWeight: "400",
-          lineHeight: "20px",
-        }}
-        // isRequired
-        id={label}
-        onBlur={getTypeOfError}
-      />
+      <Flex align={"center"}>
+        <Input
+          type={type}
+          value={input}
+          onChange={getTypeOfError}
+          placeholder={placeholder}
+          h={"52px"}
+          fontSize={"16px"}
+          fontWeight={"400"}
+          lineHeight={"20px"}
+          borderRadius={16}
+          _placeholder={{
+            fontSize: "16px",
+            fontWeight: "400",
+            lineHeight: "20px",
+          }}
+          // isRequired
+          id={label}
+          // onBlur={getTypeOfError}
+        />
+        {title === "이메일" ? (
+          <ValidateButton type={"이메일"} />
+        ) : title === "닉네임" ? (
+          <ValidateButton type={"닉네임"} />
+        ) : (
+          ""
+        )}
+      </Flex>
       {error && (
         <FormErrorMessage
           fontSize={"12px"}

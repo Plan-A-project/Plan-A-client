@@ -1,4 +1,6 @@
 import React from "react";
+
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Heading,
   Flex,
@@ -8,10 +10,10 @@ import {
   Box,
   Container,
 } from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import PageLayout from "../components/Layout";
+
 import CustomInput from "../components/CustomInput";
 import Header from "../components/Header";
+import PageLayout from "../components/Layout";
 
 const index = () => {
   return (

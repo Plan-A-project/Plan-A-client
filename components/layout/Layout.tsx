@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import { Box } from "@chakra-ui/layout";
+
 import Header from "./Header";
 import Navbar from "./Navbar";
 
@@ -11,7 +13,7 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <Header />
-      {children}
+      <Box pb={"42px"}>{children}</Box>
       <Navbar />
     </>
   );

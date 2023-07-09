@@ -1,5 +1,5 @@
-import Header from "@/pages/components/Header";
 import React from "react";
+
 import {
   Stack,
   Flex,
@@ -9,8 +9,10 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FaSquare } from "react-icons/fa";
-import PageLayout from "@/pages/components/Layout";
+
 import AccountChangeItem from "@/pages/components/AccountChangeItem";
+import Header from "@/pages/components/Header";
+import PageLayout from "@/pages/components/Layout";
 
 const index = () => {
   const menuItems = [
@@ -28,7 +30,7 @@ const index = () => {
         px={"16px"}
         mt={"24px"}
       >
-        {menuItems.map((item) => (
+        {menuItems.map(item => (
           <AccountChangeItem
             key={item.id}
             title={item.title}

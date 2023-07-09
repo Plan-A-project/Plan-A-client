@@ -1,9 +1,14 @@
 import React from "react";
 
-import PageLayout from "../components/Layout";
 import { ChevronLeftIcon, QuestionOutlineIcon } from "@chakra-ui/icons";
 import { Flex, Heading, Stack, Button } from "@chakra-ui/react";
+
 import CustomInput from "../components/CustomInput";
+import PageLayout from "../components/Layout";
+
+type ConfirmBtnProps = {
+  contents: string;
+};
 
 const index = () => {
   return (
@@ -22,6 +27,7 @@ const index = () => {
           type="text"
           errorMessage="이름을 입력해 주세요"
         />
+
         <CustomInput
           label="signupEmail"
           placeholder="youremail@email.com"
@@ -29,6 +35,7 @@ const index = () => {
           title="이메일"
           type="email"
         />
+
         <CustomInput
           label="weChatOrKakaoID"
           placeholder="yourID"
@@ -50,6 +57,13 @@ const index = () => {
           errorMessage="비밀번호가 일치하지 않아요."
           title="비밀번호 확인"
           type="password"
+        />
+        <CustomInput
+          label="nickName"
+          placeholder="한글, 영어, 숫자 조합 가능 2~8자"
+          errorMessage="비밀번호가 일치하지 않아요."
+          title="닉네임"
+          type="text"
         />
       </Stack>
       <Stack px={"16px"}>

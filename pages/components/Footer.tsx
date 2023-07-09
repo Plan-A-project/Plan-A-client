@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Stack,
   HStack,
@@ -10,11 +11,11 @@ import {
   Flex,
   Divider,
 } from "@chakra-ui/react";
-import { MdHomeFilled } from "react-icons/md";
-import { BsCalendarEventFill } from "react-icons/bs";
-import { HiChatBubbleLeftRight } from "react-icons/hi2";
-import { FaUserCircle, FaClipboardList } from "react-icons/fa";
 import { Container } from "@chakra-ui/react";
+import { BsCalendarEventFill } from "react-icons/bs";
+import { FaUserCircle, FaClipboardList } from "react-icons/fa";
+import { HiChatBubbleLeftRight } from "react-icons/hi2";
+import { MdHomeFilled } from "react-icons/md";
 
 const Footer = () => {
   return (

@@ -16,3 +16,4 @@ export { default as JwfwIcon } from "./JwfwIcon";
 export { default as XkIcon } from "./XkIcon";
 export { default as EmailIcon } from "./EmailIcon";
 export { default as FireIcon } from "./FireIcon";
+export { default as HamburgerIcon } from "./HamburgerIcon";
