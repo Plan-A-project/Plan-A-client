@@ -32,14 +32,14 @@ export default function FakeBanner() {
         fill="#75788A"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M323 79.1757C322.766 79.4101 322.766 79.7899 323 80.0243L327.976 85L323 89.9757C322.766 90.2101 322.766 90.5899 323 90.8243C323.234 91.0586 323.614 91.0586 323.849 90.8243L328.824 85.8485C329.293 85.3799 329.293 84.6201 328.824 84.1515L323.849 79.1757C323.614 78.9414 323.234 78.9414 323 79.1757Z"
         fill="#303136"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M334 106H39V105H334V106Z"
         fill="#ECECEF"
       />
