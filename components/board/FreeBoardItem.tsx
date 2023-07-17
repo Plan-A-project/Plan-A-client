@@ -10,6 +10,7 @@ import WatchedIcon from "../icons/WatchedIcon";
 type BoardItemContentProps = {
   title: string;
   leftTag?: string;
+  tagType?: "primary" | "secondary" | "grey";
   description?: string;
   image?: string;
   imageAlt?: string;
@@ -35,6 +36,7 @@ const BottomText = ({ children, ...props }: TextProps) => {
 export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   title,
   leftTag,
+  tagType = "primary",
   description,
   image,
   imageAlt,
@@ -44,8 +46,8 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
       <Box flex={1}>
         {leftTag ? (
           <Badge
-            bg={"primary.100"}
-            color={"primary.500"}
+            bg={`${tagType}.100`}
+            color={`${tagType}.500`}
             borderRadius={"md"}
             paddingY={"1px"}
             mb={"4px"}
@@ -63,7 +65,7 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
           </Text>
         )}
       </Box>
-      {image && (
+      {image ? (
         <Box w={14} h={14} borderRadius={8} ml={6} overflow={"hidden"}>
           <Image
             src={image}
@@ -73,7 +75,7 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
             style={{ objectFit: "cover", width: 56, height: 56 }}
           />
         </Box>
-      )}
+      ) : null}
     </Flex>
   );
 };
@@ -85,6 +87,7 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   views,
   title,
   leftTag,
+  tagType,
   description,
   image,
   imageAlt,
@@ -93,6 +96,7 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   return (
     <Flex px={3} py={4} gap={3} direction={"column"} {...props}>
       <FreeBoardItemContent
+        tagType={tagType}
         title={title}
         leftTag={leftTag}
         description={description}

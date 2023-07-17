@@ -52,7 +52,7 @@ const FreeBoardTab: React.FC<BoardTabProps> = ({
         left={0}
         right={0}
       />
-      <TabPanels>
+      <TabPanels mt={4}>
         <TabPanel p={0}>{leftTab}</TabPanel>
         <TabPanel p={0}>{rightTab}</TabPanel>
       </TabPanels>
