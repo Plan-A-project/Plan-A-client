@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { Box } from "@chakra-ui/react";
 
-import { ALLCOURSES } from "@/components/data";
+import { ALLCOURSES } from "@/components/timetable/data";
 
 import { SearchContext } from "./SearchResult";
 import SingleClass from "./SingleClass";
