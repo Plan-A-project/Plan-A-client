@@ -4,7 +4,6 @@ import Image from "next/image";
 type RecruitingItemContentProps = {
   title: string;
   topTag?: React.ReactNode;
-  isScrapped?: boolean;
   member?: string;
   description?: string;
   image?: string;
@@ -33,7 +32,7 @@ const RecruitingItemContent: React.FC<RecruitingItemContentProps> = ({
         )}
       </Box>
       <Flex>
-        <Box flex={1}>
+        <Box flex={1} my={2}>
           <Stack gap={2}>
             <Text color={"gray.900"}>{title}</Text>
           </Stack>
