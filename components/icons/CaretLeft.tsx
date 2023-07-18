@@ -1,4 +1,8 @@
+import { useRouter } from "next/router";
+
 export default function CaretLeft() {
+  const router = useRouter();
+
   return (
     <svg
       width="12"
@@ -6,6 +10,7 @@ export default function CaretLeft() {
       viewBox="0 0 12 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={() => router.back()}
     >
       <path
         fillRule="evenodd"

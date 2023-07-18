@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { VStack } from "@chakra-ui/layout";
+import { Flex, Spacer } from "@chakra-ui/layout";
 import { NextPage } from "next";
 
 import ChipGroup, { ChipData } from "../common/ChipGroup";
@@ -23,9 +23,10 @@ const Filter: NextPage = () => {
   }
 
   return (
-    <VStack spacing={4} py={8}>
+    <Flex pt={4} pb={4}>
       <ChipGroup chips={chips} onChange={handleChip} />
-    </VStack>
+      <Spacer />
+    </Flex>
   );
 };
 

@@ -1,37 +1,74 @@
-import { useState } from "react";
+import { useRef } from "react";
 
-import { Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-import BoardBaseForm from "@/components/board/BoardBaseForm";
-import BoardComment from "@/components/board/BoardComment";
-import BoardCommentList from "@/components/board/BoardCommentList";
 import BoardStack from "@/components/board/BoardStack";
 import AppContainer from "@/components/common/AppContainer";
-import CommentBar from "@/components/common/CommentBar";
 import FAB from "@/components/common/FAB";
 import CaretLeft from "@/components/icons/CaretLeft";
 import SearchIcon from "@/components/icons/SearchIcon";
 import Filter from "@/components/recruiting/Filter";
-import GeneralPostForm from "@/components/recruiting/GeneralPostForm";
-import PostingView from "@/components/recruiting/PostingView";
-import RecruitingComment from "@/components/recruiting/RecruitingComment";
 import RecruitingItemContent from "@/components/recruiting/RecruitingItemContent";
-import RecruitingPostForm from "@/components/recruiting/RecruitingPostForm";
-import RecruitingTab from "@/components/recruiting/RecruitingTabs";
 import Title from "@/components/recruiting/Title";
+import { useDropdown } from "@/hooks/useDropdown";
+import useLineTab from "@/hooks/useLineTab";
 
 import RecruitingItem from "../../components/recruiting/RecruitingItem";
 
 export default function Home() {
-  const [isBtnActive, setBtnActive] = useState(false);
+  const [activatedTab, LineTab] = useLineTab(["전체", "모집"]);
+  const router = useRouter();
+  const ref = useRef<HTMLButtonElement>(null);
+  const [dropdown, toggle] = useDropdown({
+    menus: ["일반글 쓰기", "모집글 쓰기"],
+    xGap: 230, // 정렬 위치로 부터 x 거리
+    yGap: -110, // 정렬 위치로 부터 y 거리
+    hAlign: "left", // ref의 왼쪽에 정렬
+    vAlign: "top", // ref 보다 위에 정렬
+    onMenuClick: menu => {
+      console.log(menu);
+      if (menu === 1) router.push("/recruiting/create/recruit");
+      else router.push("/recruiting/create/general");
+    },
+    ref,
+  });
 
   return (
     <AppContainer>
       <Title left={<CaretLeft />} right={<SearchIcon />} title={"채용"} />
+      <LineTab />
       <Filter />
-      <RecruitingTab
-        leftTab={
-          <BoardStack>
+      {activatedTab === 0 ? (
+        <BoardStack>
+          <Link href="/recruiting/posts/1">
+            <RecruitingItem
+              dday={24}
+              watched={3}
+              date="5.1~5.7"
+              isScrapped={true}
+            >
+              <RecruitingItemContent
+                title="제목이 들어갈 자리"
+                member="관리자"
+              />
+            </RecruitingItem>
+          </Link>
+          <Link href="/recruiting/posts/1">
+            <RecruitingItem
+              dday={24}
+              watched={3}
+              date="5.1~5.7"
+              isScrapped={true}
+            >
+              <RecruitingItemContent title="제목이 들어갈 자리" member="기업" />
+            </RecruitingItem>
+          </Link>
+        </BoardStack>
+      ) : (
+        <BoardStack>
+          <Link href="/recruiting/posts/1">
             <RecruitingItem
               dday={24}
               watched={3}
@@ -40,103 +77,12 @@ export default function Home() {
             >
               <RecruitingItemContent title="제목이 들어갈 자리" />
             </RecruitingItem>
-            <RecruitingItem
-              dday={24}
-              watched={3}
-              date="5.1~5.7"
-              isScrapped={true}
-            >
-              <RecruitingItemContent
-                title="제목이 들어갈 자리"
-                member="기업"
-                description="본문이 들어갈 자리"
-              />
-            </RecruitingItem>
-            <RecruitingItem
-              dday={24}
-              watched={3}
-              date="5.1~5.7"
-              isScrapped={false}
-            >
-              <RecruitingItemContent
-                title="제목이 들어갈 자리"
-                member="관리자"
-                description="본문이 들어갈 자리"
-              />
-            </RecruitingItem>
-            <RecruitingItem
-              dday={24}
-              watched={3}
-              date="5.1~5.7"
-              isScrapped={false}
-            >
-              <RecruitingItemContent title="제목이 들어갈 자리" member="일반" />
-            </RecruitingItem>
-          </BoardStack>
-        }
-        rightTab={<></>}
-      />
-      <FAB.Add r={3} b={3} />
+          </Link>
+        </BoardStack>
+      )}
 
-      <PostingView
-        cname="기업명"
-        title="제목"
-        dday={10}
-        author="닉네임"
-        watched={23}
-        range="2022.04.04 ~ 2023.05.21"
-        datePosted="2023.05.11"
-        content={`본문이 들어갈 자리입니다. 본문이 들어갈 자리입니다. 본문이 들어갈 자리입니다. 본문이 들어갈 자리입니다. 본문이 들어갈 자리입니다.`}
-        images={[
-          "https://via.placeholder.com/300x120",
-          "https://via.placeholder.com/300x120",
-          "https://via.placeholder.com/300x120",
-        ]}
-      />
-
-      <BoardCommentList>
-        <RecruitingComment
-          profileImage="https://via.placeholder.com/150"
-          username="푸미르"
-          time="1시간 전"
-          depth={1}
-          likes={2}
-          content="댓글입니다."
-          withProfile
-        />
-        <RecruitingComment
-          username="나는아름다운나비"
-          time="1일 전"
-          likes={4}
-          depth={1}
-          content="댓글입니다."
-          withProfile
-        />
-      </BoardCommentList>
-
-      {/* <CommentBar
-        // withoutDummy
-        // replyTo="안녕"
-        onCommentSend={(text: string) => console.log(text)}
-      /> */}
-
-      <Title
-        title="모집글 쓰기"
-        left={<CaretLeft />}
-        right={
-          isBtnActive ? <Text color={"blue"}>등록</Text> : <Text>등록</Text>
-        }
-      />
-      <RecruitingPostForm setBtnActive={setBtnActive} />
-
-      <Title
-        title="글쓰기"
-        left={<CaretLeft />}
-        right={
-          isBtnActive ? <Text color={"blue"}>등록</Text> : <Text>등록</Text>
-        }
-      />
-      <GeneralPostForm setBtnActive={setBtnActive} />
+      <FAB.Add r={3} b={3} onClick={() => toggle(true)} />
+      <Box ref={ref}>{dropdown}</Box>
     </AppContainer>
   );
 }

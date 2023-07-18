@@ -8,6 +8,7 @@ import {
   InputLeftElement,
   InputRightElement,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 import { SearchbarHookProps } from "@/hooks/useSearchbar";
 
@@ -32,7 +33,6 @@ export default function Searchbar({
   return (
     <HStack>
       {searchDefault && <CaretLeft />}
-
       <InputGroup>
         {searchCourse && (
           <InputLeftElement pointerEvents="none">
