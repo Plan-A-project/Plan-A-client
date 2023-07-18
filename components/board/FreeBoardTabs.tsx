@@ -1,4 +1,5 @@
 import {
+  ChakraProps,
   Tab,
   TabIndicator,
   TabList,
@@ -13,16 +14,17 @@ type BoardTabProps = {
   rightTab: React.ReactNode;
   leftLabel: string;
   rightLabel: string;
-};
+} & ChakraProps;
 
 const FreeBoardTab: React.FC<BoardTabProps> = ({
   leftTab,
   rightTab,
   leftLabel,
   rightLabel,
+  ...props
 }) => {
   return (
-    <Tabs variant={"unstyled"} isFitted mt={6}>
+    <Tabs variant={"unstyled"} isFitted mt={6} {...props}>
       <TabList borderBottom={"2px solid"} borderColor={"gray.200"} pb={1}>
         <Tab
           _selected={{

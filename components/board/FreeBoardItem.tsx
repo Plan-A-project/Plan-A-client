@@ -1,10 +1,20 @@
-import { PropsWithChildren } from "react";
+import { MouseEventHandler, PropsWithChildren, useState } from "react";
 
-import { Flex, FlexProps, Box, Text, TextProps, Badge } from "@chakra-ui/react";
+import {
+  Flex,
+  FlexProps,
+  Box,
+  Text,
+  TextProps,
+  Badge,
+  Heading,
+} from "@chakra-ui/react";
 import Image from "next/image";
 
 import Comment from "../icons/Comment";
 import HeartEmpty from "../icons/HeartEmpty";
+import ScrapEmptyIcon from "../icons/ScrapEmptyIcon";
+import ScrapIcon from "../icons/ScrapIcon";
 import WatchedIcon from "../icons/WatchedIcon";
 
 type BoardItemContentProps = {
@@ -14,6 +24,8 @@ type BoardItemContentProps = {
   description?: string;
   image?: string;
   imageAlt?: string;
+  dday?: number;
+  bookmark?: boolean;
 };
 
 type FreeBoardItemProps = {
@@ -40,9 +52,15 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   description,
   image,
   imageAlt,
+  bookmark,
 }) => {
+  const [mark, setMark] = useState(bookmark);
+  const toggleMark = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setMark(p => !p);
+  };
   return (
-    <Flex>
+    <Flex align={"center"}>
       <Box flex={1}>
         {leftTag ? (
           <Badge
@@ -55,7 +73,7 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
             {leftTag}
           </Badge>
         ) : null}
-        <Text color={"gray.900"} lineHeight={5} fontSize={18}>
+        <Text color={"gray.900"} lineHeight={5} fontSize={18} mb={1}>
           {title}
         </Text>
 
@@ -76,6 +94,11 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
           />
         </Box>
       ) : null}
+      {bookmark !== undefined ? (
+        <button onClick={toggleMark}>
+          {mark === false ? <ScrapEmptyIcon /> : <ScrapIcon />}
+        </button>
+      ) : null}
     </Flex>
   );
 };
@@ -91,6 +114,8 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   description,
   image,
   imageAlt,
+  dday,
+  bookmark,
   ...props
 }) => {
   return (
@@ -102,11 +127,17 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
         description={description}
         image={image}
         imageAlt={imageAlt}
+        bookmark={bookmark}
       />
-      <Flex justify={"space-between"}>
-        <div>
+      <Flex justify={"space-between"} align={"center"}>
+        <Flex gap={2} align={"end"}>
+          {dday ? (
+            <Heading color={"primary.500"} size={"xs"}>
+              D-{dday}
+            </Heading>
+          ) : null}
           <BottomText mr={"auto"}>{date}</BottomText>
-        </div>
+        </Flex>
 
         <Flex gap={"8px"} align={"center"}>
           {likes ? (

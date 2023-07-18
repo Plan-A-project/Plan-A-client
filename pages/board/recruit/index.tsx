@@ -1,31 +1,48 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Badge } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
 
-import BoardBanner from "@/components/board/BoardBanner";
 import BoardFAB from "@/components/board/BoardFAB";
 import BoardStack from "@/components/board/BoardStack";
 import FreeBoardItem from "@/components/board/FreeBoardItem";
 import FreeBoardTab from "@/components/board/FreeBoardTabs";
-import { AppContainer, Header } from "@/components/common";
+import { Carousel, Header } from "@/components/common";
 import IconSearch from "@/components/icons/IconSearch";
 
 import { AllPosts } from "../free";
 
 function RecruitMain() {
   return (
-    <AppContainer>
-      <Header back title="채용" rightNode={<IconSearch />} />
-      <BoardBanner my={4}>배너 버튼</BoardBanner>
+    <div>
+      <Header p={4} back title="채용" rightNode={<IconSearch />} />
+      <Carousel>
+        <img
+          style={{ padding: "0 8px" }}
+          alt="banner"
+          src="/assets/banner.png"
+        />
+        <img
+          style={{ padding: "0 8px" }}
+          alt="banner"
+          src="/assets/banner.png"
+        />
+        <img
+          style={{ padding: "0 8px" }}
+          alt="banner"
+          src="/assets/banner.png"
+        />
+      </Carousel>
       <FreeBoardTab
+        px={4}
         leftLabel="전체"
         rightLabel="모집"
         leftTab={<AllPosts />}
         rightTab={<RecruitPosts />}
       ></FreeBoardTab>
       <BoardFAB />
-    </AppContainer>
+    </div>
   );
 }
 
@@ -43,27 +60,24 @@ export const RecruitPosts = () => {
       setBoardList([
         {
           id: 1,
-          title: `제목 ${type}`,
-          description: "본문",
-          comments: 24,
-          likes: 3,
-          date: "2022-12-12",
+          title: `기업명 ${type}`,
+          description: "5월 채용연계형 인턴 모집",
+          views: 24,
+          date: "5.1~5.7",
         },
         {
           id: 2,
-          title: `제목 ${type}`,
-          description: "본문",
-          comments: 24,
-          likes: 3,
-          date: "2022-12-12",
+          title: `기업명 ${type}`,
+          description: "5월 채용연계형 인턴 모집",
+          views: 24,
+          date: "5.1~5.7",
         },
         {
           id: 3,
-          title: `제목 ${type}`,
-          description: "본문",
-          comments: 24,
-          likes: 3,
-          date: "2022-12-12",
+          title: `기업명 ${type}`,
+          description: "5월 채용연계형 인턴 모집",
+          views: 24,
+          date: "5.1~5.7",
         },
       ]);
       setLoading(false);
@@ -110,16 +124,19 @@ export const RecruitPosts = () => {
         "loading..."
       ) : (
         <BoardStack>
-          {boardList.map(el => (
+          {boardList.map((el, i) => (
             <FreeBoardItem
-              key={el.id}
+              key={i}
               comments={el.comments}
               likes={el.likes}
-              date="2022-12-12"
+              date={el.date}
               views={el.views}
               title={el.title}
+              description={el.description}
               leftTag="기업"
-              tagType="primary"
+              tagType="secondary"
+              bookmark={true}
+              dday={1}
               onClick={() => router.push(`/board/${el.id}`)}
             />
           ))}
