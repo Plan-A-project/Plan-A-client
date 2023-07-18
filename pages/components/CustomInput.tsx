@@ -52,6 +52,7 @@ const CustomInput = ({
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleEmailValidate = async () => {
+
     if (!error && input) {
       const data = await authApis.validateEmail({ email: input });
       console.log("data", data);
@@ -68,6 +69,14 @@ const CustomInput = ({
         handleNickName(true);
       }
     }
+
+    const data = await authApis.validateEmail({ email: input });
+    console.log(11, data);
+  };
+  const handleNickNameValidate = async () => {
+    const data = await authApis.validateEmail({ email: input });
+    console.log(11, data);
+
   };
 
   type ButtonProps = {
@@ -94,6 +103,9 @@ const CustomInput = ({
     );
   };
   const getIsRegexError = (regex: RegExp, userInput: string) => {
+
+  const getIsRegexError = (regex: RegExp) => {
+
     const Regex = new RegExp(regex);
     const isError = Regex.test(userInput);
     console.log(111, userInput);
@@ -174,6 +186,9 @@ const CustomInput = ({
       <Flex align={"center"}>
         <Input
           type={type}
+
+          value={input}
+
           onChange={getTypeOfError}
           placeholder={placeholder}
           h={"52px"}

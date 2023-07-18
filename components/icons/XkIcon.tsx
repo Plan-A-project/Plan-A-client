@@ -19,14 +19,14 @@ export default function XkIcon() {
           shape-rendering="crispEdges"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M29.25 22C27.1789 22 25.5 23.6281 25.5 25.6364V46.5455C25.5 48.5538 27.1789 50.1818 29.25 50.1818H41.9208C41.0234 48.8817 40.5 47.3183 40.5 45.6364C40.5 41.1177 44.2776 37.4545 48.9375 37.4545C50.2845 37.4545 51.5578 37.7606 52.6875 38.305V25.6364C52.6875 23.6281 51.0086 22 48.9375 22H29.25Z"
           fill="url(#pattern0)"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M33.9375 22H32.0625L32.0625 28.3636L25.5 28.3636V30.1818H32.0625L32.0625 50.1818H33.9375L33.9375 30.1818L52.6875 30.1818V28.3636L33.9375 28.3636V22Z"
           fill="white"
         />
@@ -35,8 +35,8 @@ export default function XkIcon() {
           fill="url(#pattern1)"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M52.2805 42.1595C52.7074 42.4436 52.816 43.0095 52.523 43.4235L48.6627 48.878C48.5032 49.1035 48.2475 49.2473 47.9665 49.2697C47.6855 49.2921 47.409 49.1906 47.2137 48.9935L44.5115 46.2662C44.1527 45.9042 44.1646 45.3287 44.538 44.9808C44.9113 44.633 45.5048 44.6445 45.8635 45.0065L47.7681 46.9288L50.977 42.3947C51.27 41.9807 51.8536 41.8754 52.2805 42.1595Z"
           fill="white"
         />
