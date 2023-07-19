@@ -18,7 +18,7 @@ export default function Normal() {
           isBtnActive ? <Text color={"blue"}>등록</Text> : <Text>등록</Text>
         }
       />
-      <GeneralPostForm setBtnActive={setBtnActive} />
+      {/* <GeneralPostForm setBtnActive={setBtnActive} /> */}
     </AppContainer>
   );
 }
