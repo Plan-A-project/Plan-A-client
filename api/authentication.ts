@@ -13,7 +13,6 @@ const authApis = {
     const response = await client.get(
       `${PATH}validate/nickname?nickname=${nickname}`,
     );
-
     return response.data;
   }),
   signup: methodFormat(async data => {
@@ -22,8 +21,6 @@ const authApis = {
   login: methodFormat(async data => {
     const response = await client.post(`${PATH}login`, data);
     return response;
-  }),
-    return response.data;
   }),
 };
 

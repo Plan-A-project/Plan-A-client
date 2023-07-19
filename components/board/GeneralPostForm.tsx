@@ -1,6 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-
-import { ChakraProps, Input, Textarea } from "@chakra-ui/react";
+import { ChakraProps, FormControl, Input, Textarea } from "@chakra-ui/react";
 
 const formProps: ChakraProps = {
   border: "none",
@@ -16,29 +14,36 @@ const inputProps: ChakraProps = {
   py: 2,
 };
 
-const GeneralPostForm = ({
-  setBtnActive,
-}: {
-  setBtnActive: Dispatch<SetStateAction<boolean>>;
-}) => {
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
+interface IPostForm {
+  email: string;
+  requestDto: {
+    title: string;
+    main: string;
+  };
+}
 
-  useEffect(() => {
-    title && desc ? setBtnActive(true) : setBtnActive(false);
-  }, [title, desc]);
+interface GeneralPostFormProps {
+  formData: IPostForm;
+  setFormData: React.Dispatch<React.SetStateAction<IPostForm>>;
+}
 
+function GeneralPostForm({ formData, setFormData }: GeneralPostFormProps) {
   return (
-    <>
+    <FormControl>
       <Input
         flexShrink={0}
         variant={"unstyled"}
         h={9}
         mt={3}
-        value={title}
+        value={formData?.requestDto.title}
         {...inputProps}
         placeholder="제목을 입력해주세요."
-        onChange={e => setTitle(e.target.value)}
+        onChange={e =>
+          setFormData(prevData => ({
+            ...prevData,
+            requestDto: { ...prevData.requestDto, title: e.target.value },
+          }))
+        }
       />
       <Textarea
         mt={2}
@@ -49,12 +54,17 @@ const GeneralPostForm = ({
         rows={13}
         {...inputProps}
         p={2}
-        value={desc}
-        onChange={e => setDesc(e.target.value)}
+        value={formData?.requestDto.main}
+        onChange={e =>
+          setFormData(d => ({
+            ...d,
+            requestDto: { ...d.requestDto, main: e.target.value },
+          }))
+        }
         sx={{ boxShadow: "none !important" }}
       />
-    </>
+    </FormControl>
   );
-};
+}
 
 export default GeneralPostForm;
