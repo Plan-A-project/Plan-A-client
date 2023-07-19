@@ -121,7 +121,9 @@ export const theme = extendTheme({
     },
     // error: #F90B66,
     background1: "#FFFFFF",
-    // background2: #F7F8FA,
+
+    background2: "#F7F8FA",
+
     grey: {
       50: "#F7F8FA",
       100: "#ECECEF",

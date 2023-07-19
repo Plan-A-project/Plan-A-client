@@ -28,6 +28,11 @@ interface CustomInputProps {
   errorMessage?: string;
   type: string;
   icon?: any;
+  handlePassword?: any;
+  userPassword?: string;
+  handleError?: any;
+  handleEmail?: any;
+  handleNickName?: any;
 }
 const CustomInput = ({
   label,
@@ -36,18 +41,42 @@ const CustomInput = ({
   errorMessage,
   type,
   icon,
+  handlePassword,
+  userPassword,
+  handleError,
+  handleEmail,
+  handleNickName,
 }: CustomInputProps) => {
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleEmailValidate = async () => {
+
+    if (!error && input) {
+      const data = await authApis.validateEmail({ email: input });
+      console.log("data", data);
+      if (data.ok) {
+        handleEmail(true);
+      }
+    }
+  };
+  const handleNickNameValidate = async () => {
+    if (!error && input) {
+      const data = await authApis.validateNickname({ nickname: input });
+      console.log(22, data);
+      if (data.ok) {
+        handleNickName(true);
+      }
+    }
+
     const data = await authApis.validateEmail({ email: input });
     console.log(11, data);
   };
   const handleNickNameValidate = async () => {
     const data = await authApis.validateEmail({ email: input });
     console.log(11, data);
+
   };
 
   type ButtonProps = {
@@ -73,9 +102,13 @@ const CustomInput = ({
       </Button>
     );
   };
+  const getIsRegexError = (regex: RegExp, userInput: string) => {
+
   const getIsRegexError = (regex: RegExp) => {
+
     const Regex = new RegExp(regex);
-    const isError = Regex.test(input);
+    const isError = Regex.test(userInput);
+    console.log(111, userInput);
     !isError
       ? setError(prev => (prev = true))
       : setError(prev => (prev = false));
@@ -85,19 +118,23 @@ const CustomInput = ({
     setInput(e.target.value);
     switch (title) {
       case "이름":
-        getIsRegexError(usernameRegex);
+        getIsRegexError(usernameRegex, e.target.value);
         break;
       case "이메일":
-        getIsRegexError(emailRegex);
+        getIsRegexError(emailRegex, e.target.value);
         break;
       case "비밀번호":
-        getIsRegexError(passwordRegex);
+        handlePassword(e.target.value);
+        getIsRegexError(passwordRegex, e.target.value);
         break;
-      case "비밀번호":
-        getIsRegexError(passwordRegex);
+      case "비밀번호 확인":
+        const isError = userPassword === e.target.value;
+        !isError
+          ? setError(prev => (prev = true))
+          : setError(prev => (prev = false));
         break;
       case "닉네임":
-        getIsRegexError(nicknameRegex);
+        getIsRegexError(nicknameRegex, e.target.value);
         break;
     }
   };
@@ -149,7 +186,9 @@ const CustomInput = ({
       <Flex align={"center"}>
         <Input
           type={type}
+
           value={input}
+
           onChange={getTypeOfError}
           placeholder={placeholder}
           h={"52px"}
