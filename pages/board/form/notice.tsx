@@ -2,10 +2,10 @@ import React, { useState } from "react";
 
 import { Text } from "@chakra-ui/layout";
 
+import Title from "@/components/board/FormTitle";
+import GeneralPostForm from "@/components/board/GeneralPostForm";
 import AppContainer from "@/components/common/AppContainer";
 import CaretLeft from "@/components/icons/CaretLeft";
-import GeneralPostForm from "@/components/recruiting/GeneralPostForm";
-import Title from "@/components/recruiting/Title";
 
 export default function Normal() {
   const [isBtnActive, setBtnActive] = useState(false);

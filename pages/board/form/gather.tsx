@@ -2,10 +2,10 @@ import { useState } from "react";
 
 import { Text } from "@chakra-ui/layout";
 
+import Title from "@/components/board/FormTitle";
+import RecruitingPostForm from "@/components/board/RecruitingPostForm";
 import AppContainer from "@/components/common/AppContainer";
 import CaretLeft from "@/components/icons/CaretLeft";
-import RecruitingPostForm from "@/components/recruiting/RecruitingPostForm";
-import Title from "@/components/recruiting/Title";
 
 export default function Gather() {
   const [isBtnActive, setBtnActive] = useState(false);
