@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Text } from "@chakra-ui/layout";
 
+import Title from "@/components/board/FormTitle";
+import RecruitingPostForm from "@/components/board/RecruitingPostForm";
 import AppContainer from "@/components/common/AppContainer";
 import CaretLeft from "@/components/icons/CaretLeft";
-import GeneralPostForm from "@/components/recruiting/GeneralPostForm";
-import Title from "@/components/recruiting/Title";
 
-export default function Normal() {
+export default function Gather() {
   const [isBtnActive, setBtnActive] = useState(false);
   return (
     <AppContainer>
       <Title
-        title="글쓰기"
+        title="모집글 쓰기"
         left={<CaretLeft />}
         right={
           isBtnActive ? <Text color={"blue"}>등록</Text> : <Text>등록</Text>
         }
       />
-      <GeneralPostForm setBtnActive={setBtnActive} />
+      <RecruitingPostForm setBtnActive={setBtnActive} />
     </AppContainer>
   );
 }
