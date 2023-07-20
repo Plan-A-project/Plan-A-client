@@ -9,14 +9,26 @@ import BoardStack from "@/components/board/BoardStack";
 import FreeBoardItem from "@/components/board/FreeBoardItem";
 import FreeBoardTab from "@/components/board/FreeBoardTabs";
 import { Carousel, Header } from "@/components/common";
-import IconSearch from "@/components/icons/IconSearch";
+import SearchModal from "@/components/common/SearchModal";
+import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 
 import { AllPosts } from "../free";
 
 function RecruitMain() {
+  const testSearchFunction = searchFunctionFactory("채용");
   return (
     <div>
-      <Header p={4} back title="채용" rightNode={<IconSearch />} />
+      <Header
+        p={4}
+        back
+        title="채용"
+        rightNode={
+          <SearchModal
+            autocompleteFunction={testAutocompleteFunction}
+            searchFunction={testSearchFunction}
+          />
+        }
+      />
       <Carousel>
         <img
           style={{ padding: "0 8px" }}

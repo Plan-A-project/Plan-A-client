@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { Badge } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
@@ -8,12 +8,23 @@ import BoardStack from "@/components/board/BoardStack";
 import FreeBoardItem from "@/components/board/FreeBoardItem";
 import FreeBoardTab from "@/components/board/FreeBoardTabs";
 import { AppContainer, Header } from "@/components/common";
-import IconSearch from "@/components/icons/IconSearch";
+import SearchModal from "@/components/common/SearchModal";
+import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 
 function ClubMain() {
+  const testSearchFunction = searchFunctionFactory("학교생활");
   return (
     <AppContainer>
-      <Header back title="학교생활" rightNode={<IconSearch />} />
+      <Header
+        back
+        title="학교생활"
+        rightNode={
+          <SearchModal
+            autocompleteFunction={testAutocompleteFunction}
+            searchFunction={testSearchFunction}
+          />
+        }
+      />
       <FreeBoardTab
         leftLabel="전체"
         rightLabel="공지"
