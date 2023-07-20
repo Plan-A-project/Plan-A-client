@@ -1,24 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Text } from "@chakra-ui/layout";
-
+import postApis from "@/api/post";
+import CreatePostButton from "@/components/board/CreatePostButton";
 import Title from "@/components/board/FormTitle";
 import GeneralPostForm from "@/components/board/GeneralPostForm";
 import AppContainer from "@/components/common/AppContainer";
 import CaretLeft from "@/components/icons/CaretLeft";
 
 export default function Normal() {
+  // params: board type
   const [isBtnActive, setBtnActive] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "kkjuyeon@gmail.com",
+    requestDto: {
+      title: "",
+      main: "",
+    },
+  });
+
+  useEffect(() => {
+    formData.requestDto.title && formData.requestDto.main
+      ? setBtnActive(true)
+      : setBtnActive(false);
+  }, [formData]);
+
+  async function createPost() {
+    const res = await postApis.initializePost({
+      boardId: 4,
+      postType: "notice",
+    });
+    console.log("res", res);
+    // if (res.ok) // 성공 팝업 후 리다이렉트
+    // 실패 팝업
+  }
+
   return (
     <AppContainer>
       <Title
         title="글쓰기"
         left={<CaretLeft />}
         right={
-          isBtnActive ? <Text color={"blue"}>등록</Text> : <Text>등록</Text>
+          <CreatePostButton isActive={isBtnActive} handleClick={createPost} />
         }
       />
-      {/* <GeneralPostForm setBtnActive={setBtnActive} /> */}
+      <GeneralPostForm formData={formData} setFormData={setFormData} />
     </AppContainer>
   );
 }
