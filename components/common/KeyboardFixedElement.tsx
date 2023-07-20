@@ -6,29 +6,57 @@ import React, {
   ChangeEvent,
 } from "react";
 
-import { Box, Flex, HStack, Heading, Spacer, Text } from "@chakra-ui/layout";
+import { Flex, HStack, Spacer, Text } from "@chakra-ui/layout";
+import Image from "next/image";
+import { useRecoilState } from "recoil";
+
+import postApis from "@/api/post";
+import {
+  IPostContent,
+  postContentAtom,
+} from "@/state/atoms/posting/postContentAtom";
 
 import CameraIcon from "../icons/CameraIcon";
 import KeyboardIcon from "../icons/KeyboardIcon";
 
 function KeyboardFixedElement({
   ref,
+  postId,
 }: {
   ref: RefObject<HTMLTextAreaElement>;
+  postId: number;
 }) {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [postContent, setPostContent] = useRecoilState(postContentAtom);
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const files = event.target.files?.[0];
     // 파일 처리 코드
-  };
+    const res = await postApis.postImage({
+      postId,
+      files,
+    });
+    if (res.ok && Array.isArray(res.data?.data)) {
+      const imgUrls = res.data?.data.map(
+        img =>
+          `<Image src=${img.imageUrl} key=${img.imageId} alt="포스팅 이미지" />`,
+      );
+      imgUrls &&
+        setPostContent(d => ({
+          ...d,
+          content: d.requestDto.main + imgUrls.join(" "),
+        }));
+      return postContentAtom;
+    }
+    // 오류 팝업
+  }
 
-  const handleButtonClick = () => {
+  function handleButtonClick() {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  };
+  }
 
   useEffect(() => {
     const handleKeyboardEvent = (event: FocusEvent) => {
@@ -50,6 +78,8 @@ function KeyboardFixedElement({
     };
   }, []);
 
+  console.log("postContent", postContent);
+
   return (
     <HStack
       style={{
@@ -68,6 +98,7 @@ function KeyboardFixedElement({
         ref={fileInputRef}
         style={{ display: "none" }}
         onChange={handleFileChange}
+        multiple
       />
       <Flex onClick={handleButtonClick}>
         <CameraIcon />
