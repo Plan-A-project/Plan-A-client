@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
 
+import { useRecoilState } from "recoil";
+
 import postApis from "@/api/post";
 import CreatePostButton from "@/components/board/CreatePostButton";
 import Title from "@/components/board/FormTitle";
 import GeneralPostForm from "@/components/board/GeneralPostForm";
 import AppContainer from "@/components/common/AppContainer";
 import CaretLeft from "@/components/icons/CaretLeft";
+import useSnackbar from "@/hooks/useSnackbar";
+import { postContentAtom } from "@/state/atoms/posting/postContentAtom";
 
 export default function Normal() {
-  // params: board type
   const [isBtnActive, setBtnActive] = useState(false);
+  const [postContent, setPostContent] = useRecoilState(postContentAtom);
+
+  const [isActivated, activateSnackbar, Snackbar] =
+    useSnackbar("일반글을 작성하였습니다.");
   const [formData, setFormData] = useState({
-    email: "kkjuyeon@gmail.com",
+    email: "kkjuyeon@gmail.com", // TODO: LS에거 꺼낸 값
     requestDto: {
       title: "",
       main: "",
@@ -27,15 +34,19 @@ export default function Normal() {
   async function createPost() {
     const res = await postApis.initializePost({
       boardId: 4,
-      postType: "notice",
+      postType: "normal",
     });
-    console.log("res", res);
-    // if (res.ok) // 성공 팝업 후 리다이렉트
-    // 실패 팝업
+    if (res.ok) {
+      setPostContent(d => ({
+        ...d,
+        postId: parseInt(res.data?.data),
+      }));
+    }
   }
 
   return (
     <AppContainer>
+      {isActivated && <Snackbar />}
       <Title
         title="글쓰기"
         left={<CaretLeft />}
@@ -43,7 +54,10 @@ export default function Normal() {
           <CreatePostButton isActive={isBtnActive} handleClick={createPost} />
         }
       />
-      <GeneralPostForm formData={formData} setFormData={setFormData} />
+      <GeneralPostForm
+        postContent={postContent}
+        setPostContent={setPostContent}
+      />
     </AppContainer>
   );
 }
