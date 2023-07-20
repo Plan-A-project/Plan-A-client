@@ -11,6 +11,15 @@ function getPostApiHeaders() {
   return headers;
 }
 
+function postPostApiHeaders() {
+  const AccessToken = window.localStorage.getItem("accessToken");
+  const headers = {
+    "Access-Token": AccessToken,
+    "Content-Type": "multipart/form-data",
+  };
+  return headers;
+}
+
 const postApis = {
   // 포스팅 뼈대 생성
   initializePost: methodFormat(async ({ boardId, postType }) => {
@@ -25,12 +34,12 @@ const postApis = {
   }),
   // 이미지 업로드
   postImage: methodFormat(async ({ postId, files }) => {
-    const headers = getPostApiHeaders();
-    const response = await client.post(
-      `post/${postId}/image`,
-      { file: files },
-      { headers },
-    );
+    const headers = postPostApiHeaders();
+    const formData = new FormData();
+    formData.append("file", files);
+    const response = await client.post(`/post/${postId}/image`, formData, {
+      headers,
+    });
     return response;
   }),
   // 포스팅 작성 & 수정

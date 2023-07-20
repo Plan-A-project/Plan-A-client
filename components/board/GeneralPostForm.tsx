@@ -1,4 +1,10 @@
+import { useRef } from "react";
+
 import { ChakraProps, FormControl, Input, Textarea } from "@chakra-ui/react";
+import { SetterOrUpdater } from "recoil";
+
+import BottomFixedElement from "@/components/common/KeyboardFixedElement";
+import { IPostContent } from "@/state/atoms/posting/postContentAtom";
 
 const formProps: ChakraProps = {
   border: "none",
@@ -14,20 +20,26 @@ const inputProps: ChakraProps = {
   py: 2,
 };
 
-interface IPostForm {
-  email: string;
-  requestDto: {
-    title: string;
-    main: string;
+function GeneralPostForm({
+  postContent,
+  setPostContent,
+}: {
+  postContent: IPostContent;
+  setPostContent: SetterOrUpdater<IPostContent>;
+}) {
+  const mainRef = useRef<HTMLTextAreaElement>(null);
+  const contentEditableRef = useRef<HTMLDivElement | null>(null);
+
+  const insertImage = (imageUrl: string) => {
+    if (contentEditableRef.current) {
+      const imgTag = `<img src="${imageUrl}" alt="Image" />`;
+      contentEditableRef.current.focus();
+
+      // Insert the image at the current cursor position
+      document.execCommand("insertHTML", false, imgTag);
+    }
   };
-}
 
-interface GeneralPostFormProps {
-  formData: IPostForm;
-  setFormData: React.Dispatch<React.SetStateAction<IPostForm>>;
-}
-
-function GeneralPostForm({ formData, setFormData }: GeneralPostFormProps) {
   return (
     <FormControl>
       <Input
@@ -35,11 +47,11 @@ function GeneralPostForm({ formData, setFormData }: GeneralPostFormProps) {
         variant={"unstyled"}
         h={9}
         mt={3}
-        value={formData?.requestDto.title}
+        value={postContent?.requestDto.title}
         {...inputProps}
         placeholder="제목을 입력해주세요."
         onChange={e =>
-          setFormData(prevData => ({
+          setPostContent(prevData => ({
             ...prevData,
             requestDto: { ...prevData.requestDto, title: e.target.value },
           }))
@@ -54,15 +66,28 @@ function GeneralPostForm({ formData, setFormData }: GeneralPostFormProps) {
         rows={13}
         {...inputProps}
         p={2}
-        value={formData?.requestDto.main}
+        value={postContent?.requestDto.main}
         onChange={e =>
-          setFormData(d => ({
+          setPostContent(d => ({
             ...d,
             requestDto: { ...d.requestDto, main: e.target.value },
           }))
         }
         sx={{ boxShadow: "none !important" }}
+        ref={mainRef}
       />
+      {/* TODO: Textarea -> contenteditable div 로 교체 */}
+      <div ref={contentEditableRef} contentEditable="true"></div>
+      <button
+        onClick={() =>
+          insertImage(
+            "https://cdn.pixabay.com/photo/2023/05/26/12/31/couple-8019370_960_720.jpg",
+          )
+        }
+      >
+        URL로 이미지 삽입하기
+      </button>
+      <BottomFixedElement ref={mainRef} postId={postContent.postId} />
     </FormControl>
   );
 }

@@ -1,12 +1,7 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import {
+  ChakraProps,
   Divider,
   Flex,
   FormControl,
@@ -17,32 +12,77 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
-export default function RecruitingPostForm({
-  setBtnActive,
-}: {
-  setBtnActive: Dispatch<SetStateAction<boolean>>;
-}) {
-  const [title, setTitle] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [desc, setDesc] = useState("");
+const formProps: ChakraProps = {
+  border: "none",
+  borderBottom: "1px solid",
+  borderColor: "gray.100",
+  borderRadius: 0,
+  _focus: { borderColor: "gray.300" },
+  px: 2,
+};
 
-  const [startDate, setStartDate] = useState({
-    year: "2023",
-    month: "05",
-    day: "05",
-  });
+const inputProps: ChakraProps = {
+  ...formProps,
+  py: 2,
+};
 
-  const [endDate, setEndDate] = useState({
-    year: "2023",
-    month: "05",
-    day: "05",
-  });
+interface IPostForm {
+  email: string;
+  requestDto: {
+    title: string;
+    main: string;
+    enterprise: string;
+    startDate: string;
+    endDate: string;
+  };
+}
 
-  useEffect(() => {
-    title && organization && desc && startDate && endDate
-      ? setBtnActive(true)
-      : setBtnActive(false);
-  }, [title, organization, desc, startDate, endDate]);
+interface RecruitingPostFormProps {
+  formData: IPostForm;
+  setFormData: React.Dispatch<React.SetStateAction<IPostForm>>;
+}
+
+function RecruitingPostForm({
+  formData,
+  setFormData,
+}: RecruitingPostFormProps) {
+  const {
+    requestDto: { title, main, enterprise, startDate, endDate },
+  } = formData;
+
+  function setTitle(e: ChangeEvent<HTMLElement>) {
+    const { value } = e.target as HTMLInputElement;
+    setFormData(prevData => ({
+      ...prevData,
+      requestDto: { ...prevData.requestDto, title: value },
+    }));
+  }
+  function setMain(e: ChangeEvent<HTMLElement>) {
+    const { value } = e.target as HTMLInputElement;
+    setFormData(prevData => ({
+      ...prevData,
+      requestDto: { ...prevData.requestDto, main: value },
+    }));
+  }
+  function setEnterprise(e: ChangeEvent<HTMLElement>) {
+    const { value } = e.target as HTMLInputElement;
+    setFormData(prevData => ({
+      ...prevData,
+      requestDto: { ...prevData.requestDto, enterprise: value },
+    }));
+  }
+  function setStartDate(date: string) {
+    setFormData(prevData => ({
+      ...prevData,
+      requestDto: { ...prevData.requestDto, startDate: date },
+    }));
+  }
+  function setEndDate(date: string) {
+    setFormData(prevData => ({
+      ...prevData,
+      requestDto: { ...prevData.requestDto, endDate: date },
+    }));
+  }
 
   return (
     <FormControl p={2}>
@@ -55,8 +95,8 @@ export default function RecruitingPostForm({
       <Divider />
       <CustomFormLabel>기업/기관</CustomFormLabel>
       <CustomInputText
-        value={organization}
-        setValue={setOrganization}
+        value={enterprise}
+        setValue={setEnterprise}
         placeholder={"기업/기관의 이름을 입력해주세요."}
       />
       <CustomFormLabel>모집 기간</CustomFormLabel>
@@ -67,8 +107,8 @@ export default function RecruitingPostForm({
       </HStack>
       <CustomFormLabel>상세 내용</CustomFormLabel>
       <CustomTextarea
-        value={desc}
-        setValue={setDesc}
+        value={main}
+        setValue={setMain}
         placeholder={"모집 상세 내용을 최대한 자세히 입력해 주세요."}
       />
     </FormControl>
@@ -89,14 +129,14 @@ function CustomInputText({
   placeholder,
 }: {
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: (e: ChangeEvent<HTMLElement>) => void;
   placeholder: string;
 }) {
   return (
     <Input
       type="text"
       placeholder={placeholder}
-      onChange={e => setValue(e.target.value)}
+      onChange={setValue}
       value={value}
       border={"none"}
       outline={"none"}
@@ -114,13 +154,13 @@ function CustomTextarea({
   placeholder,
 }: {
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: (e: ChangeEvent<HTMLElement>) => void;
   placeholder: string;
 }) {
   return (
     <Textarea
       value={value}
-      onChange={e => setValue(e.target.value)}
+      onChange={setValue}
       placeholder={placeholder}
       border={"none"}
       outline={"none"}
@@ -136,34 +176,19 @@ function CustomTextarea({
 }
 
 function DateInput({
-  date,
   setDate,
 }: {
-  date: {
-    year: string;
-    month: string;
-    day: string;
-  };
-  setDate: Dispatch<
-    SetStateAction<{
-      year: string;
-      month: string;
-      day: string;
-    }>
-  >;
+  date: string;
+  setDate: (date: string) => void;
 }) {
-  function handledateChange(event: ChangeEvent<HTMLElement>) {
-    const { name, value } = event.target as HTMLInputElement;
-    setDate(prevState => ({
-      ...prevState,
-      [name]: value,
-    }));
-  }
-
   const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth() + 1);
+  const [day, setDay] = useState(today.getDate());
+
+  useEffect(() => {
+    setDate(`${year}-${month}-${day}`);
+  }, [year, month, day]);
 
   return (
     <HStack>
@@ -171,9 +196,9 @@ function DateInput({
         <Input
           type="number"
           name="year"
-          value={date.year}
-          onChange={handledateChange}
-          placeholder={date.year}
+          value={year}
+          onChange={e => setYear(parseInt(e.target.value))}
+          placeholder={year.toString()}
           required
           border={"none"}
           size="xs"
@@ -185,9 +210,9 @@ function DateInput({
         <Input
           type="number"
           name="month"
-          value={date.month}
-          onChange={handledateChange}
-          placeholder={date.month}
+          value={month}
+          onChange={e => setMonth(parseInt(e.target.value) + 1)}
+          placeholder={month.toString()}
           required
           border={"none"}
           size="xs"
@@ -199,9 +224,9 @@ function DateInput({
         <Input
           type="number"
           name="day"
-          value={date.day}
-          onChange={handledateChange}
-          placeholder={date.day}
+          value={day}
+          onChange={e => setDay(parseInt(e.target.value))}
+          placeholder={day.toString()}
           required
           border={"none"}
           size="xs"
@@ -212,3 +237,5 @@ function DateInput({
     </HStack>
   );
 }
+
+export default RecruitingPostForm;

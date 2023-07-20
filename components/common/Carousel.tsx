@@ -104,11 +104,9 @@ const Carousel: React.FC<CarouselProps> = ({
     if (auto) {
       scheduleAutoSlide();
     }
-
     return () => {
       clearAutoSlide();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, auto, SLIDE_INTERVAL, maxWidth]);
 
   function parseX(event: TouchEvent<HTMLElement> | MouseEvent<HTMLElement>) {
@@ -151,7 +149,6 @@ const Carousel: React.FC<CarouselProps> = ({
     }
 
     adjust();
-
     scheduleAutoSlide();
   };
 
@@ -172,7 +169,6 @@ const Carousel: React.FC<CarouselProps> = ({
 
   function adjust() {
     lastX.current = getAdjustedX();
-
     adjustHandler.current = requestAnimationFrame(adjustProgress);
   }
 
@@ -184,7 +180,6 @@ const Carousel: React.FC<CarouselProps> = ({
 
   function adjustProgress() {
     if (adjustHandler.current === -1) return;
-
     setTx(prevTx => {
       const dtx = lastX.current;
       const dx = dtx - prevTx;
