@@ -8,14 +8,25 @@ import BoardStack from "@/components/board/BoardStack";
 import FreeBoardItem from "@/components/board/FreeBoardItem";
 import FreeBoardTab from "@/components/board/FreeBoardTabs";
 import { AppContainer, Header } from "@/components/common";
-import IconSearch from "@/components/icons/IconSearch";
+import SearchModal from "@/components/common/SearchModal";
+import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 
 import { AllPosts } from "../free";
 
 function ActivityMain() {
+  const testSearchFunction = searchFunctionFactory("대외활동");
   return (
     <AppContainer>
-      <Header back title="대외활동" rightNode={<IconSearch />} />
+      <Header
+        back
+        title="대외활동"
+        rightNode={
+          <SearchModal
+            autocompleteFunction={testAutocompleteFunction}
+            searchFunction={testSearchFunction}
+          />
+        }
+      />
       <FreeBoardTab
         leftLabel="전체"
         rightLabel="모집"
