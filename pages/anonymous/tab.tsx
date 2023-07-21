@@ -39,8 +39,6 @@ function getAllPosts() {
   );
 }
 
-function getPopularPosts() {}
-
 const Anonymous: NextPage = () => {
   return (
     <AppContainer>

@@ -14,8 +14,6 @@ import {
 import Header from "@/pages/components/Header";
 import PageLayout from "@/pages/components/Layout";
 
-import CustomInput from "../../components/CustomInput";
-
 const index = () => {
   return (
     <PageLayout>
@@ -44,12 +42,12 @@ const index = () => {
                     학교 이메일 계정을 입력해주세요.
                   </Text>
                 </Stack>
-                <CustomInput
+                {/* <CustomInput
                   title="이메일"
                   label="email"
                   type="email"
                   placeholder="youremail@email.com"
-                />
+                /> */}
                 <Button h={"52px"} mt={"16px"}>
                   인증하기
                 </Button>

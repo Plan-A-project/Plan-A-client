@@ -25,8 +25,6 @@ const inputProps: ChakraProps = {
   py: 2,
 };
 
-type BoardBaseFormProps = {};
-
 const BoardBaseForm = () => {
   return (
     <>

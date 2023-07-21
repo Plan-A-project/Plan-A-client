@@ -31,19 +31,19 @@ const UserInput = ({
   handleConfirm,
   confirmInput,
 }: any) => {
-  const [confirmMessage, setConfirmMessage] = useState({
+  const [confirmMessage, setConfirmMessage] = useState<any>({
     email: "",
     nickname: "",
   });
   const handleEmailValidate = async () => {
-    if (!errors[[label]] && values[[label]]) {
-      const data = await authApis.validateEmail({ email: values[[label]] });
+    if (!errors[label] && values[label]) {
+      const data = await authApis.validateEmail({ email: values[label] });
       if (data.ok) {
         handleConfirm((prev: any) => ({
           ...prev,
           email: values.email,
         }));
-        setConfirmMessage(prev => ({
+        setConfirmMessage((prev: any) => ({
           ...prev,
           email: "사용 가능한 이메일이에요!",
         }));
@@ -56,24 +56,24 @@ const UserInput = ({
     }
   };
   useEffect(() => {
-    if (confirmInput !== values[[label]]) {
-      setConfirmMessage(prev => ({
+    if (confirmInput !== values[label]) {
+      setConfirmMessage((prev: any) => ({
         ...prev,
         [label]: "",
       }));
     }
   }, [values]);
   const handleNickNameValidate = async () => {
-    if (!errors[[label]] && values[[label]]) {
+    if (!errors[label] && values[label]) {
       const data = await authApis.validateNickname({
-        nickname: values[[label]],
+        nickname: values[label],
       });
       if (data.ok) {
         handleConfirm((prev: any) => ({
           ...prev,
           nickname: values.nickname,
         }));
-        setConfirmMessage(prev => ({
+        setConfirmMessage((prev: any) => ({
           ...prev,
           nickname: "아주 멋진 닉네임이군요!",
         }));
@@ -87,10 +87,10 @@ const UserInput = ({
         w={"56px"}
         ml={2}
         textStyle="subtitle1"
-        color={!errors[[label]] && values[[label]] ? "primary.500" : "grey.500"}
+        color={!errors[label] && values[label] ? "primary.500" : "grey.500"}
         p={2}
         border={
-          !errors[[label]] && values[[label]]
+          !errors[label] && values[label]
             ? "1px solid #3F52E4"
             : "1px solid #C8C9D0"
         }
@@ -106,7 +106,7 @@ const UserInput = ({
   };
 
   return (
-    <FormControl isInvalid={errors[[label]]}>
+    <FormControl isInvalid={errors[label]}>
       <FormLabel
         fontSize={"12px"}
         fontWeight={"400"}
@@ -140,7 +140,7 @@ const UserInput = ({
         />
         {hasConfirmButton && <ValidateButton type={title} />}
       </Flex>
-      {confirmMessage[[label]] && (
+      {confirmMessage[label] && (
         <Flex
           fontSize={"12px"}
           fontWeight={"400"}
@@ -150,10 +150,10 @@ const UserInput = ({
           align={"flex-end"}
         >
           <AiOutlineCheckCircle style={{ marginRight: "6px" }} />
-          {confirmMessage[[label]]}
+          {confirmMessage[label]}
         </Flex>
       )}
-      {errors[[label]] && (
+      {errors[label] && (
         <FormErrorMessage
           fontSize={"12px"}
           fontWeight={"400"}
@@ -161,7 +161,7 @@ const UserInput = ({
           color={"#F90B66"}
         >
           <IoCloseCircleOutline style={{ marginRight: "6px" }} />
-          {errors[[label]]}
+          {errors[label]}
         </FormErrorMessage>
       )}
     </FormControl>
