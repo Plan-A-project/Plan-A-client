@@ -55,10 +55,12 @@ const Login = () => {
         setHasError(true);
       } else {
         setHasError(false);
-        localStorage.setItem(
-          "accessToken",
-          response.data.headers["access-token"],
-        );
+        if (response.data) {
+          localStorage.setItem(
+            "accessToken",
+            response.data.headers["access-token"],
+          );
+        }
       }
     }
   };
