@@ -9,7 +9,6 @@ import validateInput from "@/utils/validation";
 
 import PageLayout from "../components/Layout";
 
-
 const SignUp = () => {
   type signUpDataType = {
     username: string;

@@ -29,6 +29,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-query": "^3.39.3",
+    "react-responsive-carousel": "^3.2.23",
     "react-slick": "^0.29.0",
     "recoil": "^0.7.7",
     "typescript": "5.0.4"
@@ -45,8 +46,6 @@
     "react-schedule-selector": "^3.0.2",
     "recoil": "^0.7.7",
     "rmc-picker": "^5.0.10",
-    "typescript": "5.0.4",
-    "@types/uuid": "^9.0.1"
-
+    "typescript": "5.0.4"
   }
 }

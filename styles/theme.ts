@@ -34,7 +34,7 @@ export const theme = extendTheme({
       fontFamily: "Pretendard",
       fontSize: "16px",
       fontWeight: "semibold",
-      lineHeight: "19px",
+      lineHeight: "20px",
       letterSpacing: "0",
     },
     body1: {
