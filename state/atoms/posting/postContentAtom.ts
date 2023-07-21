@@ -1,9 +1,9 @@
 import { atom } from "recoil";
 
 export type IPostContent = {
-  postId: number;
-  postType: "normal" | "gather" | "notice";
-  email: string;
+  postId?: number;
+  postType?: "normal" | "gather" | "notice";
+  email?: string;
   requestDto: {
     title: string;
     main: string;
