@@ -24,7 +24,7 @@ function KeyboardFixedElement({
   postId,
 }: {
   ref: RefObject<HTMLTextAreaElement>;
-  postId: number;
+  postId: number | undefined;
 }) {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);

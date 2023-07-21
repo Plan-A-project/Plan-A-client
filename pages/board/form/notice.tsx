@@ -6,11 +6,12 @@ import Title from "@/components/board/FormTitle";
 import GeneralPostForm from "@/components/board/GeneralPostForm";
 import AppContainer from "@/components/common/AppContainer";
 import CaretLeft from "@/components/icons/CaretLeft";
+import { IPostContent } from "@/state/atoms/posting/postContentAtom";
 
 export default function Notice() {
   // params: board type
   const [isBtnActive, setBtnActive] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<IPostContent>({
     email: "kkjuyeon@gmail.com",
     requestDto: {
       title: "",
@@ -43,7 +44,7 @@ export default function Notice() {
           <CreatePostButton isActive={isBtnActive} handleClick={createPost} />
         }
       />
-      <GeneralPostForm formData={formData} setFormData={setFormData} />
+      <GeneralPostForm postContent={formData} setPostContent={setFormData} />
     </AppContainer>
   );
 }
