@@ -99,6 +99,7 @@ function CustomInputText({
       onChange={e => setValue(e.target.value)}
       value={value}
       border={"none"}
+      outline={"none"}
       p={0}
       m={0}
       mb={2}

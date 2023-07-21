@@ -7,7 +7,6 @@ const PATH = "auth/";
 const authApis = {
   validateEmail: methodFormat(async ({ email }) => {
     const response = await client.get(`${PATH}validate/email?email=${email}`);
-
     return response;
   }),
   validateNickname: methodFormat(async ({ nickname }) => {

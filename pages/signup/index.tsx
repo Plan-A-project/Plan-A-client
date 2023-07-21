@@ -110,7 +110,6 @@ const SignUp = () => {
       }));
     }
   };
-
   return (
     <PageLayout>
       <Flex align={"center"}>

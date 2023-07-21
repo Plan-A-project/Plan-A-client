@@ -5,7 +5,6 @@ import { FireIcon } from "../icons";
 export default function TextBanner() {
   return (
     <Flex
-      p={"0 16px"}
       color={"background.600"}
       fontSize={"20px"}
       fontWeight={"600"}

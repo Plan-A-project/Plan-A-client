@@ -34,7 +34,7 @@ export const theme = extendTheme({
       fontFamily: "Pretendard",
       fontSize: "16px",
       fontWeight: "semibold",
-      lineHeight: "19px",
+      lineHeight: "20px",
       letterSpacing: "0",
     },
     body1: {
@@ -121,7 +121,9 @@ export const theme = extendTheme({
     },
     // error: #F90B66,
     background1: "#FFFFFF",
+
     background2: "#F7F8FA",
+
     grey: {
       100: "#ECECEF",
       200: "#DBDCE1",

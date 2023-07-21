@@ -1,4 +1,14 @@
-import { Box, Button, Flex, Text, TextProps, chakra } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ChakraComponent,
+  ChakraProps,
+  Flex,
+  HTMLChakraComponents,
+  Text,
+  TextProps,
+  chakra,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import IconBack from "../icons/IconBack";
@@ -21,7 +31,7 @@ type HeaderProps = {
   back?: boolean;
   leftTitle?: boolean;
   rightNode?: React.ReactNode;
-};
+} & ChakraProps;
 
 const Header: React.FC<HeaderProps> = ({
   title,
@@ -29,6 +39,7 @@ const Header: React.FC<HeaderProps> = ({
   leftTitle,
   rightNode,
   back,
+  ...props
 }) => {
   const router = useRouter();
 
@@ -40,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({
   }
 
   return (
-    <chakra.header pos={"sticky"} top={0} left={0}>
+    <chakra.header pos={"sticky"} top={0} left={0} {...props}>
       <Flex justify={"center"} height={10} align={"center"}>
         <Box flex={1}>
           {(back || onBackClick) && (

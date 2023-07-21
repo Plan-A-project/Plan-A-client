@@ -7,7 +7,7 @@ const linkData = [
     link: "http://ehall.fudan.edu.cn",
   },
   {
-    Icon: "/assets/3.svg",
+    Icon: "/assets/Icon.jpg",
     text: "E-learning",
     link: "https://elearning.fudan.edu.cn/",
   },
@@ -30,7 +30,7 @@ const linkData = [
 
 export default function HyperLinks() {
   return (
-    <Flex justifyContent={"space-evenly"}>
+    <Flex justifyContent={"space-between"}>
       {linkData.map(({ Icon, text, link }) => {
         return (
           <Link href={link} key={text}>
