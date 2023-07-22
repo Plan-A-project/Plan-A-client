@@ -4,11 +4,10 @@ import { Box } from "@chakra-ui/layout";
 import { ChakraProps, Input } from "@chakra-ui/react";
 
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
-import { IPostContent } from "@/state/atoms/posting/postContentAtom";
+import { IPostContent } from "@/state/atoms/posting/generalPostingContentAtom";
 
 const formProps: ChakraProps = {
   border: "none",
-  borderBottom: "1px solid",
   borderColor: "gray.100",
   borderRadius: 0,
   _focus: { borderColor: "gray.300" },

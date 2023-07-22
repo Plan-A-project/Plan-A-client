@@ -6,17 +6,20 @@ import * as recoil from "recoil";
 
 import postApis from "@/api/post";
 import CreatePostButton from "@/components/board/CreatePostButton";
-import Title from "@/components/board/FormTitle";
+import FormTitle from "@/components/board/FormTitle";
 import GeneralPostForm from "@/components/board/GeneralPostForm";
 import AppContainer from "@/components/common/AppContainer";
 import CaretLeft from "@/components/icons/CaretLeft";
 import useSnackbar from "@/hooks/useSnackbar";
-import { postContentAtom } from "@/state/atoms/posting/postContentAtom";
+import { generalPostingContentAtom } from "@/state/atoms/posting/generalPostingContentAtom";
 
+// 공지글과 동일한 폼을 가집니다
 export default function Normal() {
   const [isBtnActive, setBtnActive] = useState(false);
-  const [postContent, setPostContent] = recoil.useRecoilState(postContentAtom);
-  const navigator = useNavigate();
+  const [postContent, setPostContent] = recoil.useRecoilState(
+    generalPostingContentAtom,
+  );
+  // const navigator = useNavigate();
 
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("일반글을 작성하였습니다.");
@@ -24,7 +27,7 @@ export default function Normal() {
   useEffect(() => {
     async function createPost() {
       const res = await postApis.initializePost({
-        boardId: 4,
+        boardId: 4, // url param으로 받아오기
         postType: "normal",
       });
 
@@ -58,7 +61,7 @@ export default function Normal() {
     if (res.ok) {
       activateSnackbar();
       setTimeout(() => {
-        navigator("/");
+        // navigator("/");
       }, 3000);
     }
   }
@@ -66,8 +69,8 @@ export default function Normal() {
   return (
     <AppContainer>
       {isActivated && <Snackbar />}
-      <Title
-        title="글쓰기"
+      <FormTitle
+        title={"글쓰기"}
         left={<CaretLeft />}
         right={
           <CreatePostButton isActive={isBtnActive} handleClick={updatePost} />

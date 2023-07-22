@@ -6,11 +6,15 @@ type TitleProps = {
   right?: React.ReactNode;
 };
 
-export default function Title({ left, title, right }: TitleProps) {
+export default function FormTitle({ left, title, right }: TitleProps) {
   return (
     <Flex justifyContent={"space-between"} alignItems={"center"} mt={5}>
       {left && left}
-      {title && <Heading size={"md"}>{title}</Heading>}
+      {title && (
+        <Heading size={"md"} ml={5}>
+          {title}
+        </Heading>
+      )}
       {right && right}
     </Flex>
   );

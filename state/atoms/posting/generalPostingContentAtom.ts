@@ -13,7 +13,7 @@ export type IPostContent = {
   };
 };
 
-export const postContentAtom = atom<IPostContent>({
+export const generalPostingContentAtom = atom<IPostContent>({
   key: "myCourseListState",
   default: {
     postId: 0,

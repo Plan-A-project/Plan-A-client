@@ -15,7 +15,7 @@ import postApis from "@/api/post";
 import {
   IPostContent,
   postContentAtom,
-} from "@/state/atoms/posting/postContentAtom";
+} from "@/state/atoms/posting/generalPostingContentAtom";
 
 import CameraIcon from "../icons/CameraIcon";
 import KeyboardIcon from "../icons/KeyboardIcon";
