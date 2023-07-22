@@ -7,6 +7,7 @@ import React, {
 } from "react";
 
 import { Flex, HStack, Spacer, Text } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRecoilState } from "recoil";
 
@@ -14,42 +15,37 @@ import postApis from "@/api/post";
 import {
   IPostContent,
   postContentAtom,
-} from "@/state/atoms/posting/postContentAtom";
+} from "@/state/atoms/posting/generalPostingContentAtom";
 
 import CameraIcon from "../icons/CameraIcon";
 import KeyboardIcon from "../icons/KeyboardIcon";
 
-function KeyboardFixedElement({
-  ref,
-  postId,
-}: {
-  ref: RefObject<HTMLTextAreaElement>;
-  postId: number | undefined;
-}) {
+function KeyboardFixedElement({ postId }: { postId: number }) {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [postContent, setPostContent] = useRecoilState(postContentAtom);
+  const [fileCount, setFileCount] = useState(0);
 
   async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-    const files = event.target.files?.[0];
-    // 파일 처리 코드
-    const res = await postApis.postImage({
-      postId,
-      files,
-    });
-    if (res.ok && Array.isArray(res.data?.data)) {
-      const imgUrls = res.data?.data.map(
-        img =>
-          `<Image src=${img.imageUrl} key=${img.imageId} alt="포스팅 이미지" />`,
-      );
-      imgUrls &&
-        setPostContent(d => ({
-          ...d,
-          content: d.requestDto.main + imgUrls.join(" "),
-        }));
-      return postContentAtom;
-    }
-    // 오류 팝업
+    // Dev
+    const filesUrl = [
+      "https://inflibucket.s3.ap-northeast-2.amazonaws.com/post/post_1/Screen%20Shot%202023-07-19%20at%209.28.22%20PM_1690029236680.png",
+    ];
+    handleImageChange(filesUrl);
+    setFileCount(i => i + filesUrl.length);
+
+    // Prod
+    // const files = event.target.files?.[0];
+    // const res = await postApis.postImage({
+    //   postId, // TODO: 실제 postid로 변경
+    //   files,
+    // });
+    // if (res.ok && Array.isArray(res.data?.data)) {
+    //   const filesUrl = res.data?.data.map(img => img.imageUrl); // 상태값 갱신
+    //   if (filesUrl && filesUrl.length > 0) {
+    //     setFileCount(i => i + filesUrl.length);
+    //     handleImageChange(filesUrl);
+    //   }
+    // } // 오류 팝업
   }
 
   function handleButtonClick() {
@@ -58,27 +54,52 @@ function KeyboardFixedElement({
     }
   }
 
-  useEffect(() => {
-    const handleKeyboardEvent = (event: FocusEvent) => {
-      setIsKeyboardOpen(event.type === "focus");
-    };
+  function handleImageChange(filesUrl: string[] | undefined) {
+    if (filesUrl) {
+      for (let i = 0; i < filesUrl.length; i++) {
+        const newNode = document.createElement("img");
+        newNode.src = filesUrl[i];
+        newNode.alt = "포스팅 이미지";
+        newNode.style.maxWidth = "100%";
 
-    const inputElement = ref?.current;
-    if (inputElement) {
-      inputElement.addEventListener("focus", handleKeyboardEvent);
-      inputElement.addEventListener("blur", handleKeyboardEvent);
-    }
-
-    return () => {
-      // 클린업
-      if (inputElement) {
-        inputElement.removeEventListener("focus", handleKeyboardEvent);
-        inputElement.removeEventListener("blur", handleKeyboardEvent);
+        const targetElement = document.getElementById("contentEditable");
+        targetElement && targetElement.appendChild(newNode);
       }
-    };
-  }, []);
+    }
+  }
 
-  console.log("postContent", postContent);
+  //   이미지 base64 변환 후 텍스트 + 이미지 모두 전달하는 방법
+  //   const handleImageChange = () => {
+  //     if (
+  //       fileInputRef.current &&
+  //       fileInputRef.current.files &&
+  //       fileInputRef.current.files.length > 0
+  //     ) {
+  //       const files = fileInputRef.current.files;
+
+  //       for (let i = 0; i < files.length; i++) {
+  //         const file = files[i];
+  //         const reader = new FileReader();
+  //         reader.onloadend = () => {
+  //           if (reader.result) {
+  //             const imgTag = `<img src="${reader.result}" alt="Selected" style="max-width: 100%;" />`;
+  //             const selection = window.getSelection();
+  //             if (selection && selection.getRangeAt && selection.rangeCount) {
+  //               const range = selection.getRangeAt(0);
+  //               const newNode = range.createContextualFragment(imgTag);
+  //               range.insertNode(newNode);
+  //             }
+  //             const contentContainer =
+  //               document.getElementById("contentContainer");
+  //             if (contentContainer) {
+  //               contentContainer.innerHTML += imgTag;
+  //             }
+  //           }
+  //         };
+  //         reader.readAsDataURL(file);
+  //       }
+  //     }
+  //   };
 
   return (
     <HStack
@@ -102,7 +123,7 @@ function KeyboardFixedElement({
       />
       <Flex onClick={handleButtonClick}>
         <CameraIcon />
-        <Text>0/10</Text>
+        <Text>{fileCount}/10</Text>
       </Flex>
       <Spacer />
       <KeyboardIcon />
