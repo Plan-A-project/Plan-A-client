@@ -1,9 +1,9 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 
-import { ChakraProps, FormControl, Input, Textarea } from "@chakra-ui/react";
-import { SetterOrUpdater } from "recoil";
+import { Box } from "@chakra-ui/layout";
+import { ChakraProps, Input } from "@chakra-ui/react";
 
-import BottomFixedElement from "@/components/common/KeyboardFixedElement";
+import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
 import { IPostContent } from "@/state/atoms/posting/postContentAtom";
 
 const formProps: ChakraProps = {
@@ -20,75 +20,72 @@ const inputProps: ChakraProps = {
   py: 2,
 };
 
-function GeneralPostForm({
-  postContent,
-  setPostContent,
-}: {
+type IGeneralPostForm = {
   postContent: IPostContent;
-  setPostContent: SetterOrUpdater<IPostContent>;
-}) {
-  const mainRef = useRef<HTMLTextAreaElement>(null);
-  const contentEditableRef = useRef<HTMLDivElement | null>(null);
+  setPostContent: (newValue: any) => void;
+};
 
-  const insertImage = (imageUrl: string) => {
-    if (contentEditableRef.current) {
-      const imgTag = `<img src="${imageUrl}" alt="Image" />`;
-      contentEditableRef.current.focus();
+function GeneralPostForm({ postContent, setPostContent }: IGeneralPostForm) {
+  const editableDivRef = useRef<HTMLDivElement | null>(null);
 
-      // Insert the image at the current cursor position
-      document.execCommand("insertHTML", false, imgTag);
-    }
-  };
+  function setTitle(e: React.ChangeEvent<HTMLInputElement>) {
+    setPostContent((prevData: IPostContent) => ({
+      ...prevData,
+      body: {
+        ...prevData.body,
+        requestDto: {
+          ...prevData.body.requestDto,
+          title: e.target.value, // 새로운 title 값으로 업데이트
+        },
+      },
+    }));
+  }
+  function setContent(d: any) {
+    setPostContent((prevData: IPostContent) => ({
+      ...prevData,
+      body: {
+        ...prevData.body,
+        requestDto: {
+          ...prevData.body.requestDto,
+          main: d, // 새로운 title 값으로 업데이트
+        },
+      },
+    }));
+  }
+
+  function handleContentChange(event: React.SyntheticEvent<HTMLDivElement>) {
+    const newContent = event.currentTarget.innerHTML;
+    setContent(newContent);
+  }
 
   return (
-    <FormControl>
+    <Box>
       <Input
         flexShrink={0}
         variant={"unstyled"}
         h={9}
         mt={3}
-        value={postContent?.requestDto.title}
+        value={postContent.body.requestDto.title}
         {...inputProps}
         placeholder="제목을 입력해주세요."
-        onChange={e =>
-          setPostContent(prevData => ({
-            ...prevData,
-            requestDto: { ...prevData.requestDto, title: e.target.value },
-          }))
-        }
+        onChange={setTitle}
       />
-      <Textarea
+
+      <Box
+        id="contentEditable"
+        contentEditable
         mt={2}
-        flex={1}
-        resize={"none"}
         lineHeight={5}
-        placeholder="내용을 입력해주세요."
-        rows={13}
-        {...inputProps}
         p={2}
-        value={postContent?.requestDto.main}
-        onChange={e =>
-          setPostContent(d => ({
-            ...d,
-            requestDto: { ...d.requestDto, main: e.target.value },
-          }))
-        }
+        {...inputProps}
+        _focus={{ outline: 0 }}
         sx={{ boxShadow: "none !important" }}
-        ref={mainRef}
+        onBlur={handleContentChange}
+        onInput={handleContentChange}
+        ref={editableDivRef}
       />
-      {/* TODO: Textarea -> contenteditable div 로 교체 */}
-      <div ref={contentEditableRef} contentEditable="true"></div>
-      <button
-        onClick={() =>
-          insertImage(
-            "https://cdn.pixabay.com/photo/2023/05/26/12/31/couple-8019370_960_720.jpg",
-          )
-        }
-      >
-        URL로 이미지 삽입하기
-      </button>
-      <BottomFixedElement ref={mainRef} postId={postContent.postId} />
-    </FormControl>
+      <KeyboardFixedElement postId={postContent.postId || 0} />
+    </Box>
   );
 }
 
