@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
+import postApis from "@/api/post";
 import BoardComment from "@/components/board/BoardComment";
 import BoardCommentInput from "@/components/board/BoardCommentInput";
 import BoardCommentList from "@/components/board/BoardCommentList";
@@ -12,42 +13,32 @@ function BoardDetail() {
   const [data, setData] = useState<any>();
 
   const {
-    query: { id },
+    query: { boardId, postId },
   } = useRouter();
 
-  useEffect(() => {
-    if (!id) return;
-    (async function () {
-      await setTimeout(() => {
-        setData({
-          title: "HELLO",
-          date: "2022.04.04",
-          content:
-            "본문이 들어갈 자리입니다. 본문이 들어갈 자리입니다. 본문이 들어갈 자리입니다. 본문이 들어갈 자리입니다. 본문이 들어갈 자리입니다.",
-          images: [
-            "https://via.placeholder.com/300x120",
-            "https://via.placeholder.com/300x120",
-            "https://via.placeholder.com/300x120",
-          ],
-        });
-      }, 1000);
-    })();
-  }, [id]);
+  // http://localhost:3000/posting/4/18
 
+  async function updatePost() {
+    const res = await postApis.readPost({ boardId, postId });
+    if (res.ok) {
+      setData(res.data!.data);
+    }
+  }
+
+  useEffect(() => {
+    boardId && postId && updatePost();
+  }, [boardId, postId]);
+
+  console.log("data", data);
   return (
     <AppContainer>
-      {data !== undefined ? (
+      {data ? (
         <>
-          <Header back title="테스트" />
-          <BoardView
-            title={data?.title}
-            date={data?.date}
-            content={data?.content}
-            images={data?.images}
-          />
+          <Header back />
+          <BoardView {...data} />
           <BoardCommentList>
             <BoardComment
-              profileImage="https://via.placeholder.com/150"
+              profileImage={"https://via.placeholder.com/150"}
               username="하이"
               depth={0}
               content="댓글입니다."
@@ -64,7 +55,7 @@ function BoardDetail() {
           <BoardCommentInput />
         </>
       ) : (
-        <h1>Loading...</h1>
+        <div>Loading...</div>
       )}
     </AppContainer>
   );
