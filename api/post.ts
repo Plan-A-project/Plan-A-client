@@ -62,7 +62,7 @@ const postApis = {
     return response;
   }),
   // 포스팅 삭제
-  deletPost: methodFormat(async ({ boardId, postId }) => {
+  deletePost: methodFormat(async ({ boardId, postId }) => {
     const headers = getPostingApiHeaders();
     const response = await client.delete(`/board/${boardId}/post/${postId}`, {
       headers,
