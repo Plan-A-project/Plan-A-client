@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useNavigate } from "react-router-dom";
 
 import postApis from "@/api/post";
 import BoardComment from "@/components/board/BoardComment";
@@ -19,6 +20,7 @@ function BoardDetail() {
   const {
     query: { boardId, postId },
   } = useRouter();
+  //   const navigate = useNavigate();
 
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("해당 게시글이 삭제되었습니다");
@@ -48,6 +50,9 @@ function BoardDetail() {
 
   // 예시글: http://localhost:3000/posting/4/18
   async function updatePost() {
+    // TODO: 데이터 res 데이터 담고 ...
+    // boardId, postID query params로 form에 전달
+
     const res = await postApis.readPost({ boardId, postId });
     if (res.ok) {
       setData(res.data!.data);
@@ -57,7 +62,7 @@ function BoardDetail() {
   async function deletePost() {
     const res = await postApis.deletePost({ boardId, postId });
     if (res.ok) {
-      // navigate("/")
+      //   navigate(-1);
       activateSnackbar();
     }
   }
