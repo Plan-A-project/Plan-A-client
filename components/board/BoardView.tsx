@@ -1,40 +1,36 @@
-import { Box, chakra, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
+
+import dateDifference from "@/utils/dateDifference";
 
 type BoardViewProps = {
-  images?: string[];
+  boardName: string;
+  commentMemberCount: number;
+  endDate: string;
+  enterprise: string;
+  likeCount: number;
+  main: string;
+  nickname: string;
+  startDate: string;
   title: string;
-  content: string;
-  date: string;
-  author?: string;
+  viewCount: number;
 };
 
-function getImages(images?: string[]): React.ReactNode {
-  if (!images) return <></>;
-
-  return images.map((image, index) => (
-    <Image
-      key={`${index}:${image}`}
-      src={image}
-      alt={image}
-      w={"100%"}
-      borderRadius={8}
-      mb={2}
-    />
-  ));
-}
-
-function getContent(content: string) {
-  const lines = content.split("\n");
-  return lines.map((line, index) => <p key={`${index}:${line}`}>{line}</p>);
-}
-
 const BoardView: React.FC<BoardViewProps> = ({
-  author,
-  content,
-  date,
+  boardName,
+  commentMemberCount,
+  endDate,
+  enterprise,
+  likeCount,
+  main,
+  nickname,
+  startDate,
   title,
-  images,
+  viewCount,
 }) => {
+  const author = boardName == "익명" ? "익명" : enterprise || nickname;
+  const timeline = `${startDate} ~ ${endDate}`; // 모집글이 아닌 경우
+  const dday = dateDifference(startDate, endDate);
+
   return (
     <>
       <Text color={"gray.900"} fontWeight={"semibold"} lineHeight={5} p={2}>
@@ -49,16 +45,13 @@ const BoardView: React.FC<BoardViewProps> = ({
         minH={30}
       >
         <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-          {author || "익명"}
+          {author}
         </Text>
         <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-          {date}
+          D-{dday} {timeline}
         </Text>
       </Flex>
-      <Box px={2} py={4}>
-        {getImages(images)}
-        {getContent(content)}
-      </Box>
+      <Box px={2} py={4} dangerouslySetInnerHTML={{ __html: main }}></Box>
 
       <Flex
         p={2}
@@ -69,10 +62,10 @@ const BoardView: React.FC<BoardViewProps> = ({
         minH={30}
       >
         <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-          Likes 2
+          Likes {likeCount}
         </Text>
         <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-          Comments 2
+          Comments {commentMemberCount}
         </Text>
       </Flex>
     </>

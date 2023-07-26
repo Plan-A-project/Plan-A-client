@@ -4,7 +4,9 @@ import { Box } from "@chakra-ui/layout";
 import { ChakraProps, Input } from "@chakra-ui/react";
 
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
-import { IPostContent } from "@/state/atoms/posting/generalPostingContentAtom";
+import { IRecruitmentPostContent } from "@/state/atoms/posting/recruitmentPostingContentAtom";
+
+import { IPostForm } from "./RecruitingPostForm";
 
 const formProps: ChakraProps = {
   border: "none",
@@ -19,35 +21,29 @@ const inputProps: ChakraProps = {
   py: 2,
 };
 
-type IGeneralPostForm = {
-  postContent: IPostContent;
-  setPostContent: (newValue: any) => void;
-};
-
-function GeneralPostForm({ postContent, setPostContent }: IGeneralPostForm) {
+function GeneralPostForm({
+  postId,
+  boardId,
+  postContent,
+  setPostContent,
+}: IPostForm) {
   const editableDivRef = useRef<HTMLDivElement | null>(null);
 
   function setTitle(e: React.ChangeEvent<HTMLInputElement>) {
-    setPostContent((prevData: IPostContent) => ({
+    setPostContent((prevData: IRecruitmentPostContent) => ({
       ...prevData,
-      body: {
-        ...prevData.body,
-        requestDto: {
-          ...prevData.body.requestDto,
-          title: e.target.value, // 새로운 title 값으로 업데이트
-        },
+      request: {
+        ...prevData,
+        title: e.target.value, // 새로운 title 값으로 업데이트
       },
     }));
   }
   function setContent(d: any) {
-    setPostContent((prevData: IPostContent) => ({
+    setPostContent((prevData: IRecruitmentPostContent) => ({
       ...prevData,
-      body: {
-        ...prevData.body,
-        requestDto: {
-          ...prevData.body.requestDto,
-          main: d, // 새로운 title 값으로 업데이트
-        },
+      request: {
+        ...prevData,
+        content: d, // 새로운 title 값으로 업데이트
       },
     }));
   }
@@ -56,6 +52,7 @@ function GeneralPostForm({ postContent, setPostContent }: IGeneralPostForm) {
     const newContent = event.currentTarget.innerHTML;
     setContent(newContent);
   }
+  const { title, content } = postContent;
 
   return (
     <Box>
@@ -64,7 +61,7 @@ function GeneralPostForm({ postContent, setPostContent }: IGeneralPostForm) {
         variant={"unstyled"}
         h={9}
         mt={3}
-        value={postContent.body.requestDto.title}
+        value={title}
         {...inputProps}
         placeholder="제목을 입력해주세요."
         onChange={setTitle}
@@ -83,7 +80,7 @@ function GeneralPostForm({ postContent, setPostContent }: IGeneralPostForm) {
         onInput={handleContentChange}
         ref={editableDivRef}
       />
-      <KeyboardFixedElement postId={postContent.postId || 0} />
+      <KeyboardFixedElement />
     </Box>
   );
 }

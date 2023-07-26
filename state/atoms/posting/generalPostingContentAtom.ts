@@ -1,9 +1,8 @@
 import { atom } from "recoil";
 
 export type IPostContent = {
-  postId?: number;
   boardId: number;
-  postType?: "normal" | "gather" | "notice";
+  postType?: "NORMAL" | "ANNOUNCEMENT";
   body: {
     email?: string;
     requestDto: {
@@ -16,9 +15,8 @@ export type IPostContent = {
 export const generalPostingContentAtom = atom<IPostContent>({
   key: "myCourseListState",
   default: {
-    postId: 0,
     boardId: 0,
-    postType: "normal", // default
+    postType: "NORMAL", // default
     body: {
       email: "",
       requestDto: {
