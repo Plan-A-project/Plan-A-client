@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 
-import { Flex, Stack, Button } from "@chakra-ui/react";
+import { Stack, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import authApis from "@/api/authentication";
@@ -8,16 +8,14 @@ import { AppContainer, Header } from "@/components/common";
 import UserInput from "@/components/signup/userInput";
 import validateInput from "@/utils/validation";
 
-const SignUp = () => {
+const CompanySignUp = () => {
   type signUpDataType = {
-    username: string;
     email: string;
     nickname: string;
     password: string;
     passwordConfirm: string;
   };
   const signUpData = {
-    username: "",
     email: "",
     nickname: "",
     password: "",
@@ -25,18 +23,18 @@ const SignUp = () => {
   };
   const signUpInputData = [
     {
-      label: "username",
-      placeholder: "실명을 입력해 주세요",
-      title: "이름",
-      type: "text",
-      hasConfirmButton: false,
-    },
-    {
       label: "email",
       placeholder: "youremail@email.com",
       title: "이메일",
       type: "email",
       hasConfirmButton: true,
+    },
+    {
+      label: "nickname",
+      placeholder: "한글, 영어, 숫자 조합 가능 2~8자",
+      title: "기업명",
+      type: "text",
+      hasConfirmButton: false,
     },
     {
       label: "password",
@@ -52,13 +50,6 @@ const SignUp = () => {
       type: "password",
       hasConfirmButton: false,
     },
-    {
-      label: "nickname",
-      placeholder: "한글, 영어, 숫자 조합 가능 2~8자",
-      title: "닉네임",
-      type: "text",
-      hasConfirmButton: true,
-    },
   ];
   const [inputValues, setInputValues] = useState<signUpDataType>(signUpData);
   const [errors, setErrors] = useState({});
@@ -69,20 +60,20 @@ const SignUp = () => {
   const router = useRouter();
   const isReadyToSignUp =
     confirmInput.email === inputValues.email &&
-    confirmInput.nickname === inputValues.nickname &&
     Object.values(errors).every(value => value === "") &&
     Object.values(inputValues).every(value => value !== "");
 
   const handleSignUp = async () => {
     if (isReadyToSignUp) {
-      await authApis.studentSignup({
+      const response = await authApis.companySignup({
         email: inputValues.email,
-        name: inputValues.username,
         password: inputValues.password,
-        nickname: inputValues.nickname,
-        universityId: 1,
+        companyName: inputValues.nickname,
       });
-      router.push("/login");
+      console.log(response);
+      if (response.ok) {
+        router.push("/login");
+      }
     } else {
       console.log("no validation");
     }
@@ -112,7 +103,7 @@ const SignUp = () => {
   };
   return (
     <AppContainer>
-      <Header back leftTitle title="학생 회원가입" />
+      <Header back leftTitle title="기업 회원가입" />
       <Stack pt={6} spacing={"25px"}>
         {signUpInputData.map(data => {
           return (
@@ -129,7 +120,7 @@ const SignUp = () => {
           );
         })}
       </Stack>
-      <Stack px={"16px"}>
+      <Stack>
         <Button
           textStyle={"subtitle1"}
           onClick={handleSignUp}
@@ -148,4 +139,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default CompanySignUp;

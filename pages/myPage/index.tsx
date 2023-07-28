@@ -15,13 +15,16 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaUserCircle } from "react-icons/fa";
+import { useRecoilState } from "recoil";
 
 import { BeforeLogin } from "@/components/myPage";
+import { isLoggedInState } from "@/state/atoms/auth/loginAtom";
 
 import CustomTag from "../components/CustomTag";
 import DarkModeButton from "../components/DarkModeButton";
 
 const MyPage = () => {
+  const isLoggedIn = useRecoilState(isLoggedInState);
   const router = useRouter();
   return (
     <Container>
@@ -32,26 +35,29 @@ const MyPage = () => {
             <Text textStyle={"headline2"}>계정</Text>
             <Text textStyle={"body2"}>변경</Text>
           </Flex>
-          <BeforeLogin />
-          {/* <Container bgColor="#F7F8FA" borderRadius={8}>
-            <Center paddingY={"20px"}>
-              <Flex gap={"10px"} width={"100%"}>
-                <Icon
-                  as={FaUserCircle}
-                  boxSize={12}
-                  color={"grey"}
-                  alignSelf={"center"}
-                />
-                <Stack spacing={0}>
-                  <Flex gap={2} align={"center"}>
-                    <Text textStyle={"body1"}>닉네임</Text>
-                    <CustomTag title="학생" color="blue" />
-                  </Flex>
-                  <Text textStyle={"body1"}>email@email.com</Text>
-                </Stack>
-              </Flex>
-            </Center>
-          </Container> */}
+          {isLoggedIn ? (
+            <Container bgColor="#F7F8FA" borderRadius={8}>
+              <Center paddingY={"20px"}>
+                <Flex gap={"10px"} width={"100%"}>
+                  <Icon
+                    as={FaUserCircle}
+                    boxSize={12}
+                    color={"grey"}
+                    alignSelf={"center"}
+                  />
+                  <Stack spacing={0}>
+                    <Flex gap={2} align={"center"}>
+                      <Text textStyle={"body1"}>닉네임</Text>
+                      <CustomTag title="학생" color="blue" />
+                    </Flex>
+                    <Text textStyle={"body1"}>email@email.com</Text>
+                  </Stack>
+                </Flex>
+              </Center>
+            </Container>
+          ) : (
+            <BeforeLogin />
+          )}
           <Stack spacing={25}>
             <Link href="">
               <Text textStyle={"body1"} width={"fit-content"} paddingX={"5px"}>

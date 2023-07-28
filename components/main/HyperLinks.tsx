@@ -34,18 +34,23 @@ export default function HyperLinks() {
       {linkData.map(({ Icon, text, link }) => {
         return (
           <Link href={link} key={text}>
-            <Box
-              boxShadow={"0px 4px 16px rgba(48, 49, 54, 0.1)"}
-              borderRadius={"12px"}
-              bg={"#FFFFFF"}
-              padding={"8px"}
-              gap={"8px"}
-            >
-              <Image src={Icon} alt={text} boxSize="auto" />
-            </Box>
-            <Text align="center" fontSize="12px">
-              {text}
-            </Text>
+            <Flex direction={"column"} align={"center"}>
+              <Flex
+                justify={"center"}
+                boxShadow={"0px 4px 16px rgba(48, 49, 54, 0.1)"}
+                borderRadius={"12px"}
+                bg={"#FFFFFF"}
+                padding={"8px"}
+                gap={"8px"}
+                w={12}
+                h={12}
+              >
+                <Image src={Icon} alt={text} boxSize="auto" />
+              </Flex>
+              <Text align="center" fontSize="12px">
+                {text}
+              </Text>
+            </Flex>
           </Link>
         );
       })}

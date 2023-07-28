@@ -15,8 +15,11 @@ const authApis = {
     );
     return response.data;
   }),
-  signup: methodFormat(async data => {
-    await client.post(`${PATH}signup`, data);
+  studentSignup: methodFormat(async data => {
+    await client.post(`${PATH}signup/student`, data);
+  }),
+  companySignup: methodFormat(async data => {
+    await client.post(`${PATH}signup/company`, data);
   }),
   login: methodFormat(async data => {
     const response = await client.post(`${PATH}login`, data);

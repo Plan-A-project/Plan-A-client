@@ -18,7 +18,6 @@ import {
   MainBanner,
 } from "@/components/main";
 import useDrawer from "@/hooks/useDrawer";
-
 const props = {
   header: "홈 설정",
   subtitle: "보고싶은 게시판만 선택하고 정렬해 보세요.",

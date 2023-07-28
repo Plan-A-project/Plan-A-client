@@ -15,6 +15,18 @@ const carouselCss = css`
   .carousel .slide.selected {
     opacity: 1;
   }
+  .carousel .control-arrow:before {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: #2dc8b9; /* Left arrow color */
+    border-right-color: #2dc8b9; /* Right arrow color */
+  }
+  .carousel.carousel-slider .control-arrow:before {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: #2dc8b9; /* Left arrow color in carousel-slider */
+    border-right-color: #2dc8b9; /* Right arrow color in carousel-slider */
+  }
 `;
 
 const MainBanner = () => {
@@ -50,7 +62,7 @@ const MainBanner = () => {
             interval={3000}
             showStatus={false}
             transitionTime={1000}
-            showArrows={false}
+            // showArrows={false}
           >
             {carouselItem.map((el, index) => {
               return (
