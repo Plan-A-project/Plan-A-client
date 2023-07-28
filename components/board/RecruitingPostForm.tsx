@@ -12,7 +12,8 @@ import {
 import { ChakraProps, FormLabel, Input } from "@chakra-ui/react";
 
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
-import { IGatherPostContent } from "@/state/atoms/posting/gatherPostingContentAtom";
+import { IRecruitmentPostContent } from "@/state/atoms/posting/recruitmentPostingContentAtom";
+import { deFormatDate } from "@/utils/date";
 
 const formProps: ChakraProps = {
   border: "none",
@@ -27,84 +28,82 @@ const inputProps: ChakraProps = {
   py: 2,
 };
 
-type IGeneralPostForm = {
-  postContent: IGatherPostContent;
+export type IPostForm = {
+  postId?: number;
+  boardId: number;
+  postContent: IRecruitmentPostContent;
   setPostContent: (newValue: any) => void;
 };
 
-export default function GeneralPostForm({
+export default function RecruitingPostForm({
+  postId,
+  boardId,
   postContent,
   setPostContent,
-}: IGeneralPostForm) {
+}: IPostForm) {
   const editableDivRef = useRef<HTMLDivElement | null>(null);
 
+  // postId, boardId 0 이 아니면 꺼내서 보여주기
+
   const {
-    body: {
-      requestDto: { title, main, enterprise, startDate, endDate },
-    },
+    title,
+    content,
+    recruitment: { companyName, startDate, endDate },
   } = postContent;
 
-  console.log("gather postContent", postContent);
-
   function setTitle(e: React.ChangeEvent<HTMLInputElement>) {
-    setPostContent((prevData: IGatherPostContent) => ({
+    setPostContent((prevData: IRecruitmentPostContent) => ({
       ...prevData,
-      body: {
-        ...prevData.body,
-        requestDto: {
-          ...prevData.body.requestDto,
-          title: e.target.value, // 새로운 title 값으로 업데이트
-        },
+      request: {
+        ...prevData,
+        title: e.target.value, // 새로운 title 값으로 업데이트
       },
     }));
   }
   function setContent(d: any) {
-    setPostContent((prevData: IGatherPostContent) => ({
+    setPostContent((prevData: IRecruitmentPostContent) => ({
       ...prevData,
-      body: {
-        ...prevData.body,
-        requestDto: {
-          ...prevData.body.requestDto,
-          main: d,
-        },
+      request: {
+        ...prevData,
+        content: d, // 새로운 title 값으로 업데이트
       },
     }));
   }
 
   function setEnterprise(e: React.ChangeEvent<HTMLInputElement>) {
-    setPostContent((prevData: IGatherPostContent) => ({
+    setPostContent((prevData: IRecruitmentPostContent) => ({
       ...prevData,
-      body: {
-        ...prevData.body,
-        requestDto: {
-          ...prevData.body.requestDto,
-          enterprise: e.target.value,
+      request: {
+        ...prevData,
+        recruitment: {
+          ...prevData.recruitment,
+          companyName: e.target.value, // 새로운 title 값으로 업데이트
         },
       },
     }));
   }
 
   function setStartDate(date: string) {
-    setPostContent((prevData: IGatherPostContent) => ({
+    setPostContent((prevData: IRecruitmentPostContent) => ({
       ...prevData,
-      body: {
-        ...prevData.body,
-        requestDto: {
-          ...prevData.body.requestDto,
-          startDate: date,
+      request: {
+        ...prevData,
+        recruitment: {
+          ...prevData.recruitment,
+          startDate: date, // 새로운 title 값으로 업데이트
         },
       },
     }));
   }
 
   function setEndDate(date: string) {
-    setPostContent((prevData: IGatherPostContent) => ({
+    setPostContent((prevData: IRecruitmentPostContent) => ({
       ...prevData,
-      body: {
-        ...prevData.body,
-        requestDto: {
-          ...prevData.body.requestDto,
-          endDate: date,
+      request: {
+        ...prevData,
+        recruitment: {
+          ...prevData.recruitment,
+          endDate: date, // 새로운 title 값으로 업데이트
         },
       },
     }));
@@ -136,7 +135,7 @@ export default function GeneralPostForm({
           flexShrink={0}
           h={9}
           mt={3}
-          value={enterprise}
+          value={companyName}
           {...inputProps}
           placeholder="기업/기관의 이름을 입력해주세요."
           setValue={setEnterprise}
@@ -166,9 +165,10 @@ export default function GeneralPostForm({
           ref={editableDivRef}
           p={3}
           // placeholder 모집 상세 내용을 최대한 자세히 입력해 주세요.
+          dangerouslySetInnerHTML={{ __html: postId ? content : "" }} // 수정의 경우에만 한번 호출
         />
       </GridItem>
-      <KeyboardFixedElement postId={postContent.postId || 0} />
+      <KeyboardFixedElement />
     </Grid>
   );
 }
@@ -214,8 +214,11 @@ function DateInput({ setDate }: { setDate: (date: string) => void }) {
   const [day, setDay] = useState(today.getDate());
 
   useEffect(() => {
-    setDate(`${year}-${month}-${day}`);
-  }, [year, month, day]);
+    if (year && month && day) {
+      const _deformattedDate = deFormatDate(`${year}-${month}-${day}`);
+      year && month && day && setDate(_deformattedDate);
+    }
+  }, [year, month, day]); // TODO: Date 객체로 변경하기
 
   return (
     <HStack>
