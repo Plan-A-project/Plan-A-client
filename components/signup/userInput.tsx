@@ -77,6 +77,11 @@ const UserInput = ({
           ...prev,
           nickname: "아주 멋진 닉네임이군요!",
         }));
+      } else {
+        handleErrors((prevState: any) => ({
+          ...prevState,
+          [label]: "이미 같은 닉네임이 존재해요.",
+        }));
       }
     }
   };
@@ -97,10 +102,10 @@ const UserInput = ({
         borderRadius={16}
         bgColor={"background1"}
         onClick={
-          type === "이메일" ? handleEmailValidate : handleNickNameValidate
+          type === "email" ? handleEmailValidate : handleNickNameValidate
         }
       >
-        {type === "이메일" ? "인증" : "확인"}
+        {confirmMessage[type] ? "완료" : "확인"}
       </Button>
     );
   };
@@ -138,7 +143,7 @@ const UserInput = ({
           }}
           id={label}
         />
-        {hasConfirmButton && <ValidateButton type={title} />}
+        {hasConfirmButton && <ValidateButton type={label} />}
       </Flex>
       {confirmMessage[label] && (
         <Flex

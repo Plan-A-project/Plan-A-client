@@ -69,7 +69,7 @@ const Login = () => {
   };
   return (
     <AppContainer>
-      <Header back leftTitle title="학생 로그인" />
+      <Header back leftTitle title="기업 로그인" />
       <form>
         <Stack pt={6}>
           {loginInputData.map(data => {

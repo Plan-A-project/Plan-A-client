@@ -12,3 +12,6 @@ export { default as LineTab } from "./LineTab";
 export { default as Searchbar } from "./Searchbar";
 export { default as Snackbar } from "./Snackbar";
 export { default as Divider } from "./Divider";
+export { default as Badge } from "./Badge";
+export { default as ToggleTab } from "./ToggleTab";
+export { default as UserInput } from "./UserInput";

@@ -26,7 +26,7 @@ const Title: React.FC<TextProps & TitleProps> = ({ text, ...props }) => {
 };
 
 type HeaderProps = {
-  title?: string;
+  title: string;
   onBackClick?: () => void;
   back?: boolean;
   leftTitle?: boolean;
@@ -52,8 +52,8 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <chakra.header pos={"sticky"} top={0} left={0} {...props}>
-      <Flex justify={"center"} height={10} align={"center"}>
-        <Flex>
+      <Flex justify={"center"} height={"auto"} align={"center"}>
+        <Flex flex={1}>
           {(back || onBackClick) && (
             <Button
               variant={"unstyled"}

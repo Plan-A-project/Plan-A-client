@@ -21,7 +21,20 @@ import postApis from "@/api/post";
 import CameraIcon from "../icons/CameraIcon";
 import KeyboardIcon from "../icons/KeyboardIcon";
 
+<<<<<<< HEAD
+function KeyboardFixedElement({
+  ref,
+  postId,
+}: {
+  ref: RefObject<HTMLTextAreaElement>;
+  postId: number | undefined;
+}) {
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [postContent, setPostContent] = useRecoilState(postContentAtom);
+=======
 type IKeyboardFixedElement = (fileUrls: string[]) => void;
+>>>>>>> upstream/main
 
 function KeyboardFixedElement() {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false); // mock keyboard

@@ -34,7 +34,6 @@ const Banner: BannerComponent = forwardRef<HTMLDivElement, BannerProps>(
         ref={ref}
         w={"100%"}
         minH={"72px"}
-        p={"0 12px"}
         alignItems={"stretch"}
         display={"flex"}
         bg={"white"}
@@ -52,18 +51,31 @@ const Banner: BannerComponent = forwardRef<HTMLDivElement, BannerProps>(
 type TextBannerProps = FlexProps & {
   text: string;
   icon?: ReactNode;
+  iconForward?: boolean;
+  textCenter?: boolean;
 };
 
-const TextBanner: React.FC<TextBannerProps> = ({ text, icon, ...props }) => {
+const TextBanner: React.FC<TextBannerProps> = ({
+  text,
+  icon,
+  iconForward,
+  textCenter,
+  ...props
+}) => {
   return (
-    <Flex align="center" flex={1} flexShrink={0} {...props}>
+    <Flex align="center" flex={1} flexShrink={0} {...props} p={"0 12px"}>
       {icon || <IconNotice />}
 
-      <Text mx={2} textStyle="subtitle1" textAlign="left" flex={1}>
+      <Text
+        mx={2}
+        textStyle="subtitle1"
+        textAlign={textCenter ? "center" : "left"}
+        flex={1}
+      >
         {text}
       </Text>
 
-      <IconForward />
+      {iconForward || <IconForward />}
     </Flex>
   );
 };
