@@ -1,12 +1,12 @@
 import BoardFAB from "@/components/board/BoardFAB";
+import PostsList from "@/components/board/PostsList";
 import { AppContainer, Header } from "@/components/common";
 import SearchModal from "@/components/common/SearchModal";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 
-import { AllPosts } from "../free";
-
 function ClubMain() {
   const testSearchFunction = searchFunctionFactory("동아리");
+
   return (
     <AppContainer>
       <Header
@@ -19,7 +19,7 @@ function ClubMain() {
           />
         }
       />
-      <AllPosts />
+      <PostsList boardName={"동아리"} />
       <BoardFAB />
     </AppContainer>
   );
