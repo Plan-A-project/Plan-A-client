@@ -118,6 +118,7 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   bookmark,
   ...props
 }) => {
+  console.log(description);
   return (
     <Flex px={3} py={4} gap={3} direction={"column"} {...props}>
       <FreeBoardItemContent
@@ -131,7 +132,7 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
       />
       <Flex justify={"space-between"} align={"center"}>
         <Flex gap={2} align={"end"}>
-          {dday ? (
+          {dday !== undefined ? (
             <Heading color={"primary.500"} size={"xs"}>
               D-{dday}
             </Heading>
@@ -140,24 +141,22 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
         </Flex>
 
         <Flex gap={"8px"} align={"center"}>
-          {likes ? (
+          {likes !== undefined ? (
             <Flex gap={"2px"} align={"center"}>
               <HeartEmpty />
               <BottomText>{likes}</BottomText>
             </Flex>
           ) : null}
-          {comments ? (
+          {comments !== undefined ? (
             <Flex gap={"2px"} align={"center"}>
               <Comment />
               <BottomText>{comments}</BottomText>
             </Flex>
           ) : null}
-          {views ? (
-            <Flex gap={"2px"} align={"center"}>
-              <WatchedIcon />
-              <BottomText>{views}</BottomText>
-            </Flex>
-          ) : null}
+          <Flex gap={"2px"} align={"center"}>
+            <WatchedIcon />
+            <BottomText>{views}</BottomText>
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

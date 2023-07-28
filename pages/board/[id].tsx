@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import axios from "axios";
 import { useRouter } from "next/router";
 
 import BoardComment from "@/components/board/BoardComment";
@@ -16,8 +17,21 @@ function BoardDetail() {
   } = useRouter();
 
   useEffect(() => {
+    const AccessToken = window.localStorage.getItem("accessToken");
+    const headers = {
+      "Access-Token": AccessToken,
+      "Content-Type": "application/json",
+    };
+
     if (!id) return;
     (async function () {
+      const { data } = await axios.get(
+        `http://dukcode.iptime.org/board/${4}/posts`,
+        {
+          headers,
+        },
+      );
+      console.log(data);
       await setTimeout(() => {
         setData({
           title: "HELLO",
