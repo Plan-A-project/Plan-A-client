@@ -26,7 +26,7 @@ const Title: React.FC<TextProps & TitleProps> = ({ text, ...props }) => {
 };
 
 type HeaderProps = {
-  title: string;
+  title?: string;
   onBackClick?: () => void;
   back?: boolean;
   leftTitle?: boolean;

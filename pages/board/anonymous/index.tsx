@@ -1,60 +1,31 @@
-import { NextPage } from "next";
-import Link from "next/link";
-
-import BoardBanner from "@/components/board/BoardBanner";
 import BoardFAB from "@/components/board/BoardFAB";
-import BoardItem from "@/components/board/BoardItem";
-import BoardItemContent from "@/components/board/BoardItemContent";
-import BoardStack from "@/components/board/BoardStack";
-import AppContainer from "@/components/common/AppContainer";
-import Header from "@/components/common/Header";
-import IconSearch from "@/components/icons/IconSearch";
-import { useSorter } from "@/hooks/useSorter";
+import { AppContainer, Header } from "@/components/common";
+import SearchModal from "@/components/common/SearchModal";
+import useBoardList from "@/hooks/board/useBoardList";
+import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 
-function getAllPosts() {
+import { AllPosts } from "../free";
+
+function AnonymousMain() {
+  const anonymousBoardList = useBoardList(4);
+  const testSearchFunction = searchFunctionFactory("익명게시판");
+  console.log(anonymousBoardList);
   return (
-    <BoardStack>
-      <Link href={"/anonymous/read"}>
-        <BoardItem date="2023.04.11" likes={240} comments={16}>
-          <BoardItemContent
-            title="제목"
-            description="내용"
-            image="https://via.placeholder.com/100"
+    <AppContainer>
+      <Header
+        leftTitle
+        title="익명게시판"
+        rightNode={
+          <SearchModal
+            autocompleteFunction={testAutocompleteFunction}
+            searchFunction={testSearchFunction}
           />
-        </BoardItem>
-      </Link>
-      <Link href={"/anonymous/read"}>
-        <BoardItem date="2023.04.11" likes={240} comments={16}>
-          <BoardItemContent title="제목" />
-        </BoardItem>
-      </Link>
-      <BoardItem date="2023.04.11" likes={240} comments={16}>
-        <BoardItemContent
-          title="제목"
-          description="내용"
-          image="https://via.placeholder.com/100"
-        />
-      </BoardItem>
-    </BoardStack>
+        }
+      />
+      <AllPosts boardList={anonymousBoardList} loading={false} />
+      <BoardFAB />
+    </AppContainer>
   );
 }
 
-const Anonymous: NextPage = () => {
-  const [getSortButton] = useSorter();
-
-  return (
-    <AppContainer>
-      <Header leftTitle title="익명게시판" rightNode={<IconSearch />} />
-
-      <BoardBanner my={4}>게시판 이용 규칙 안내</BoardBanner>
-      {getSortButton()}
-      {getAllPosts()}
-
-      <Link href="/anonymous/write">
-        <BoardFAB />
-      </Link>
-    </AppContainer>
-  );
-};
-
-export default Anonymous;
+export default AnonymousMain;

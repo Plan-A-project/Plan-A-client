@@ -7,11 +7,11 @@ type buttonType = {
 
 function CreatePostButton({ isActive, handleClick }: buttonType) {
   return isActive ? (
-    <Button bg={"none"} color={"blue"} onClick={handleClick}>
+    <Button bg={"none"} color={"blue"} onClick={handleClick} p={0}>
       등록
     </Button>
   ) : (
-    <Button bg={"none"} color={"gray.200"}>
+    <Button bg={"none"} color={"gray.200"} p={0}>
       등록
     </Button>
   );

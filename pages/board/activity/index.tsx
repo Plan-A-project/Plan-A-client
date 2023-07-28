@@ -7,11 +7,10 @@ import BoardFAB from "@/components/board/BoardFAB";
 import BoardStack from "@/components/board/BoardStack";
 import FreeBoardItem from "@/components/board/FreeBoardItem";
 import FreeBoardTab from "@/components/board/FreeBoardTabs";
+import PostsList from "@/components/board/PostsList";
 import { AppContainer, Header } from "@/components/common";
 import SearchModal from "@/components/common/SearchModal";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
-
-import { AllPosts } from "../free";
 
 function ActivityMain() {
   const testSearchFunction = searchFunctionFactory("대외활동");
@@ -30,8 +29,8 @@ function ActivityMain() {
       <FreeBoardTab
         leftLabel="전체"
         rightLabel="모집"
-        leftTab={<AllPosts />}
-        rightTab={<RecruitPosts />}
+        leftTab={<PostsList boardName={"대외활동"} />}
+        rightTab={<PostsList boardName={"대외활동"} type="RECRUITMENT" />}
       ></FreeBoardTab>
       <BoardFAB />
     </AppContainer>
