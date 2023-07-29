@@ -29,9 +29,9 @@ const PAGE_TITLE: { [key: string]: string } = {
 // e.g. http://localhost:3000/board/form?boardId=4&postType=ANNOUNCEMENT
 export default function PostingForm() {
   const params = useSearchParams();
-  const boardId = params.get("boardId") || "4"; // 있으면 업데이트 폼 없으면 생성 폼
-  const postId = params.get("postId") || "0"; // 있으면 업데이트 폼 없으면 생성 폼
-  const postType = params.get("postType") || "NORMAL"; // 있으면 업데이트 폼 없으면 생성 폼
+  const [boardId, setBoardId] = useState("4");
+  const [postId, setPostId] = useState("0");
+  const [postType, setPostType] = useState("NORMAL");
   // RECRUITMENT | ANNOUNCEMENT | NORMAL
 
   const [isBtnActive, setBtnActive] = useState(false);
@@ -62,40 +62,57 @@ export default function PostingForm() {
         // 뼈대 생성 + 포스팅 생성
         body: { ...postContent, content: "임시 내용" },
       });
-      await setPostContent((prevData: IPostContent) => ({
-        ...prevData,
-        postId: res.data!.data, // postId 업데이트
-      }));
 
       if (res.ok) {
-        try {
-          // 뼈대 생성
-          const resImg = await postApis.postImage({
-            // 이미지 업로드
+        setPostContent((prevData: IPostContent) => ({
+          ...prevData,
+          postId: res.data!.data, // postId 업데이트
+        }));
+
+        console.log(postContent);
+        debugger;
+
+        // 뼈대 생성
+        const resImg = await postApis.postImage({
+          // 이미지 업로드
+          postId: res.data!.data,
+          files: encodedImgLst,
+        });
+        const imgUrls = resImg.data || [];
+        let newInnerHTML = innerHTML;
+        for (let i = 0; i < imgUrls.length; i++) {
+          // 기존 base64 이미지 문자 -> s3 이미지 링크로 replace
+          const replaceFrom = encodedImgLst[i];
+          const replaceTo = imgUrls[i];
+          newInnerHTML = newInnerHTML.replace(`${replaceFrom}`, replaceTo);
+        }
+        setPostContent((prevData: IPostContent) => ({
+          ...prevData,
+          content: newInnerHTML,
+        }));
+        console.log(postContent);
+        debugger;
+        const resUpdate = await postApis.updatePost({
+          body: {
+            ...postContent,
+            content: newInnerHTML,
             postId: res.data!.data,
-            files: encodedImgLst,
-          });
-          const imgUrls = resImg.data || [];
-          let newInnerHTML = innerHTML;
-          for (let i = 0; i < imgUrls.length; i++) {
-            // 기존 base64 이미지 문자 -> s3 이미지 링크로 replace
-            const replaceFrom = encodedImgLst[i];
-            const replaceTo = imgUrls[i];
-            newInnerHTML = newInnerHTML.replace(replaceFrom, replaceTo);
-          }
-          setPostContent((prevData: IPostContent) => ({
-            ...prevData,
-            content: newInnerHTML, // 새로운 title 값으로 업데이트
-          }));
-          const resUpdate = await postApis.updatePost({ body: postContent });
+          },
+        });
+        if (resUpdate.ok) {
           activateSnackbar();
           // router 이동
-        } catch (e) {
+        } else {
           const resDelete = await postApis.deletePost({
-            postId: postContent.postId,
+            postId: res.data!.data,
           });
           return <Box>글 생성에 실패하였습니다.</Box>;
         }
+      } else {
+        const resDelete = await postApis.deletePost({
+          postId: res.data!.data,
+        });
+        return <Box>글 생성에 실패하였습니다.</Box>;
       }
     }
   }
@@ -107,13 +124,20 @@ export default function PostingForm() {
   }, [postContent]);
 
   useEffect(() => {
+    setBoardId(params.get("boardId") as string);
+    setPostId(params.get("postId") as string);
+    setPostType(params.get("postType") as string);
+  }, [params]);
+
+  useEffect(() => {
     setPostContent((prevData: IPostContent) => ({
       ...prevData,
       postId: parseInt(postId),
       boardId: parseInt(boardId),
       postType: postType,
     }));
-  }, []);
+    console.log(postContent);
+  }, [boardId, postId, postType]);
 
   return (
     <AppContainer>
