@@ -18,6 +18,18 @@ import {
 } from "@/state/atoms/posting/postingAtom";
 import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecruit";
 
+function escapeHtml(text: string): string {
+  const map: { [key: string]: string } = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  };
+
+  return text.replace(/[&<>"']/g, match => map[match]);
+}
+
 const PAGE_TITLE: { [key: string]: string } = {
   RECRUITMENT: "모집글",
   NORMAL: "일반글",
@@ -88,10 +100,8 @@ export default function PostingForm() {
         }
         setPostContent((prevData: IPostContent) => ({
           ...prevData,
-          content: newInnerHTML,
+          content: escapeHtml(newInnerHTML),
         }));
-        console.log(postContent);
-        debugger;
         const resUpdate = await postApis.updatePost({
           body: {
             ...postContent,
@@ -99,6 +109,7 @@ export default function PostingForm() {
             postId: res.data!.data,
           },
         });
+        debugger;
         if (resUpdate.ok) {
           activateSnackbar();
           // router 이동

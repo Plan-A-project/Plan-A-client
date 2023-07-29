@@ -60,24 +60,8 @@ function addBase64ImagesToFormData(base64Images: any, formData: any) {
 const postApis = {
   // 이미지 업로드
   postImage: methodFormat(async ({ postId, files }) => {
-    // const headers = postPostingApiHeaders();
-
-    // const response = await client.post(
-    //   `/api/posts/${postId}/images`,
-    //   formData,
-    //   {
-    //     headers,
-    //   },
-    // );
-    // return response;
-
-    debugger;
     const formData = new FormData();
     addBase64ImagesToFormData(files, formData);
-
-    for (const [key, value] of formData.entries()) {
-      console.log("formdata**", key, value);
-    }
 
     const headers = new Headers();
     headers.append(
