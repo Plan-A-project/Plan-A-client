@@ -12,7 +12,7 @@ import {
 import { ChakraProps, FormLabel, Input } from "@chakra-ui/react";
 
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
-import { IRecruitmentPostContent } from "@/state/atoms/posting/recruitmentPostingContentAtom";
+import { IPostContent } from "@/state/atoms/posting/postingAtom";
 import { deFormatDate } from "@/utils/date";
 
 const formProps: ChakraProps = {
@@ -31,7 +31,7 @@ const inputProps: ChakraProps = {
 export type IPostForm = {
   postId?: number;
   boardId: number;
-  postContent: IRecruitmentPostContent;
+  postContent: IPostContent;
   setPostContent: (newValue: any) => void;
 };
 
@@ -43,8 +43,6 @@ export default function RecruitingPostForm({
 }: IPostForm) {
   const editableDivRef = useRef<HTMLDivElement | null>(null);
 
-  // postId, boardId 0 이 아니면 꺼내서 보여주기
-
   const {
     title,
     content,
@@ -52,65 +50,61 @@ export default function RecruitingPostForm({
   } = postContent;
 
   function setTitle(e: React.ChangeEvent<HTMLInputElement>) {
-    setPostContent((prevData: IRecruitmentPostContent) => ({
+    setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      request: {
-        ...prevData,
-        title: e.target.value, // 새로운 title 값으로 업데이트
-      },
+      title: e.target.value, // 새로운 title 값으로 업데이트
     }));
   }
   function setContent(d: any) {
-    setPostContent((prevData: IRecruitmentPostContent) => ({
+    setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      request: {
-        ...prevData,
-        content: d, // 새로운 title 값으로 업데이트
-      },
+      content: d, // 새로운 title 값으로 업데이트
     }));
   }
 
   function setEnterprise(e: React.ChangeEvent<HTMLInputElement>) {
-    setPostContent((prevData: IRecruitmentPostContent) => ({
+    setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      request: {
-        ...prevData,
-        recruitment: {
-          ...prevData.recruitment,
-          companyName: e.target.value, // 새로운 title 값으로 업데이트
-        },
+      recruitment: {
+        ...prevData.recruitment,
+        companyName: e.target.value,
       },
     }));
   }
 
   function setStartDate(date: string) {
-    setPostContent((prevData: IRecruitmentPostContent) => ({
+    setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      request: {
-        ...prevData,
-        recruitment: {
-          ...prevData.recruitment,
-          startDate: date, // 새로운 title 값으로 업데이트
-        },
+      recruitment: {
+        ...prevData.recruitment,
+        startDate: date,
       },
     }));
   }
 
   function setEndDate(date: string) {
-    setPostContent((prevData: IRecruitmentPostContent) => ({
+    setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      request: {
-        ...prevData,
-        recruitment: {
-          ...prevData.recruitment,
-          endDate: date, // 새로운 title 값으로 업데이트
-        },
+      recruitment: {
+        ...prevData.recruitment,
+        endDate: date,
       },
     }));
   }
 
   function handleContentChange(event: React.SyntheticEvent<HTMLDivElement>) {
-    const newContent = event.currentTarget.innerHTML;
+    if (content === "Type Something")
+      setPostContent((prevData: IPostContent) => ({
+        ...prevData,
+        content: "", // postId 업데이트
+      }));
+    else if (content === "")
+      setPostContent((prevData: IPostContent) => ({
+        ...prevData,
+        content: "Type Something", // postId 업데이트
+      }));
+
+    const newContent = event?.currentTarget.innerHTML;
     setContent(newContent);
   }
 
@@ -156,17 +150,23 @@ export default function RecruitingPostForm({
         <Box
           id="contentEditable"
           contentEditable
+          mt={2}
           lineHeight={5}
+          p={2}
           {...inputProps}
           _focus={{ outline: 0 }}
           sx={{ boxShadow: "none !important" }}
           onBlur={handleContentChange}
           onInput={handleContentChange}
           ref={editableDivRef}
-          p={3}
-          // placeholder 모집 상세 내용을 최대한 자세히 입력해 주세요.
-          dangerouslySetInnerHTML={{ __html: postId ? content : "" }} // 수정의 경우에만 한번 호출
-        />
+          onFocus={handleContentChange}
+          placeholder="내용을 입력해주세요."
+          _before={{
+            content: content ? `""` : "attr(placeholder)",
+            color: "gray.500",
+            position: "absolute",
+          }}
+        ></Box>
       </GridItem>
       <KeyboardFixedElement />
     </Grid>
@@ -216,6 +216,7 @@ function DateInput({ setDate }: { setDate: (date: string) => void }) {
   useEffect(() => {
     if (year && month && day) {
       const _deformattedDate = deFormatDate(`${year}-${month}-${day}`);
+      debugger;
       year && month && day && setDate(_deformattedDate);
     }
   }, [year, month, day]); // TODO: Date 객체로 변경하기
