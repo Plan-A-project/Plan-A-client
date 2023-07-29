@@ -66,7 +66,11 @@ const Header: React.FC<HeaderProps> = ({
               <IconBack />
             </Button>
           )}
-          <Box>{leftTitle && <Title fontSize={"1.5rem"} text={title} />}</Box>
+          <Box>
+            {leftTitle && (
+              <Title fontSize={"1.5rem"} textStyle={"headline1"} text={title} />
+            )}
+          </Box>
         </Flex>
         <Box>{!leftTitle && <Title text={title} />}</Box>
         <Flex flex={1} justify={"flex-end"}>

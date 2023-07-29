@@ -8,6 +8,7 @@ import { Carousel, Header as MyHeader } from "@/components/common";
 import SearchModal from "@/components/common/SearchModal";
 import IconForward from "@/components/icons/IconForward";
 import IconNotice from "@/components/icons/IconNotice";
+import Navbar from "@/components/layout/Navbar";
 import { testAutocompleteFunction, wait } from "@/utils/utils";
 
 function BoardMain() {
@@ -32,6 +33,7 @@ function BoardMain() {
 
   return (
     <div>
+      <Navbar />
       <MyHeader
         p={4}
         leftTitle

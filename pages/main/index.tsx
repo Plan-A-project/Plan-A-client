@@ -3,6 +3,7 @@ import { Key, useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
+import authApis from "@/api/authentication";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import boardApis from "@/api/board";
 import { BoxButton, Carousel } from "@/components/common";
@@ -55,6 +56,7 @@ export default function Main() {
   useEffect(() => {
     const currentToken = localStorage.getItem("accessToken");
     setToken(currentToken);
+    authApis.reIssue(currentToken);
   }, []);
 
   useEffect(() => {

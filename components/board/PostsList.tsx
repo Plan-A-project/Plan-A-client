@@ -81,15 +81,16 @@ const PostsList = ({
       ) : (
         <BoardStack>
           {boardList.map(el => {
+            console.log(13, el.id);
             return (
               <FreeBoardItem
-                key={el.id}
+                key={el.comments}
                 comments={el.comments}
                 likes={el.likes}
                 date="2022-12-12"
                 views={el.views}
                 title={el.title}
-                onClick={() => router.push(`/board/${el.postId}`)}
+                onClick={() => router.push(`/posting/${boardId}/${el.id}`)}
               />
             );
           })}

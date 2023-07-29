@@ -59,9 +59,14 @@ const Login = () => {
         if (response.data) {
           router.push("/main");
           setLoggedIn(true);
+          console.log(55, response.data);
           localStorage.setItem(
             "accessToken",
             response.data.headers["access-token"],
+          );
+          localStorage.setItem(
+            "refreshToken",
+            response.data.headers["refresh-token"],
           );
         }
       }

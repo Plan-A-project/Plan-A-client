@@ -1,13 +1,16 @@
+import { RefObject } from "react";
+
 import { AddIcon } from "@chakra-ui/icons";
-import { IconButton } from "@chakra-ui/react";
+import { IconButton, IconButtonProps } from "@chakra-ui/react";
 
 type BoardFABProps = {
-  right?: number;
-  bottom?: number;
+  right?: number | string;
+  bottom?: number | string;
   onClick?: () => void;
+  ref?: RefObject<HTMLButtonElement>;
 };
 
-const BoardFAB: React.FC<BoardFABProps> = ({ right, bottom, onClick }) => {
+const BoardFAB: React.FC<BoardFABProps> = ({ right, bottom, onClick, ref }) => {
   return (
     <IconButton
       aria-label="게시글 작성"
@@ -23,6 +26,7 @@ const BoardFAB: React.FC<BoardFABProps> = ({ right, bottom, onClick }) => {
       right={right || 4}
       bottom={bottom || 4}
       onClick={onClick}
+      ref={ref}
     />
   );
 };

@@ -22,11 +22,10 @@ const BoardBanner: React.FC<PropsWithChildren<ButtonProps>> = ({
       <IconNotice style={{ marginRight: 8 }} />
 
       <Text
-        fontWeight={"semibold"}
-        fontSize={"lg"}
-        lineHeight={"5"}
+        textStyle={"subtitle1"}
         flex={1}
         textAlign={"left"}
+        color={"grey.900"}
       >
         {children}
       </Text>
