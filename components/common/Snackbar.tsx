@@ -1,6 +1,6 @@
 import { HStack, Text } from "@chakra-ui/react";
 
-import CelebrateIcon from "../icons/celebrateIcon";
+import { CelebrateIcon } from "../icons";
 
 export default function Snackbar({
   content,
