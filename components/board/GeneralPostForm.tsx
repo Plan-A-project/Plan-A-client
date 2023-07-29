@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { Box, Divider } from "@chakra-ui/layout";
 import { ChakraProps, Input } from "@chakra-ui/react";
@@ -52,12 +52,18 @@ function GeneralPostForm({
     else if (content === "")
       setPostContent((prevData: IPostContent) => ({
         ...prevData,
-        content: "Type Something", // postId 업데이트
+        content: "Type Something",
       }));
 
     const newContent = event?.currentTarget.innerHTML;
     setContent(newContent);
   }
+
+  useEffect(() => {
+    if (content) {
+      document.querySelector("#contentEditable")!.innerHTML = content;
+    }
+  }, [content]);
 
   return (
     <Box>

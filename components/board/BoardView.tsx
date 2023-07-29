@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 
-import dateDifference from "@/utils/dateDifference";
+import { substractDate } from "@/utils/date";
 
 type BoardViewProps = {
   boardName: string;
@@ -29,7 +29,7 @@ const BoardView: React.FC<BoardViewProps> = ({
 }) => {
   const author = boardName == "익명" ? "익명" : enterprise || nickname;
   const timeline = `${startDate} ~ ${endDate}`; // 모집글이 아닌 경우
-  const dday = dateDifference(startDate, endDate);
+  const dday = substractDate(startDate, endDate);
 
   return (
     <>
