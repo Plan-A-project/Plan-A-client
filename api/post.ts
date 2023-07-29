@@ -99,7 +99,7 @@ const postApis = {
   // 포스팅 조회
   readPost: methodFormat(async ({ postId }) => {
     const headers = getPostingApiHeaders();
-    const response = await client.get(`/api/posts?postId=${postId}`, {
+    const response = await client.get(`/api/posts/${postId}`, {
       headers,
     });
     return response;
