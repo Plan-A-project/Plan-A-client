@@ -20,7 +20,7 @@ function BoardDetail() {
   const {
     query: { boardId, postId },
   } = useRouter();
-  //   const navigate = useNavigate();
+  const navigator = useNavigate();
 
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("해당 게시글이 삭제되었습니다");
@@ -28,12 +28,14 @@ function BoardDetail() {
   const ref = useRef<HTMLButtonElement>(null);
   const [dropdown, toggle] = useDropdown({
     menus: ["수정하기", "삭제하기"],
-    xGap: -15, // 정렬 위치로 부터 x 거리
-    yGap: 0, // 정렬 위치로 부터 y 거리
-    hAlign: "right", // ref의 왼쪽에 정렬
-    vAlign: "bottom", // ref 보다 위에 정렬
+    xGap: -15,
+    yGap: 0,
+    hAlign: "right",
+    vAlign: "bottom",
     onMenuClick: menu => {
       if (menu === 0) {
+        // 수정하기페이지 이동
+        navigator(`/form?boardId=${boardId}?postId=${postId}`);
       } else if (menu === 1) {
         onOpen();
       }
@@ -49,18 +51,14 @@ function BoardDetail() {
   });
 
   // 예시글: http://localhost:3000/posting/4/18
-  async function updatePost() {
-    // TODO: 데이터 res 데이터 담고 ...
-    // boardId, postID query params로 form에 전달
-
-    const res = await postApis.readPost({ boardId, postId });
+  async function readPost() {
+    const res = await postApis.readPost({ postId });
     if (res.ok) {
       setData(res.data!.data);
     }
   }
-
   async function deletePost() {
-    const res = await postApis.deletePost({ boardId, postId });
+    const res = await postApis.deletePost({ postId });
     if (res.ok) {
       //   navigate(-1);
       activateSnackbar();
@@ -68,7 +66,7 @@ function BoardDetail() {
   }
 
   useEffect(() => {
-    boardId && postId && updatePost();
+    boardId && postId && readPost();
   }, [boardId, postId]);
 
   return (

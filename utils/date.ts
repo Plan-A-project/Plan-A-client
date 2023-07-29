@@ -9,7 +9,6 @@ export function formatDate() {
 
 export function deFormatDate(formattedDate: string) {
   const [year, month, day] = formattedDate.split("-").map(Number);
-  debugger;
   return new Date(year, month - 1, day).toISOString();
 }
 
