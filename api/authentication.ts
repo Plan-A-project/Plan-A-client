@@ -25,6 +25,14 @@ const authApis = {
     const response = await client.post(`${PATH}login`, data);
     return response;
   }),
+  reIssue: methodFormat(async data => {
+    const response = await client.post(`${PATH}reissue`, {
+      headers: {
+        "Access-Token": data,
+      },
+    });
+    return response;
+  }),
 };
 
 export default authApis;

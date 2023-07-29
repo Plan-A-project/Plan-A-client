@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { FaUserCircle } from "react-icons/fa";
 import { useRecoilState } from "recoil";
 
+import Navbar from "@/components/layout/Navbar";
 import { BeforeLogin } from "@/components/myPage";
 import { isLoggedInState } from "@/state/atoms/auth/loginAtom";
 
@@ -24,10 +25,14 @@ import CustomTag from "../components/CustomTag";
 import DarkModeButton from "../components/DarkModeButton";
 
 const MyPage = () => {
-  const isLoggedIn = useRecoilState(isLoggedInState);
+  let isLoggedIn;
+  if (typeof window !== "undefined") {
+    isLoggedIn = localStorage?.getItem("accessToken");
+  }
   const router = useRouter();
   return (
     <Container>
+      <Navbar currentTab="myProfile" />
       <Text textStyle={"headline1"}>내 정보</Text>
       <Stack spacing={47} width={343} mt={"14.5px"} mb={"24px"}>
         <Stack spacing={10.5}>
@@ -59,16 +64,20 @@ const MyPage = () => {
             <BeforeLogin />
           )}
           <Stack spacing={25}>
-            <Link href="">
-              <Text textStyle={"body1"} width={"fit-content"} paddingX={"5px"}>
-                인증하기
-              </Text>
-            </Link>
-            <Link href="">
-              <Text textStyle={"body1"} width={"fit-content"} paddingX={"5px"}>
-                게시글 관리
-              </Text>
-            </Link>
+            <Text textStyle={"body1"} width={"fit-content"} paddingX={"5px"}>
+              스크랩 보기
+            </Text>
+            <Text textStyle={"body1"} width={"fit-content"} paddingX={"5px"}>
+              게시글 관리
+            </Text>
+            <Text
+              onClick={() => router.push("/certificationCenter")}
+              textStyle={"body1"}
+              width={"fit-content"}
+              paddingX={"5px"}
+            >
+              인증센터
+            </Text>
           </Stack>
         </Stack>
         <Stack spacing={23}>
@@ -138,10 +147,23 @@ const MyPage = () => {
             </Link>
           </Stack>
         </Stack>
-        <Button textStyle={"body1"} width={"100%"}>
-          로그아웃
-        </Button>
+        {isLoggedIn && (
+          <Button
+            onClick={() => {
+              console.log("hi1");
+
+              localStorage.removeItem("accessToken");
+              alert("로그아웃 되었습니다!");
+              router.push("/");
+            }}
+            textStyle={"body1"}
+            width={"100%"}
+          >
+            로그아웃
+          </Button>
+        )}
       </Stack>
+      <Box mb={20} />
     </Container>
   );
 };

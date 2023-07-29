@@ -72,7 +72,19 @@ const CompanySignUp = () => {
       });
       console.log(response);
       if (response.ok) {
-        router.push("/login");
+        const response = await authApis.login({
+          email: inputValues.email,
+          password: inputValues.password,
+        });
+        if (response.data) {
+          localStorage.setItem(
+            "accessToken",
+            response.data.headers["access-token"],
+          );
+          router.push("/signup/company/complete");
+        } else {
+          alert("오류가 발생했습니다.");
+        }
       }
     } else {
       console.log("no validation");

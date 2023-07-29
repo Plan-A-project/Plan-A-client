@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useNavigate } from "react-router-dom";
 
+import commentApis from "@/api/comment";
 import postApis from "@/api/post";
 import BoardComment from "@/components/board/BoardComment";
-import BoardCommentInput from "@/components/board/BoardCommentInput";
 import BoardCommentList from "@/components/board/BoardCommentList";
 import BoardView from "@/components/board/BoardView";
-import { AppContainer, Header } from "@/components/common";
+import { AppContainer, CommentBar, Header } from "@/components/common";
 import ThreeDotsIcon from "@/components/icons/ThreeDotsIcon";
 import useDrawer from "@/hooks/useDrawer";
 import { useDropdown } from "@/hooks/useDropdown";
@@ -17,10 +16,12 @@ import useSnackbar from "@/hooks/useSnackbar";
 
 function BoardDetail() {
   const [data, setData] = useState<any>();
+  const [commentList, setCommentList] = useState<any>([]);
+  const [isSentComment, setIsSentComment] = useState(false);
+  const router = useRouter();
   const {
     query: { boardId, postId },
-  } = useRouter();
-  // const navigator = useNavigate();
+  } = router;
 
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("해당 게시글이 삭제되었습니다");
@@ -53,6 +54,7 @@ function BoardDetail() {
   // 예시글: http://localhost:3000/posting/4/18
   async function readPost() {
     const res = await postApis.readPost({ postId });
+    console.log(1212, res);
     if (res.ok) {
       setData(res.data!.data);
     }
@@ -65,7 +67,15 @@ function BoardDetail() {
       activateSnackbar();
     }
   }
+  useEffect(() => {
+    async function fetchComment() {
+      const comments = await commentApis.getComment({ id: postId, page: "1" });
+      console.log(comments.data?.data.comments);
 
+      setCommentList(comments.data?.data.comments);
+    }
+    fetchComment();
+  }, [postId, isSentComment]);
   useEffect(() => {
     boardId && postId && readPost();
   }, [boardId, postId]);
@@ -93,6 +103,17 @@ function BoardDetail() {
           {/* 권한체크 */}
           <BoardView {...data} />
           <BoardCommentList>
+            {commentList?.map((el: { id: any; content: string }) => {
+              return (
+                <>
+                  <BoardComment
+                    username={`익명${el.id}`}
+                    depth={0}
+                    content={el.content}
+                  />
+                </>
+              );
+            })}
             <BoardComment
               profileImage={"https://via.placeholder.com/150"}
               username="하이"
@@ -108,7 +129,12 @@ function BoardDetail() {
             />
             <BoardComment username="하이" depth={0} content="댓글입니다." />
           </BoardCommentList>
-          <BoardCommentInput />
+          <CommentBar
+            postId={postId}
+            handleComment={setIsSentComment}
+            commentState={isSentComment}
+          />
+          {/* <BoardCommentInput postId={postId} /> */}
         </>
       ) : (
         <div>Loading...</div>

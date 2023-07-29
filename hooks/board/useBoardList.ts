@@ -13,9 +13,9 @@ type Props = {
 
 function useBoardList({
   boardId,
-  order = "popular",
   type = "NORMAL",
   page,
+  order = "popular",
 }: Props) {
   const [boardList, setBoardList] = useState<BoardItemType[] | null>(null);
   useEffect(() => {

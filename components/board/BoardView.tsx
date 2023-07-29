@@ -8,7 +8,7 @@ type BoardViewProps = {
   endDate: string;
   enterprise: string;
   likeCount: number;
-  main: string;
+  content: string;
   nickname: string;
   startDate: string;
   title: string;
@@ -21,7 +21,7 @@ const BoardView: React.FC<BoardViewProps> = ({
   endDate,
   enterprise,
   likeCount,
-  main,
+  content,
   nickname,
   startDate,
   title,
@@ -48,10 +48,10 @@ const BoardView: React.FC<BoardViewProps> = ({
           {author}
         </Text>
         <Text fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-          D-{dday} {timeline}
+          {/* D-{dday} {timeline} */}
         </Text>
       </Flex>
-      <Box px={2} py={4} dangerouslySetInnerHTML={{ __html: main }}></Box>
+      <Box px={2} py={4} dangerouslySetInnerHTML={{ __html: content }}></Box>
 
       <Flex
         p={2}

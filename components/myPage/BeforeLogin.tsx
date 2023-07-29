@@ -13,9 +13,10 @@ const LoginButton: React.FC<LoginButtonProps> = ({
   content,
 }) => {
   const router = useRouter();
+  const path = content === "학생 로그인" ? "login" : "login/company";
   return (
     <Flex
-      onClick={() => router.push("/login")}
+      onClick={() => router.push(`/${path}`)}
       bg={bgColor}
       flexDirection="column"
       justifyContent="center"

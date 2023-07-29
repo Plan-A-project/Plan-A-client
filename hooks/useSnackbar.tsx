@@ -12,7 +12,7 @@ export default function useSnackbar(
     setTimeout(() => setIsActivated(false), 3000);
   }
 
-  const Snackbar = () => <_Snackbar content={content} />;
+  const Snackbar = () => <_Snackbar isActive={isActivated} content={content} />;
 
   return [isActivated, activateSnackbar, Snackbar];
 }

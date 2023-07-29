@@ -81,15 +81,25 @@ const PostsList = ({
       ) : (
         <BoardStack>
           {boardList.map(el => {
+            console.log(13, el);
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = ("0" + (currentDate.getMonth() + 1)).slice(-2); // Months are zero-indexed in JavaScript
+            const date = ("0" + currentDate.getDate()).slice(-2);
+            const hours = ("0" + currentDate.getHours()).slice(-2);
+            const minutes = ("0" + currentDate.getMinutes()).slice(-2);
+            const seconds = ("0" + currentDate.getSeconds()).slice(-2);
+
+            const formattedDateTime = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
             return (
               <FreeBoardItem
-                key={el.id}
+                key={el.comments}
                 comments={el.comments}
                 likes={el.likes}
-                date="2022-12-12"
+                date="작성시간은 비밀입니다."
                 views={el.views}
                 title={el.title}
-                onClick={() => router.push(`/board/${el.postId}`)}
+                onClick={() => router.push(`/posting/${boardId}/${el.id}`)}
               />
             );
           })}

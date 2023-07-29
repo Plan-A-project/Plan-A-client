@@ -11,3 +11,4 @@ export { default as RightArrowIcon } from "./RightArrowIcon";
 export { default as DeviderWave } from "./DeviderWave";
 export { default as FireIcon } from "./FireIcon";
 export { default as HamburgerIcon } from "./HamburgerIcon";
+export { default as CelebrateIcon } from "./CelebrateIcon";

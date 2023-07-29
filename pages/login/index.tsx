@@ -57,11 +57,15 @@ const Login = () => {
       } else {
         setHasError(false);
         if (response.data) {
-          router.push("/main");
+          router.push("./");
           setLoggedIn(true);
           localStorage.setItem(
             "accessToken",
             response.data.headers["access-token"],
+          );
+          localStorage.setItem(
+            "refreshToken",
+            response.data.headers["refresh-token"],
           );
         }
       }

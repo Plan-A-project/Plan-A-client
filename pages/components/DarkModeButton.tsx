@@ -12,6 +12,7 @@ const DarkModeButton = () => {
       height={"100%"}
       textStyle={"body1"}
       _hover={{ cursor: "pointer" }}
+      zIndex={-1}
     >
       다크모드
       <Switch id="dark-mode" size="md" />

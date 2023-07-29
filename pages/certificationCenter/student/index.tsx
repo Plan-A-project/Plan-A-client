@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Button, Input } from "@chakra-ui/react";
 import FormData from "form-data";
+import { useRouter } from "next/router";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 import certificationApis from "@/api/certification";
@@ -18,6 +19,7 @@ import Check from "@/components/icons/Check";
 const StudentCertification = () => {
   const [selectedTabNumber, setSelectedTabNumber] = useState(1);
   const [userEmail, setUserEmail] = useState("");
+  const router = useRouter();
   const checkEmailFormat = (email: string) =>
     /@fudan\.edu\.cn$/.test(email) ? false : true;
   const handleFileChange = (e: { target: { files: any[] } }) => {
@@ -25,7 +27,7 @@ const StudentCertification = () => {
     const formData = new FormData();
     formData.append("file", file);
   };
-  const hasError = checkEmailFormat(userEmail) && userEmail;
+  const hasError = checkEmailFormat(userEmail) && userEmail ? true : false;
   const fileInput = useRef();
   const handleFileClick = () => {
     // Trigger the hidden file input's click event
@@ -34,6 +36,7 @@ const StudentCertification = () => {
   const handleCertificate = async () => {
     const response = await certificationApis.sendEmailLink(userEmail);
     console.log(11, response);
+    router.push(`/certificationCenter/student/${userEmail}`);
   };
   return (
     <AppContainer>
@@ -135,8 +138,9 @@ const StudentCertification = () => {
           h={"52px"}
           w={"full"}
           borderRadius={"16px"}
-          bg={1 ? "primary.500" : "grey.200"}
-          color={1 ? "background1" : "grey.500"}
+          bg={!hasError ? "primary.500" : "grey.200"}
+          color={!hasError ? "background1" : "grey.500"}
+          isDisabled={hasError}
         >
           인증하기
         </Button>
