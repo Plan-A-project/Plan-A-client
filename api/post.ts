@@ -107,6 +107,7 @@ const postApis = {
   }),
   // 포스팅 작성 & 수정
   updatePost: methodFormat(async ({ body }) => {
+    debugger;
     const headers = getPostingApiHeaders();
     const response = await client.patch(`/api/posts`, body, { headers });
     return response;
