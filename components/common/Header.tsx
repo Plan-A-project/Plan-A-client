@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({
             )}
           </Box>
         </Flex>
-        <Box>{!leftTitle && <Title text={title} />}</Box>
+        <Flex>{!leftTitle && <Title text={title} />}</Flex>
         <Flex flex={1} justify={"flex-end"}>
           {rightNode}
         </Flex>

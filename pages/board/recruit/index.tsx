@@ -2,16 +2,17 @@
 import { useRef } from "react";
 
 import { AddIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
 
-import BoardFAB from "@/components/board/BoardFAB";
 import FreeBoardTab from "@/components/board/FreeBoardTabs";
 import PostsList from "@/components/board/PostsList";
-import { Carousel, Header, FAB } from "@/components/common";
+import { Carousel, Header, FAB, AppContainer } from "@/components/common";
 import SearchModal from "@/components/common/SearchModal";
+import Navbar from "@/components/layout/Navbar";
 import { useDropdown } from "@/hooks/useDropdown";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
-
 function RecruitMain() {
+  const router = useRouter();
   const testSearchFunction = searchFunctionFactory("채용");
   const ref = useRef<HTMLButtonElement>(null);
   const [dropdown, toggle] = useDropdown({
@@ -23,15 +24,19 @@ function RecruitMain() {
     onMenuClick: menu => {
       // menu = 인덱스 값 0 ~ 2
       console.log(menu);
+      menu
+        ? router.push("/board/form?boardId=1&postType=RECRUITMENT")
+        : router.push("/board/form?boardId=1&postType=NORMAL");
       // 클릭시 닫기도 가능
       // toggle(false);});
     },
     ref,
   });
   return (
-    <div>
+    <AppContainer>
+      <Navbar currentTab="infoBoard" />
       <Header
-        p={4}
+        py={4}
         back
         title="채용"
         rightNode={
@@ -69,12 +74,11 @@ function RecruitMain() {
         icon={<AddIcon boxSize={18} />}
         ref={ref}
         r={3}
-        b={3}
+        b={"70px"}
         onClick={() => toggle(true)}
       ></FAB>
-
       {dropdown}
-    </div>
+    </AppContainer>
   );
 }
 

@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 
-import { Box } from "@chakra-ui/layout";
+import { Box, Divider } from "@chakra-ui/layout";
 import { ChakraProps, Input } from "@chakra-ui/react";
 
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
-import { IRecruitmentPostContent } from "@/state/atoms/posting/recruitmentPostingContentAtom";
+import { IPostContent } from "@/state/atoms/posting/postingAtom";
 
 import { IPostForm } from "./RecruitingPostForm";
 
@@ -30,29 +30,34 @@ function GeneralPostForm({
   const editableDivRef = useRef<HTMLDivElement | null>(null);
 
   function setTitle(e: React.ChangeEvent<HTMLInputElement>) {
-    setPostContent((prevData: IRecruitmentPostContent) => ({
+    setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      request: {
-        ...prevData,
-        title: e.target.value, // 새로운 title 값으로 업데이트
-      },
+      title: e.target.value, // 새로운 title 값으로 업데이트
     }));
   }
   function setContent(d: any) {
-    setPostContent((prevData: IRecruitmentPostContent) => ({
+    setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      request: {
-        ...prevData,
-        content: d, // 새로운 title 값으로 업데이트
-      },
+      content: d, // 새로운 title 값으로 업데이트
     }));
   }
 
+  const { title, content } = postContent;
   function handleContentChange(event: React.SyntheticEvent<HTMLDivElement>) {
-    const newContent = event.currentTarget.innerHTML;
+    if (content === "Type Something")
+      setPostContent((prevData: IPostContent) => ({
+        ...prevData,
+        content: "", // postId 업데이트
+      }));
+    else if (content === "")
+      setPostContent((prevData: IPostContent) => ({
+        ...prevData,
+        content: "Type Something", // postId 업데이트
+      }));
+
+    const newContent = event?.currentTarget.innerHTML;
     setContent(newContent);
   }
-  const { title, content } = postContent;
 
   return (
     <Box>
@@ -66,7 +71,7 @@ function GeneralPostForm({
         placeholder="제목을 입력해주세요."
         onChange={setTitle}
       />
-
+      <Divider />
       <Box
         id="contentEditable"
         contentEditable
@@ -79,7 +84,14 @@ function GeneralPostForm({
         onBlur={handleContentChange}
         onInput={handleContentChange}
         ref={editableDivRef}
-      />
+        onFocus={handleContentChange}
+        placeholder="내용을 입력해주세요."
+        _before={{
+          content: content ? `""` : "attr(placeholder)",
+          color: "gray.500",
+          position: "absolute",
+        }}
+      ></Box>
       <KeyboardFixedElement />
     </Box>
   );

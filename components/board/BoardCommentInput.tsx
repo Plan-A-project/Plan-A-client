@@ -1,8 +1,20 @@
+import { useState } from "react";
+
 import { Box, HStack, Input } from "@chakra-ui/react";
 
-import IconComment from "../icons/IconComment";
+import commentApis from "@/api/comment";
 
-const BoardCommentInput = () => {
+import IconComment from "../icons/IconComment";
+import IconSend from "../icons/IconSend";
+
+const BoardCommentInput = ({ postId }: any) => {
+  const [userInput, setUserInput] = useState("");
+  const handleComment = async () => {
+    const response = await commentApis.postComment({
+      postId: postId,
+      content: userInput,
+    });
+  };
   return (
     <>
       <Box h={"72px"}></Box>
@@ -19,7 +31,11 @@ const BoardCommentInput = () => {
         py={3}
       >
         <IconComment />
-        <Input placeholder="댓글을 작성해주세요." />
+        <Input
+          onChange={e => setUserInput(e.target.value)}
+          placeholder="댓글을 작성해주세요."
+        />
+        <IconSend />
       </HStack>
     </>
   );

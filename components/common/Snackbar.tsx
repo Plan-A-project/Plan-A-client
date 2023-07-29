@@ -1,10 +1,21 @@
 import { HStack, Text } from "@chakra-ui/react";
 
-import Check from "../icons/Check";
+import CelebrateIcon from "../icons/celebrateIcon";
 
-export default function Snackbar({ content }: { content: string }) {
+export default function Snackbar({
+  content,
+  isActive,
+}: {
+  content: string;
+  isActive: boolean;
+}) {
+  // const transition = useTransition(isActive, {
+  //   entering: { animation: `${slideIn} 0.5s ease-in-out forwards` },
+  //   exiting: { animation: `${slideOut} 0.5s ease-in-out forwards` },
+  // });
   return (
     <HStack
+      // style={transition}
       p={6}
       boxShadow="xl"
       borderRadius="xl"
@@ -14,8 +25,8 @@ export default function Snackbar({ content }: { content: string }) {
       zIndex="20"
       bg="white"
     >
-      <Check />
-      <Text fontWeight="bold">{content}</Text>
+      <CelebrateIcon />
+      <Text textStyle={"subtitle2"}>{content}</Text>
     </HStack>
   );
 }

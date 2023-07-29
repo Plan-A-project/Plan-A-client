@@ -13,41 +13,40 @@ import AppContainer from "@/components/common/AppContainer";
 import CaretLeft from "@/components/icons/CaretLeft";
 import useSnackbar from "@/hooks/useSnackbar";
 import {
-  IRecruitmentPostContent,
-  recruitmentPostingContentAtom,
-} from "@/state/atoms/posting/recruitmentPostingContentAtom";
+  IPostContent,
+  postingContentAtom,
+} from "@/state/atoms/posting/postingAtom";
+import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecruit";
+
+const PAGE_TITLE: { [key: string]: string } = {
+  RECRUITMENT: "모집글",
+  NORMAL: "일반글",
+  ANNOUNCEMENT: "공지글",
+};
 
 // boardId & postID  둘 다 파라미터로 넘겨줌
 // form & update 같이 (생성 & 업데이트 동시에)
+// e.g. http://localhost:3000/board/form?boardId=4&postType=ANNOUNCEMENT
 export default function PostingForm() {
   const params = useSearchParams();
-  const boardId = params.get("boardId") || "1"; // 있으면 업데이트 폼 없으면 생성 폼
-  const postId = params.get("postId"); // 있으면 업데이트 폼 없으면 생성 폼
-  const postType = params.get("postType") || "RECRUITMENT"; // 있으면 업데이트 폼 없으면 생성 폼
+  const [boardId, setBoardId] = useState("4");
+  const [postId, setPostId] = useState("0");
+  const [postType, setPostType] = useState("NORMAL");
   // RECRUITMENT | ANNOUNCEMENT | NORMAL
 
   const [isBtnActive, setBtnActive] = useState(false);
   const [postContent, setPostContent] = useRecoilState(
-    recruitmentPostingContentAtom,
+    postType === "RECRUITMENT" ? postingContentAtomRecruit : postingContentAtom,
   );
-  const [isActivated, activateSnackbar, Snackbar] =
-    useSnackbar("모집글을 작성하였습니다.");
-
-  function dataURItoBlob(dataURI: string) {
-    const byteString = atob(dataURI.split(",")[1]);
-    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString });
-  }
+  const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
+    `${PAGE_TITLE[postType]}을 작성하였습니다.`,
+  );
 
   async function createPost() {
     const innerHTML = document.querySelector("#contentEditable")!.innerHTML;
     const imgSrcPattern = /data:[^"]+/g; // 이미지 base64 추출
     const encodedImgLst = innerHTML.match(imgSrcPattern) || [];
+
     if (!encodedImgLst.length) {
       // 이미지 무
       const res = await postApis.initializePost({ body: postContent });
@@ -60,77 +59,91 @@ export default function PostingForm() {
     } else {
       // 이미지 유
       const res = await postApis.initializePost({
-        body: {
-          boardId: boardId,
-          postType: postType,
-          title: "",
-          content: "",
-          recruitment: {
-            companyName: "",
-            startDate: "",
-            endDate: "",
-          },
-        },
+        // 뼈대 생성 + 포스팅 생성
+        body: { ...postContent, content: "임시 내용" },
       });
-      if (res.ok) {
-        // 뼈대 생성
-        const resIntial = await postApis.initializePost({ body: postContent });
 
-        if (resIntial.ok) {
-          const imgBlobs = encodedImgLst.map(imgUri => dataURItoBlob(imgUri)); // img base64 -> blob 변환
-          const resImg = await postApis.postImage({
-            // 이미지 업로드
-            postId,
-            files: imgBlobs,
-          });
-          for (let i = 0; i < encodedImgLst.length; i++) {
-            // 기존 base64 이미지 문자 -> s3 이미지 링크로 replace
-            const replaceFrom = encodedImgLst[i];
-            const replaceTo = resImg.data!.data[i];
-            innerHTML.replace(replaceFrom, replaceTo);
-          }
-          const resUpdate = await postApis.deletePost({
-            postId: resIntial.data!.data,
-          });
-          if (resUpdate.ok) {
-            activateSnackbar();
-            // router 이동
-          } else {
-            const resDelete = await postApis.deletePost({ postId });
-            return <Box>글 생성에 실패하였습니다.</Box>;
-          }
+      if (res.ok) {
+        setPostContent((prevData: IPostContent) => ({
+          ...prevData,
+          postId: res.data!.data, // postId 업데이트
+        }));
+
+        console.log(postContent);
+        debugger;
+
+        // 뼈대 생성
+        const resImg = await postApis.postImage({
+          // 이미지 업로드
+          postId: res.data!.data,
+          files: encodedImgLst,
+        });
+        const imgUrls = resImg.data || [];
+        let newInnerHTML = innerHTML;
+        for (let i = 0; i < imgUrls.length; i++) {
+          // 기존 base64 이미지 문자 -> s3 이미지 링크로 replace
+          const replaceFrom = encodedImgLst[i];
+          const replaceTo = imgUrls[i];
+          newInnerHTML = newInnerHTML.replace(`${replaceFrom}`, replaceTo);
+        }
+        setPostContent((prevData: IPostContent) => ({
+          ...prevData,
+          content: newInnerHTML,
+        }));
+        console.log(postContent);
+        debugger;
+        const resUpdate = await postApis.updatePost({
+          body: {
+            ...postContent,
+            content: newInnerHTML,
+            postId: res.data!.data,
+          },
+        });
+        if (resUpdate.ok) {
+          activateSnackbar();
+          // router 이동
         } else {
-          const resDelete = await postApis.deletePost({ postId });
+          const resDelete = await postApis.deletePost({
+            postId: res.data!.data,
+          });
           return <Box>글 생성에 실패하였습니다.</Box>;
         }
+      } else {
+        const resDelete = await postApis.deletePost({
+          postId: res.data!.data,
+        });
+        return <Box>글 생성에 실패하였습니다.</Box>;
       }
     }
   }
 
   useEffect(() => {
-    postContent.title && postContent.content && postContent.recruitment
+    postContent.title && postContent.content
       ? setBtnActive(true)
       : setBtnActive(false);
   }, [postContent]);
 
   useEffect(() => {
-    setPostContent((prevData: IRecruitmentPostContent) => ({
-      ...prevData,
-      postType: postType ? parseInt(postType) : 0, // 새로운 title 값으로 업데이트
-    }));
-  }, []);
+    setBoardId(params.get("boardId") as string);
+    setPostId(params.get("postId") as string);
+    setPostType(params.get("postType") as string);
+  }, [params]);
 
-  const PAGE_TITLE: { [key: string]: string } = {
-    RECRUITMENT: "모집글 쓰기",
-    NORMAL: "일반글 쓰기",
-    ANNOUNCEMENT: "공지글 쓰기",
-  };
+  useEffect(() => {
+    setPostContent((prevData: IPostContent) => ({
+      ...prevData,
+      postId: parseInt(postId),
+      boardId: parseInt(boardId),
+      postType: postType,
+    }));
+    console.log(postContent);
+  }, [boardId, postId, postType]);
 
   return (
     <AppContainer>
       {isActivated && <Snackbar />}
       <FormTitle
-        title={PAGE_TITLE[postType]}
+        title={`${PAGE_TITLE[postType]} 쓰기`}
         left={<CaretLeft />}
         right={
           <CreatePostButton isActive={isBtnActive} handleClick={createPost} />

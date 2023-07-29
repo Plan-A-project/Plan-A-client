@@ -14,7 +14,7 @@ function Anonymous() {
   const router = useRouter();
   return (
     <AppContainer>
-      <Navbar />
+      <Navbar currentTab="mainBoard" />
       <Header
         leftTitle
         title="익명게시판"

@@ -10,6 +10,7 @@ import {
   useToken,
 } from "@chakra-ui/react";
 
+import commentApis from "@/api/comment";
 import IconComment from "@/components/icons/IconComment";
 import IconSend from "@/components/icons/IconSend";
 import useFocus from "@/hooks/useFocus";
@@ -18,10 +19,11 @@ type CommentBarProps = BoxProps & {
   replyTo?: string;
   onCommentSend?: (text: string) => void;
   withoutDummy?: boolean;
+  postId: string | undefined | string[];
 };
 
 const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
-  ({ replyTo, onCommentSend, withoutDummy, ...props }, ref) => {
+  ({ postId, replyTo, onCommentSend, withoutDummy, ...props }, ref) => {
     const [isFocused, handler] = useFocus();
     const [primary] = useToken("colors", ["primary.500"]);
     const secondary = "#ACAEB9";
@@ -33,9 +35,14 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
       }
     }
 
-    function handleCommentSend() {
+    async function handleCommentSend() {
       onCommentSend?.(text);
       setText("");
+      const response = await commentApis.postComment({
+        postId: postId,
+        content: text,
+      });
+      console.log(response);
     }
 
     function handleTextChange(e: ChangeEvent<HTMLInputElement>) {

@@ -7,16 +7,6 @@ import React, {
 } from "react";
 
 import { Flex, HStack, Spacer, Text } from "@chakra-ui/layout";
-import { Button } from "@chakra-ui/react";
-import Image from "next/image";
-import { useRecoilState } from "recoil";
-
-import postApis from "@/api/post";
-
-// import {
-//   IPostContent,
-//   postContentAtom,
-// } from "@/state/atoms/posting/generalPostingContentAtom";
 
 import CameraIcon from "../icons/CameraIcon";
 import KeyboardIcon from "../icons/KeyboardIcon";
@@ -27,28 +17,6 @@ function KeyboardFixedElement() {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false); // mock keyboard
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileCount, setFileCount] = useState(0);
-
-  // async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-  // Dev
-  // const filesUrl = [
-  //   "https://inflibucket.s3.ap-northeast-2.amazonaws.com/post/post_1/Screen%20Shot%202023-07-19%20at%209.28.22%20PM_1690029236680.png",
-  // ];
-  // handleImageChange(filesUrl);
-  // setFileCount(i => i + filesUrl.length);
-  // Prod
-  // const files = event.target.files?.[0];
-  // const res = await postApis.postImage({
-  //   postId, // TODO: 실제 postid로 변경
-  //   files,
-  // });
-  // if (res.ok && Array.isArray(res.data?.data)) {
-  //   const filesUrl = res.data?.data.map(img => img.imageUrl); // 상태값 갱신
-  //   if (filesUrl && filesUrl.length > 0) {
-  //     setFileCount(i => i + filesUrl.length);
-  //     handleImageChange(filesUrl);
-  //   }
-  // } // 오류 팝업
-  // }
 
   function handleButtonClick() {
     if (fileInputRef.current) {

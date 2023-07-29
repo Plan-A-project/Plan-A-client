@@ -25,7 +25,7 @@ type FABProps = PropsWithChildren<
     l?: number;
     r?: number;
     t?: number;
-    b?: number;
+    b?: number | string;
   }
 >;
 

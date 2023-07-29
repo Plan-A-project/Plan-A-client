@@ -1,22 +1,45 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 
+import { AddIcon } from "@chakra-ui/icons";
 import { Badge } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
 
-import BoardFAB from "@/components/board/BoardFAB";
 import BoardStack from "@/components/board/BoardStack";
 import FreeBoardItem from "@/components/board/FreeBoardItem";
 import FreeBoardTab from "@/components/board/FreeBoardTabs";
 import PostsList from "@/components/board/PostsList";
-import { AppContainer, Header } from "@/components/common";
+import { AppContainer, Header, FAB } from "@/components/common";
 import SearchModal from "@/components/common/SearchModal";
+import Navbar from "@/components/layout/Navbar";
+import { useDropdown } from "@/hooks/useDropdown";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 
 function ActivityMain() {
+  const router = useRouter();
   const testSearchFunction = searchFunctionFactory("대외활동");
+  const ref = useRef<HTMLButtonElement>(null);
+  const [dropdown, toggle] = useDropdown({
+    menus: ["일반글 쓰기", "모집글 쓰기"],
+    xGap: -60, // 정렬 위치로 부터 x 거리
+    yGap: 10, // 정렬 위치로 부터 y 거리
+    hAlign: "left", // ref의 왼쪽에 정렬
+    vAlign: "top", // ref 보다 위에 정렬
+    onMenuClick: menu => {
+      // menu = 인덱스 값 0 ~ 2
+      console.log(menu);
+      menu
+        ? router.push("/board/form?boardId=2&postType=RECRUITMENT")
+        : router.push("/board/form?boardId=2&postType=NORMAL");
+      // 클릭시 닫기도 가능
+      // toggle(false);});
+    },
+    ref,
+  });
   return (
     <AppContainer>
+      <Navbar currentTab="infoBoard" />
       <Header
+        py={4}
         back
         title="대외활동"
         rightNode={
@@ -32,7 +55,15 @@ function ActivityMain() {
         leftTab={<PostsList boardName={"대외활동"} />}
         rightTab={<PostsList boardName={"대외활동"} type="RECRUITMENT" />}
       ></FreeBoardTab>
-      <BoardFAB />
+
+      <FAB
+        icon={<AddIcon boxSize={18} />}
+        ref={ref}
+        r={3}
+        b={"70px"}
+        onClick={() => toggle(true)}
+      ></FAB>
+      {dropdown}
     </AppContainer>
   );
 }

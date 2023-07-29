@@ -122,7 +122,7 @@ const Login = () => {
                 backgroundColor={"transparent"}
               >
                 <Text
-                  onClick={() => router.push("/signup")}
+                  onClick={() => router.push("/signup/company")}
                   textStyle={"subtitle1"}
                   color={"grey.900"}
                 >

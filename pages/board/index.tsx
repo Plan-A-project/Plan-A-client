@@ -33,7 +33,7 @@ function BoardMain() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar currentTab="infoBoard" />
       <MyHeader
         p={4}
         leftTitle

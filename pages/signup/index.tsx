@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 
-import { Flex, Stack, Button } from "@chakra-ui/react";
+import { Stack, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import authApis from "@/api/authentication";
@@ -75,14 +75,28 @@ const SignUp = () => {
 
   const handleSignUp = async () => {
     if (isReadyToSignUp) {
-      await authApis.studentSignup({
+      const response = await authApis.studentSignup({
         email: inputValues.email,
         name: inputValues.username,
         password: inputValues.password,
         nickname: inputValues.nickname,
         universityId: 1,
       });
-      router.push("/login");
+      if (response.ok) {
+        const response = await authApis.login({
+          email: inputValues.email,
+          password: inputValues.password,
+        });
+        if (response.data) {
+          localStorage.setItem(
+            "accessToken",
+            response.data.headers["access-token"],
+          );
+          router.push("/signup/complete");
+        } else {
+          alert("오류가 발생했습니다.");
+        }
+      }
     } else {
       console.log("no validation");
     }

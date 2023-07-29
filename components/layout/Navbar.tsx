@@ -9,7 +9,12 @@ import {
   MyProfileIcon,
 } from "@/components/icons";
 
-export default function Navbar() {
+import HomeIconGrey from "../icons/HomeIconGrey";
+import InfoBoardBlue from "../icons/InfoBoardBlue";
+import MainBoardBlue from "../icons/MainBoardBlue";
+import MyProfileBlue from "../icons/MyProfileBlue";
+
+export default function Navbar({ currentTab = "home" }) {
   const router = useRouter();
   return (
     <Flex
@@ -21,13 +26,13 @@ export default function Navbar() {
       alignItems="flex-start"
       p="8px 0px 18px 0px"
       position="fixed"
-      mt={8}
       bottom={0}
       left={0}
       right={0}
+      zIndex={99}
     >
-      <Box onClick={() => router.push("/main")}>
-        <HomeIcon />
+      <Box onClick={() => router.push("/")}>
+        {currentTab === "home" ? <HomeIcon /> : <HomeIconGrey />}
         <Text textStyle={"overline"} textAlign={"center"}>
           홈
         </Text>
@@ -43,7 +48,7 @@ export default function Navbar() {
         direction={"column"}
         align={"center"}
       >
-        <MainBoardIcon />
+        {currentTab === "mainBoard" ? <MainBoardBlue /> : <MainBoardIcon />}
         <Text textStyle={"overline"} textAlign={"center"}>
           익명게시판
         </Text>
@@ -53,7 +58,7 @@ export default function Navbar() {
         direction={"column"}
         align={"center"}
       >
-        <InfoBoardIcon />
+        {currentTab === "infoBoard" ? <InfoBoardBlue /> : <InfoBoardIcon />}
         <Text textStyle={"overline"} textAlign={"center"}>
           정보공유
         </Text>
@@ -63,7 +68,8 @@ export default function Navbar() {
         direction={"column"}
         align={"center"}
       >
-        <MyProfileIcon />
+        {currentTab === "myProfile" ? <MyProfileBlue /> : <MyProfileIcon />}
+
         <Text textStyle={"overline"} textAlign={"center"}>
           내 정보
         </Text>

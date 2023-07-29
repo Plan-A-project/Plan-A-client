@@ -11,8 +11,8 @@ const CheckEmail = () => {
         <Box textAlign={"center"}>
           <Text textStyle={"headline2"}>가입이 완료되었어요!</Text>
           <Text mt={4} textStyle={"body1"} fontSize={"18px"}>
-            학생 인증을 하면
-            <br /> 모든 기능을 이용할 수 있어요.
+            기업 인증을 하면 모집공고 등
+            <br /> 게시물을 작성할 수 있어요.
             <br /> 지금 인증하러 가 볼까요?
           </Text>
         </Box>

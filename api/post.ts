@@ -20,36 +20,104 @@ function postPostingApiHeaders() {
   return headers;
 }
 
+function dataURLtoBlob(dataurl: string) {
+  const arr = dataurl.split(",");
+  const mime = arr[0].match(/:(.*?);/)?.[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new Blob([u8arr], { type: mime });
+}
+
+function dataURLtoFile(dataurl: string, fileName: string) {
+  const arr = dataurl.split(",");
+  const mime = arr[0].match(/:(.*?);/)?.[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], fileName, { type: mime });
+}
+
+function addBase64ImagesToFormData(base64Images: any, formData: any) {
+  base64Images.forEach((base64ImageData: any, index: number) => {
+    const fileName = `example${index + 1}.jpeg`; // 파일 이름을 적절하게 설정
+
+    const file = dataURLtoFile(base64ImageData, fileName);
+    formData.append("multipartFiles", file);
+  });
+}
+
 const postApis = {
   // 이미지 업로드
   postImage: methodFormat(async ({ postId, files }) => {
-    const headers = postPostingApiHeaders();
+    // const headers = postPostingApiHeaders();
+
+    // const response = await client.post(
+    //   `/api/posts/${postId}/images`,
+    //   formData,
+    //   {
+    //     headers,
+    //   },
+    // );
+    // return response;
+
+    debugger;
     const formData = new FormData();
-    formData.append("file", files);
-    const response = await client.post(`/post/${postId}/image`, formData, {
-      headers,
-    });
-    return response;
+    addBase64ImagesToFormData(files, formData);
+
+    for (const [key, value] of formData.entries()) {
+      console.log("formdata**", key, value);
+    }
+
+    const headers = new Headers();
+    headers.append(
+      "Access-Token",
+      window.localStorage.getItem("accessToken") as string,
+    );
+
+    const requestOptions = {
+      method: "POST",
+      headers: headers,
+      body: formData,
+    };
+
+    // fetch로 이미지 업로드 요청 보내기
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}api/posts/${postId}/images`,
+      requestOptions,
+    );
+    return response.json();
   }),
   // // 포스팅 뼈대 생성
   initializePost: methodFormat(async ({ body }) => {
+    console.log(body);
     const headers = getPostingApiHeaders();
     const response = await client.post(`/api/posts`, body, { headers });
     return response;
   }),
   // 포스팅 작성 & 수정
   updatePost: methodFormat(async ({ body }) => {
+    debugger;
     const headers = getPostingApiHeaders();
     const response = await client.patch(`/api/posts`, body, { headers });
     return response;
   }),
   // 포스팅 조회
-  readPost: methodFormat(async ({ postId, email }) => {
+  readPost: methodFormat(async ({ postId }) => {
     const headers = getPostingApiHeaders();
-    const response = await client.get(
-      `/api/posts?postId=${postId}?email=${email}`,
-      { headers },
-    );
+    const response = await client.get(`/api/posts/${postId}`, {
+      headers,
+    });
     return response;
   }),
   // 포스팅 삭제
