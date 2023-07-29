@@ -42,8 +42,8 @@ const PAGE_TITLE: { [key: string]: string } = {
 // e.g. http://localhost:3000/board/form?boardId=4&postType=ANNOUNCEMENT
 export default function PostingForm() {
   const params = useSearchParams();
-  const [boardId, setBoardId] = useState("4");
-  const [postId, setPostId] = useState("0");
+  const [boardId, setBoardId] = useState("");
+  const [postId, setPostId] = useState("");
   const [postType, setPostType] = useState("NORMAL");
   const router = useRouter();
   // RECRUITMENT | ANNOUNCEMENT | NORMAL
@@ -83,10 +83,8 @@ export default function PostingForm() {
           postId: res.data!.data, // postId 업데이트
         }));
 
-        console.log(postContent);
         debugger;
 
-        // 뼈대 생성
         const resImg = await postApis.postImage({
           // 이미지 업로드
           postId: res.data!.data,
@@ -130,6 +128,77 @@ export default function PostingForm() {
     }
   }
 
+  // TODO: refactoring
+  async function updatePost() {
+    const innerHTML = document.querySelector("#contentEditable")!.innerHTML;
+    const imgSrcPattern = /data:[^"]+/g; // 이미지 base64 추출
+    const encodedImgLst = innerHTML.match(imgSrcPattern) || [];
+
+    let newInnerHTML = innerHTML;
+    if (encodedImgLst.length) {
+      const resImg = await postApis.postImage({
+        // 이미지 업로드
+        postId: postId,
+        files: encodedImgLst,
+      });
+      const imgUrls = resImg.data || [];
+      for (let i = 0; i < imgUrls.length; i++) {
+        // 기존 base64 이미지 문자 -> s3 이미지 링크로 replace
+        const replaceFrom = encodedImgLst[i];
+        const replaceTo = imgUrls[i];
+        newInnerHTML = newInnerHTML.replace(`${replaceFrom}`, replaceTo);
+      }
+      setPostContent((prevData: IPostContent) => ({
+        ...prevData,
+        content: escapeHtml(newInnerHTML),
+      }));
+    }
+    const resUpdate = await postApis.updatePost({
+      body: {
+        ...postContent,
+        content: newInnerHTML,
+        postId: postId,
+      },
+    });
+    if (resUpdate.ok) {
+      activateSnackbar();
+      // router 이동
+    } else {
+      const resDelete = await postApis.deletePost({
+        postId: postId,
+      });
+      return <Box>글 생성에 실패하였습니다.</Box>;
+    }
+  }
+
+  async function readPost(postId: string) {
+    const res = await postApis.readPost({ postId });
+    if (res.ok) {
+      const {
+        postId,
+        title,
+        boardId,
+        postType,
+        content,
+        recruitmentInfo: recruitment,
+      } = res.data!.data;
+
+      setPostContent((prevData: IPostContent) => ({
+        ...prevData,
+        postId,
+        title,
+        boardId,
+        postType,
+        content,
+        recruitment,
+      }));
+
+      setPostType(postType);
+      setPostId(postId);
+      setBoardId(boardId);
+    }
+  }
+
   useEffect(() => {
     postContent.title && postContent.content
       ? setBtnActive(true)
@@ -137,20 +206,20 @@ export default function PostingForm() {
   }, [postContent]);
 
   useEffect(() => {
+    setPostContent((prevData: IPostContent) => ({
+      ...prevData,
+      postId: parseInt(params.get("postId") as string),
+      boardId: parseInt(params.get("boardId") as string),
+      postType: params.get("postType") as string,
+    }));
     setBoardId(params.get("boardId") as string);
     setPostId(params.get("postId") as string);
     setPostType(params.get("postType") as string);
   }, [params]);
 
   useEffect(() => {
-    setPostContent((prevData: IPostContent) => ({
-      ...prevData,
-      postId: parseInt(postId),
-      boardId: parseInt(boardId),
-      postType: postType,
-    }));
-    console.log(postContent);
-  }, [boardId, postId, postType]);
+    postId && readPost(postId);
+  }, [postId]);
 
   return (
     <AppContainer>

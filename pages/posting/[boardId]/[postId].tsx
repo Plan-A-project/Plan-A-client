@@ -36,7 +36,7 @@ function BoardDetail() {
     onMenuClick: menu => {
       if (menu === 0) {
         // 수정하기페이지 이동
-        router.push(`/form?boardId=${boardId}?postId=${postId}`);
+        // navigator(`/form?boardId=${boardId}&postId=${postId}&postType=${postType}`);
       } else if (menu === 1) {
         onOpen();
       }
@@ -59,6 +59,7 @@ function BoardDetail() {
       setData(res.data!.data);
     }
   }
+
   async function deletePost() {
     const res = await postApis.deletePost({ postId });
     if (res.ok) {
