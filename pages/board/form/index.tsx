@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Box } from "@chakra-ui/layout";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 
 import postApis from "@/api/post";
@@ -44,6 +45,7 @@ export default function PostingForm() {
   const [boardId, setBoardId] = useState("4");
   const [postId, setPostId] = useState("0");
   const [postType, setPostType] = useState("NORMAL");
+  const router = useRouter();
   // RECRUITMENT | ANNOUNCEMENT | NORMAL
 
   const [isBtnActive, setBtnActive] = useState(false);
@@ -112,7 +114,7 @@ export default function PostingForm() {
         debugger;
         if (resUpdate.ok) {
           activateSnackbar();
-          // router 이동
+          router.back();
         } else {
           const resDelete = await postApis.deletePost({
             postId: res.data!.data,

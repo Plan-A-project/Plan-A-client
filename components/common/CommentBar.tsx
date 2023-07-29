@@ -20,10 +20,23 @@ type CommentBarProps = BoxProps & {
   onCommentSend?: (text: string) => void;
   withoutDummy?: boolean;
   postId: string | undefined | string[];
+  handleComment: any;
+  commentState: boolean;
 };
 
 const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
-  ({ postId, replyTo, onCommentSend, withoutDummy, ...props }, ref) => {
+  (
+    {
+      postId,
+      replyTo,
+      onCommentSend,
+      commentState,
+      withoutDummy,
+      handleComment,
+      ...props
+    },
+    ref,
+  ) => {
     const [isFocused, handler] = useFocus();
     const [primary] = useToken("colors", ["primary.500"]);
     const secondary = "#ACAEB9";
@@ -37,6 +50,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
 
     async function handleCommentSend() {
       onCommentSend?.(text);
+      handleComment(!commentState);
       setText("");
       const response = await commentApis.postComment({
         postId: postId,
