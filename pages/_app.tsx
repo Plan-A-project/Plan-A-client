@@ -10,18 +10,10 @@ import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <Head>
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        />
-      </Head>
-      <ChakraProvider theme={theme}>
-        <RecoilRoot>
-          <Component {...pageProps} />
-        </RecoilRoot>
-      </ChakraProvider>
-    </>
+    <ChakraProvider theme={theme}>
+      <RecoilRoot>
+        <Component {...pageProps} />
+      </RecoilRoot>
+    </ChakraProvider>
   );
 }

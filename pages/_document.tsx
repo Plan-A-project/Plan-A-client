@@ -3,7 +3,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 import { resetServerContext } from "react-beautiful-dnd";
 
 export default function Document() {
-  // resetServerContext();
+  resetServerContext();
   return (
     <Html lang="en">
       <Head>
