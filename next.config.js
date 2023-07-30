@@ -15,6 +15,16 @@ const nextConfig = {
   },
 };
 module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        destination: "http://dukcode.iptime.org/:path*",
+      },
+    ];
+  },
+};
+module.exports = {
   images: {
     loader: "akamai",
     path: "",
