@@ -65,6 +65,7 @@ function BoardDetail() {
     if (res.ok) {
       //   navigate(-1);
       activateSnackbar();
+      router.back();
     }
   }
   useEffect(() => {

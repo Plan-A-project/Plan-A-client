@@ -88,7 +88,7 @@ function GeneralPostForm({
         _focus={{ outline: 0 }}
         sx={{ boxShadow: "none !important" }}
         onBlur={handleContentChange}
-        onInput={handleContentChange}
+        // onInput={handleContentChange}
         ref={editableDivRef}
         onFocus={handleContentChange}
         placeholder="내용을 입력해주세요."
@@ -97,7 +97,9 @@ function GeneralPostForm({
           color: "gray.500",
           position: "absolute",
         }}
-      ></Box>
+      >
+        내용을 입력하세요.
+      </Box>
       <KeyboardFixedElement />
     </Box>
   );

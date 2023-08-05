@@ -1,9 +1,23 @@
 {
-    "name": "인플리",
-    "short_name": "인플리",
-    "theme_color": "#2196f3",
-    "background_color": "#fff",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/"
-  }
+  "name": "인플리",
+  "short_name": "인플리",
+  "theme_color": "#2196f3",
+  "background_color": "#fff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/assets/logo-uni.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/logo-uni.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
