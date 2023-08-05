@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const withPlugins = require("next-compose-plugins");
-const withPWA = require("next-pwa");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // reactStrictMode: true,
@@ -31,16 +28,10 @@ module.exports = {
   },
 };
 
-module.exports = withPlugins(
-  [
-    [
-      withPWA,
-      {
-        pwa: {
-          dest: "public",
-        },
-      },
-    ],
-  ],
-  nextConfig,
-);
+const withPWA = require("next-pwa")({
+  dest: "public",
+});
+
+module.exports = withPWA({
+  // next.js config
+});
