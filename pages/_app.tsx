@@ -13,6 +13,10 @@ export default function App({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <Component {...pageProps} />
       </RecoilRoot>
+      <meta
+        http-equiv="Content-Security-Policy"
+        content="upgrade-insecure-requests"
+      ></meta>
     </ChakraProvider>
   );
 }
