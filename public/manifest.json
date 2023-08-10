@@ -1,9 +1,29 @@
 {
-    "name": "인플리",
-    "short_name": "인플리",
-    "theme_color": "#2196f3",
-    "background_color": "#fff",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/"
-  }
+  "name": "인플리",
+  "short_name": "인플리",
+  "theme_color": "#2196f3",
+  "background_color": "#fff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/android-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icon-520.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

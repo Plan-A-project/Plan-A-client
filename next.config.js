@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const withPlugins = require("next-compose-plugins");
-const withPWA = require("next-pwa");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // reactStrictMode: true,
@@ -14,17 +11,27 @@ const nextConfig = {
     ],
   },
 };
-
-module.exports = withPlugins(
-  [
-    [
-      withPWA,
+module.exports = {
+  async rewrites() {
+    return [
       {
-        pwa: {
-          dest: "public",
-        },
+        source: "/:path*",
+        destination: "http://dukcode.iptime.org/:path*",
       },
-    ],
-  ],
-  nextConfig,
-);
+    ];
+  },
+};
+module.exports = {
+  images: {
+    loader: "akamai",
+    path: "",
+  },
+};
+
+const withPWA = require("next-pwa")({
+  dest: "public",
+});
+
+module.exports = withPWA({
+  // next.js config
+});

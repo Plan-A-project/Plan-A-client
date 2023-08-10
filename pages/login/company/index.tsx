@@ -57,7 +57,7 @@ const Login = () => {
       } else {
         setHasError(false);
         if (response.data) {
-          router.push("/main");
+          router.push("/");
           setLoggedIn(true);
           localStorage.setItem(
             "accessToken",

@@ -2,8 +2,15 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "prettier", "import"],
+
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    // project: 'tsconfig.json',
+    "tsconfigRootDir": "__dirname"
   },
   "env": {
     "node": true

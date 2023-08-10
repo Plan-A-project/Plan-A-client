@@ -66,7 +66,7 @@ export default function PostingForm() {
       const res = await postApis.initializePost({ body: postContent });
       if (res.ok) {
         activateSnackbar();
-        // router 이동
+        router.back();
       } else {
         return <Box>글 생성에 실패하였습니다.</Box>;
       }
@@ -109,7 +109,6 @@ export default function PostingForm() {
             postId: res.data!.data,
           },
         });
-        debugger;
         if (resUpdate.ok) {
           activateSnackbar();
           router.back();
