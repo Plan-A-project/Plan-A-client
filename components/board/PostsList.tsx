@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 
 import useBoardList from "@/hooks/board/useBoardList";
 import { BOARD_ID_MAP } from "@/utils/boardIdMap";
+import formatDate from "@/utils/formatDate";
 
 import BoardStack from "./BoardStack";
 import FreeBoardItem from "./FreeBoardItem";
@@ -26,7 +27,7 @@ const PostsList = ({
   const [isFinish, setIsFinish] = useState(false);
   const [boardList, setBoardList] = useState<any[]>([]);
   const boardListResponse = useBoardList({ boardId, order, page, type });
-
+  console.log(111, boardListResponse);
   const handleChangeOrder = (type: OrderType) => {
     if (boardList === null) return;
     setPage(1);
@@ -37,7 +38,7 @@ const PostsList = ({
 
   useEffect(() => {
     if (boardListResponse === null) return;
-    if (boardListResponse.length === 0) {
+    if (boardListResponse?.length === 0) {
       setIsFinish(true);
       return;
     }
@@ -81,22 +82,23 @@ const PostsList = ({
       ) : (
         <BoardStack>
           {boardList.map(el => {
-            console.log(13, el);
-            const currentDate = new Date();
-            const year = currentDate.getFullYear();
-            const month = ("0" + (currentDate.getMonth() + 1)).slice(-2); // Months are zero-indexed in JavaScript
-            const date = ("0" + currentDate.getDate()).slice(-2);
-            const hours = ("0" + currentDate.getHours()).slice(-2);
-            const minutes = ("0" + currentDate.getMinutes()).slice(-2);
-            const seconds = ("0" + currentDate.getSeconds()).slice(-2);
+            const date = formatDate(el.createdAt);
+            // console.log(13, el);
+            // const currentDate = new Date();
+            // const year = currentDate.getFullYear();
+            // const month = ("0" + (currentDate.getMonth() + 1)).slice(-2); // Months are zero-indexed in JavaScript
+            // const date = ("0" + currentDate.getDate()).slice(-2);
+            // const hours = ("0" + currentDate.getHours()).slice(-2);
+            // const minutes = ("0" + currentDate.getMinutes()).slice(-2);
+            // const seconds = ("0" + currentDate.getSeconds()).slice(-2);
 
-            const formattedDateTime = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+            // const formattedDateTime = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
             return (
               <FreeBoardItem
                 key={el.comments}
                 comments={el.comments}
                 likes={el.likes}
-                date="작성시간은 비밀입니다."
+                date={date}
                 views={el.views}
                 title={el.title}
                 onClick={() => router.push(`/posting/${boardId}/${el.id}`)}

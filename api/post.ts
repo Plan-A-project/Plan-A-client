@@ -86,7 +86,7 @@ const postApis = {
   initializePost: methodFormat(async ({ body }) => {
     console.log(body);
     const headers = getPostingApiHeaders();
-    const response = await client.post(`/api/posts`, body, { headers });
+    const response = await client.post(`/api/posts/normal`, body, { headers });
     return response;
   }),
   // 포스팅 작성 & 수정
@@ -108,6 +108,17 @@ const postApis = {
   deletePost: methodFormat(async ({ postId }) => {
     const headers = getPostingApiHeaders();
     const response = await client.delete(`/api/posts/${postId}`, { headers });
+    return response;
+  }),
+  // 최초 이용약관 동의
+  agreePolicy: methodFormat(async () => {
+    const headers = getPostingApiHeaders();
+    const response = await client.post(`/api/posts/policy`, { headers });
+    return response;
+  }),
+  checkAgree: methodFormat(async () => {
+    const headers = getPostingApiHeaders();
+    const response = await client.get(`/api/posts/policy`, { headers });
     return response;
   }),
 };

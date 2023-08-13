@@ -22,7 +22,7 @@ function BoardDetail() {
   const {
     query: { boardId, postId },
   } = router;
-
+  const [parentCommentId, setParentCommentId] = useState<number>(0);
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("해당 게시글이 삭제되었습니다");
 
@@ -56,7 +56,7 @@ function BoardDetail() {
     const res = await postApis.readPost({ postId });
     console.log(1212, res);
     if (res.ok) {
-      setData(res.data!.data);
+      setData(res.data!.data.data);
     }
   }
 
@@ -71,16 +71,20 @@ function BoardDetail() {
   useEffect(() => {
     async function fetchComment() {
       const comments = await commentApis.getComment({ id: postId, page: "1" });
-      console.log(comments.data?.data.comments);
+      console.log("comment", comments.data?.data.comments);
 
       setCommentList(comments.data?.data.comments);
     }
     fetchComment();
   }, [postId, isSentComment]);
+
   useEffect(() => {
     boardId && postId && readPost();
   }, [boardId, postId]);
 
+  const handleReply = (id: number) => {
+    setParentCommentId(id);
+  };
   return (
     <AppContainer>
       {data ? (
@@ -104,18 +108,32 @@ function BoardDetail() {
           {/* 권한체크 */}
           <BoardView {...data} />
           <BoardCommentList>
-            {commentList?.map((el: { id: any; content: string }) => {
-              return (
-                <>
-                  <BoardComment
-                    username={`익명${el.id}`}
-                    depth={0}
-                    content={el.content}
-                  />
-                </>
-              );
-            })}
-            <BoardComment
+            {commentList?.map(
+              (el: {
+                id: any;
+                content: string;
+                identifier: number;
+                postWriter: boolean;
+                createdAt: string;
+                likesCount: number;
+              }) => {
+                return (
+                  <>
+                    <BoardComment
+                      handleReply={() => handleReply(el.id)}
+                      username={
+                        el.postWriter ? "작성자" : `익명${el.identifier}`
+                      }
+                      depth={0}
+                      content={el.content}
+                      createdAt={el.createdAt}
+                      likesCount={el.likesCount}
+                    />
+                  </>
+                );
+              },
+            )}
+            {/* <BoardComment
               profileImage={"https://via.placeholder.com/150"}
               username="하이"
               depth={0}
@@ -128,10 +146,11 @@ function BoardDetail() {
               content="댓글입니다."
               withProfile
             />
-            <BoardComment username="하이" depth={0} content="댓글입니다." />
+            <BoardComment username="하이" depth={0} content="댓글입니다." /> */}
           </BoardCommentList>
           <CommentBar
             postId={postId}
+            parentCommentId={parentCommentId}
             handleComment={setIsSentComment}
             commentState={isSentComment}
           />

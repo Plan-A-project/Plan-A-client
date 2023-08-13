@@ -1,72 +1,48 @@
-import React from "react";
+import { useState } from "react";
 
-import {
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Container,
-  Stack,
-  Tag,
-  Heading,
-  StackDivider,
-  Flex,
-  Text,
-  Button,
-  Image,
-  Icon,
-} from "@chakra-ui/react";
-import Link from "next/link";
-import { BsChatRightText } from "react-icons/bs";
-import { SlHeart } from "react-icons/sl";
+import { Box, Container, Stack, StackDivider, Text } from "@chakra-ui/react";
 
-import Header from "@/pages/components/Header";
-import PageLayout from "@/pages/components/Layout";
+import { AppContainer, Header, ToggleTab } from "@/components/common";
 import MyComment from "@/pages/components/MyComment";
 import MyPost from "@/pages/components/MyPost";
 
-const index = () => {
+const ManagePosts = () => {
+  const [selectedTabNumber, setSelectedTabNumber] = useState<number>(1);
+
   return (
-    <PageLayout>
-      <Header headingText="게시글 관리" />
-      <Container mt={"16px"}>
-        <Tabs isFitted isLazy variant="soft-rounded" colorScheme="blue">
-          <TabList border={"1px solid grey"} borderRadius={"10px"} p={"6px"}>
-            <Tab borderRadius={"8px"} textStyle={"subtitle2"}>
-              내 게시글
-            </Tab>
-            <Tab borderRadius={"8px"} textStyle={"subtitle2"}>
-              내 댓글
-            </Tab>
-          </TabList>
-          <Text textStyle={"caption1"} mt={"16px"}>
-            최신순
-          </Text>
-          <TabPanels>
-            <TabPanel px={0}>
-              <Stack divider={<StackDivider borderColor="gray.200" />}>
-                <MyPost />
-                <MyPost />
-                <MyPost />
-                <MyPost />
-              </Stack>
-            </TabPanel>
-            <TabPanel px={0}>
-              <Stack divider={<StackDivider borderColor="gray.200" />}>
-                <MyComment />
-                <MyComment />
-                <MyComment />
-                <MyComment />
-                <MyComment />
-                <MyComment />
-              </Stack>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+    <AppContainer>
+      <Header back leftTitle title="게시글 관리" />
+      <Container p={0} mt={"16px"}>
+        <ToggleTab
+          activatedTab={selectedTabNumber}
+          setActivatedTab={setSelectedTabNumber}
+          firstContent="내 게시글"
+          secondContent="내 댓글"
+        />
+        <Text textStyle={"caption1"} my={4}>
+          최신순
+        </Text>
+        {!selectedTabNumber || (
+          <Box px={0}>
+            <Stack divider={<StackDivider borderColor="gray.200" />}>
+              <MyPost />
+              <MyPost />
+            </Stack>
+          </Box>
+        )}
+        {!selectedTabNumber ? (
+          <Box px={0}>
+            <Stack divider={<StackDivider borderColor="gray.200" />}>
+              <MyComment />
+              <MyComment />
+            </Stack>
+          </Box>
+        ) : (
+          ""
+        )}
       </Container>
-    </PageLayout>
+    </AppContainer>
   );
 };
 
-export default index;
+export default ManagePosts;

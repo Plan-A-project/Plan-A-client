@@ -49,7 +49,7 @@ const Login = () => {
   const handleLogin = async () => {
     if (checkFilled) {
       const response = await authApis.login({
-        email: inputValues.email,
+        username: inputValues.email,
         password: inputValues.password,
       });
       if (!response.ok) {

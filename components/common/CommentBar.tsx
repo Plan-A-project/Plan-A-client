@@ -1,4 +1,11 @@
-import { ChangeEvent, KeyboardEvent, forwardRef, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  forwardRef,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 
 import {
   Box,
@@ -22,6 +29,7 @@ type CommentBarProps = BoxProps & {
   postId: string | undefined | string[];
   handleComment: any;
   commentState: boolean;
+  parentCommentId?: number;
 };
 
 const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
@@ -33,10 +41,12 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
       commentState,
       withoutDummy,
       handleComment,
+      parentCommentId,
       ...props
     },
     ref,
   ) => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const [isFocused, handler] = useFocus();
     const [primary] = useToken("colors", ["primary.500"]);
     const secondary = "#ACAEB9";
@@ -47,16 +57,31 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
         handleCommentSend();
       }
     }
+    useEffect(() => {
+      if (parentCommentId && inputRef.current) {
+        handler.onFocus();
+        inputRef.current.focus();
+      }
+    }, [parentCommentId]);
 
     async function handleCommentSend() {
       onCommentSend?.(text);
       handleComment(!commentState);
       setText("");
-      const response = await commentApis.postComment({
-        postId: postId,
-        content: text,
-      });
-      console.log(response);
+      if (parentCommentId) {
+        const response = await commentApis.postComment({
+          postId: postId,
+          content: text,
+          parentCommentId: parentCommentId,
+        });
+        console.log("parent", response);
+      } else {
+        const response = await commentApis.postComment({
+          postId: postId,
+          content: text,
+        });
+        console.log(response);
+      }
       location.reload();
     }
 
@@ -109,6 +134,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
           <Flex gap={2} height={9} align="center">
             <IconComment style={{ flexShrink: 0 }} />
             <Input
+              ref={inputRef}
               {...handler}
               height={9}
               placeholder="댓글을 작성해주세요."

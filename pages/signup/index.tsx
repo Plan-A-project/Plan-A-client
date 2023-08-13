@@ -33,8 +33,8 @@ const SignUp = () => {
     },
     {
       label: "email",
-      placeholder: "youremail@email.com",
-      title: "이메일",
+      placeholder: "영어, 숫자 조합 가능 6~20자",
+      title: "아이디",
       type: "email",
       hasConfirmButton: true,
     },
@@ -72,19 +72,20 @@ const SignUp = () => {
     confirmInput.nickname === inputValues.nickname &&
     Object.values(errors).every(value => value === "") &&
     Object.values(inputValues).every(value => value !== "");
-
+  console.log(inputValues);
   const handleSignUp = async () => {
     if (isReadyToSignUp) {
       const response = await authApis.studentSignup({
-        email: inputValues.email,
-        name: inputValues.username,
+        username: inputValues.email,
+        realName: inputValues.username,
         password: inputValues.password,
+        passwordConfirm: inputValues.passwordConfirm,
         nickname: inputValues.nickname,
-        universityId: 1,
+        universityId: 0,
       });
       if (response.ok) {
         const response = await authApis.login({
-          email: inputValues.email,
+          username: inputValues.email,
           password: inputValues.password,
         });
         if (response.data) {

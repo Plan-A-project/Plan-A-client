@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Button, Input } from "@chakra-ui/react";
-import FormData from "form-data";
 import { useRouter } from "next/router";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
@@ -20,23 +19,42 @@ const StudentCertification = () => {
   const [selectedTabNumber, setSelectedTabNumber] = useState(1);
   const [userEmail, setUserEmail] = useState("");
   const router = useRouter();
+  const [fileURL, setFileURL] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
+
   const checkEmailFormat = (email: string) =>
     /@fudan\.edu\.cn$/.test(email) ? false : true;
-  const handleFileChange = (e: { target: { files: any[] } }) => {
+
+  // 파일 첨부 시 파일 정보 저장
+  const handleFileChange = (e: any) => {
+    // 파일 인스턴스
     const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
+    if (file) {
+      setFileName(file.name);
+      const localFileURL = URL.createObjectURL(file);
+      setFileURL(localFileURL);
+    }
   };
+
   const hasError = checkEmailFormat(userEmail) && userEmail ? true : false;
-  const fileInput = useRef();
+  const fileInput = useRef<HTMLInputElement | null>(null);
   const handleFileClick = () => {
     // Trigger the hidden file input's click event
-    // fileInput.current.click();
+    if (fileInput.current) {
+      fileInput.current.click();
+    }
   };
   const handleCertificate = async () => {
-    const response = await certificationApis.sendEmailLink(userEmail);
-    console.log(11, response);
-    router.push(`/certificationCenter/student/${userEmail}`);
+    if (!selectedTabNumber) {
+      const response = await certificationApis.sendEmailLink({
+        universityEmail: userEmail,
+      });
+      console.log(11, response);
+    }
+    if (selectedTabNumber) {
+      // const response
+    }
+    // router.push(`/certificationCenter/student/${userEmail}`);
   };
   return (
     <AppContainer>
@@ -48,6 +66,8 @@ const StudentCertification = () => {
         <ToggleTab
           activatedTab={selectedTabNumber}
           setActivatedTab={setSelectedTabNumber}
+          firstContent="이메일 인증"
+          secondContent="증명서 인증"
         />
         {!selectedTabNumber || (
           <Box>
@@ -110,8 +130,9 @@ const StudentCertification = () => {
               <Stack spacing={"16px"}>
                 <Input
                   type="file"
-                  // ref={fileInput}
-                  // onChange={handleFileChange}
+                  ref={fileInput}
+                  // accept="image/*"
+                  onChange={handleFileChange}
                   style={{ display: "none" }} // Hide the file input element
                 />
                 <Banner onClick={handleFileClick}>
@@ -131,6 +152,20 @@ const StudentCertification = () => {
         ) : (
           ""
         )}
+        {fileURL && (
+          <Flex flexDir="column" alignItems="flex-start">
+            <Text py={4} textStyle={"caption1"}>
+              첨부된 파일
+            </Text>
+            <Flex align={"center"}>
+              <img src={fileURL} alt="Uploaded Preview" width="56" />
+              <Text pl={4} textStyle={"caption2"}>
+                {fileName}
+              </Text>
+            </Flex>
+          </Flex>
+        )}
+
         <Button
           onClick={handleCertificate}
           mt={4}

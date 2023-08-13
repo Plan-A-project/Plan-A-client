@@ -3,27 +3,27 @@ import { Text, Flex, Image, Link, Box } from "@chakra-ui/react";
 const linkData = [
   {
     Icon: "/assets/2.svg",
-    text: "E-Hall",
+    text: "e-hall",
     link: "http://ehall.fudan.edu.cn",
   },
   {
     Icon: "/assets/Icon.jpg",
-    text: "E-learning",
+    text: "e-learning",
     link: "https://elearning.fudan.edu.cn/",
   },
   {
     Icon: "/assets/4.svg",
-    text: "JWFW",
+    text: "jwfw",
     link: "https://jwfw.fudan.edu.cn/",
   },
   {
     Icon: "/assets/5.svg",
-    text: "XK",
+    text: "entp",
     link: "https://xk.fudan.edu.cn/",
   },
   {
     Icon: "/assets/6.svg",
-    text: "E-mail",
+    text: "email",
     link: "https://mail.fudan.edu.cn/",
   },
 ];
