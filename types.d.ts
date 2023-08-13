@@ -12,4 +12,5 @@ export type BoardItemType = {
   likes?: number;
   leftTag?: string;
   id?: number | string;
+  createdAt?: string;
 };

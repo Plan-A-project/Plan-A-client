@@ -45,7 +45,7 @@ const UserInput = ({
         }));
         setConfirmMessage((prev: any) => ({
           ...prev,
-          email: "사용 가능한 이메일이에요!",
+          email: "사용 가능한 아이디에요!",
         }));
       } else {
         handleErrors((prevState: any) => ({

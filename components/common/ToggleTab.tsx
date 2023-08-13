@@ -5,11 +5,15 @@ import { Box, Text, Flex } from "@chakra-ui/react";
 interface IToggleTab {
   activatedTab: number;
   setActivatedTab: Dispatch<SetStateAction<number>>;
+  firstContent: string;
+  secondContent: string;
 }
 
 const ToggleTab = ({
   activatedTab,
   setActivatedTab,
+  firstContent,
+  secondContent,
 }: IToggleTab): JSX.Element => {
   return (
     <Flex
@@ -32,7 +36,7 @@ const ToggleTab = ({
         onClick={() => setActivatedTab(1)}
       >
         <Text textStyle={activatedTab === 1 ? "subtitle2" : "body1"}>
-          이메일 인증
+          {firstContent}
         </Text>
       </Flex>
       <Flex
@@ -46,7 +50,7 @@ const ToggleTab = ({
         onClick={() => setActivatedTab(0)}
       >
         <Text textStyle={activatedTab === 1 ? "body1" : "subtitle2"}>
-          증명서 인증
+          {secondContent}
         </Text>
       </Flex>
     </Flex>

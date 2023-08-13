@@ -14,18 +14,14 @@ function getHeaders() {
 }
 
 const certificationApis = {
-  sendEmailLink: methodFormat(async email => {
+  sendEmailLink: methodFormat(async data => {
     const headers = getHeaders();
-    await client.post(
-      `${PATH}email/auth/send`,
-      {
-        email: email,
-        request: {
-          studentEmail: email,
-        },
-      },
-      { headers },
-    );
+    await client.post(`${PATH}emails/student`, data, { headers });
+  }),
+  // 학생 유저가 재학증명서로 인증하는 api
+  postFileToCertificate: methodFormat(async data => {
+    const headers = getHeaders();
+    await client.post(`${PATH}emails/student`, data, { headers });
   }),
 };
 
