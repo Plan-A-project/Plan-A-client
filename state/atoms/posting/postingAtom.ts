@@ -6,8 +6,9 @@ export type IPostContent = {
   boardId: number;
   title: string;
   content: string;
-  thumbnailUrl: string;
-  recruitment: any;
+  recruitmentCompanyName?: string;
+  recruitmentStartDate?: Date;
+  recruitmentEndDate?: Date;
 };
 
 export const postingContentAtom = atom<IPostContent>({
@@ -18,7 +19,5 @@ export const postingContentAtom = atom<IPostContent>({
     boardId: 0,
     title: "",
     content: "",
-    thumbnailUrl: "",
-    recruitment: null,
   },
 });
