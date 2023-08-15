@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
@@ -22,9 +22,9 @@ export default function PostingForm() {
   const params = useSearchParams();
   const router = useRouter();
 
-  const [boardId, setBoardId] = useState(0);
-  const [postId, setPostId] = useState(0); // 있다면 조회, 없다면 생성
-  const [postType, setPostType] = useState("RECRUITMENT"); // RECRUITMENT | ANNOUNCEMENT | NORMAL
+  const postType = params.get("postType") as string; // RECRUITMENT | ANNOUNCEMENT | NORMAL
+  const boardId = parseInt(params.get("boardId") || "", 0);
+  const postId = parseInt(params.get("postId") || "", 0);
 
   const [isBtnActive, setBtnActive] = useState(false);
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
@@ -45,24 +45,14 @@ export default function PostingForm() {
     // 글 작성 실패 처리
   }
 
-  function initializePostSuccess(postId: number) {
-    // 글 뼈대 생성 성공 처리
-    setPostContent((prevData: IPostContent) => ({
-      ...prevData,
-      postId: postId,
-    }));
-  }
-
-  function uploadImgsSuccess() {
+  async function uploadImgsSuccess(postId: number) {
     // 이미지 업로드 성공 처리
-    const imgUrls = uploadImgStrToS3(postId);
+    const imgUrls = await uploadImgStrToS3(postId);
     const newContent = replaceImgStrToS3(imgUrls);
-    setPostContent((prevData: IPostContent) => ({
-      ...prevData,
-      content: newContent,
-    }));
+    return newContent;
   }
 
+  // http://localhost:3000/board/form?boardId=4&postType=RECRUITMENT
   return (
     <AppContainer>
       {isActivated && <Snackbar />}
@@ -74,10 +64,11 @@ export default function PostingForm() {
             isActive={isBtnActive}
             handleClick={() =>
               createPost(
+                boardId,
+                postType,
                 postContent,
                 createPostSuccess,
                 createPostFail,
-                initializePostSuccess,
                 uploadImgsSuccess,
               )
             }
@@ -128,7 +119,25 @@ async function uploadImgStrToS3(postId: number) {
     postId: postId,
     files: imgStr,
   });
-  return res.data.data || [];
+  return res.data.data.originalImageUrls || [];
+}
+
+// 포스팅 업데이트 함수
+async function updatePost(
+  postType: string,
+  boardId: number,
+  postId: number,
+  postContent: IPostContent,
+) {
+  const res = await postApis.updatePost({
+    postType,
+    body: {
+      ...postContent,
+      boardId,
+      postId,
+    },
+  });
+  return res;
 }
 
 // img blob string을 s3 이미지 링크로 replace 하는 함수
@@ -145,28 +154,46 @@ function replaceImgStrToS3(imgUrls: string[]) {
 
 // 포스팅 생성 함수
 async function createPost(
+  boardId: number,
+  postType: string,
   postContent: IPostContent,
   createPostSuccess: () => void,
   createPostFail: () => void,
-  initializePostSuccess: (postId: number) => void,
-  uploadImgsSuccess: () => void,
+  uploadImgsSuccess: (postId: number) => string,
 ) {
+  debugger;
   const encodedImgLst = extractImgBaseStr();
-
-  // 이미지가 없는 글은 뼈대 생성과 글 생성이 동시에 이뤄집니다
   if (!encodedImgLst.length) {
-    const res = await postApis.initializePost({ body: postContent });
+    // 이미지가 없는 글은 뼈대 생성과 글 생성이 동시에 이뤄집니다
+    const res = await postApis.initializePost({
+      postType,
+      body: {
+        ...postContent,
+        boardId,
+        postType,
+      },
+    });
     if (res.ok) createPostSuccess();
     else createPostFail();
   } else {
     // 이미지가 있는 글은 뼈대 생성과 글 생성이 별도로 이뤄집니다
     const res = await postApis.initializePost({
-      body: { ...postContent, content: "임시 내용" }, // 글 뼈대 초기 생성
+      postType,
+      body: {
+        ...postContent,
+        boardId,
+        content: "임시 내용",
+        postType,
+      }, // 글 뼈대 초기 생성
     });
     if (res.ok) {
-      initializePostSuccess(res.data!.data);
-      uploadImgsSuccess(); // 이미지 처리
-      createPostSuccess();
+      const _postId = res.data!.data.data;
+      const _newContent = await uploadImgsSuccess(_postId); // 이미지 처리
+      await updatePost(postType, boardId, _postId, {
+        ...postContent,
+        content: _newContent,
+      });
+      await createPostSuccess();
     } else {
       createPostFail();
     }

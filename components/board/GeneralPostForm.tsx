@@ -13,9 +13,7 @@ export default function GeneralPostForm({
   setBtnActive,
 }: IPostForm) {
   const editableDivRef = useRef<HTMLDivElement | null>(null);
-
   const { title, content } = postContent;
-
   const _placeholder = "내용을 입력하세요.";
 
   // 포스팅 제목 갱신
@@ -80,6 +78,12 @@ export default function GeneralPostForm({
       ? setBtnActive(true)
       : setBtnActive(false);
   }, [postContent]);
+
+  // postId가 있다면 조회
+  useEffect(() => {
+    if (postId) {
+    }
+  }, []);
 
   return (
     <Box>

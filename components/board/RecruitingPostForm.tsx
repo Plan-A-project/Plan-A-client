@@ -37,7 +37,6 @@ export default function RecruitingPostForm({
   setBtnActive,
 }: IPostForm) {
   const editableDivRef = useRef<HTMLDivElement | null>(null);
-
   const {
     title,
     content,
