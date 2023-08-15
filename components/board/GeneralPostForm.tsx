@@ -6,8 +6,6 @@ import { IPostContent } from "@/state/atoms/posting/postingAtom";
 import { IPostForm } from "./RecruitingPostForm";
 
 export default function GeneralPostForm({
-  postId,
-  boardId,
   postContent,
   setPostContent,
   setBtnActive,
@@ -29,9 +27,11 @@ export default function GeneralPostForm({
     event: React.SyntheticEvent<HTMLDivElement>,
   ) {
     const _content = event?.currentTarget.innerHTML;
-    if (_content === _placeholder) {
+    if (content) {
+      event.currentTarget.innerHTML = content;
+    } else if (content || _content === _placeholder) {
       event.currentTarget.innerHTML = "";
-    } else if (_content === "") {
+    } else if (content || _content === "") {
       event.currentTarget.innerHTML = _placeholder;
     }
   }
@@ -74,14 +74,14 @@ export default function GeneralPostForm({
   // 등록 버튼 활성화 조건
   useEffect(() => {
     const { title, content } = postContent;
-    title && content && content !== _placeholder
+    title && content !== _placeholder
       ? setBtnActive(true)
       : setBtnActive(false);
   }, [postContent]);
 
-  // postId가 있다면 조회
   useEffect(() => {
-    if (postId) {
+    if (content) {
+      editableDivRef.current!.innerHTML = content;
     }
   }, []);
 

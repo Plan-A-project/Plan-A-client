@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
@@ -18,13 +18,17 @@ import {
 } from "@/state/atoms/posting/postingAtom";
 import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecruit";
 
+// 생성 예시
+// http://localhost:3000/board/form?boardId=4&postType=RECRUITMENT
+// 조회 예시
+// http://localhost:3000/board/form?postId1=1
 export default function PostingForm() {
   const params = useSearchParams();
   const router = useRouter();
 
-  const postType = params.get("postType") as string; // RECRUITMENT | ANNOUNCEMENT | NORMAL
-  const boardId = parseInt(params.get("boardId") || "", 0);
-  const postId = parseInt(params.get("postId") || "", 0);
+  const [postType, setPostType] = useState("");
+  const [boardId, setBoardId] = useState(0);
+  const [postId, setPostId] = useState(0);
 
   const [isBtnActive, setBtnActive] = useState(false);
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
@@ -52,7 +56,28 @@ export default function PostingForm() {
     return newContent;
   }
 
-  // http://localhost:3000/board/form?boardId=4&postType=RECRUITMENT
+  function updatePostContent(title: string, content: string) {
+    setPostContent(d => ({ ...d, title: title, content }));
+  }
+
+  // searchParams에서 query param 가져오기 비동기 업데이트를 위한 처리
+  useEffect(() => {
+    setPostType(params.get("postType") as string);
+    setBoardId(parseInt(params.get("boardId") || "", 0));
+    setPostId(parseInt(params.get("postId") || "", 0));
+  }, [params]);
+
+  useEffect(() => {
+    if (postId && !postType && !boardId) {
+      // postId가 있는 경우 조회
+      readPost(postId).then(([title, content, postType, boardId]) => {
+        setPostType(postType);
+        setBoardId(boardId);
+        updatePostContent(title, content);
+      });
+    }
+  }, [postId]);
+
   return (
     <AppContainer>
       {isActivated && <Snackbar />}
@@ -63,14 +88,24 @@ export default function PostingForm() {
           <CreatePostButton
             isActive={isBtnActive}
             handleClick={() =>
-              createPost(
-                boardId,
-                postType,
-                postContent,
-                createPostSuccess,
-                createPostFail,
-                uploadImgsSuccess,
-              )
+              postId
+                ? updatePost(
+                    postType,
+                    boardId,
+                    postId,
+                    postContent,
+                    createPostSuccess,
+                    createPostFail,
+                    uploadImgsSuccess,
+                  )
+                : createPost(
+                    boardId,
+                    postType,
+                    postContent,
+                    createPostSuccess,
+                    createPostFail,
+                    uploadImgsSuccess,
+                  )
             }
           />
         }
@@ -119,7 +154,7 @@ async function uploadImgStrToS3(postId: number) {
     postId: postId,
     files: imgStr,
   });
-  return res.data.data.originalImageUrls || [];
+  return res.data?.data?.originalImageUrls || [];
 }
 
 // 포스팅 업데이트 함수
@@ -128,16 +163,22 @@ async function updatePost(
   boardId: number,
   postId: number,
   postContent: IPostContent,
+  createPostSuccess: () => void,
+  createPostFail: () => void,
+  uploadImgsSuccess: (postId: number) => Promise<string>,
 ) {
+  const _newContent = await uploadImgsSuccess(postId); // 이미지 처리
   const res = await postApis.updatePost({
     postType,
     body: {
       ...postContent,
+      content: _newContent,
       boardId,
       postId,
     },
   });
-  return res;
+  if (res.ok) createPostSuccess();
+  else createPostFail();
 }
 
 // img blob string을 s3 이미지 링크로 replace 하는 함수
@@ -152,6 +193,13 @@ function replaceImgStrToS3(imgUrls: string[]) {
   return newInnerHTML;
 }
 
+// 포스팅 읽기 함수
+async function readPost(postId: number) {
+  const res = await postApis.readPost({ postId });
+  const { title, content, postType, boardId } = res.data!.data.data;
+  return [title, content, postType, boardId];
+}
+
 // 포스팅 생성 함수
 async function createPost(
   boardId: number,
@@ -159,9 +207,8 @@ async function createPost(
   postContent: IPostContent,
   createPostSuccess: () => void,
   createPostFail: () => void,
-  uploadImgsSuccess: (postId: number) => string,
+  uploadImgsSuccess: (postId: number) => Promise<string>,
 ) {
-  debugger;
   const encodedImgLst = extractImgBaseStr();
   if (!encodedImgLst.length) {
     // 이미지가 없는 글은 뼈대 생성과 글 생성이 동시에 이뤄집니다
@@ -188,11 +235,15 @@ async function createPost(
     });
     if (res.ok) {
       const _postId = res.data!.data.data;
-      const _newContent = await uploadImgsSuccess(_postId); // 이미지 처리
-      await updatePost(postType, boardId, _postId, {
-        ...postContent,
-        content: _newContent,
-      });
+      await updatePost(
+        postType,
+        boardId,
+        _postId,
+        postContent,
+        createPostSuccess,
+        createPostFail,
+        uploadImgsSuccess,
+      );
       await createPostSuccess();
     } else {
       createPostFail();
