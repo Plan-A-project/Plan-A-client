@@ -148,7 +148,7 @@ const postApis = {
     const response = await client.delete(`/api/posts/${postId}`, { headers });
     return response;
   }),
-
+  
   // 최초 이용약관 동의
   agreePolicy: methodFormat(async () => {
     const headers = getPostingApiHeaders();

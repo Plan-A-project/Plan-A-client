@@ -1,3 +1,4 @@
+import searchApis from "@/api/search";
 import { BoardItemType } from "@/types";
 
 export const wait = (timeToDelay: number) =>
@@ -16,9 +17,13 @@ export const searchFunctionFactory = (type: string) => {
   const testSearchFunction = async (keyword: string) => {
     await wait(1000);
     const returnArray: BoardItemType[] = [];
+    // 검색 api 연결
+    const response = await searchApis.searchPosts(keyword);
+    console.log("search", response);
     const tmpItem: BoardItemType = {
       id: 1,
       views: 123,
+      // type 은 글에 관련된
       leftTag: type,
       title: `제목 ${keyword}`,
       description: "본문",
