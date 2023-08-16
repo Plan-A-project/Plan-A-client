@@ -11,8 +11,9 @@ import {
   Icon,
   Tag,
   Center,
+  Link,
 } from "@chakra-ui/react";
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { FaUserCircle } from "react-icons/fa";
 import { useRecoilState } from "recoil";
@@ -64,12 +65,24 @@ const MyPage = () => {
             <BeforeLogin />
           )}
           <Stack spacing={25}>
-            <Text textStyle={"body1"} width={"fit-content"} paddingX={"5px"}>
+            <Link
+              as={NextLink}
+              href="/myPage/managePosts"
+              textStyle={"body1"}
+              width={"fit-content"}
+              paddingX={"5px"}
+            >
               스크랩 보기
-            </Text>
-            <Text textStyle={"body1"} width={"fit-content"} paddingX={"5px"}>
+            </Link>
+            <Link
+              as={NextLink}
+              href="/myPage/managePosts"
+              textStyle={"body1"}
+              width={"fit-content"}
+              paddingX={"5px"}
+            >
               게시글 관리
-            </Text>
+            </Link>
             <Text
               onClick={() => router.push("/certificationCenter")}
               textStyle={"body1"}

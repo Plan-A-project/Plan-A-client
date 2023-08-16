@@ -25,7 +25,7 @@ const CompanySignUp = () => {
     {
       label: "email",
       placeholder: "youremail@email.com",
-      title: "이메일",
+      title: "아이디",
       type: "email",
       hasConfirmButton: true,
     },
@@ -66,14 +66,16 @@ const CompanySignUp = () => {
   const handleSignUp = async () => {
     if (isReadyToSignUp) {
       const response = await authApis.companySignup({
-        email: inputValues.email,
+        username: inputValues.email,
         password: inputValues.password,
+        passwordConfirm: inputValues.passwordConfirm,
+        universityId: 1,
         companyName: inputValues.nickname,
       });
       console.log(response);
       if (response.ok) {
         const response = await authApis.login({
-          email: inputValues.email,
+          username: inputValues.email,
           password: inputValues.password,
         });
         if (response.data) {
