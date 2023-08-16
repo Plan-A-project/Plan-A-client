@@ -81,7 +81,7 @@ const SignUp = () => {
         password: inputValues.password,
         passwordConfirm: inputValues.passwordConfirm,
         nickname: inputValues.nickname,
-        universityId: 1,
+        universityId: 0,
       });
       if (response.ok) {
         const response = await authApis.login({
