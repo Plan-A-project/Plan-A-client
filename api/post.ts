@@ -82,20 +82,57 @@ const postApis = {
     );
     return response.json();
   }),
-  // // 포스팅 뼈대 생성
-  initializePost: methodFormat(async ({ body }) => {
-    console.log(body);
+
+  // 포스팅 뼈대 생성
+  initializePost: methodFormat(async ({ postType, body }) => {
     const headers = getPostingApiHeaders();
-    const response = await client.post(`/api/posts/normal`, body, { headers });
-    return response;
+    switch (postType) {
+      case "NORMAL": {
+        const response = await client.post(`/api/posts/normal`, body, {
+          headers,
+        });
+        return response;
+      }
+      case "ANNOUNCEMENT": {
+        const response = await client.post(`/api/posts/normal`, body, {
+          headers,
+        });
+        return response;
+      }
+      case "RECRUITMENT": {
+        const response = await client.post(`/api/posts/recruitment`, body, {
+          headers,
+        });
+        return response;
+      }
+    }
   }),
+
   // 포스팅 작성 & 수정
-  updatePost: methodFormat(async ({ body }) => {
-    debugger;
+  updatePost: methodFormat(async ({ postType, body }) => {
     const headers = getPostingApiHeaders();
-    const response = await client.patch(`/api/posts`, body, { headers });
-    return response;
+    switch (postType) {
+      case "NORMAL": {
+        const response = await client.patch(`/api/posts/normal`, body, {
+          headers,
+        });
+        return response;
+      }
+      case "ANNOUNCEMENT": {
+        const response = await client.patch(`/api/posts/normal`, body, {
+          headers,
+        });
+        return response;
+      }
+      case "RECRUITMENT": {
+        const response = await client.patch(`/api/posts/recruitment`, body, {
+          headers,
+        });
+        return response;
+      }
+    }
   }),
+
   // 포스팅 조회
   readPost: methodFormat(async ({ postId }) => {
     const headers = getPostingApiHeaders();
@@ -104,12 +141,14 @@ const postApis = {
     });
     return response;
   }),
+
   // 포스팅 삭제
   deletePost: methodFormat(async ({ postId }) => {
     const headers = getPostingApiHeaders();
     const response = await client.delete(`/api/posts/${postId}`, { headers });
     return response;
   }),
+
   // 최초 이용약관 동의
   agreePolicy: methodFormat(async () => {
     const headers = getPostingApiHeaders();

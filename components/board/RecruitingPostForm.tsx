@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import {
   Box,
@@ -9,30 +15,18 @@ import {
   Text,
   Divider,
 } from "@chakra-ui/layout";
-import { ChakraProps, FormLabel, Input } from "@chakra-ui/react";
+import { FormLabel, Input } from "@chakra-ui/react";
 
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
 import { IPostContent } from "@/state/atoms/posting/postingAtom";
 import { deFormatDate } from "@/utils/date";
-
-const formProps: ChakraProps = {
-  border: "none",
-  borderColor: "gray.100",
-  borderRadius: 0,
-  _focus: { borderColor: "gray.300" },
-  px: 2,
-};
-
-const inputProps: ChakraProps = {
-  ...formProps,
-  py: 2,
-};
 
 export type IPostForm = {
   postId?: number;
   boardId: number;
   postContent: IPostContent;
   setPostContent: (newValue: any) => void;
+  setBtnActive: Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function RecruitingPostForm({
@@ -40,83 +34,112 @@ export default function RecruitingPostForm({
   boardId,
   postContent,
   setPostContent,
+  setBtnActive,
 }: IPostForm) {
   const editableDivRef = useRef<HTMLDivElement | null>(null);
-
   const {
     title,
     content,
-    recruitment: { companyName, startDate, endDate },
+    recruitmentCompanyName,
+    recruitmentStartDate,
+    recruitmentEndDate,
   } = postContent;
+  const _placeholder = "내용을 입력하세요.";
 
+  // 포스팅 제목 갱신
   function setTitle(e: React.ChangeEvent<HTMLInputElement>) {
     setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      title: e.target.value, // 새로운 title 값으로 업데이트
+      title: e.target.value,
     }));
   }
-  function setContent(d: any) {
-    setPostContent((prevData: IPostContent) => ({
-      ...prevData,
-      content: d, // 새로운 title 값으로 업데이트
-    }));
+
+  // 모킹 placeholder 및 내용 갱신
+  function handlePlaceholderChange(
+    event: React.SyntheticEvent<HTMLDivElement>,
+  ) {
+    const _content = event?.currentTarget.innerHTML;
+    if (_content === _placeholder) {
+      event.currentTarget.innerHTML = "";
+    } else if (_content === "") {
+      event.currentTarget.innerHTML = _placeholder;
+    }
   }
+
+  // 포스팅 내용 갱신
+  function handleContentChange(content: string | undefined) {
+    content &&
+      setPostContent((prevData: IPostContent) => ({
+        ...prevData,
+        content: content,
+      }));
+  }
+
+  // content editable div innerHTML 변경 감지 옵저버 등록
+  useEffect(() => {
+    const observerCallback: MutationCallback = (mutationsList, observer) => {
+      for (const mutation of mutationsList) {
+        if (
+          mutation.type === "childList" ||
+          mutation.type === "characterData"
+        ) {
+          handleContentChange(editableDivRef.current?.innerHTML);
+        }
+      }
+    };
+    const observer = new MutationObserver(observerCallback);
+    if (editableDivRef.current) {
+      const observerConfig: MutationObserverInit = {
+        childList: true,
+        subtree: true,
+        characterData: true,
+      };
+      observer.observe(editableDivRef.current, observerConfig);
+    }
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   function setEnterprise(e: React.ChangeEvent<HTMLInputElement>) {
     setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      recruitment: {
-        ...prevData.recruitment,
-        companyName: e.target.value,
-      },
+      recruitmentCompanyName: e.target.value,
     }));
   }
 
   function setStartDate(date: string) {
     setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      recruitment: {
-        ...prevData.recruitment,
-        startDate: date,
-      },
+      recruitmentStartDate: date,
     }));
   }
 
   function setEndDate(date: string) {
     setPostContent((prevData: IPostContent) => ({
       ...prevData,
-      recruitment: {
-        ...prevData.recruitment,
-        endDate: date,
-      },
+      recruitmentEndDate: date,
     }));
   }
 
-  function handleContentChange(event: React.SyntheticEvent<HTMLDivElement>) {
-    if (content === "Type Something")
-      setPostContent((prevData: IPostContent) => ({
-        ...prevData,
-        content: "", // postId 업데이트
-      }));
-    else if (content === "")
-      setPostContent((prevData: IPostContent) => ({
-        ...prevData,
-        content: "Type Something", // postId 업데이트
-      }));
-
-    const newContent = event?.currentTarget.innerHTML;
-    setContent(newContent);
-  }
+  // 등록 버튼 활성화 조건
+  useEffect(() => {
+    const { title, content } = postContent;
+    title &&
+    content &&
+    content !== _placeholder &&
+    recruitmentCompanyName &&
+    recruitmentStartDate &&
+    recruitmentEndDate
+      ? setBtnActive(true)
+      : setBtnActive(false);
+  }, [postContent]);
 
   return (
     <Grid gap={3} p={2}>
       <GridItem>
         <CustomFormLabel>모집 공고</CustomFormLabel>
         <CustomInputText
-          flexShrink={0}
-          h={9}
-          mt={3}
-          {...inputProps}
           placeholder="모집 공고의 제목을 입력해 주세요."
           value={title}
           setValue={setTitle}
@@ -126,11 +149,7 @@ export default function RecruitingPostForm({
       <GridItem>
         <CustomFormLabel>기업/기관</CustomFormLabel>
         <CustomInputText
-          flexShrink={0}
-          h={9}
-          mt={3}
-          value={companyName}
-          {...inputProps}
+          value={recruitmentCompanyName as string}
           placeholder="기업/기관의 이름을 입력해주세요."
           setValue={setEnterprise}
         />
@@ -138,7 +157,7 @@ export default function RecruitingPostForm({
       </GridItem>
       <GridItem>
         <CustomFormLabel>모집 기간</CustomFormLabel>
-        <HStack fontSize={"xs"} p={2}>
+        <HStack fontSize={"xs"} py={2}>
           <DateInput setDate={setStartDate} />
           <Text>~</Text>
           <DateInput setDate={setEndDate} />
@@ -152,21 +171,14 @@ export default function RecruitingPostForm({
           contentEditable
           mt={2}
           lineHeight={5}
-          p={2}
-          {...inputProps}
           _focus={{ outline: 0 }}
           sx={{ boxShadow: "none !important" }}
-          onBlur={handleContentChange}
-          onInput={handleContentChange}
+          onBlur={handlePlaceholderChange}
           ref={editableDivRef}
-          onFocus={handleContentChange}
-          placeholder="내용을 입력해주세요."
-          _before={{
-            content: content ? `""` : "attr(placeholder)",
-            color: "gray.500",
-            position: "absolute",
-          }}
-        ></Box>
+          onFocus={handlePlaceholderChange}
+        >
+          {_placeholder}
+        </Box>
       </GridItem>
       <KeyboardFixedElement />
     </Grid>
@@ -175,7 +187,7 @@ export default function RecruitingPostForm({
 
 function CustomFormLabel({ children }: { children: React.ReactNode }) {
   return (
-    <FormLabel fontSize={"sm"} color="gray.600" px={3} m={0}>
+    <FormLabel fontSize={"sm"} color="gray.600" m={0}>
       {children}
     </FormLabel>
   );
@@ -198,7 +210,7 @@ function CustomInputText({
       value={value}
       border={"none"}
       outline={"none"}
-      px={3}
+      px={0}
       _focus={{ outline: 0 }}
       _focusVisible={{
         outline: "none",
@@ -219,7 +231,7 @@ function DateInput({ setDate }: { setDate: (date: string) => void }) {
       debugger;
       year && month && day && setDate(_deformattedDate);
     }
-  }, [year, month, day]); // TODO: Date 객체로 변경하기
+  }, [year, month, day]);
 
   return (
     <HStack>

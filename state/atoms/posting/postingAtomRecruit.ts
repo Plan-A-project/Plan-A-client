@@ -10,11 +10,8 @@ export const postingContentAtomRecruit = atom<IPostContent>({
     boardId: 0,
     title: "",
     content: "",
-    thumbnailUrl: "",
-    recruitment: {
-      companyName: "",
-      startDate: new Date(), // timestamp
-      endDate: new Date(),
-    },
+    recruitmentCompanyName: "",
+    recruitmentStartDate: new Date(),
+    recruitmentEndDate: new Date(),
   },
 });

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { Box } from "@chakra-ui/layout";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
@@ -19,205 +18,64 @@ import {
 } from "@/state/atoms/posting/postingAtom";
 import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecruit";
 
-function escapeHtml(text: string): string {
-  const map: { [key: string]: string } = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;",
-  };
-
-  return text.replace(/[&<>"']/g, match => map[match]);
-}
-
-const PAGE_TITLE: { [key: string]: string } = {
-  RECRUITMENT: "모집글",
-  NORMAL: "일반글",
-  ANNOUNCEMENT: "공지글",
-};
-
-// boardId & postID  둘 다 파라미터로 넘겨줌
-// form & update 같이 (생성 & 업데이트 동시에)
-// e.g. http://localhost:3000/board/form?boardId=4&postType=ANNOUNCEMENT
+// 생성 예시
+// http://localhost:3000/board/form?boardId=4&postType=RECRUITMENT
+// 조회 예시
+// http://localhost:3000/board/form?postId1=1
 export default function PostingForm() {
   const params = useSearchParams();
-  const [boardId, setBoardId] = useState("");
-  const [postId, setPostId] = useState("");
-  const [postType, setPostType] = useState("NORMAL");
   const router = useRouter();
-  // RECRUITMENT | ANNOUNCEMENT | NORMAL
+
+  const [postType, setPostType] = useState("");
+  const [boardId, setBoardId] = useState(0);
+  const [postId, setPostId] = useState(0);
 
   const [isBtnActive, setBtnActive] = useState(false);
-  const [postContent, setPostContent] = useRecoilState(
-    postType === "RECRUITMENT" ? postingContentAtomRecruit : postingContentAtom,
-  );
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
     `${PAGE_TITLE[postType]}을 작성하였습니다.`,
   );
 
-  async function createPost() {
-    const innerHTML = document.querySelector("#contentEditable")!.innerHTML;
-    const imgSrcPattern = /data:[^"]+/g; // 이미지 base64 추출
-    const encodedImgLst = innerHTML.match(imgSrcPattern) || [];
+  const [postContent, setPostContent] = useRecoilState(
+    postType === "RECRUITMENT" ? postingContentAtomRecruit : postingContentAtom,
+  );
 
-    if (!encodedImgLst.length) {
-      // 이미지 무
-      const res = await postApis.initializePost({ body: postContent });
-      if (res.ok) {
-        activateSnackbar();
-        router.back();
-      } else {
-        return <Box>글 생성에 실패하였습니다.</Box>;
-      }
-    } else {
-      // 이미지 유
-      const res = await postApis.initializePost({
-        // 뼈대 생성 + 포스팅 생성
-        body: { ...postContent, content: "임시 내용" },
-      });
-
-      if (res.ok) {
-        setPostContent((prevData: IPostContent) => ({
-          ...prevData,
-          postId: res.data!.data, // postId 업데이트
-        }));
-
-        debugger;
-
-        const resImg = await postApis.postImage({
-          // 이미지 업로드
-          postId: res.data!.data,
-          files: encodedImgLst,
-        });
-        const imgUrls = resImg.data || [];
-        let newInnerHTML = innerHTML;
-        for (let i = 0; i < imgUrls.length; i++) {
-          // 기존 base64 이미지 문자 -> s3 이미지 링크로 replace
-          const replaceFrom = encodedImgLst[i];
-          const replaceTo = imgUrls[i];
-          newInnerHTML = newInnerHTML.replace(`${replaceFrom}`, replaceTo);
-        }
-        setPostContent((prevData: IPostContent) => ({
-          ...prevData,
-          content: escapeHtml(newInnerHTML),
-        }));
-        const resUpdate = await postApis.updatePost({
-          body: {
-            ...postContent,
-            content: newInnerHTML,
-            postId: res.data!.data,
-          },
-        });
-        if (resUpdate.ok) {
-          activateSnackbar();
-          router.back();
-        } else {
-          const resDelete = await postApis.deletePost({
-            postId: res.data!.data,
-          });
-          return <Box>글 생성에 실패하였습니다.</Box>;
-        }
-      } else {
-        const resDelete = await postApis.deletePost({
-          postId: res.data!.data,
-        });
-        return <Box>글 생성에 실패하였습니다.</Box>;
-      }
-    }
+  function createPostSuccess() {
+    // 글 작성 성공 처리
+    activateSnackbar();
+    router.back();
   }
 
-  // TODO: refactoring
-  async function updatePost() {
-    const innerHTML = document.querySelector("#contentEditable")!.innerHTML;
-    const imgSrcPattern = /data:[^"]+/g; // 이미지 base64 추출
-    const encodedImgLst = innerHTML.match(imgSrcPattern) || [];
-
-    let newInnerHTML = innerHTML;
-    if (encodedImgLst.length) {
-      const resImg = await postApis.postImage({
-        // 이미지 업로드
-        postId: postId,
-        files: encodedImgLst,
-      });
-      const imgUrls = resImg.data || [];
-      for (let i = 0; i < imgUrls.length; i++) {
-        // 기존 base64 이미지 문자 -> s3 이미지 링크로 replace
-        const replaceFrom = encodedImgLst[i];
-        const replaceTo = imgUrls[i];
-        newInnerHTML = newInnerHTML.replace(`${replaceFrom}`, replaceTo);
-      }
-      setPostContent((prevData: IPostContent) => ({
-        ...prevData,
-        content: escapeHtml(newInnerHTML),
-      }));
-    }
-    const resUpdate = await postApis.updatePost({
-      body: {
-        ...postContent,
-        content: newInnerHTML,
-        postId: postId,
-      },
-    });
-    if (resUpdate.ok) {
-      activateSnackbar();
-      // router 이동
-    } else {
-      const resDelete = await postApis.deletePost({
-        postId: postId,
-      });
-      return <Box>글 생성에 실패하였습니다.</Box>;
-    }
+  function createPostFail() {
+    // 글 작성 실패 처리
   }
 
-  async function readPost(postId: string) {
-    const res = await postApis.readPost({ postId });
-    if (res.ok) {
-      const {
-        postId,
-        title,
-        boardId,
-        postType,
-        content,
-        recruitmentInfo: recruitment,
-      } = res.data!.data;
-
-      setPostContent((prevData: IPostContent) => ({
-        ...prevData,
-        postId,
-        title,
-        boardId,
-        postType,
-        content,
-        recruitment,
-      }));
-
-      setPostType(postType);
-      setPostId(postId);
-      setBoardId(boardId);
-    }
+  async function uploadImgsSuccess(postId: number) {
+    // 이미지 업로드 성공 처리
+    const imgUrls = await uploadImgStrToS3(postId);
+    const newContent = replaceImgStrToS3(imgUrls);
+    return newContent;
   }
 
+  function updatePostContent(title: string, content: string) {
+    setPostContent(d => ({ ...d, title: title, content }));
+  }
+
+  // searchParams에서 query param 가져오기 비동기 업데이트를 위한 처리
   useEffect(() => {
-    postContent.title && postContent.content
-      ? setBtnActive(true)
-      : setBtnActive(false);
-  }, [postContent]);
-
-  useEffect(() => {
-    setPostContent((prevData: IPostContent) => ({
-      ...prevData,
-      postId: parseInt(params.get("postId") as string),
-      boardId: parseInt(params.get("boardId") as string),
-      postType: params.get("postType") as string,
-    }));
-    setBoardId(params.get("boardId") as string);
-    setPostId(params.get("postId") as string);
     setPostType(params.get("postType") as string);
+    setBoardId(parseInt(params.get("boardId") || "", 0));
+    setPostId(parseInt(params.get("postId") || "", 0));
   }, [params]);
 
   useEffect(() => {
-    postId && readPost(postId);
+    if (postId && !postType && !boardId) {
+      // postId가 있는 경우 조회
+      readPost(postId).then(([title, content, postType, boardId]) => {
+        setPostType(postType);
+        setBoardId(boardId);
+        updatePostContent(title, content);
+      });
+    }
   }, [postId]);
 
   return (
@@ -227,33 +85,168 @@ export default function PostingForm() {
         title={`${PAGE_TITLE[postType]} 쓰기`}
         left={<CaretLeft />}
         right={
-          <CreatePostButton isActive={isBtnActive} handleClick={createPost} />
+          <CreatePostButton
+            isActive={isBtnActive}
+            handleClick={() =>
+              postId
+                ? updatePost(
+                    postType,
+                    boardId,
+                    postId,
+                    postContent,
+                    createPostSuccess,
+                    createPostFail,
+                    uploadImgsSuccess,
+                  )
+                : createPost(
+                    boardId,
+                    postType,
+                    postContent,
+                    createPostSuccess,
+                    createPostFail,
+                    uploadImgsSuccess,
+                  )
+            }
+          />
         }
       />
       {postType === "RECRUITMENT" && (
         <RecruitingPostForm
-          postId={postId ? parseInt(postId) : 0}
-          boardId={boardId ? parseInt(boardId) : 0}
+          postId={postId}
+          boardId={boardId}
           postContent={postContent}
           setPostContent={setPostContent}
+          setBtnActive={setBtnActive}
         />
       )}
-      {postType === "NORMAL" && (
+      {(postType === "NORMAL" || postType === "ANNOUNCEMENT") && (
         <GeneralPostForm
-          postId={postId ? parseInt(postId) : 0}
-          boardId={boardId ? parseInt(boardId) : 0}
+          postId={postId}
+          boardId={boardId}
           postContent={postContent}
           setPostContent={setPostContent}
-        />
-      )}
-      {postType === "ANNOUNCEMENT" && (
-        <GeneralPostForm
-          postId={postId ? parseInt(postId) : 0}
-          boardId={boardId ? parseInt(boardId) : 0}
-          postContent={postContent}
-          setPostContent={setPostContent}
+          setBtnActive={setBtnActive}
         />
       )}
     </AppContainer>
   );
+}
+
+const PAGE_TITLE: { [key: string]: string } = {
+  RECRUITMENT: "모집글",
+  NORMAL: "일반글",
+  ANNOUNCEMENT: "공지글",
+};
+
+// img str 추출 함수
+function extractImgBaseStr() {
+  const innerHTML = document.querySelector("#contentEditable")!.innerHTML;
+  const imgSrcPattern = /data:[^"]+/g; // 이미지 base64 추출
+  const encodedImgLst = innerHTML.match(imgSrcPattern) || [];
+
+  return encodedImgLst;
+}
+
+// 이미지 업로드 함수
+async function uploadImgStrToS3(postId: number) {
+  const imgStr = extractImgBaseStr();
+  const res = await postApis.postImage({
+    postId: postId,
+    files: imgStr,
+  });
+  return res.data?.data?.originalImageUrls || [];
+}
+
+// 포스팅 업데이트 함수
+async function updatePost(
+  postType: string,
+  boardId: number,
+  postId: number,
+  postContent: IPostContent,
+  createPostSuccess: () => void,
+  createPostFail: () => void,
+  uploadImgsSuccess: (postId: number) => Promise<string>,
+) {
+  const _newContent = await uploadImgsSuccess(postId); // 이미지 처리
+  const res = await postApis.updatePost({
+    postType,
+    body: {
+      ...postContent,
+      content: _newContent,
+      boardId,
+      postId,
+    },
+  });
+  if (res.ok) createPostSuccess();
+  else createPostFail();
+}
+
+// img blob string을 s3 이미지 링크로 replace 하는 함수
+function replaceImgStrToS3(imgUrls: string[]) {
+  let newInnerHTML = document.querySelector("#contentEditable")!.innerHTML;
+  const encodedImgLst = extractImgBaseStr();
+  for (let i = 0; i < imgUrls.length; i++) {
+    const replaceFrom = encodedImgLst[i];
+    const replaceTo = imgUrls[i];
+    newInnerHTML = newInnerHTML.replace(`${replaceFrom}`, replaceTo);
+  }
+  return newInnerHTML;
+}
+
+// 포스팅 읽기 함수
+async function readPost(postId: number) {
+  const res = await postApis.readPost({ postId });
+  const { title, content, postType, boardId } = res.data!.data.data;
+  return [title, content, postType, boardId];
+}
+
+// 포스팅 생성 함수
+async function createPost(
+  boardId: number,
+  postType: string,
+  postContent: IPostContent,
+  createPostSuccess: () => void,
+  createPostFail: () => void,
+  uploadImgsSuccess: (postId: number) => Promise<string>,
+) {
+  const encodedImgLst = extractImgBaseStr();
+  if (!encodedImgLst.length) {
+    // 이미지가 없는 글은 뼈대 생성과 글 생성이 동시에 이뤄집니다
+    const res = await postApis.initializePost({
+      postType,
+      body: {
+        ...postContent,
+        boardId,
+        postType,
+      },
+    });
+    if (res.ok) createPostSuccess();
+    else createPostFail();
+  } else {
+    // 이미지가 있는 글은 뼈대 생성과 글 생성이 별도로 이뤄집니다
+    const res = await postApis.initializePost({
+      postType,
+      body: {
+        ...postContent,
+        boardId,
+        content: "임시 내용",
+        postType,
+      }, // 글 뼈대 초기 생성
+    });
+    if (res.ok) {
+      const _postId = res.data!.data.data;
+      await updatePost(
+        postType,
+        boardId,
+        _postId,
+        postContent,
+        createPostSuccess,
+        createPostFail,
+        uploadImgsSuccess,
+      );
+      await createPostSuccess();
+    } else {
+      createPostFail();
+    }
+  }
 }
