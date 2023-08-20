@@ -21,7 +21,7 @@ import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecr
 // 생성 예시
 // http://localhost:3000/board/form?boardId=4&postType=RECRUITMENT
 // 조회 예시
-// http://localhost:3000/board/form?postId1=1
+// http://localhost:3000/board/form?postId=1
 export default function PostingForm() {
   const params = useSearchParams();
   const router = useRouter();

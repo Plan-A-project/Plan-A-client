@@ -30,8 +30,6 @@ export type IPostForm = {
 };
 
 export default function RecruitingPostForm({
-  postId,
-  boardId,
   postContent,
   setPostContent,
   setBtnActive,
@@ -228,7 +226,6 @@ function DateInput({ setDate }: { setDate: (date: string) => void }) {
   useEffect(() => {
     if (year && month && day) {
       const _deformattedDate = deFormatDate(`${year}-${month}-${day}`);
-      debugger;
       year && month && day && setDate(_deformattedDate);
     }
   }, [year, month, day]);

@@ -125,6 +125,7 @@ const postApis = {
         return response;
       }
       case "RECRUITMENT": {
+        debugger;
         const response = await client.patch(`/api/posts/recruitment`, body, {
           headers,
         });
