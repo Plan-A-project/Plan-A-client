@@ -2,8 +2,7 @@ import { methodFormat } from "@/utils/methodFormat";
 
 import client from "./client";
 
-const PATH = "posts/";
-
+const PATH = "setting/";
 function getHeaders() {
   let AccessToken;
   if (typeof window !== "undefined") {
@@ -16,19 +15,27 @@ function getHeaders() {
   return headers;
 }
 const headers = getHeaders();
-const likesApis = {
-  postLike: methodFormat(async postId => {
-    const response = await client.post(`${PATH}${postId}/likes`, {
-      headers,
-    });
+const profileApis = {
+  changeNickname: methodFormat(async newNickname => {
+    const response = await client.post(
+      `${PATH}nickname`,
+      { newNickname },
+      {
+        headers,
+      },
+    );
     return response;
   }),
-  cancelLike: methodFormat(async postId => {
-    const response = await client.delete(`${PATH}${postId}/likes`, {
-      headers,
-    });
+  changeProfileImage: methodFormat(async file => {
+    const response = await client.post(
+      `${PATH}profile/image`,
+      { file },
+      {
+        headers,
+      },
+    );
     return response;
   }),
 };
 
-export default likesApis;
+export default profileApis;

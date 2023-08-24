@@ -45,14 +45,12 @@ const StudentCertification = () => {
     }
   };
   const handleCertificate = async () => {
-
     if (selectedTabNumber) {
       const response = await certificationApis.sendEmailLink({
         universityEmail: userEmail,
       });
       console.log(11, response);
     }
-
     if (!selectedTabNumber) {
       // const response
     }

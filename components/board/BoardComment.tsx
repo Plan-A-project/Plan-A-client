@@ -24,6 +24,7 @@ type BoardCommentProps = {
   replyComment?: any;
   createdAt: string;
   likesCount: number;
+  isReply?: boolean;
 };
 const ReplyComment: React.FC<BoardCommentProps> = ({
   username,
@@ -74,43 +75,48 @@ const BoardComment: React.FC<BoardCommentProps> = ({
   replyComment,
   createdAt,
   likesCount,
+  isReply,
 }) => {
   return (
     <Box px={2} py={3}>
-      <HStack align={"flex-start"}>
-        <Stack w={12} align={"start"}>
-          <Stack spacing={1} align={"start"}>
-            {withProfile && (
-              <Avatar name={username} size={"sm"} src={profileImage} />
-            )}
-            <Text textStyle={"overline"}>{username}</Text>
-          </Stack>
-        </Stack>
-        <Text textStyle={"body1"}>{content}</Text>
-      </HStack>
-      <Flex align={"baseline"} justify={"space-between"}>
-        <Button onClick={handleReply} mt={3} size="xs" variant={"outline"}>
-          답글
-        </Button>
-        <Flex>
-          <Text mr={3} textStyle={"overline"}>
-            {formatCommentDate(createdAt)}
-          </Text>
+      {!isReply && (
+        <>
+          <HStack align={"flex-start"}>
+            <Stack w={12} align={"start"}>
+              <Stack spacing={1} align={"start"}>
+                {withProfile && (
+                  <Avatar name={username} size={"sm"} src={profileImage} />
+                )}
+                <Text textStyle={"overline"}>{username}</Text>
+              </Stack>
+            </Stack>
+            <Text textStyle={"body1"}>{content}</Text>
+          </HStack>
+          <Flex align={"baseline"} justify={"space-between"}>
+            <Button onClick={handleReply} mt={3} size="xs" variant={"outline"}>
+              답글
+            </Button>
+            <Flex>
+              <Text mr={3} textStyle={"overline"}>
+                {formatCommentDate(createdAt)}
+              </Text>
 
-          <HeartEmpty />
-          <Text ml={1} textStyle={"overline"}>
-            {likesCount}
-          </Text>
-        </Flex>
-      </Flex>
-      <ReplyComment
-        createdAt={"1"}
-        likesCount={0}
-        username={"테스트"}
-        content={
-          "ㅎㅇㅎ안녕하세요 안녀앟세요 안녕하세요 안녕하세요 안녕하ㅏ세요ㅇ"
-        }
-      />
+              <HeartEmpty />
+              <Text ml={1} textStyle={"overline"}>
+                {likesCount}
+              </Text>
+            </Flex>
+          </Flex>
+        </>
+      )}
+      {isReply && (
+        <ReplyComment
+          createdAt={formatCommentDate(createdAt)}
+          likesCount={likesCount}
+          username={username}
+          content={content}
+        />
+      )}
     </Box>
   );
 };

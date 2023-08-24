@@ -2,11 +2,9 @@ import { methodFormat } from "@/utils/methodFormat";
 
 import client from "./client";
 
-const PATH = "api/";
-
 const boardApis = {
   checkBoardsExist: methodFormat(async token => {
-    const response = await client.get(`${PATH}boards/popular/exists`, {
+    const response = await client.get(`boards/popular/exists`, {
       headers: {
         "Access-Token": token,
       },
@@ -14,7 +12,7 @@ const boardApis = {
     return response;
   }),
   getBoardList: methodFormat(async (token, boardId, type, page, order) => {
-    const response = await client.get(`${PATH}posts/boards/${boardId}`, {
+    const response = await client.get(`posts/boards/${boardId}`, {
       params: {
         type,
         page,

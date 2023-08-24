@@ -1,8 +1,11 @@
 import React, { useEffect, useRef } from "react";
+
 import { Box, Divider } from "@chakra-ui/layout";
 import { Input } from "@chakra-ui/react";
+
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
 import { IPostContent } from "@/state/atoms/posting/postingAtom";
+
 import { IPostForm } from "./RecruitingPostForm";
 
 export default function GeneralPostForm({

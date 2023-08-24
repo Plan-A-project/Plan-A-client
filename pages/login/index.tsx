@@ -52,6 +52,7 @@ const Login = () => {
         username: inputValues.email,
         password: inputValues.password,
       });
+      console.log(1111, response);
       if (!response.ok) {
         setHasError(true);
       } else {
