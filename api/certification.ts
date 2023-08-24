@@ -2,7 +2,7 @@ import { methodFormat } from "@/utils/methodFormat";
 
 import client from "./client";
 
-const PATH = "member/";
+const PATH = "verification/";
 
 function getHeaders() {
   const AccessToken = window.localStorage.getItem("accessToken");
@@ -16,12 +16,12 @@ function getHeaders() {
 const certificationApis = {
   sendEmailLink: methodFormat(async data => {
     const headers = getHeaders();
-    await client.post(`${PATH}emails/student`, data, { headers });
+    await client.post(`${PATH}student/email`, data, { headers });
   }),
   // 학생 유저가 재학증명서로 인증하는 api
   postFileToCertificate: methodFormat(async data => {
     const headers = getHeaders();
-    await client.post(`${PATH}emails/student`, data, { headers });
+    await client.post(`${PATH}student/certificate`, data, { headers });
   }),
 };
 

@@ -12,11 +12,15 @@ const nextConfig = {
   },
 };
 module.exports = {
+  reactStrictMode: false,
+};
+
+module.exports = {
   async rewrites() {
     return [
       {
         source: "/:path*",
-        destination: "http://dukcode.iptime.org/:path*",
+        destination: "https://apimyportfolio.com/:path*",
       },
     ];
   },

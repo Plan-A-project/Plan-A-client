@@ -2,7 +2,6 @@ import { methodFormat } from "@/utils/methodFormat";
 
 import client from "./client";
 
-const PATH = "api/";
 function getHeaders() {
   let AccessToken;
   if (typeof window !== "undefined") {
@@ -17,19 +16,19 @@ function getHeaders() {
 const headers = getHeaders();
 const commentApis = {
   postComment: methodFormat(async data => {
-    const response = await client.post(`${PATH}comments`, data, { headers });
+    const response = await client.post(`comments`, data, { headers });
     return response;
   }),
   deleteComment: methodFormat(async data => {
-    const response = await client.delete(`${PATH}comments`, data);
+    const response = await client.delete(`comments`, data);
     return response;
   }),
   modifyComment: methodFormat(async data => {
-    const response = await client.patch(`${PATH}comments`, data);
+    const response = await client.patch(`comments`, data);
     return response;
   }),
   getComment: methodFormat(async data => {
-    const response = await client.get(`${PATH}posts/comments`, {
+    const response = await client.get(`posts/comments`, {
       params: data,
       headers,
     });

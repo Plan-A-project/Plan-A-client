@@ -36,7 +36,9 @@ function BoardDetail() {
     onMenuClick: menu => {
       if (menu === 0) {
         // 수정하기페이지 이동
-        // navigator(`/form?boardId=${boardId}&postId=${postId}&postType=${postType}`);
+        // router.push(
+        //   `/form?boardId=${boardId}&postId=${postId}&postType=${postType}`,
+        // );
       } else if (menu === 1) {
         onOpen();
       }
@@ -116,6 +118,7 @@ function BoardDetail() {
                 postWriter: boolean;
                 createdAt: string;
                 likesCount: number;
+                parentComment: boolean;
               }) => {
                 return (
                   <>
@@ -128,6 +131,7 @@ function BoardDetail() {
                       content={el.content}
                       createdAt={el.createdAt}
                       likesCount={el.likesCount}
+                      isReply={el.parentComment}
                     />
                   </>
                 );

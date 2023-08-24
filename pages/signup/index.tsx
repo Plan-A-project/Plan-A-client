@@ -72,8 +72,16 @@ const SignUp = () => {
     confirmInput.nickname === inputValues.nickname &&
     Object.values(errors).every(value => value === "") &&
     Object.values(inputValues).every(value => value !== "");
-  console.log(inputValues);
+
   const handleSignUp = async () => {
+    console.log(2323, {
+      username: inputValues.email,
+      realName: inputValues.username,
+      password: inputValues.password,
+      passwordConfirm: inputValues.passwordConfirm,
+      nickname: inputValues.nickname,
+      universityId: 0,
+    });
     if (isReadyToSignUp) {
       const response = await authApis.studentSignup({
         username: inputValues.email,
@@ -81,7 +89,7 @@ const SignUp = () => {
         password: inputValues.password,
         passwordConfirm: inputValues.passwordConfirm,
         nickname: inputValues.nickname,
-        universityId: 0,
+        universityId: 1,
       });
       if (response.ok) {
         const response = await authApis.login({
