@@ -35,14 +35,21 @@ export default function PostingForm() {
     `${PAGE_TITLE[postType]}을 작성하였습니다.`,
   );
 
+  // const [postContent, setPostContent] = useRecoilState(
+  //   postType === "RECRUITMENT" ? postingContentAtomRecruit : postingContentAtom,
+  // );
+
+  // const [postContent, setPostContent] = useRecoilState(
+  //   postType !== "RECRUITMENT" ? postingContentAtom : postingContentAtomRecruit,
+  // );
   const [postContent, setPostContent] = useRecoilState(
-    postType === "RECRUITMENT" ? postingContentAtomRecruit : postingContentAtom,
+    postingContentAtomRecruit,
   );
 
   function createPostSuccess() {
     // 글 작성 성공 처리
     activateSnackbar();
-    router.back();
+    // router.back();
   }
 
   function createPostFail() {
@@ -56,9 +63,31 @@ export default function PostingForm() {
     return newContent;
   }
 
-  function updatePostContent(title: string, content: string) {
-    setPostContent(d => ({ ...d, title: title, content }));
+  function updatePostContent(
+    title: string,
+    content: string,
+    recruitment?: {
+      companyName: string;
+      endDate: string;
+      startDate: string;
+    },
+  ) {
+    if (recruitment) {
+      const { companyName, endDate, startDate } = recruitment;
+      setPostContent(d => ({
+        ...d,
+        title: title,
+        content,
+        recruitmentCompanyName: companyName,
+        recruitmentEndDate: new Date(endDate),
+        recruitmentStartDate: new Date(startDate),
+      }));
+    } else {
+      setPostContent(d => ({ ...d, title: title, content }));
+    }
   }
+
+  console.log("ppostContent", postContent);
 
   // searchParams에서 query param 가져오기 비동기 업데이트를 위한 처리
   useEffect(() => {
@@ -70,10 +99,11 @@ export default function PostingForm() {
   useEffect(() => {
     if (postId && !postType && !boardId) {
       // postId가 있는 경우 조회
-      readPost(postId).then(([title, content, postType, boardId]) => {
+      readPost(postId).then(data => {
+        const [title, content, postType, boardId, recruitment] = data;
         setPostType(postType);
         setBoardId(boardId);
-        updatePostContent(title, content);
+        updatePostContent(title, content, recruitment);
       });
     }
   }, [postId]);
@@ -150,11 +180,15 @@ function extractImgBaseStr() {
 // 이미지 업로드 함수
 async function uploadImgStrToS3(postId: number) {
   const imgStr = extractImgBaseStr();
-  const res = await postApis.postImage({
-    postId: postId,
-    files: imgStr,
-  });
-  return res.data!.data.originalImageUrls || [];
+  if (imgStr.length) {
+    const res = await postApis.postImage({
+      postId: postId,
+      files: imgStr,
+    });
+    return res.data!?.data.originalImageUrls;
+  } else {
+    return [];
+  }
 }
 
 // 포스팅 업데이트 함수
@@ -168,10 +202,12 @@ async function updatePost(
   uploadImgsSuccess: (postId: number) => Promise<string>,
 ) {
   const _newContent = await uploadImgsSuccess(postId); // 이미지 처리
+  const _postContent = filterRecruitment(postType, postContent);
+
   const res = await postApis.updatePost({
     postType,
     body: {
-      ...postContent,
+      ..._postContent,
       content: _newContent,
       boardId,
       postId,
@@ -196,8 +232,15 @@ function replaceImgStrToS3(imgUrls: string[]) {
 // 포스팅 읽기 함수
 async function readPost(postId: number) {
   const res = await postApis.readPost({ postId });
-  const { title, content, postType, boardId } = res.data!.data.data;
-  return [title, content, postType, boardId];
+  const { title, content, postType, boardId, recruitment } = res.data!.data;
+
+  return [title, content, postType, boardId, recruitment];
+}
+
+function filterRecruitment(postType: string, postContent: IPostContent) {
+  return postType === "RECRUITMENT"
+    ? postContent
+    : { title: postContent.title, content: postContent.content };
 }
 
 // 포스팅 생성 함수
@@ -211,12 +254,14 @@ async function createPost(
 ) {
   debugger;
   const encodedImgLst = extractImgBaseStr();
+  const _postContent = filterRecruitment(postType, postContent);
+
   if (!encodedImgLst.length) {
     // 이미지가 없는 글은 뼈대 생성과 글 생성이 동시에 이뤄집니다
     const res = await postApis.initializePost({
       postType,
       body: {
-        ...postContent,
+        ..._postContent,
         boardId,
         postType,
       },
@@ -228,7 +273,7 @@ async function createPost(
     const res = await postApis.initializePost({
       postType,
       body: {
-        ...postContent,
+        ..._postContent,
         boardId,
         content: "임시 내용",
         postType,
@@ -240,7 +285,7 @@ async function createPost(
         postType,
         boardId,
         _postId,
-        postContent,
+        _postContent,
         createPostSuccess,
         createPostFail,
         uploadImgsSuccess,

@@ -42,6 +42,7 @@ export default function RecruitingPostForm({
     recruitmentStartDate,
     recruitmentEndDate,
   } = postContent;
+
   const _placeholder = "내용을 입력하세요.";
 
   // 포스팅 제목 갱신
@@ -52,6 +53,17 @@ export default function RecruitingPostForm({
     }));
   }
 
+  // // 모킹 placeholder 및 내용 갱신
+  // function handlePlaceholderChange(
+  //   event: React.SyntheticEvent<HTMLDivElement>,
+  // ) {
+  //   const _content = event?.currentTarget.innerHTML;
+  //   if (_content === _placeholder) {
+  //     event.currentTarget.innerHTML = "";
+  //   } else if (_content === "") {
+  //     event.currentTarget.innerHTML = _placeholder;
+  //   }
+  // }
   // 모킹 placeholder 및 내용 갱신
   function handlePlaceholderChange(
     event: React.SyntheticEvent<HTMLDivElement>,
@@ -124,7 +136,6 @@ export default function RecruitingPostForm({
   useEffect(() => {
     const { title, content } = postContent;
     title &&
-    content &&
     content !== _placeholder &&
     recruitmentCompanyName &&
     recruitmentStartDate &&
@@ -132,6 +143,12 @@ export default function RecruitingPostForm({
       ? setBtnActive(true)
       : setBtnActive(false);
   }, [postContent]);
+
+  useEffect(() => {
+    if (content) {
+      editableDivRef.current!.innerHTML = content;
+    }
+  }, []);
 
   return (
     <Grid gap={3} p={2}>
