@@ -19,6 +19,7 @@ const authApis = {
   }),
   login: methodFormat(async data => {
     const response = await client.post(`login`, data);
+    debugger;
     return response;
   }),
 };

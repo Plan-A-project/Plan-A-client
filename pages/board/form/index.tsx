@@ -21,7 +21,7 @@ import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecr
 // 생성 예시
 // http://localhost:3000/board/form?boardId=4&postType=RECRUITMENT
 // 조회 예시
-// http://localhost:3000/board/form?postId1=1
+// http://localhost:3000/board/form?postId=1
 export default function PostingForm() {
   const params = useSearchParams();
   const router = useRouter();
@@ -154,7 +154,7 @@ async function uploadImgStrToS3(postId: number) {
     postId: postId,
     files: imgStr,
   });
-  return res.data?.data?.originalImageUrls || [];
+  return res.data!.data.originalImageUrls || [];
 }
 
 // 포스팅 업데이트 함수
@@ -209,6 +209,7 @@ async function createPost(
   createPostFail: () => void,
   uploadImgsSuccess: (postId: number) => Promise<string>,
 ) {
+  debugger;
   const encodedImgLst = extractImgBaseStr();
   if (!encodedImgLst.length) {
     // 이미지가 없는 글은 뼈대 생성과 글 생성이 동시에 이뤄집니다
@@ -234,7 +235,7 @@ async function createPost(
       }, // 글 뼈대 초기 생성
     });
     if (res.ok) {
-      const _postId = res.data!.data.data;
+      const _postId = res.data!.data;
       await updatePost(
         postType,
         boardId,
