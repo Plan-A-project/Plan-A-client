@@ -65,24 +65,6 @@ const postApis = {
     const formData = new FormData();
     addBase64ImagesToFormData(files, formData);
     const headers = postPostingApiHeaders();
-    // const headers = new Headers();
-    // headers.append(
-    //   "Access-Token",
-    //   window.localStorage.getItem("accessToken") as string,
-    // );
-
-    // const requestOptions = {
-    //   method: "POST",
-    //   headers: headers,
-    //   body: formData,
-    // };
-
-    // // fetch로 이미지 업로드 요청 보내기
-    // const response = await fetch(
-    //   `${process.env.NEXT_PUBLIC_API_URL}posts/${postId}/images`,
-    //   requestOptions,
-    // );
-
     const response = await client.post(`/posts/${postId}/images`, formData, {
       headers,
     });
@@ -100,13 +82,13 @@ const postApis = {
         return response;
       }
       case "ANNOUNCEMENT": {
+        const _body = { title: body.title, content: body.content };
         const response = await client.post(`/posts/normal`, body, {
           headers,
         });
         return response;
       }
       case "RECRUITMENT": {
-        debugger;
         const response = await client.post(`/posts/recruitment`, body, {
           headers,
         });
@@ -118,6 +100,7 @@ const postApis = {
   // 포스팅 작성 & 수정
   updatePost: methodFormat(async ({ postType, body }) => {
     const headers = getPostingApiHeaders();
+    debugger;
     switch (postType) {
       case "NORMAL": {
         const response = await client.patch(`/posts/normal`, body, {
