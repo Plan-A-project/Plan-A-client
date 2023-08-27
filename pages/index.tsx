@@ -66,13 +66,10 @@ export default function Main() {
     { title: "학교생활", boards: [], boardId: 5 },
   ];
   const [boardList, setBoardList] = useState<any>([]);
-  const [token, setToken] = useState<string | null>(null);
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("인증이 완료되었어요!");
 
   useEffect(() => {
-    const currentToken = localStorage.getItem("accessToken");
-    setToken(currentToken);
     const isFirstCertificate = localStorage.getItem("certComplt");
     if (isFirstCertificate) {
       activateSnackbar();
@@ -82,30 +79,29 @@ export default function Main() {
 
   useEffect(() => {
     const fetchBoards = async () => {
-      if (token) {
+      if (true) {
         initialBoardList.forEach(el => {
           (async function () {
             const response = await boardApis.getBoardList(
-              token,
               el.boardId,
               "NORMAL",
               1,
               "recent",
+              5,
             );
+            console.log("postss", response);
             setBoardList((p: any) => {
               if (response.data) {
-                return { ...p, [el.title]: response.data.data.data.posts };
+                return { ...p, [el.title]: response.data.data.posts };
               }
             });
-
-            // console.log(111, response.data.data.data.posts);
           })();
         });
         // const response = await boardApis.checkBoardsExist(token);
       }
     };
     fetchBoards();
-  }, [token]);
+  }, []);
 
   const router = useRouter();
 

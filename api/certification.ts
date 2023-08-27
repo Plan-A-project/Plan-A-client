@@ -4,24 +4,16 @@ import client from "./client";
 
 const PATH = "verification/";
 
-function getHeaders() {
-  const AccessToken = window.localStorage.getItem("accessToken");
-  const headers = {
-    "Access-Token": AccessToken,
-    "Content-Type": "application/json",
-  };
-  return headers;
-}
-
 const certificationApis = {
   sendEmailLink: methodFormat(async data => {
-    const headers = getHeaders();
-    await client.post(`${PATH}student/email`, data, { headers });
+    await client.post(`${PATH}student/email`, data);
+  }),
+  verifyEmailCode: methodFormat(async code => {
+    await client.get(`${PATH}student/email/${code}`);
   }),
   // 학생 유저가 재학증명서로 인증하는 api
   postFileToCertificate: methodFormat(async data => {
-    const headers = getHeaders();
-    await client.post(`${PATH}student/certificate`, data, { headers });
+    await client.post(`${PATH}student/certificate`, data);
   }),
 };
 

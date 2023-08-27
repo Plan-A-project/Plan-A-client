@@ -1,11 +1,49 @@
+import { useEffect, useRef, useState } from "react";
+
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Input } from "@chakra-ui/react";
 import { Button, Stack } from "@chakra-ui/react";
 
+import profileApis from "@/api/profile";
 import { AppContainer, Header, Banner } from "@/components/common";
 import Check from "@/components/icons/Check";
+const Company = () => {
+  const [fileURL, setFileURL] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<any>({});
+  const handleFileChange = (e: any) => {
+    // 파일 인스턴스
+    const file = e.target.files[0];
+    if (file) {
+      setFileName(file.name);
+      const localFileURL = URL.createObjectURL(file);
+      setFileURL(localFileURL);
+    }
+  };
+  const fileInput = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await profileApis.getProfile();
 
-const index = () => {
+      if (response.data && response.ok) {
+        setUserInfo(response.data.data);
+      }
+    };
+    fetch();
+  }, []);
+  const handleFileClick = () => {
+    // Trigger the hidden file input's click event
+    if (fileInput.current) {
+      fileInput.current.click();
+    }
+  };
+  const handleCertificate = async () => {
+    // const response = certificationApis.postFileToCertificate({
+    //   username: userInfo.username,
+    //   file: fileURL,
+    // });
+    // router.push(`/certificationCenter/student/${userEmail}`);
+  };
   return (
     <AppContainer>
       <Header back leftTitle title="인증센터" />
@@ -35,12 +73,12 @@ const index = () => {
           <Stack spacing={"16px"}>
             <Input
               type="file"
-              // ref={fileInput}
-              // accept="image/*"
-              // onChange={handleFileChange}
+              ref={fileInput}
+              accept="image/*"
+              onChange={handleFileChange}
               style={{ display: "none" }} // Hide the file input element
             />
-            <Banner>
+            <Banner onClick={handleFileClick}>
               <Banner.TextBanner
                 borderRadius={"16px"}
                 h={"52px"}
@@ -55,6 +93,19 @@ const index = () => {
           </Stack>
         </Stack>
       </Box>
+      {fileURL && (
+        <Flex flexDir="column" alignItems="flex-start">
+          <Text py={4} textStyle={"caption1"}>
+            첨부된 파일
+          </Text>
+          <Flex align={"center"}>
+            <img src={fileURL} alt="Uploaded Preview" width="56" />
+            <Text pl={4} textStyle={"caption2"}>
+              {fileName}
+            </Text>
+          </Flex>
+        </Flex>
+      )}
       <Button
         // onClick={handleCertificate}
 
@@ -72,4 +123,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Company;

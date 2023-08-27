@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Button, Input } from "@chakra-ui/react";
@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 import certificationApis from "@/api/certification";
+import profileApis from "@/api/profile";
 import {
   AppContainer,
   Header,
@@ -21,7 +22,7 @@ const StudentCertification = () => {
   const router = useRouter();
   const [fileURL, setFileURL] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
-
+  const [userInfo, setUserInfo] = useState<any>({});
   const checkEmailFormat = (email: string) =>
     /@fudan\.edu\.cn$/.test(email) ? false : true;
 
@@ -35,7 +36,16 @@ const StudentCertification = () => {
       setFileURL(localFileURL);
     }
   };
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await profileApis.getProfile();
 
+      if (response.data && response.ok) {
+        setUserInfo(response.data.data);
+      }
+    };
+    fetch();
+  }, []);
   const hasError = checkEmailFormat(userEmail) && userEmail ? true : false;
   const fileInput = useRef<HTMLInputElement | null>(null);
   const handleFileClick = () => {
@@ -52,7 +62,10 @@ const StudentCertification = () => {
       console.log(11, response);
     }
     if (!selectedTabNumber) {
-      // const response
+      const response = certificationApis.postFileToCertificate({
+        username: userInfo.username,
+        file: fileURL,
+      });
     }
     // router.push(`/certificationCenter/student/${userEmail}`);
   };
@@ -138,6 +151,7 @@ const StudentCertification = () => {
                 <Banner onClick={handleFileClick}>
                   <Banner.TextBanner
                     borderRadius={"16px"}
+                    h={"52px"}
                     border={"1px solid #3F52E4"}
                     icon
                     iconForward

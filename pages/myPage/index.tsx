@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Text,
@@ -6,31 +6,40 @@ import {
   Flex,
   Stack,
   Button,
-  Switch,
   Container,
   Icon,
-  Tag,
   Center,
   Link,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { FaUserCircle } from "react-icons/fa";
-import { useRecoilState } from "recoil";
 
+import profileApis from "@/api/profile";
 import Navbar from "@/components/layout/Navbar";
 import { BeforeLogin } from "@/components/myPage";
-import { isLoggedInState } from "@/state/atoms/auth/loginAtom";
 
 import CustomTag from "../components/CustomTag";
 import DarkModeButton from "../components/DarkModeButton";
 
 const MyPage = () => {
+  const [userInfo, setUserInfo] = useState<any>({});
   let isLoggedIn;
   if (typeof window !== "undefined") {
-    isLoggedIn = localStorage?.getItem("accessToken");
+    isLoggedIn = localStorage?.getItem("isLoggedIn");
   }
   const router = useRouter();
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await profileApis.getProfile();
+      console.log(1212, response);
+      if (response.data && response.ok) {
+        setUserInfo(response.data.data);
+      }
+    };
+    fetch();
+  }, []);
+
   return (
     <Container>
       <Navbar currentTab="myProfile" />
@@ -39,7 +48,12 @@ const MyPage = () => {
         <Stack spacing={10.5}>
           <Flex justify={"space-between"}>
             <Text textStyle={"headline2"}>계정</Text>
-            <Text textStyle={"body2"}>변경</Text>
+            <Text
+              onClick={() => router.push("/myPage/changeProfile")}
+              textStyle={"body2"}
+            >
+              변경
+            </Text>
           </Flex>
           {isLoggedIn ? (
             <Container bgColor="#F7F8FA" borderRadius={8}>
@@ -53,10 +67,19 @@ const MyPage = () => {
                   />
                   <Stack spacing={0}>
                     <Flex gap={2} align={"center"}>
-                      <Text textStyle={"body1"}>닉네임</Text>
-                      <CustomTag title="학생" color="blue" />
+                      <Text textStyle={"body1"}>{userInfo.nickname}</Text>
+                      <CustomTag
+                        title={
+                          userInfo.role === "STUDENT"
+                            ? "학생"
+                            : userInfo.role === "COMPANY"
+                            ? "기업"
+                            : ""
+                        }
+                        color="blue"
+                      />
                     </Flex>
-                    <Text textStyle={"body1"}>email@email.com</Text>
+                    <Text textStyle={"body1"}>{userInfo.username}</Text>
                   </Stack>
                 </Flex>
               </Center>
