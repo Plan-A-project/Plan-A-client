@@ -43,13 +43,6 @@ export default function PostingForm() {
     `${PAGE_TITLE[postType]}을 작성하였습니다.`,
   );
 
-  // const [postContent, setPostContent] = useRecoilState(
-  //   postType === "RECRUITMENT" ? postingContentAtomRecruit : postingContentAtom,
-  // );
-
-  // const [postContent, setPostContent] = useRecoilState(
-  //   postType !== "RECRUITMENT" ? postingContentAtom : postingContentAtomRecruit,
-  // );
   const [postContent, setPostContent] = useRecoilState(
     postingContentAtomRecruit,
   );

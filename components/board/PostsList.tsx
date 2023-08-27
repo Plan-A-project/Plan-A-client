@@ -27,7 +27,7 @@ const PostsList = ({
   const [isFinish, setIsFinish] = useState(false);
   const [boardList, setBoardList] = useState<any[]>([]);
   const boardListResponse = useBoardList({ boardId, order, page, type });
-  console.log(111, boardListResponse);
+
   const handleChangeOrder = (type: OrderType) => {
     if (boardList === null) return;
     setPage(1);
