@@ -26,31 +26,31 @@ function useBoardList({
     };
     (async function () {
       const { data } = await axios.get(
-        `http://dukcode.iptime.org/api/posts/boards/${boardId}`,
+        `https://apimyportfolio.com/boards/${boardId}/posts`,
         {
           params: {
             type,
             page,
             order,
+            size: 20,
           },
           headers,
         },
       );
+
       console.log("DATA", data);
       // setBoardList(data.data.posts);
-      const newBoardList: BoardItemType[] = data.data?.posts?.map(
-        (el: any) => ({
-          id: el.postId,
-          title: el?.title ?? "제목 없음",
-          description: el?.main ?? "본문 없음",
-          views: el?.viewCount ?? 0,
-          image: el?.thumbnailUrl ?? "",
-          imageAlt: el?.thumbnailUrl ? "thumbnail" : null,
-          likes: el?.likeCount,
-          comments: el?.commentCount,
-          createdAt: el.createdAt,
-        }),
-      );
+      const newBoardList: BoardItemType[] = data?.posts?.map((el: any) => ({
+        id: el.postId,
+        title: el?.title ?? "제목 없음",
+        description: el?.main ?? "본문 없음",
+        views: el?.viewCount ?? 0,
+        image: el?.thumbnailUrl ?? "",
+        imageAlt: el?.thumbnailUrl ? "thumbnail" : null,
+        likes: el?.likeCount,
+        comments: el?.commentCount,
+        createdAt: el.createdAt,
+      }));
       setBoardList(newBoardList);
     })();
   }, [type, order, boardId, page]);
