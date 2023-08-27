@@ -3,18 +3,24 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Input } from "@chakra-ui/react";
 import { Button, Stack } from "@chakra-ui/react";
+import certificationApis from "@/api/certification";
 
 import profileApis from "@/api/profile";
 import { AppContainer, Header, Banner } from "@/components/common";
 import Check from "@/components/icons/Check";
+import { useRouter } from "next/router";
+
 const Company = () => {
   const [fileURL, setFileURL] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<any>({});
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const router = useRouter();
   const handleFileChange = (e: any) => {
     // 파일 인스턴스
     const file = e.target.files[0];
     if (file) {
+      setSelectedFile(file);
       setFileName(file.name);
       const localFileURL = URL.createObjectURL(file);
       setFileURL(localFileURL);
@@ -38,11 +44,17 @@ const Company = () => {
     }
   };
   const handleCertificate = async () => {
-    // const response = certificationApis.postFileToCertificate({
-    //   username: userInfo.username,
-    //   file: fileURL,
-    // });
-    // router.push(`/certificationCenter/student/${userEmail}`);
+    const formData = new FormData();
+    if (selectedFile) {
+      formData.append("file", selectedFile);
+      const response = await certificationApis.postFileToCertificateCompany(
+        formData,
+      );
+      if (response.ok) {
+        router.push("/certificationCenter/requestComplete");
+      }
+      console.log("fileAttach", response);
+    }
   };
   return (
     <AppContainer>
@@ -94,7 +106,7 @@ const Company = () => {
         </Stack>
       </Box>
       {fileURL && (
-        <Flex flexDir="column" alignItems="flex-start">
+        <Flex flexDir="column" alignItems="flex-start" mb={4}>
           <Text py={4} textStyle={"caption1"}>
             첨부된 파일
           </Text>
@@ -107,8 +119,7 @@ const Company = () => {
         </Flex>
       )}
       <Button
-        // onClick={handleCertificate}
-
+        onClick={handleCertificate}
         textStyle={"subtitle1"}
         h={"52px"}
         w={"full"}

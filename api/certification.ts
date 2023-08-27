@@ -15,6 +15,9 @@ const certificationApis = {
   postFileToCertificate: methodFormat(async data => {
     await client.post(`${PATH}student/certificate`, data);
   }),
+  postFileToCertificateCompany: methodFormat(async data => {
+    await client.post(`${PATH}company/certificate`, data);
+  }),
 };
 
 export default certificationApis;

@@ -1,65 +1,43 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Box } from "@chakra-ui/layout";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from "@chakra-ui/react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
 import adminApis from "@/api/admin";
+import TableContent from "@/components/admin/TableContent";
 
 const Admin = () => {
+  const [studentList, setStudentList] = useState<any>([]);
+  const [companyList, setCompanyList] = useState<any>([]);
+
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await adminApis.getCertificateList(1);
+      const response = await adminApis.getCertificateStudents();
       console.log(response);
+      setStudentList(response.data?.data.studentVerifications);
+
+      const response2 = await adminApis.getCertificateCompany();
+      setCompanyList(response2.data?.data.studentVerifications);
+      console.log(response2);
     };
     fetchApi();
   }, []);
+
   return (
-    <TableContainer>
-      <Table variant="simple">
-        <TableCaption>Imperial to metric conversion factors</TableCaption>
-        <Thead>
-          <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>feet</Td>
-            <Td>centimetres (cm)</Td>
-            <Td isNumeric>30.48</Td>
-          </Tr>
-          <Tr>
-            <Td>yards</Td>
-            <Td>metres (m)</Td>
-            <Td isNumeric>0.91444</Td>
-          </Tr>
-        </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-          </Tr>
-        </Tfoot>
-      </Table>
-    </TableContainer>
+    <Tabs isFitted variant="enclosed" colorScheme="blue" size={"md"}>
+      <TabList mb="1em">
+        <Tab>학생</Tab>
+        <Tab>기업</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          <TableContent data={studentList} />
+        </TabPanel>
+        <TabPanel>
+          <TableContent data={companyList} type="기업" />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 };
 

@@ -3,18 +3,20 @@ import { methodFormat } from "@/utils/methodFormat";
 import client from "./client";
 
 function getPostingApiHeaders() {
-  const AccessToken = window.localStorage.getItem("accessToken");
+  // const AccessToken = window.localStorage.getItem("accessToken");
   const headers = {
-    "Access-Token": AccessToken,
+    // "Access-Token": AccessToken,
+    // Cookie: `${document.cookie}; Path=/; HttpOnly;`,
     "Content-Type": "application/json",
   };
   return headers;
 }
 
 function postPostingApiHeaders() {
-  const AccessToken = window.localStorage.getItem("accessToken");
+  // const AccessToken = window.localStorage.getItem("accessToken");
   const headers = {
-    "Access-Token": AccessToken,
+    // "Access-Token": AccessToken,
+    // Cookie: `${document.cookie}; Path=/; HttpOnly;`,
     "Content-Type": "multipart/form-data",
   };
   return headers;
@@ -62,25 +64,11 @@ const postApis = {
   postImage: methodFormat(async ({ postId, files }) => {
     const formData = new FormData();
     addBase64ImagesToFormData(files, formData);
-
-    const headers = new Headers();
-    headers.append(
-      "Access-Token",
-      window.localStorage.getItem("accessToken") as string,
-    );
-
-    const requestOptions = {
-      method: "POST",
-      headers: headers,
-      body: formData,
-    };
-
-    // fetch로 이미지 업로드 요청 보내기
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}api/posts/${postId}/images`,
-      requestOptions,
-    );
-    return response.json();
+    const headers = postPostingApiHeaders();
+    const response = await client.post(`/posts/${postId}/images`, formData, {
+      headers,
+    });
+    return response;
   }),
 
   // 포스팅 뼈대 생성
@@ -88,19 +76,20 @@ const postApis = {
     const headers = getPostingApiHeaders();
     switch (postType) {
       case "NORMAL": {
-        const response = await client.post(`/api/posts/normal`, body, {
+        const response = await client.post(`/posts/normal`, body, {
           headers,
         });
         return response;
       }
       case "ANNOUNCEMENT": {
-        const response = await client.post(`/api/posts/normal`, body, {
+        const _body = { title: body.title, content: body.content };
+        const response = await client.post(`/posts/normal`, body, {
           headers,
         });
         return response;
       }
       case "RECRUITMENT": {
-        const response = await client.post(`/api/posts/recruitment`, body, {
+        const response = await client.post(`/posts/recruitment`, body, {
           headers,
         });
         return response;
@@ -111,21 +100,22 @@ const postApis = {
   // 포스팅 작성 & 수정
   updatePost: methodFormat(async ({ postType, body }) => {
     const headers = getPostingApiHeaders();
+    debugger;
     switch (postType) {
       case "NORMAL": {
-        const response = await client.patch(`/api/posts/normal`, body, {
+        const response = await client.patch(`/posts/normal`, body, {
           headers,
         });
         return response;
       }
       case "ANNOUNCEMENT": {
-        const response = await client.patch(`/api/posts/normal`, body, {
+        const response = await client.patch(`/posts/normal`, body, {
           headers,
         });
         return response;
       }
       case "RECRUITMENT": {
-        const response = await client.patch(`/api/posts/recruitment`, body, {
+        const response = await client.patch(`/posts/recruitment`, body, {
           headers,
         });
         return response;
@@ -136,7 +126,7 @@ const postApis = {
   // 포스팅 조회
   readPost: methodFormat(async ({ postId }) => {
     const headers = getPostingApiHeaders();
-    const response = await client.get(`/api/posts/${postId}`, {
+    const response = await client.get(`/posts/${postId}`, {
       headers,
     });
     return response;
@@ -145,23 +135,18 @@ const postApis = {
   // 포스팅 삭제
   deletePost: methodFormat(async ({ postId }) => {
     const headers = getPostingApiHeaders();
-    const response = await client.delete(`/api/posts/${postId}`, { headers });
+    const response = await client.delete(`/posts/${postId}`, { headers });
     return response;
   }),
 
   // 최초 이용약관 동의
   agreePolicy: methodFormat(async () => {
-    const headers = getPostingApiHeaders();
-    const response = await client.post(`policy`, {
-      withCredentials: true,
-    });
-    console.log(3232, response);
+    const response = await client.post(`policy`);
     return response;
   }),
   // 최초 이용약관 동의 여부 확인
   checkAgree: methodFormat(async () => {
-    const headers = getPostingApiHeaders();
-    const response = await client.get(`/api/posts/policy`, { headers });
+    const response = await client.get("policy");
     return response;
   }),
 };

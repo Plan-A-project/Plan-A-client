@@ -19,10 +19,11 @@ import Check from "@/components/icons/Check";
 const StudentCertification = () => {
   const [selectedTabNumber, setSelectedTabNumber] = useState(1);
   const [userEmail, setUserEmail] = useState("");
-  const router = useRouter();
   const [fileURL, setFileURL] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [userInfo, setUserInfo] = useState<any>({});
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const router = useRouter();
   const checkEmailFormat = (email: string) =>
     /@fudan\.edu\.cn$/.test(email) ? false : true;
 
@@ -31,6 +32,7 @@ const StudentCertification = () => {
     // 파일 인스턴스
     const file = e.target.files[0];
     if (file) {
+      setSelectedFile(file);
       setFileName(file.name);
       const localFileURL = URL.createObjectURL(file);
       setFileURL(localFileURL);
@@ -62,10 +64,17 @@ const StudentCertification = () => {
       console.log(11, response);
     }
     if (!selectedTabNumber) {
-      const response = certificationApis.postFileToCertificate({
-        username: userInfo.username,
-        file: fileURL,
-      });
+      const formData = new FormData();
+      if (selectedFile) {
+        formData.append("file", selectedFile);
+        const response = await certificationApis.postFileToCertificate(
+          formData,
+        );
+        console.log("fileAttach", response);
+        if (response.ok) {
+          router.push("/certificationCenter/requestComplete");
+        }
+      }
     }
     // router.push(`/certificationCenter/student/${userEmail}`);
   };
@@ -166,7 +175,7 @@ const StudentCertification = () => {
         ) : (
           ""
         )}
-        {fileURL && (
+        {fileURL && !selectedTabNumber && (
           <Flex flexDir="column" alignItems="flex-start">
             <Text py={4} textStyle={"caption1"}>
               첨부된 파일
