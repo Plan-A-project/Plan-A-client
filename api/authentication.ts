@@ -18,10 +18,17 @@ const authApis = {
     await client.post(`signup/company`, data);
   }),
   login: methodFormat(async data => {
-    const response = await client.post(`login`, data);
-    debugger;
+    const response = await client.post(`login`, data, {
+      withCredentials: true,
+    });
     return response;
   }),
+  // logout: methodFormat(async data => {
+  //   const response = await client.post(`login`, data, {
+  //     withCredentials: true,
+  //   });
+  //   return response;
+  // }),
 };
 
 export default authApis;

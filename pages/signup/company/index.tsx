@@ -7,6 +7,7 @@ import authApis from "@/api/authentication";
 import { AppContainer, Header } from "@/components/common";
 import UserInput from "@/components/signup/userInput";
 import validateInput from "@/utils/validation";
+import generateCustomRandomString from "@/utils/generateRandomString";
 
 const CompanySignUp = () => {
   type signUpDataType = {
@@ -67,6 +68,7 @@ const CompanySignUp = () => {
     if (isReadyToSignUp) {
       const response = await authApis.companySignup({
         username: inputValues.email,
+        nickname: generateCustomRandomString(),
         password: inputValues.password,
         passwordConfirm: inputValues.passwordConfirm,
         universityId: 1,
@@ -79,10 +81,6 @@ const CompanySignUp = () => {
           password: inputValues.password,
         });
         if (response.data) {
-          localStorage.setItem(
-            "accessToken",
-            response.data.headers["access-token"],
-          );
           router.push("/signup/company/complete");
         } else {
           alert("오류가 발생했습니다.");

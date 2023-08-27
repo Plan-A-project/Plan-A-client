@@ -96,11 +96,8 @@ const SignUp = () => {
           username: inputValues.email,
           password: inputValues.password,
         });
+        console.log(43, response);
         if (response.data) {
-          localStorage.setItem(
-            "accessToken",
-            response.data.headers["access-token"],
-          );
           router.push("/signup/complete");
         } else {
           alert("오류가 발생했습니다.");

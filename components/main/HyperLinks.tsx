@@ -18,7 +18,7 @@ const linkData = [
   },
   {
     Icon: "/assets/5.svg",
-    text: "entp",
+    text: "xk",
     link: "https://xk.fudan.edu.cn/",
   },
   {

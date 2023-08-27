@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Button, Input } from "@chakra-ui/react";
@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 import certificationApis from "@/api/certification";
+import profileApis from "@/api/profile";
 import {
   AppContainer,
   Header,
@@ -18,10 +19,11 @@ import Check from "@/components/icons/Check";
 const StudentCertification = () => {
   const [selectedTabNumber, setSelectedTabNumber] = useState(1);
   const [userEmail, setUserEmail] = useState("");
-  const router = useRouter();
   const [fileURL, setFileURL] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
-
+  const [userInfo, setUserInfo] = useState<any>({});
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const router = useRouter();
   const checkEmailFormat = (email: string) =>
     /@fudan\.edu\.cn$/.test(email) ? false : true;
 
@@ -30,12 +32,22 @@ const StudentCertification = () => {
     // 파일 인스턴스
     const file = e.target.files[0];
     if (file) {
+      setSelectedFile(file);
       setFileName(file.name);
       const localFileURL = URL.createObjectURL(file);
       setFileURL(localFileURL);
     }
   };
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await profileApis.getProfile();
 
+      if (response.data && response.ok) {
+        setUserInfo(response.data.data);
+      }
+    };
+    fetch();
+  }, []);
   const hasError = checkEmailFormat(userEmail) && userEmail ? true : false;
   const fileInput = useRef<HTMLInputElement | null>(null);
   const handleFileClick = () => {
@@ -52,7 +64,17 @@ const StudentCertification = () => {
       console.log(11, response);
     }
     if (!selectedTabNumber) {
-      // const response
+      const formData = new FormData();
+      if (selectedFile) {
+        formData.append("file", selectedFile);
+        const response = await certificationApis.postFileToCertificate(
+          formData,
+        );
+        console.log("fileAttach", response);
+        if (response.ok) {
+          router.push("/certificationCenter/requestComplete");
+        }
+      }
     }
     // router.push(`/certificationCenter/student/${userEmail}`);
   };
@@ -138,6 +160,7 @@ const StudentCertification = () => {
                 <Banner onClick={handleFileClick}>
                   <Banner.TextBanner
                     borderRadius={"16px"}
+                    h={"52px"}
                     border={"1px solid #3F52E4"}
                     icon
                     iconForward
@@ -152,7 +175,7 @@ const StudentCertification = () => {
         ) : (
           ""
         )}
-        {fileURL && (
+        {fileURL && !selectedTabNumber && (
           <Flex flexDir="column" alignItems="flex-start">
             <Text py={4} textStyle={"caption1"}>
               첨부된 파일

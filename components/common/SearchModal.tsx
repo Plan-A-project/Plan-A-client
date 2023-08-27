@@ -34,6 +34,7 @@ function SearchModal({ autocompleteFunction, searchFunction }: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [searchData, setSearchData] = useState<any[]>([]);
   const [keywords, setKeywords] = useState<string[]>([]);
+  const [page, setPage] = useState<number>(1);
 
   const handleClickKeyword = async (keyword: string) => {
     if (loading) {
@@ -42,7 +43,7 @@ function SearchModal({ autocompleteFunction, searchFunction }: Props) {
     setIsSearchOpen(false);
     setInputValue(keyword);
     setLoading(true);
-    const data = await searchFunction(keyword);
+    const data = await searchFunction(keyword, page);
     setSearchData(data);
     setLoading(false);
   };

@@ -141,16 +141,12 @@ const postApis = {
 
   // 최초 이용약관 동의
   agreePolicy: methodFormat(async () => {
-    const headers = getPostingApiHeaders();
-    console.log(22, headers);
-    const response = await client.post(`/posts/policy`, { headers });
-    console.log(3232, response);
+    const response = await client.post(`policy`);
     return response;
   }),
   // 최초 이용약관 동의 여부 확인
   checkAgree: methodFormat(async () => {
-    const headers = getPostingApiHeaders();
-    const response = await client.get(`/posts/policy`, { headers });
+    const response = await client.get("policy");
     return response;
   }),
 };

@@ -14,11 +14,11 @@ export const testAutocompleteFunction = async (keyword: string) => {
 };
 
 export const searchFunctionFactory = (type: string) => {
-  const testSearchFunction = async (keyword: string) => {
+  const testSearchFunction = async (keyword: string, page: number) => {
     await wait(1000);
     const returnArray: BoardItemType[] = [];
     // 검색 api 연결
-    const response = await searchApis.searchPosts(keyword);
+    const response = await searchApis.searchPosts(keyword, page);
     console.log("search", response);
     const tmpItem: BoardItemType = {
       id: 1,

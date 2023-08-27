@@ -11,16 +11,15 @@ const boardApis = {
     });
     return response;
   }),
-  getBoardList: methodFormat(async (token, boardId, type, page, order) => {
-    const response = await client.get(`posts/boards/${boardId}`, {
+  getBoardList: methodFormat(async (boardId, type, page, order, size) => {
+    const response = await client.get(`boards/${boardId}`, {
       params: {
         type,
         page,
         order,
+        size,
       },
-      headers: {
-        "Access-Token": token,
-      },
+      withCredentials: true,
     });
     return response;
   }),

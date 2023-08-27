@@ -20,6 +20,11 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/certificationCenter/requestComplete"
+  ],
   "exclude": ["node_modules"]
 }

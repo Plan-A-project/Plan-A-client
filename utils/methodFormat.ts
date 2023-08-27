@@ -11,6 +11,9 @@ export const methodFormat = <T>(callback: Callback<T>) => {
         data,
       };
     } catch (error: any) {
+      if (error.response.status === 401) {
+        localStorage.removeItem("isLoggedIn");
+      }
       return {
         ok: false,
         message: error.message,

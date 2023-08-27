@@ -36,6 +36,12 @@ const profileApis = {
     );
     return response;
   }),
+  getProfile: methodFormat(async () => {
+    const response = await client.get(`setting/profile`, {
+      withCredentials: true,
+    });
+    return response;
+  }),
 };
 
 export default profileApis;

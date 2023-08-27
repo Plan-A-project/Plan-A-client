@@ -9,6 +9,7 @@ import authApis from "@/api/authentication";
 import { AppContainer, Header } from "@/components/common";
 import UserInput from "@/components/login/userInput";
 import { isLoggedInState } from "@/state/atoms/auth/loginAtom";
+import getCookie from "@/utils/getCookie";
 
 const Login = () => {
   const [hasError, setHasError] = useState(false);
@@ -18,6 +19,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  // console.log(222333, window.document.cookie);
   const checkFilled = Object.values(inputValues).every(value => value !== "");
 
   const loginInputData = [
@@ -58,16 +61,9 @@ const Login = () => {
       } else {
         setHasError(false);
         if (response.data) {
+          localStorage.setItem("isLoggedIn", "true");
           router.push("./");
           setLoggedIn(true);
-          localStorage.setItem(
-            "accessToken",
-            response.data.headers["access-token"],
-          );
-          localStorage.setItem(
-            "refreshToken",
-            response.data.headers["refresh-token"],
-          );
         }
       }
     }
