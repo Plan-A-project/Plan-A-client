@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 
 import postApis from "@/api/post";
 import CreatePostButton from "@/components/board/CreatePostButton";
@@ -17,6 +17,14 @@ import {
   postingContentAtom,
 } from "@/state/atoms/posting/postingAtom";
 import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecruit";
+
+const pathByBoardId: { [key: number]: string } = {
+  1: "/board/recruit",
+  2: "/board/activity",
+  3: "/board/club",
+  4: "/board/anonymous",
+  5: "/board/free",
+};
 
 // 생성 예시
 // http://localhost:3000/board/form?boardId=4&postType=RECRUITMENT
@@ -45,11 +53,16 @@ export default function PostingForm() {
   const [postContent, setPostContent] = useRecoilState(
     postingContentAtomRecruit,
   );
+  const resetList = useResetRecoilState(postingContentAtomRecruit);
 
   function createPostSuccess() {
     // 글 작성 성공 처리
     activateSnackbar();
-    // router.back();
+    setTimeout(() => {
+      resetList();
+      const pathName = pathByBoardId[boardId];
+      router.push(pathName);
+    }, 1000);
   }
 
   function createPostFail() {
@@ -87,13 +100,12 @@ export default function PostingForm() {
     }
   }
 
-  console.log("ppostContent", postContent);
-
   // searchParams에서 query param 가져오기 비동기 업데이트를 위한 처리
   useEffect(() => {
     setPostType(params.get("postType") as string);
     setBoardId(parseInt(params.get("boardId") || "", 0));
     setPostId(parseInt(params.get("postId") || "", 0));
+    debugger;
   }, [params]);
 
   useEffect(() => {
