@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Box, Container, Stack, StackDivider, Text } from "@chakra-ui/react";
 
 import { AppContainer, Header, ToggleTab } from "@/components/common";
 import MyComment from "@/pages/components/MyComment";
 import MyPost from "@/pages/components/MyPost";
+import postApis from "@/api/post";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import commentApis from "@/api/comment";
 
 const ManagePosts = () => {
   const [selectedTabNumber, setSelectedTabNumber] = useState<number>(1);
-
+  const { data: myPosts, loader } = useInfiniteScroll(
+    postApis.getMyPosts,
+    "posts",
+  );
+  const { data: myComments, loader: secondLoader } = useInfiniteScroll(
+    commentApis.getMyComment,
+    "comments",
+  );
+  console.log("myP", myPosts);
+  console.log("myC", myComments);
   return (
     <AppContainer>
       <Header back leftTitle title="게시글 관리" />
@@ -25,16 +37,21 @@ const ManagePosts = () => {
         {!selectedTabNumber || (
           <Box px={0}>
             <Stack divider={<StackDivider borderColor="gray.200" />}>
+              {myPosts.map((el: any) => {
+                return <MyPost />;
+              })}
               <MyPost />
-              <MyPost />
+              {/* <Box ref={loader}>loading...</Box> */}
             </Stack>
           </Box>
         )}
         {!selectedTabNumber ? (
           <Box px={0}>
             <Stack divider={<StackDivider borderColor="gray.200" />}>
-              <MyComment />
-              <MyComment />
+              {myComments.map((el: any) => {
+                return <MyComment info={el} />;
+              })}
+              {/* <Box ref={secondLoader}>loading...</Box> */}
             </Stack>
           </Box>
         ) : (

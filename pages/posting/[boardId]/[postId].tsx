@@ -58,7 +58,7 @@ function BoardDetail() {
     const res = await postApis.readPost({ postId });
     console.log(1212, res);
     if (res.ok) {
-      setData(res.data!.data.data);
+      setData(res.data!.data);
     }
   }
 
@@ -72,7 +72,7 @@ function BoardDetail() {
   }
   useEffect(() => {
     async function fetchComment() {
-      const comments = await commentApis.getComment({ id: postId, page: "1" });
+      const comments = await commentApis.getComment(postId, 1);
       console.log("comment", comments.data?.data.comments);
 
       setCommentList(comments.data?.data.comments);

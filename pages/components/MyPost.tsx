@@ -4,7 +4,7 @@ import { Stack, Tag, Flex, Heading, Text, Image, Icon } from "@chakra-ui/react";
 import { BsChatRightText } from "react-icons/bs";
 import { SlHeart } from "react-icons/sl";
 
-const MyPost = () => {
+const MyPost = ({ info }: any) => {
   return (
     <Stack spacing={0}>
       <Tag w={"fit-content"} colorScheme="linkedin" textStyle={"caption2"}>
