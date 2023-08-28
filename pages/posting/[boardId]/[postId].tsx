@@ -18,6 +18,7 @@ function BoardDetail() {
   const [data, setData] = useState<any>();
   const [commentList, setCommentList] = useState<any>([]);
   const [isSentComment, setIsSentComment] = useState(false);
+
   const router = useRouter();
   const {
     query: { boardId, postId },
@@ -36,9 +37,7 @@ function BoardDetail() {
     onMenuClick: menu => {
       if (menu === 0) {
         // 수정하기페이지 이동
-        // router.push(
-        //   `/form?boardId=${boardId}&postId=${postId}&postType=${postType}`,
-        // );
+        router.push(`/board/form?postId=${postId}`);
       } else if (menu === 1) {
         onOpen();
       }
@@ -56,7 +55,6 @@ function BoardDetail() {
   // 예시글: http://localhost:3000/posting/4/18
   async function readPost() {
     const res = await postApis.readPost({ postId });
-    console.log(1212, res);
     if (res.ok) {
       setData(res.data!.data);
     }
@@ -87,6 +85,7 @@ function BoardDetail() {
   const handleReply = (id: number) => {
     setParentCommentId(id);
   };
+
   return (
     <AppContainer>
       {data ? (
@@ -97,14 +96,18 @@ function BoardDetail() {
           <Header
             back
             rightNode={
-              <Button
-                ref={ref}
-                onClick={() => toggle(true)}
-                bg={"none"}
-                _focus={{ bg: "none" }}
-              >
-                <ThreeDotsIcon />
-              </Button>
+              data.myPost ? (
+                <Button
+                  ref={ref}
+                  onClick={() => toggle(true)}
+                  bg={"none"}
+                  _focus={{ bg: "none" }}
+                >
+                  <ThreeDotsIcon />
+                </Button>
+              ) : (
+                <></>
+              )
             }
           />
           {/* 권한체크 */}
