@@ -98,7 +98,6 @@ export default function PostingForm() {
     setPostType(params.get("postType") as string);
     setBoardId(parseInt(params.get("boardId") || "", 0));
     setPostId(parseInt(params.get("postId") || "", 0));
-    debugger;
   }, [params]);
 
   useEffect(() => {
@@ -257,7 +256,6 @@ async function createPost(
   createPostFail: () => void,
   uploadImgsSuccess: (postId: number) => Promise<string>,
 ) {
-  debugger;
   const encodedImgLst = extractImgBaseStr();
   const _postContent = filterRecruitment(postType, postContent);
 

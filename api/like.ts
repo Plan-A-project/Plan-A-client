@@ -2,31 +2,21 @@ import { methodFormat } from "@/utils/methodFormat";
 
 import client from "./client";
 
-const PATH = "posts/";
-
-function getHeaders() {
-  let AccessToken;
-  if (typeof window !== "undefined") {
-    AccessToken = window.localStorage.getItem("accessToken");
-  }
-  const headers = {
-    "Access-Token": AccessToken,
-    "Content-Type": "application/json",
-  };
-  return headers;
-}
-const headers = getHeaders();
 const likesApis = {
-  postLike: methodFormat(async postId => {
-    const response = await client.post(`${PATH}${postId}/likes`, {
-      headers,
-    });
+  commentLike: methodFormat(async commentId => {
+    const response = await client.post(`comments/${commentId}/likes`);
     return response;
   }),
-  cancelLike: methodFormat(async postId => {
-    const response = await client.delete(`${PATH}${postId}/likes`, {
-      headers,
-    });
+  cancelCommentLike: methodFormat(async commentId => {
+    const response = await client.delete(`comments/${commentId}/likes`);
+    return response;
+  }),
+  postLike: methodFormat(async postId => {
+    const response = await client.post(`posts/${postId}/likes`);
+    return response;
+  }),
+  cancelPostLike: methodFormat(async postId => {
+    const response = await client.delete(`posts/${postId}/likes`);
     return response;
   }),
 };

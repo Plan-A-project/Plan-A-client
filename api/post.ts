@@ -100,7 +100,7 @@ const postApis = {
   // 포스팅 작성 & 수정
   updatePost: methodFormat(async ({ postType, body }) => {
     const headers = getPostingApiHeaders();
-    debugger;
+  
     switch (postType) {
       case "NORMAL": {
         const response = await client.patch(`/posts/normal`, body, {
@@ -126,9 +126,7 @@ const postApis = {
   // 포스팅 조회
   readPost: methodFormat(async ({ postId }) => {
     const headers = getPostingApiHeaders();
-    const response = await client.get(`/posts/${postId}`, {
-      headers,
-    });
+    const response = await client.get(`/posts/${postId}`);
     return response;
   }),
 
@@ -147,6 +145,10 @@ const postApis = {
   // 최초 이용약관 동의 여부 확인
   checkAgree: methodFormat(async () => {
     const response = await client.get("policy");
+    return response;
+  }),
+  getMyPosts: methodFormat(async page => {
+    const response = await client.get(`members/posts?page=${page}`);
     return response;
   }),
 };

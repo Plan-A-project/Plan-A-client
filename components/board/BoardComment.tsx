@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -13,77 +14,108 @@ import formatCommentDate from "@/utils/formatCommentDate";
 
 import HeartEmpty from "../icons/HeartEmpty";
 import ReplyIcon from "../icons/ReplyIcon";
+import { useDropdown } from "@/hooks/useDropdown";
+import useDrawer from "@/hooks/useDrawer";
+import { useRouter } from "next/router";
+import useSnackbar from "@/hooks/useSnackbar";
+import ThreeDotsSmallIcon from "../icons/ThreeDotsSmallIcon";
+import commentApis from "@/api/comment";
+import likesApis from "@/api/like";
+import HeartIcon from "../icons/HeartIcon";
 
 type BoardCommentProps = {
   username: string;
   profileImage?: string;
   content: string;
-  depth?: number;
   withProfile?: boolean;
   handleReply?: any;
-  replyComment?: any;
   createdAt: string;
   likesCount: number;
   isReply?: boolean;
+  myComment: boolean;
+  commentId: any;
+  pressedLikeOnThisComment: boolean;
 };
-const ReplyComment: React.FC<BoardCommentProps> = ({
-  username,
-  content,
-  profileImage,
-  withProfile,
-  createdAt,
-  likesCount,
-}) => {
-  return (
-    <Box py={3}>
-      <Divider mb={3} />
-      <Flex pl={3}>
-        <ReplyIcon />
-        <HStack align={"flex-start"} pl={3}>
-          <Stack w={12} align={"flex-start"}>
-            <Stack spacing={1} align={"center"}>
-              {withProfile && (
-                <Avatar name={username} size={"sm"} src={profileImage} />
-              )}
-              <Text textStyle={"overline"}>{username}</Text>
-            </Stack>
-          </Stack>
-          <Text textStyle={"body1"}>{content}</Text>
-        </HStack>
-      </Flex>
-      <Flex align={"baseline"} justify={"flex-end"}>
-        <Flex mt={4}>
-          <Text mr={3} textStyle={"overline"}>
-            {formatCommentDate(createdAt)}
-          </Text>
-          <HeartEmpty />
-          <Text ml={1} textStyle={"overline"}>
-            {likesCount}
-          </Text>
-        </Flex>
-      </Flex>
-    </Box>
-  );
-};
+
 const BoardComment: React.FC<BoardCommentProps> = ({
   username,
   content,
   profileImage,
   withProfile,
-  depth,
   handleReply,
-  replyComment,
   createdAt,
   likesCount,
   isReply,
+  myComment,
+  commentId,
+  pressedLikeOnThisComment,
 }) => {
-  return (
-    <Box px={2} py={3}>
-      {!isReply && (
-        <>
-          <HStack align={"flex-start"}>
-            <Stack w={12} align={"start"}>
-              <Stack spacing={1} align={"start"}>
+  const ref = useRef<HTMLDivElement>(null);
+  const [isActivated, activateSnackbar, Snackbar] =
+    useSnackbar("해당 게시글이 삭제되었습니다");
+  const [isPressLike, setIsPressLike] = useState<any>(false);
+  const router = useRouter();
+  const [dropdown, toggle] = useDropdown({
+    menus: ["삭제하기"],
+    xGap: -15,
+    yGap: 0,
+    hAlign: "right",
+    vAlign: "bottom",
+    onMenuClick: menu => {
+      if (menu === 0) {
+        onOpen();
+        // // 수정하기페이지 이동
+        // router.push(`/board/form?postId=${postId}`);
+      }
+      // else if (menu === 1) {
+      //   onOpen();
+      // }
+    },
+    ref,
+  });
+  async function deletePost() {
+    const res = await commentApis.deleteComment(commentId);
+    if (res.ok) {
+      activateSnackbar();
+    }
+  }
+  async function handleLike() {
+    if (!pressedLikeOnThisComment) {
+      const res = await likesApis.commentLike(commentId);
+      console.log("likes", res);
+    }
+    if (pressedLikeOnThisComment) {
+      const res = await likesApis.cancelCommentLike(commentId);
+    }
+    location.reload();
+  }
+  const [onOpen, ButtonDrawer] = useDrawer({
+    header: "정말 삭제하시겠어요?",
+    subtitle: "",
+    children: <></>,
+    btnContent: "삭제하기",
+    btnHandler: deletePost,
+  });
+  const ReplyComment: React.FC<BoardCommentProps> = ({
+    username,
+    content,
+    profileImage,
+    withProfile,
+    createdAt,
+    likesCount,
+    myComment,
+    commentId,
+    pressedLikeOnThisComment,
+  }) => {
+    return (
+      <Box py={3}>
+        {/* {dropdown}
+        {isActivated && <Snackbar />} */}
+        <Flex pl={3} justify={"space-between"}>
+          <Flex>
+            <ReplyIcon />
+            <Stack w={12} align={"flex-start"}>
+              <Stack spacing={1} align={"center"}>
                 {withProfile && (
                   <Avatar name={username} size={"sm"} src={profileImage} />
                 )}
@@ -91,6 +123,67 @@ const BoardComment: React.FC<BoardCommentProps> = ({
               </Stack>
             </Stack>
             <Text textStyle={"body1"}>{content}</Text>
+          </Flex>
+          {/* {myComment && (
+            <Box
+              p={0}
+              h={4}
+              ref={ref}
+              onClick={() => toggle(true)}
+              bg={"none"}
+              _focus={{ bg: "none" }}
+            >
+              <ThreeDotsSmallIcon />
+            </Box>
+          )} */}
+        </Flex>
+        <Flex align={"baseline"} justify={"flex-end"}>
+          <Flex mt={4}>
+            <Text mr={3} textStyle={"overline"}>
+              {formatCommentDate(createdAt)}
+            </Text>
+            <Box onClick={handleLike}>
+              {pressedLikeOnThisComment ? <HeartIcon /> : <HeartEmpty />}
+            </Box>
+            <Text ml={1} textStyle={"overline"}>
+              {likesCount}
+            </Text>
+          </Flex>
+        </Flex>
+      </Box>
+    );
+  };
+  return (
+    <Box px={2} py={3}>
+      {isReply && (
+        <>
+          {dropdown}
+          {isActivated && <Snackbar />}
+          <ButtonDrawer />
+          <HStack align={"center"} justify={"space-between"}>
+            <Flex>
+              <Stack w={12} align={"start"}>
+                <Stack spacing={1} align={"start"}>
+                  {withProfile && (
+                    <Avatar name={username} size={"sm"} src={profileImage} />
+                  )}
+                  <Text textStyle={"overline"}>{username}</Text>
+                </Stack>
+              </Stack>
+              <Text textStyle={"body1"}>{content}</Text>
+            </Flex>
+            {myComment && (
+              <Box
+                p={0}
+                h={4}
+                ref={ref}
+                onClick={() => toggle(true)}
+                bg={"none"}
+                _focus={{ bg: "none" }}
+              >
+                <ThreeDotsSmallIcon />
+              </Box>
+            )}
           </HStack>
           <Flex align={"baseline"} justify={"space-between"}>
             <Button onClick={handleReply} mt={3} size="xs" variant={"outline"}>
@@ -100,8 +193,9 @@ const BoardComment: React.FC<BoardCommentProps> = ({
               <Text mr={3} textStyle={"overline"}>
                 {formatCommentDate(createdAt)}
               </Text>
-
-              <HeartEmpty />
+              <Box onClick={handleLike}>
+                {pressedLikeOnThisComment ? <HeartIcon /> : <HeartEmpty />}
+              </Box>
               <Text ml={1} textStyle={"overline"}>
                 {likesCount}
               </Text>
@@ -109,12 +203,15 @@ const BoardComment: React.FC<BoardCommentProps> = ({
           </Flex>
         </>
       )}
-      {isReply && (
+      {!isReply && (
         <ReplyComment
-          createdAt={formatCommentDate(createdAt)}
+          createdAt={createdAt}
           likesCount={likesCount}
           username={username}
           content={content}
+          commentId={commentId}
+          myComment={myComment}
+          pressedLikeOnThisComment={pressedLikeOnThisComment}
         />
       )}
     </Box>

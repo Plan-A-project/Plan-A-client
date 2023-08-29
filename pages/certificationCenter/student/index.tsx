@@ -198,7 +198,7 @@ const StudentCertification = () => {
           borderRadius={"16px"}
           bg={!hasError ? "primary.500" : "grey.200"}
           color={!hasError ? "background1" : "grey.500"}
-          isDisabled={hasError}
+          // isDisabled={hasError}
         >
           인증하기
         </Button>

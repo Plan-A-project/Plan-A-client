@@ -89,7 +89,7 @@ export default function Main() {
               "recent",
               5,
             );
-            console.log("postss", response);
+
             setBoardList((p: any) => {
               if (response.data) {
                 return { ...p, [el.title]: response.data.data.posts };
@@ -129,22 +129,25 @@ export default function Main() {
             <MainBoardTitle title={el.title} />
             <MainBoardStack>
               {boardList[el.title]?.map(
-                (el: {
-                  id: Key | null | undefined;
-                  comments: number | undefined;
-                  likes: number | undefined;
-                  views: number;
+                (el2: {
+                  postId: number;
+                  commentCount: number | undefined;
+                  likeCount: number | undefined;
+                  viewCount: number;
                   title: string;
+                  createdAt: string;
                 }) => {
                   return (
                     <MainBoardItem
-                      key={el.id}
-                      comments={el.comments}
-                      likes={el.likes}
-                      date="2022-12-12"
-                      views={el.views}
-                      title={el.title}
-                      onClick={() => router.push(`/board/${el.id}`)}
+                      key={el2.postId}
+                      comments={el2.commentCount}
+                      likes={el2.likeCount}
+                      date={formatDate(el2.createdAt)}
+                      views={el2.viewCount}
+                      title={el2.title}
+                      onClick={() =>
+                        router.push(`/posting/${el.boardId}/${el2.postId}`)
+                      }
                     />
                   );
                 },
@@ -152,10 +155,10 @@ export default function Main() {
             </MainBoardStack>
           </Box>
         ))}
-
-        <Box mb={8} onClick={() => activateSnackbar()}>
+        <Box mt={10} />
+        {/* <Box mb={8} onClick={() => activateSnackbar()}>
           <BoxButton btnContent={"홈 설정"} type={"Filled"} onOpen={onOpen} />
-        </Box>
+        </Box> */}
         <ButtonDrawer />
       </Box>
     </Layout>

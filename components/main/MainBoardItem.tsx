@@ -148,24 +148,20 @@ const MainBoardItem: React.FC<PropsWithChildren<MainBoardItemProps>> = ({
         </Flex>
 
         <Flex gap={"8px"} align={"center"}>
-          {likes ? (
-            <Flex gap={"2px"} align={"center"}>
-              <HeartEmpty />
-              <BottomText>{likes}</BottomText>
-            </Flex>
-          ) : null}
-          {comments ? (
-            <Flex gap={"2px"} align={"center"}>
-              <Comment />
-              <BottomText>{comments}</BottomText>
-            </Flex>
-          ) : null}
-          {views ? (
-            <Flex gap={"2px"} align={"center"}>
-              <WatchedIcon />
-              <BottomText>{views}</BottomText>
-            </Flex>
-          ) : null}
+          <Flex gap={"2px"} align={"center"}>
+            <HeartEmpty />
+            <BottomText>{likes}</BottomText>
+          </Flex>
+
+          <Flex gap={"2px"} align={"center"}>
+            <Comment />
+            <BottomText>{comments}</BottomText>
+          </Flex>
+
+          <Flex gap={"2px"} align={"center"}>
+            <WatchedIcon />
+            <BottomText>{views}</BottomText>
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

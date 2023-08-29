@@ -12,7 +12,7 @@ const boardApis = {
     return response;
   }),
   getBoardList: methodFormat(async (boardId, type, page, order, size) => {
-    const response = await client.get(`boards/${boardId}`, {
+    const response = await client.get(`boards/${boardId}/posts`, {
       params: {
         type,
         page,

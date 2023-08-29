@@ -70,7 +70,7 @@ function BoardDetail() {
   }
   useEffect(() => {
     async function fetchComment() {
-      const comments = await commentApis.getComment({ id: postId, page: "1" });
+      const comments = await commentApis.getComment(postId, 1);
       console.log("comment", comments.data?.data.comments);
 
       setCommentList(comments.data?.data.comments);
@@ -122,6 +122,8 @@ function BoardDetail() {
                 createdAt: string;
                 likesCount: number;
                 parentComment: boolean;
+                myComment: boolean;
+                pressedLikeOnThisComment: boolean;
               }) => {
                 return (
                   <>
@@ -130,11 +132,13 @@ function BoardDetail() {
                       username={
                         el.postWriter ? "작성자" : `익명${el.identifier}`
                       }
-                      depth={0}
+                      myComment={el.myComment}
                       content={el.content}
                       createdAt={el.createdAt}
                       likesCount={el.likesCount}
                       isReply={el.parentComment}
+                      commentId={el.id}
+                      pressedLikeOnThisComment={el.pressedLikeOnThisComment}
                     />
                   </>
                 );
