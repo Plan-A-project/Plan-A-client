@@ -20,7 +20,7 @@ import FreeBoardItem from "@/components/board/FreeBoardItem";
 import CaretLeftIcon from "@/components/icons/CaretLeftIcon";
 import Close from "@/components/icons/Close";
 import IconSearch from "@/components/icons/IconSearch";
-
+import formatDate from "@/utils/formatDate";
 type Props = {
   autocompleteFunction: any;
   searchFunction: any;
@@ -44,6 +44,7 @@ function SearchModal({ autocompleteFunction, searchFunction }: Props) {
     setInputValue(keyword);
     setLoading(true);
     const data = await searchFunction(keyword, page);
+    console.log("ddtt", data);
     setSearchData(data);
     setLoading(false);
   };
@@ -112,14 +113,16 @@ function SearchModal({ autocompleteFunction, searchFunction }: Props) {
                 <BoardStack>
                   {searchData.map(el => (
                     <FreeBoardItem
-                      key={el.id}
-                      comments={el.comments}
-                      likes={el.likes}
-                      views={el.views ?? 123}
-                      description="본문이 들어갈 자리입니다"
-                      date="2022-12-12"
+                      key={el.postId}
+                      comments={el.commentCount}
+                      likes={el.likeCount}
+                      views={el.viewCount}
+                      description={el.content}
+                      date={formatDate(el.createdAt)}
                       title={el.title}
-                      onClick={() => router.push(`/board/${el.id}`)}
+                      onClick={() =>
+                        router.push(`/posting/${el.boardId}/${el.postId}`)
+                      }
                       leftTag={el.leftTag}
                       tagType={el.tagType}
                     />

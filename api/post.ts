@@ -100,7 +100,7 @@ const postApis = {
   // 포스팅 작성 & 수정
   updatePost: methodFormat(async ({ postType, body }) => {
     const headers = getPostingApiHeaders();
-    debugger;
+  
     switch (postType) {
       case "NORMAL": {
         const response = await client.patch(`/posts/normal`, body, {

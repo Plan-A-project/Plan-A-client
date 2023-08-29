@@ -30,7 +30,11 @@ const carouselCss = css`
 `;
 
 const MainBanner = () => {
-  const [carouselItem, setCarouselItem] = useState(["item1", "item2", "item3"]);
+  const [carouselItem, setCarouselItem] = useState([
+    "인플리 정식 오픈!",
+    "게시글을 작성해보세요!",
+    "We share you fly",
+  ]);
   useEffect(() => {
     // setCarouselItem()
   }, []);
@@ -69,6 +73,7 @@ const MainBanner = () => {
                 <MainBannerItem
                   key={el}
                   currentIndex={index + 1}
+                  content={el}
                   totalIndex={carouselItem.length}
                 />
               );

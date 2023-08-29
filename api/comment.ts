@@ -7,8 +7,8 @@ const commentApis = {
     const response = await client.post(`comments`, data);
     return response;
   }),
-  deleteComment: methodFormat(async data => {
-    const response = await client.delete(`comments`, data);
+  deleteComment: methodFormat(async commentId => {
+    const response = await client.delete(`comments/${commentId}`);
     return response;
   }),
   modifyComment: methodFormat(async data => {

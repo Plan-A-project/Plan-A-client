@@ -27,7 +27,7 @@ const useInfiniteScroll = (api: any, path: any) => {
         observer.unobserve(loader.current);
       }
     };
-  }, []);
+  }, [loader.current]);
 
   const handleObserver = (entities: any[]) => {
     const target = entities[0];

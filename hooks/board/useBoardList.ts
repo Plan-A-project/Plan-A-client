@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 import { BoardItemType } from "@/types";
 import boardApis from "@/api/board";
 
@@ -19,13 +19,24 @@ function useBoardList({
   const [boardList, setBoardList] = useState<BoardItemType[] | null>(null);
   useEffect(() => {
     (async function () {
-      const { data } = await boardApis.getBoardList(
-        boardId,
-        type,
-        page,
-        order,
-        5,
+      const { data } = await axios.get(
+        `https://apimyportfolio.com/boards/${boardId}/posts`,
+        {
+          params: {
+            type,
+            page,
+            order,
+            size: 20,
+          },
+        },
       );
+      // const { data } = await boardApis.getBoardList(
+      //   boardId,
+      //   type,
+      //   page,
+      //   order,
+      //   5,
+      // );
       // setBoardList(data.data.posts);
       const newBoardList: BoardItemType[] = data?.posts?.map((el: any) => ({
         id: el.postId,
@@ -41,6 +52,7 @@ function useBoardList({
       setBoardList(newBoardList);
     })();
   }, [type, order, boardId, page]);
+  console.log("121212", boardList);
   return boardList;
 }
 

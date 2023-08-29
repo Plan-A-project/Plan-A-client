@@ -11,15 +11,15 @@ import commentApis from "@/api/comment";
 
 const ManagePosts = () => {
   const [selectedTabNumber, setSelectedTabNumber] = useState<number>(1);
-  const { data: myPosts, loader } = useInfiniteScroll(
-    postApis.getMyPosts,
-    "posts",
-  );
-  const { data: myComments, loader: secondLoader } = useInfiniteScroll(
+  // const { data: myPosts, loader } = useInfiniteScroll(
+  //   postApis.getMyPosts,
+  //   "posts",
+  // );
+  const { data: myComments, loader } = useInfiniteScroll(
     commentApis.getMyComment,
     "comments",
   );
-  console.log("myP", myPosts);
+  // console.log("myP", myPosts);
   console.log("myC", myComments);
   return (
     <AppContainer>
@@ -34,28 +34,26 @@ const ManagePosts = () => {
         <Text textStyle={"caption1"} my={4}>
           최신순
         </Text>
-        {!selectedTabNumber || (
+        {selectedTabNumber === 1 && (
           <Box px={0}>
             <Stack divider={<StackDivider borderColor="gray.200" />}>
-              {myPosts.map((el: any) => {
-                return <MyPost />;
-              })}
-              <MyPost />
-              {/* <Box ref={loader}>loading...</Box> */}
+              {/* {myPosts.map((el: any) => {
+                console.log(1131, el);
+                return <MyPost info={el} />;
+              })} */}
+              <Box ref={loader}>loading...</Box>
             </Stack>
           </Box>
         )}
-        {!selectedTabNumber ? (
+        {selectedTabNumber === 0 && (
           <Box px={0}>
             <Stack divider={<StackDivider borderColor="gray.200" />}>
               {myComments.map((el: any) => {
                 return <MyComment info={el} />;
               })}
-              {/* <Box ref={secondLoader}>loading...</Box> */}
+              <Box ref={loader}>loading...</Box>
             </Stack>
           </Box>
-        ) : (
-          ""
         )}
       </Container>
     </AppContainer>

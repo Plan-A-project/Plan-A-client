@@ -15,8 +15,8 @@ function Anonymous() {
   const router = useRouter();
   const handlePost = async () => {
     const response = await postApis.checkAgree();
-    console.log(222, response.data?.data.message);
-    if (response.data?.data.message === "true : 동의한 상태") {
+    console.log(222, response);
+    if (response.data?.data) {
       router.push(`/board/form?boardId=4&postType=NORMAL`);
     } else {
       // 최초 1회 공지

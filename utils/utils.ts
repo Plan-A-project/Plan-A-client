@@ -8,8 +8,6 @@ export const testAutocompleteFunction = async (keyword: string) => {
   const data: string[] = [];
   await wait(500);
   data.push(keyword);
-  data.push(keyword);
-  data.push(keyword);
   return data;
 };
 
@@ -31,10 +29,11 @@ export const searchFunctionFactory = (type: string) => {
       likes: 3,
       date: "2022-12-12",
     };
+
     returnArray.push({ ...tmpItem, id: 1 });
     returnArray.push({ ...tmpItem, id: 2 });
     returnArray.push({ ...tmpItem, id: 3 });
-    return returnArray;
+    return response.data?.data.posts;
   };
   return testSearchFunction;
 };
