@@ -8,7 +8,7 @@ import {
   MainBoardIcon,
   MyProfileIcon,
 } from "@/components/icons";
-
+import TimeTableBlue from "../icons/TimeTableBlue";
 import HomeIconGrey from "../icons/HomeIconGrey";
 import InfoBoardBlue from "../icons/InfoBoardBlue";
 import MainBoardBlue from "../icons/MainBoardBlue";
@@ -38,7 +38,7 @@ export default function Navbar({ currentTab = "home" }) {
         </Text>
       </Box>
       <Box onClick={() => router.push("/timetable")}>
-        <TimeTableIcon />
+        {currentTab === "timeTable" ? <TimeTableBlue /> : <TimeTableIcon />}
         <Text textStyle={"overline"} textAlign={"center"}>
           시간표
         </Text>

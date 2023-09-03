@@ -46,13 +46,15 @@ function BoardMain() {
         }
       />
       <Flex p={4} align={"center"}>
-        <NewBoardBanner
-          justify={"space-between"}
-          onClick={() => alert("게시판 이용 수칙안내")}
-        >
+        <NewBoardBanner justify={"space-between"}>
           <Flex>
             <IconNotice />
-            <Heading color={"black"} fontSize={"18px"} ml={2}>
+            <Heading
+              onClick={() => router.push("/posting/notice")}
+              color={"black"}
+              fontSize={"18px"}
+              ml={2}
+            >
               게시판 이용 규칙 안내
             </Heading>
           </Flex>

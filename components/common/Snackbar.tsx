@@ -1,5 +1,4 @@
-import { HStack, Text } from "@chakra-ui/react";
-
+import { Flex, Text, Fade } from "@chakra-ui/react";
 import { CelebrateIcon } from "../icons";
 
 export default function Snackbar({
@@ -9,24 +8,24 @@ export default function Snackbar({
   content: string;
   isActive: boolean;
 }) {
-  // const transition = useTransition(isActive, {
-  //   entering: { animation: `${slideIn} 0.5s ease-in-out forwards` },
-  //   exiting: { animation: `${slideOut} 0.5s ease-in-out forwards` },
-  // });
   return (
-    <HStack
-      // style={transition}
-      p={6}
-      boxShadow="xl"
-      borderRadius="xl"
-      pos="fixed"
-      top={2}
-      w="100%"
-      zIndex="20"
-      bg="white"
-    >
-      <CelebrateIcon />
-      <Text textStyle={"subtitle2"}>{content}</Text>
-    </HStack>
+    <Fade in={true} transition={{ enter: { duration: 0.5 } }}>
+      <Flex
+        p={6}
+        boxShadow="xl"
+        borderRadius="xl"
+        pos="fixed"
+        top={2}
+        w="90%"
+        zIndex="20"
+        align={"center"}
+        left={"50%"}
+        transform={"translateX(-50%)"}
+        bg="white"
+      >
+        <CelebrateIcon />
+        <Text textStyle={"subtitle2"}>{content}</Text>
+      </Flex>
+    </Fade>
   );
 }

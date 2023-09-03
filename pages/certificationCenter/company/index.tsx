@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Input } from "@chakra-ui/react";
 import { Button, Stack } from "@chakra-ui/react";
+
 import certificationApis from "@/api/certification";
 
 import profileApis from "@/api/profile";
@@ -47,9 +48,8 @@ const Company = () => {
     const formData = new FormData();
     if (selectedFile) {
       formData.append("file", selectedFile);
-      const response = await certificationApis.postFileToCertificateCompany(
-        formData,
-      );
+      const response =
+        await certificationApis.postFileToCertificateCompany(formData);
       if (response.ok) {
         router.push("/certificationCenter/requestComplete");
       }

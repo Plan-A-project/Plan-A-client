@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 
-import { Badge } from "@chakra-ui/layout";
+import { Badge, Box, Text } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
 
 import useBoardList from "@/hooks/board/useBoardList";
@@ -82,7 +82,7 @@ const PostsList = ({
       ) : (
         <BoardStack>
           {boardList.map(el => {
-            console.log("elel", el);
+            console.log("ele", el);
             const date = formatDate(el.createdAt);
             return (
               <FreeBoardItem
@@ -98,7 +98,13 @@ const PostsList = ({
           })}
         </BoardStack>
       )}
-      {!isFinish ? <button onClick={getMorePosts}>더보기</button> : null}
+      {!isFinish ? (
+        <Box w={"full"} textAlign={"center"}>
+          <Text textStyle={"subtitle2"} onClick={getMorePosts}>
+            더보기
+          </Text>
+        </Box>
+      ) : null}
     </div>
   );
 };

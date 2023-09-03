@@ -20,7 +20,11 @@ function Anonymous() {
       router.push(`/board/form?boardId=4&postType=NORMAL`);
     } else {
       // 최초 1회 공지
-      router.push("/board/initialNotice?boardId=4&postType=NORMAL");
+      if (response.code === 401) {
+        router.push("/login");
+      } else {
+        router.push("/board/initialNotice?boardId=4&postType=NORMAL");
+      }
     }
   };
   return (
@@ -36,7 +40,9 @@ function Anonymous() {
           />
         }
       />
-      <BoardBanner>게시판 이용 규칙 안내</BoardBanner>
+      <BoardBanner onClick={() => router.push("/posting/notice")}>
+        게시판 이용 규칙 안내
+      </BoardBanner>
       <Box mt={4}>
         <PostsList boardName={"익명게시판"} />
       </Box>

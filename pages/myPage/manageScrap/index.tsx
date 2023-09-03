@@ -3,7 +3,8 @@ import { Box } from "@chakra-ui/layout";
 const ManageScrap = () => {
   return (
     <>
-      <Box></Box>
+      <Box>dd</Box>
     </>
   );
 };
+export default ManageScrap;

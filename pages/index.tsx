@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import boardApis from "@/api/board";
-import { BoxButton, Carousel } from "@/components/common";
+import { BoxButton, Carousel, Banner } from "@/components/common";
 import { DeviderWave } from "@/components/icons";
 import Layout from "@/components/layout/Layout";
 import {
@@ -20,6 +20,9 @@ import {
 import useDrawer from "@/hooks/useDrawer";
 import useSnackbar from "@/hooks/useSnackbar";
 import formatDate from "@/utils/formatDate";
+import certificationApis from "@/api/certification";
+import postApis from "@/api/post";
+import commentApis from "@/api/comment";
 
 const props = {
   header: "홈 설정",
@@ -66,13 +69,39 @@ export default function Main() {
     { title: "학교생활", boards: [], boardId: 5 },
   ];
   const [boardList, setBoardList] = useState<any>([]);
-  const [isActivated, activateSnackbar, Snackbar] =
-    useSnackbar("인증이 완료되었어요!");
-
+  const [alarmContent, setAlarmContent] = useState<string>("");
+  const [isActivated, activateSnackbar, Snackbar] = useSnackbar(alarmContent);
+  const [isCertificate, setIsCertificate] = useState<boolean>(false);
   useEffect(() => {
+    async function fetchCertification() {
+      const response = await certificationApis.getVerificationInfo();
+      // const res = await postApis.initializePost({
+      //   title: "ㅇ",
+      //   content: "ㅇㅇ",
+      //   boardId: 4,
+      //   postType: "NORMAL",
+      // });
+      const res = await commentApis.getMyComment(1);
+      console.log("verifs", res);
+      if (!response.ok) {
+      }
+    }
+    fetchCertification();
+    certificationApis.getVerificationInfo();
     const isFirstCertificate = localStorage.getItem("certComplt");
-    if (isFirstCertificate) {
+    const isCertificate2 = localStorage.getItem("certComplt2");
+    if (isCertificate2) {
+      setIsCertificate(true);
+    }
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    console.log("logg", isLoggedIn);
+    if (isLoggedIn) {
+      setAlarmContent(`${isLoggedIn}님! 인플리에 오신걸 환영합니다!`);
       activateSnackbar();
+      localStorage.removeItem("isLoggedIn");
+    }
+    if (isFirstCertificate) {
+      setAlarmContent("인증이 완료되었어요!");
       localStorage.removeItem("certComplt");
     }
   }, []);
@@ -109,6 +138,18 @@ export default function Main() {
     <Layout>
       {isActivated && <Snackbar />}
       <Box bg={"#F7F8FA"} paddingX="4.2%">
+        {!isCertificate && (
+          <Banner
+            mt={4}
+            alert
+            onClick={() => router.push("/certificationCenter")}
+          >
+            <Banner.AlertBanner
+              notice={`지금은 일부 열람만 가능해요\n모든 기능을 사용하려면`}
+              text="학생 인증하기"
+            />
+          </Banner>
+        )}
         <Box height={"10px"} />
         <MainBanner />
         <Box marginTop="-55" zIndex="99">
