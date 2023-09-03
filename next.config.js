@@ -20,7 +20,7 @@ module.exports = {
     return [
       {
         source: "/:path*",
-        destination: "https://apimyportfolio.com/:path*",
+        destination: "https://api.infli.co/:path*",
       },
     ];
   },
