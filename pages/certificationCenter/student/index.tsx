@@ -73,9 +73,8 @@ const StudentCertification = () => {
       const formData = new FormData();
       if (selectedFile) {
         formData.append("file", selectedFile);
-        const response = await certificationApis.postFileToCertificate(
-          formData,
-        );
+        const response =
+          await certificationApis.postFileToCertificate(formData);
         console.log("fileAttach", response);
         if (response.ok) {
           router.push("/certificationCenter/requestComplete");

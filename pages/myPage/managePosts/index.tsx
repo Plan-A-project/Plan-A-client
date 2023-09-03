@@ -11,6 +11,8 @@ import commentApis from "@/api/comment";
 
 const ManagePosts = () => {
   const [selectedTabNumber, setSelectedTabNumber] = useState<number>(1);
+  const [myPost, setMyPost] = useState<any>([]);
+  const [myComment, setMyComment] = useState<any>([]);
   const { data: myPosts, loader: loader2 } = useInfiniteScroll(
     postApis.getMyPosts,
     "posts",
@@ -19,8 +21,10 @@ const ManagePosts = () => {
     commentApis.getMyComment,
     "comments",
   );
-  // console.log("myP", myPosts);
-  console.log("myC", myComments);
+  useEffect(() => {
+    setMyPost(myPosts);
+    setMyComment(myComments);
+  }, [myPosts, myComments]);
   return (
     <AppContainer>
       <Header back leftTitle title="게시글 관리" />
@@ -37,10 +41,11 @@ const ManagePosts = () => {
         {selectedTabNumber === 1 && (
           <Box px={0}>
             <Stack divider={<StackDivider borderColor="gray.200" />}>
-              {myPosts.map((el: any) => {
-                console.log(1131, el);
-                return <MyPost info={el} />;
-              })}
+              {myPost.length &&
+                myPost.map((el: any) => {
+                  console.log(1131, el);
+                  return <MyPost key={el} info={el} />;
+                })}
               <Box ref={loader2}></Box>
             </Stack>
           </Box>
@@ -48,9 +53,10 @@ const ManagePosts = () => {
         {selectedTabNumber === 0 && (
           <Box px={0}>
             <Stack divider={<StackDivider borderColor="gray.200" />}>
-              {myComments.map((el: any) => {
-                return <MyComment info={el} />;
-              })}
+              {myComment.length &&
+                myComment.map((el: any) => {
+                  return <MyComment key={el} info={el} />;
+                })}
               <Box ref={loader}></Box>
             </Stack>
           </Box>

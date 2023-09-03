@@ -48,7 +48,7 @@ const TableContent: React.FC<TableProps> = ({ data, type = "학생" }) => {
         <Tbody>
           {data.map(el => {
             return (
-              <Tr>
+              <Tr key={el.memberId}>
                 <Td>{el.memberId}</Td>
                 <Td>{el.realName}</Td>
                 <Td>

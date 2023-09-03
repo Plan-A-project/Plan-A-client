@@ -189,7 +189,7 @@ async function uploadImgStrToS3(postId: number) {
       postId: postId,
       files: imgStr,
     });
-    return res.data!?.data.originalImageUrls;
+    return res.data?.data.originalImageUrls;
   } else {
     return [];
   }

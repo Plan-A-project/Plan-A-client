@@ -8,18 +8,18 @@ const MyPost = ({ info }: any) => {
   return (
     <Stack spacing={0}>
       <Tag w={"fit-content"} colorScheme="linkedin" textStyle={"caption2"}>
-        {info.boardName}
+        {info?.boardName && ""}
       </Tag>
       <Flex justify={"space-between"} pt={"8px"}>
         <Stack spacing={"4px"}>
-          <Text textStyle={"subtitle1"}>{info.title}</Text>
+          <Text textStyle={"subtitle1"}>{info?.title}</Text>
           <Text
             textStyle={"body1"}
             color={"#75788A"}
             maxW={"239px"}
             noOfLines={[1, 2]}
           >
-            {info.content}
+            {info?.content}
           </Text>
         </Stack>
         {/* <Image
@@ -30,16 +30,16 @@ const MyPost = ({ info }: any) => {
         /> */}
       </Flex>
       <Flex justify={"space-between"} pt={"14px"}>
-        <Text textStyle={"overline"}>{formatDate(info.createdAt)}</Text>
+        <Text textStyle={"overline"}>{formatDate(info?.createdAt)}</Text>
         <Flex gap={"8px"}>
           <Flex align={"center"} justify={"center"} gap={"5px"}>
             <Icon as={BsChatRightText} w={"14px"} h={"12px"} />
-            <Text textStyle={"overline"}>{info.commentCount}</Text>
+            <Text textStyle={"overline"}>{info?.commentCount}</Text>
           </Flex>
           <Flex gap={"8px"}>
             <Flex align={"center"} justify={"center"} gap={"5px"}>
               <Icon as={SlHeart} w={"14px"} h={"12px"} />
-              <Text textStyle={"overline"}>{info.likeCount}</Text>
+              <Text textStyle={"overline"}>{info?.likeCount}</Text>
             </Flex>
           </Flex>
         </Flex>
