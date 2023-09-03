@@ -1,9 +1,15 @@
 type Callback<T> = (...args: any[]) => Promise<T>;
+import { useRouter } from "next/router";
 
 export const methodFormat = <T>(callback: Callback<T>) => {
   const method = async (
     ...args: any[]
-  ): Promise<{ ok: boolean; data?: T; message?: string }> => {
+  ): Promise<{
+    ok: boolean;
+    data?: T;
+    message?: string;
+    code?: any;
+  }> => {
     try {
       const data = await callback(...args);
       return {
@@ -11,12 +17,10 @@ export const methodFormat = <T>(callback: Callback<T>) => {
         data,
       };
     } catch (error: any) {
-      if (error.response.status === 401) {
-        localStorage.removeItem("isLoggedIn");
-      }
       return {
         ok: false,
         message: error.message,
+        code: error.response.status || "",
       };
     }
   };

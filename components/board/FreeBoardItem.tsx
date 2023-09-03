@@ -118,8 +118,6 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   bookmark,
   ...props
 }) => {
-  console.log("imagee", image);
-  console.log(imageAlt);
   return (
     <Flex px={3} py={4} gap={3} direction={"column"} {...props}>
       <FreeBoardItemContent

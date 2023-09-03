@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement, useRef, useState } from "react";
+import { MouseEvent, ReactElement, useRef, useState, useEffect } from "react";
 
 import { Box, Divider, VStack } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/react";
@@ -28,6 +28,24 @@ export function useDropdown({
   const mounted = useMounted();
   const menuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [scrollPos, setScrollPos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPos({
+        x: window.scrollX,
+        y: window.scrollY,
+      });
+    };
+
+    // 스크롤 이벤트 리스너를 추가합니다.
+    window.addEventListener("scroll", handleScroll);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거합니다.
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   function toggle(flag?: boolean) {
     setIsOpen(prevIsOpen => {
@@ -52,11 +70,16 @@ export function useDropdown({
   const vGap = yGap || 0;
   const hGap = xGap || 0;
 
-  const top = offsetTop + (isTop ? -menuHeight - vGap : offsetHeight + vGap);
-
   const menuWidth = menuRef?.current?.offsetWidth || 0;
 
-  const left = offsetLeft + (isRight ? offsetWidth - menuWidth - hGap : hGap);
+  const top =
+    offsetTop +
+    (isTop ? -menuHeight - vGap : offsetHeight + vGap) +
+    scrollPos.y;
+  const left =
+    offsetLeft +
+    (isRight ? offsetWidth - menuWidth - hGap : hGap) +
+    scrollPos.x;
 
   function handleMenuClick(index: number, menu: string) {
     return () => {

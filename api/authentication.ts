@@ -23,12 +23,10 @@ const authApis = {
     });
     return response;
   }),
-  // logout: methodFormat(async data => {
-  //   const response = await client.post(`login`, data, {
-  //     withCredentials: true,
-  //   });
-  //   return response;
-  // }),
+  logout: methodFormat(async () => {
+    const response = await client.post(`logout`);
+    return response;
+  }),
 };
 
 export default authApis;

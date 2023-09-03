@@ -20,7 +20,6 @@ const Login = () => {
     password: "",
   });
 
-  // console.log(222333, window.document.cookie);
   const checkFilled = Object.values(inputValues).every(value => value !== "");
 
   const loginInputData = [
@@ -55,13 +54,13 @@ const Login = () => {
         username: inputValues.email,
         password: inputValues.password,
       });
-      console.log(1111, response);
       if (!response.ok) {
         setHasError(true);
       } else {
         setHasError(false);
         if (response.data) {
-          localStorage.setItem("isLoggedIn", "true");
+          console.log("datad", response);
+          localStorage.setItem("isLoggedIn", response.data.data.nickname);
           router.push("./");
           setLoggedIn(true);
         }

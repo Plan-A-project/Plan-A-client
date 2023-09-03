@@ -30,6 +30,7 @@ type CommentBarProps = BoxProps & {
   handleComment: any;
   commentState: boolean;
   parentCommentId?: number;
+  handleParentId: any;
 };
 
 const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
@@ -42,6 +43,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
       withoutDummy,
       handleComment,
       parentCommentId,
+      handleParentId,
       ...props
     },
     ref,
@@ -74,13 +76,11 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
           content: text,
           parentCommentId: parentCommentId,
         });
-        console.log("parent", response);
       } else {
         const response = await commentApis.postComment({
           postId: postId,
           content: text,
         });
-        console.log(response);
       }
       location.reload();
     }
@@ -108,7 +108,11 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
         >
           <Text
             textStyle="body3"
-            className={replyTo ? "active" : ""}
+            onClick={() => {
+              handleParentId(0);
+              console.log("1313", parentCommentId);
+            }}
+            className={parentCommentId ? "active" : ""}
             zIndex={998}
             sx={{
               position: "absolute",
@@ -129,8 +133,12 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
               },
             }}
           >
-            {(replyTo && `${replyTo}님에게 답글 작성 중...`) || "..."}
+            {(parentCommentId && `답글 작성 중...`) || "..."}
+            {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;답글
+            작성 취소 */}
           </Text>
+
           <Flex gap={2} height={9} align="center">
             <IconComment style={{ flexShrink: 0 }} />
             <Input

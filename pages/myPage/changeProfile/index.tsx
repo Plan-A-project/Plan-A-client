@@ -13,6 +13,7 @@ import useInput from "@/hooks/useInput";
 const ChangeProfile = () => {
   const [fileURL, setFileURL] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const {
     inputValues,
@@ -36,6 +37,7 @@ const ChangeProfile = () => {
     const file = e.target.files[0];
     if (file) {
       setFileName(file.name);
+      setSelectedFile(file);
       const localFileURL = URL.createObjectURL(file);
       setFileURL(localFileURL);
     }
@@ -50,12 +52,17 @@ const ChangeProfile = () => {
     // 닉네임 변경 했으면 api 요청함
     if (inputValues.nickname && !errors.nickname) {
       const response = await profileApis.changeNickname(inputValues.nickname);
-      console.log(response);
+      console.log("nicknamee", response);
     }
     // 프로필 사진 변경했으면 api 요청함
     if (fileURL) {
-      const response = await profileApis.changeProfileImage(fileURL);
-      console.log(response);
+      const formData = new FormData();
+      if (selectedFile) {
+        console.log("ee", selectedFile);
+        formData.append("file", selectedFile);
+        const response = await profileApis.changeProfileImage(formData);
+        console.log("imagee", response);
+      }
     }
   };
   return (

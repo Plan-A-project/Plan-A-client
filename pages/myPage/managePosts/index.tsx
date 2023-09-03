@@ -11,10 +11,10 @@ import commentApis from "@/api/comment";
 
 const ManagePosts = () => {
   const [selectedTabNumber, setSelectedTabNumber] = useState<number>(1);
-  // const { data: myPosts, loader } = useInfiniteScroll(
-  //   postApis.getMyPosts,
-  //   "posts",
-  // );
+  const { data: myPosts, loader: loader2 } = useInfiniteScroll(
+    postApis.getMyPosts,
+    "posts",
+  );
   const { data: myComments, loader } = useInfiniteScroll(
     commentApis.getMyComment,
     "comments",
@@ -37,11 +37,11 @@ const ManagePosts = () => {
         {selectedTabNumber === 1 && (
           <Box px={0}>
             <Stack divider={<StackDivider borderColor="gray.200" />}>
-              {/* {myPosts.map((el: any) => {
+              {myPosts.map((el: any) => {
                 console.log(1131, el);
                 return <MyPost info={el} />;
-              })} */}
-              <Box ref={loader}>loading...</Box>
+              })}
+              <Box ref={loader2}></Box>
             </Stack>
           </Box>
         )}
@@ -51,7 +51,7 @@ const ManagePosts = () => {
               {myComments.map((el: any) => {
                 return <MyComment info={el} />;
               })}
-              <Box ref={loader}>loading...</Box>
+              <Box ref={loader}></Box>
             </Stack>
           </Box>
         )}

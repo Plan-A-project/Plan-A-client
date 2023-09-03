@@ -25,7 +25,7 @@ const CheckEmail = () => {
             <br /> 인증을 완료해주세요.
           </Text>
         </Box>
-        <Button
+        {/* <Button
           onClick={handleCertificate}
           mt={4}
           textStyle={"subtitle1"}
@@ -36,7 +36,7 @@ const CheckEmail = () => {
           color={1 ? "background1" : "grey.500"}
         >
           확인
-        </Button>
+        </Button> */}
       </Stack>
     </AppContainer>
   );

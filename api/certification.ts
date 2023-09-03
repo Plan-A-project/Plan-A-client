@@ -18,6 +18,9 @@ const certificationApis = {
   postFileToCertificateCompany: methodFormat(async data => {
     await client.post(`${PATH}company/certificate`, data);
   }),
+  getVerificationInfo: methodFormat(async () => {
+    await client.get("verification");
+  }),
 };
 
 export default certificationApis;

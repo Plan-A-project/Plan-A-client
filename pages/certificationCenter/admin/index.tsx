@@ -19,6 +19,8 @@ const Admin = () => {
       const response2 = await adminApis.getCertificateCompany();
       setCompanyList(response2.data?.data.studentVerifications);
       console.log(response2);
+      localStorage.setItem("certComplt", "true");
+      localStorage.setItem("certComplt2", "true");
     };
     fetchApi();
   }, []);

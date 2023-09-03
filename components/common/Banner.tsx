@@ -39,6 +39,7 @@ const Banner: BannerComponent = forwardRef<HTMLDivElement, BannerProps>(
         bg={"white"}
         borderRadius={"16px"}
         variant="unstyled"
+        p={alert ? 3 : 0}
         border={alert ? "1px solid #F90B66" : "none"}
         {...props}
       >

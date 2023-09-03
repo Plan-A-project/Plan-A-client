@@ -61,7 +61,13 @@ const StudentCertification = () => {
       const response = await certificationApis.sendEmailLink({
         universityEmail: userEmail,
       });
-      console.log(11, response);
+      console.log(1131, response);
+      if (response.ok) {
+        router.push(`/certificationCenter/student/${userEmail}`);
+      }
+      if (!response.ok) {
+        alert("이미 사용 중인 메일입니다. 다른 메일을 사용해 주세요.");
+      }
     }
     if (!selectedTabNumber) {
       const formData = new FormData();
@@ -96,7 +102,18 @@ const StudentCertification = () => {
             <Stack>
               <Stack mb={"48px"} spacing={"12px"} mt={"24px"}>
                 <Text textStyle={"subtitle2"}>인증방법</Text>
-                <Text textStyle={"body1"}>
+                <Text
+                  onClick={() => {
+                    async function fetchEmail() {
+                      const response = await certificationApis.verifyEmailCode(
+                        "f9b9fe1d-19a2-458d-a4e5-896c6559fa7a",
+                      );
+                      console.log("certiff", response);
+                    }
+                    fetchEmail();
+                  }}
+                  textStyle={"body1"}
+                >
                   학교 이메일 계정을 입력해주세요.
                 </Text>
               </Stack>

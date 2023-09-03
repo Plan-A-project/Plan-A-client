@@ -18,16 +18,19 @@ function BoardDetail() {
   const [data, setData] = useState<any>();
   const [commentList, setCommentList] = useState<any>([]);
   const [isSentComment, setIsSentComment] = useState(false);
-
   const router = useRouter();
   const {
     query: { boardId, postId },
   } = router;
   const [parentCommentId, setParentCommentId] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("해당 게시글이 삭제되었습니다");
 
   const ref = useRef<HTMLButtonElement>(null);
+
   const [dropdown, toggle] = useDropdown({
     menus: ["수정하기", "삭제하기"],
     xGap: -15,
@@ -51,6 +54,41 @@ function BoardDetail() {
     btnContent: "삭제하기",
     btnHandler: deletePost,
   });
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight - 500 &&
+        !loading
+      ) {
+        setPage(prevPage => prevPage + 1);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [loading]);
+
+  useEffect(() => {
+    async function fetchComment() {
+      setLoading(true);
+
+      const comments = await commentApis.getComment(postId, page);
+      console.log("commentss", comments.data?.data.comments);
+      if (comments.data) {
+        setCommentList((prevComments: any) => [
+          ...prevComments,
+          ...comments.data?.data.comments,
+        ]);
+      }
+      if (comments.data?.data.comments.length) {
+        setLoading(false);
+      }
+    }
+    fetchComment();
+  }, [postId, page, isSentComment]);
 
   // 예시글: http://localhost:3000/posting/4/18
   async function readPost() {
@@ -68,15 +106,15 @@ function BoardDetail() {
       router.back();
     }
   }
-  useEffect(() => {
-    async function fetchComment() {
-      const comments = await commentApis.getComment(postId, 1);
-      console.log("comment", comments.data?.data.comments);
+  // useEffect(() => {
+  //   async function fetchComment() {
+  //     const comments = await commentApis.getComment(postId, 1);
+  //     console.log("comment", comments.data?.data.comments);
 
-      setCommentList(comments.data?.data.comments);
-    }
-    fetchComment();
-  }, [postId, isSentComment]);
+  //     setCommentList(comments.data?.data.comments);
+  //   }
+  //   fetchComment();
+  // }, [postId, isSentComment]);
 
   useEffect(() => {
     boardId && postId && readPost();
@@ -160,6 +198,7 @@ function BoardDetail() {
             <BoardComment username="하이" depth={0} content="댓글입니다." /> */}
           </BoardCommentList>
           <CommentBar
+            handleParentId={setParentCommentId}
             postId={postId}
             parentCommentId={parentCommentId}
             handleComment={setIsSentComment}
@@ -168,8 +207,10 @@ function BoardDetail() {
           {/* <BoardCommentInput postId={postId} /> */}
         </>
       ) : (
-        <div>Loading...</div>
+        ""
       )}
+
+      {loading && <div>Loading...</div>}
     </AppContainer>
   );
 }
