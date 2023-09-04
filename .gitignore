@@ -8,14 +8,15 @@
 # testing
 /coverage
 
+.idea
+
 # next.js
 /.next/
 /out/
 
 # production
 /build
-
-# misc
+npm install --global serve
 .DS_Store
 *.pem
 
