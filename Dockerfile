@@ -1,9 +1,11 @@
-FROM public.ecr.aws/docker/library/node:18
+FROM public.ecr.aws/docker/library/node:17.8.0
 
 WORKDIR /app
 
-COPY . /app
+COPY ./package.json /app
 
 RUN npm install
 
-CMD ["npm", "start"]
+RUN npm run build
+
+CMD [ "npm", "run", "start" ]
