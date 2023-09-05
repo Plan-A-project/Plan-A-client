@@ -10,10 +10,6 @@ import certificationApis from "@/api/certification";
 
 const CheckEmail = () => {
   const router = useRouter();
-  const handleCertificate = () => {
-    localStorage.setItem("certComplt", "true");
-    router.push("/");
-  };
   const {
     query: { studentEmail },
   } = useRouter();
@@ -53,19 +49,11 @@ const CheckEmail = () => {
             <br /> 해당 메일로 이동해
             <br /> 인증을 완료해주세요.
           </Text>
+          <Text mt={4} textStyle={"body1"} color={"red"}>
+            메일 확인이 안될 경우 스팸 메일함을 확인해 주세요. <br />
+            수신까지 최대 5분이 소요될 수 있습니다.
+          </Text>
         </Box>
-        {/* <Button
-          onClick={handleCertificate}
-          mt={4}
-          textStyle={"subtitle1"}
-          h={"52px"}
-          w={"full"}
-          borderRadius={"16px"}
-          bg={1 ? "primary.500" : "grey.200"}
-          color={1 ? "background1" : "grey.500"}
-        >
-          확인
-        </Button> */}
       </Stack>
     </AppContainer>
   );

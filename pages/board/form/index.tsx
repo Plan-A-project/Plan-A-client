@@ -105,6 +105,7 @@ export default function PostingForm() {
       // postId가 있는 경우 조회
       readPost(postId).then(data => {
         const [title, content, postType, boardId, recruitment] = data;
+
         setPostType(postType);
         setBoardId(boardId);
         updatePostContent(title, content, recruitment);

@@ -62,7 +62,7 @@ type BoardType = {
 type BoardListType = BoardType[];
 
 export default function Main() {
-  const [onOpen, ButtonDrawer] = useDrawer(props);
+  const [onOpen, ButtonDrawer, onClose] = useDrawer(props);
   const initialBoardList: BoardListType = [
     { title: "채용", boards: [], boardId: 1 },
     { title: "대외활동", boards: [], boardId: 2 },
@@ -74,8 +74,6 @@ export default function Main() {
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(alarmContent);
   const [isCertificate, setIsCertificate] = useState<boolean>(true);
 
-  const [isAuthenticated, setIsAuthenticated] =
-    useRecoilState(isCertificatedState);
   useEffect(() => {
     async function fetchCertification() {
       const response = await certificationApis.getVerificationInfo();

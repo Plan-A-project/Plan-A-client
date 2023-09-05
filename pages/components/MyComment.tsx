@@ -8,7 +8,7 @@ const MyComment = ({ info }: any) => {
   return (
     <Stack>
       <Stack spacing={"8px"}>
-        <Text textStyle={"body1"}>{info?.content && ""}</Text>
+        <Text textStyle={"body1"}>{info?.content || ""}</Text>
         <Text textStyle={"overline"} color={"#75788A"}>
           {formatCommentDate(info?.createdAt)}
         </Text>

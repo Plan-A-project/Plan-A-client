@@ -25,7 +25,7 @@ const CompanySignUp = () => {
   const signUpInputData = [
     {
       label: "email",
-      placeholder: "youremail@email.com",
+      placeholder: "영어, 숫자 조합 가능 6~20자",
       title: "아이디",
       type: "email",
       hasConfirmButton: true,

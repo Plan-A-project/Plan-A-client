@@ -6,18 +6,12 @@ const PATH = "setting/";
 const profileApis = {
   changeNickname: methodFormat(async newNickname => {
     const response = await client.post(`${PATH}nickname`, {
-      params: {
-        newNickname,
-      },
+      nickname: newNickname,
     });
     return response;
   }),
   changeProfileImage: methodFormat(async file => {
-    const response = await client.post(`${PATH}profile/image`, {
-      params: {
-        file,
-      },
-    });
+    const response = await client.post(`${PATH}profile/image`, file);
     return response;
   }),
   getProfile: methodFormat(async () => {
