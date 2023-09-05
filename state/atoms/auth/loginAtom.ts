@@ -4,7 +4,7 @@ import { atom } from "recoil";
 //   key: string;
 //   default: boolean;
 // };
-export const isLoggedInState = atom({
-  key: "isLoggedInState",
+export const isCertificatedState = atom({
+  key: "isCertificatedState",
   default: false,
 });

@@ -2,6 +2,8 @@ import { Key, useEffect, useState } from "react";
 
 import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { isCertificatedState } from "@/state/atoms/auth/loginAtom";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import boardApis from "@/api/board";
@@ -21,7 +23,6 @@ import useDrawer from "@/hooks/useDrawer";
 import useSnackbar from "@/hooks/useSnackbar";
 import formatDate from "@/utils/formatDate";
 import certificationApis from "@/api/certification";
-import postApis from "@/api/post";
 import commentApis from "@/api/comment";
 
 const props = {
@@ -71,40 +72,38 @@ export default function Main() {
   const [boardList, setBoardList] = useState<any>([]);
   const [alarmContent, setAlarmContent] = useState<string>("");
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(alarmContent);
-  const [isCertificate, setIsCertificate] = useState<boolean>(false);
+  const [isCertificate, setIsCertificate] = useState<boolean>(true);
+
+  const [isAuthenticated, setIsAuthenticated] =
+    useRecoilState(isCertificatedState);
   useEffect(() => {
     async function fetchCertification() {
       const response = await certificationApis.getVerificationInfo();
-      // const res = await postApis.initializePost({
-      //   title: "ㅇ",
-      //   content: "ㅇㅇ",
-      //   boardId: 4,
-      //   postType: "NORMAL",
-      // });
-      const res = await commentApis.getMyComment(1);
-      console.log("verifs", res);
-      if (!response.ok) {
+      console.log("verifs", response.data.status);
+
+      if (response.data.status !== "SUCCESS") {
+        setIsCertificate(false);
       }
     }
     fetchCertification();
-    certificationApis.getVerificationInfo();
-    const isFirstCertificate = localStorage.getItem("certComplt");
-    const isCertificate2 = localStorage.getItem("certComplt2");
-    if (isCertificate2) {
-      setIsCertificate(true);
-    }
+
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    console.log("logg", isLoggedIn);
     if (isLoggedIn) {
       setAlarmContent(`${isLoggedIn}님! 인플리에 오신걸 환영합니다!`);
       activateSnackbar();
       localStorage.removeItem("isLoggedIn");
     }
-    if (isFirstCertificate) {
-      setAlarmContent("인증이 완료되었어요!");
-      localStorage.removeItem("certComplt");
-    }
   }, []);
+
+  useEffect(() => {
+    async function fetchCertificate() {
+      if (isAuthenticated) {
+        setAlarmContent("인증이 완료되었어요!");
+        setIsAuthenticated(false);
+      }
+    }
+    fetchCertificate();
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const fetchBoards = async () => {

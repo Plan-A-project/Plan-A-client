@@ -9,6 +9,7 @@ import {
   Flex,
   Divider,
 } from "@chakra-ui/react";
+import Close from "../icons/Close";
 
 import formatCommentDate from "@/utils/formatCommentDate";
 
@@ -124,18 +125,19 @@ const BoardComment: React.FC<BoardCommentProps> = ({
             </Stack>
             <Text textStyle={"body1"}>{content}</Text>
           </Flex>
-          {/* {myComment && (
+          {myComment && (
             <Box
               p={0}
               h={4}
               ref={ref}
-              onClick={() => toggle(true)}
+              onClick={() => onOpen()} //toggle(true) 토글 쓰려면 변경
               bg={"none"}
               _focus={{ bg: "none" }}
             >
-              <ThreeDotsSmallIcon />
+              {/* <ThreeDotsSmallIcon /> */}
+              <Close />
             </Box>
-          )} */}
+          )}
         </Flex>
         <Flex align={"baseline"} justify={"flex-end"}>
           <Flex mt={4}>

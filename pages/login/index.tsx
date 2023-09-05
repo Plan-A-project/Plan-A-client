@@ -8,13 +8,10 @@ import { useSetRecoilState } from "recoil";
 import authApis from "@/api/authentication";
 import { AppContainer, Header } from "@/components/common";
 import UserInput from "@/components/login/userInput";
-import { isLoggedInState } from "@/state/atoms/auth/loginAtom";
-import getCookie from "@/utils/getCookie";
 
 const Login = () => {
   const [hasError, setHasError] = useState(false);
   const router = useRouter();
-  const setLoggedIn = useSetRecoilState(isLoggedInState);
   const [inputValues, setInputValues] = useState({
     email: "",
     password: "",
@@ -62,7 +59,6 @@ const Login = () => {
           console.log("datad", response);
           localStorage.setItem("isLoggedIn", response.data.data.nickname);
           router.push("./");
-          setLoggedIn(true);
         }
       }
     }

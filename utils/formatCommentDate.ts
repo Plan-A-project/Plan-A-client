@@ -1,5 +1,9 @@
 export default function formatCommentDate(timestamp: string) {
-  const inputDate: any = new Date(timestamp);
+  const ONE_HOUR_IN_MILLISECONDS = 3600000;
+  const inputDate: any = new Date(
+    new Date(timestamp).getTime() - ONE_HOUR_IN_MILLISECONDS,
+  );
+
   const currentDate: any = new Date();
 
   const diffInSeconds = Math.floor((currentDate - inputDate) / 1000);
