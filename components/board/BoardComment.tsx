@@ -36,6 +36,7 @@ type BoardCommentProps = {
   myComment: boolean;
   commentId: any;
   pressedLikeOnThisComment: boolean;
+  isDeleted?: boolean;
 };
 
 const BoardComment: React.FC<BoardCommentProps> = ({
@@ -49,6 +50,7 @@ const BoardComment: React.FC<BoardCommentProps> = ({
   isReply,
   myComment,
   commentId,
+  isDeleted,
   pressedLikeOnThisComment,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -78,6 +80,8 @@ const BoardComment: React.FC<BoardCommentProps> = ({
     const res = await commentApis.deleteComment(commentId);
     if (res.ok) {
       activateSnackbar();
+      onClose();
+      // location.reload();
     }
   }
   async function handleLike() {
@@ -90,7 +94,7 @@ const BoardComment: React.FC<BoardCommentProps> = ({
     }
     location.reload();
   }
-  const [onOpen, ButtonDrawer] = useDrawer({
+  const [onOpen, ButtonDrawer, onClose] = useDrawer({
     header: "정말 삭제하시겠어요?",
     subtitle: "",
     children: <></>,
@@ -110,8 +114,8 @@ const BoardComment: React.FC<BoardCommentProps> = ({
   }) => {
     return (
       <Box py={3}>
-        {/* {dropdown}
-        {isActivated && <Snackbar />} */}
+        {isActivated && <Snackbar />}
+        <ButtonDrawer />
         <Flex pl={3} justify={"space-between"}>
           <Flex>
             <ReplyIcon />
@@ -130,7 +134,9 @@ const BoardComment: React.FC<BoardCommentProps> = ({
               p={0}
               h={4}
               ref={ref}
-              onClick={() => onOpen()} //toggle(true) 토글 쓰려면 변경
+              onClick={() => {
+                onOpen();
+              }} //toggle(true) 토글 쓰려면 변경
               bg={"none"}
               _focus={{ bg: "none" }}
             >
@@ -172,18 +178,23 @@ const BoardComment: React.FC<BoardCommentProps> = ({
                   <Text textStyle={"overline"}>{username}</Text>
                 </Stack>
               </Stack>
-              <Text textStyle={"body1"}>{content}</Text>
+              <Text color={isDeleted ? "red" : "black"} textStyle={"body1"}>
+                {content}
+              </Text>
             </Flex>
             {myComment && (
               <Box
                 p={0}
                 h={4}
                 ref={ref}
-                onClick={() => toggle(true)}
+                onClick={() => {
+                  onOpen();
+                }} //toggle(true) 토글 쓰려면 변경
                 bg={"none"}
                 _focus={{ bg: "none" }}
               >
-                <ThreeDotsSmallIcon />
+                {/* <ThreeDotsSmallIcon /> */}
+                <Close />
               </Box>
             )}
           </HStack>

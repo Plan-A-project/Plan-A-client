@@ -119,7 +119,7 @@ const StudentCertification = () => {
               <UserInput
                 handleChange={setUserEmail}
                 label={"email"}
-                placeholder={"youremail@gmail.com"}
+                placeholder={"12345678910@fudan.edu.cn"}
                 title={"이메일"}
                 type={"text"}
               />

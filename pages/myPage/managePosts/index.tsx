@@ -8,11 +8,13 @@ import MyPost from "@/pages/components/MyPost";
 import postApis from "@/api/post";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import commentApis from "@/api/comment";
+import { useRouter } from "next/router";
 
 const ManagePosts = () => {
   const [selectedTabNumber, setSelectedTabNumber] = useState<number>(1);
   const [myPost, setMyPost] = useState<any>([]);
   const [myComment, setMyComment] = useState<any>([]);
+  const router = useRouter();
   const { data: myPosts, loader: loader2 } = useInfiniteScroll(
     postApis.getMyPosts,
     "posts",
@@ -24,6 +26,8 @@ const ManagePosts = () => {
   useEffect(() => {
     setMyPost(myPosts);
     setMyComment(myComments);
+    console.log("cctt", myComments);
+    console.log("cctts", myPosts);
   }, [myPosts, myComments]);
   return (
     <AppContainer>
@@ -44,7 +48,26 @@ const ManagePosts = () => {
               {myPost.length &&
                 myPost.map((el: any) => {
                   console.log(1131, el);
-                  return <MyPost key={el} info={el} />;
+                  const boardId =
+                    el.boardName === "익명"
+                      ? 4
+                      : el.boardName === "채용"
+                      ? 1
+                      : el.boardName === "대외활동"
+                      ? 2
+                      : el.boardName === "학교생활"
+                      ? 5
+                      : "";
+                  return (
+                    <Box
+                      onClick={() =>
+                        router.push(`/posting/${boardId}/${el.postId}`)
+                      }
+                      key={el}
+                    >
+                      <MyPost info={el} />
+                    </Box>
+                  );
                 })}
               <Box ref={loader2}></Box>
             </Stack>
@@ -55,7 +78,26 @@ const ManagePosts = () => {
             <Stack divider={<StackDivider borderColor="gray.200" />}>
               {myComment.length &&
                 myComment.map((el: any) => {
-                  return <MyComment key={el} info={el} />;
+                  const boardId =
+                    el.boardName === "익명"
+                      ? 4
+                      : el.boardName === "채용"
+                      ? 1
+                      : el.boardName === "대외활동"
+                      ? 2
+                      : el.boardName === "학교생활"
+                      ? 5
+                      : "";
+                  return (
+                    <Box
+                      onClick={() =>
+                        router.push(`/posting/${boardId}/${el.postId}`)
+                      }
+                      key={el}
+                    >
+                      <MyComment info={el} />
+                    </Box>
+                  );
                 })}
               <Box ref={loader}></Box>
             </Stack>

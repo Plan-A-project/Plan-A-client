@@ -5,10 +5,11 @@ import { BsChatRightText } from "react-icons/bs";
 import { SlHeart } from "react-icons/sl";
 import formatDate from "@/utils/formatDate";
 const MyPost = ({ info }: any) => {
+  console.log("iinn", info);
   return (
     <Stack spacing={0}>
       <Tag w={"fit-content"} colorScheme="linkedin" textStyle={"caption2"}>
-        {info?.boardName && ""}
+        {info?.boardName || ""}
       </Tag>
       <Flex justify={"space-between"} pt={"8px"}>
         <Stack spacing={"4px"}>

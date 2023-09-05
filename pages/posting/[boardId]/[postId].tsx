@@ -25,7 +25,7 @@ function BoardDetail() {
   const [parentCommentId, setParentCommentId] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("해당 게시글이 삭제되었습니다");
 
@@ -47,7 +47,7 @@ function BoardDetail() {
     },
     ref,
   });
-  const [onOpen, ButtonDrawer] = useDrawer({
+  const [onOpen, ButtonDrawer, onClose] = useDrawer({
     header: "정말 삭제하시겠어요?",
     subtitle: "",
     children: <></>,
@@ -83,8 +83,12 @@ function BoardDetail() {
           ...comments.data?.data.comments,
         ]);
       }
+
       if (comments.data?.data.comments.length) {
         setLoading(false);
+      }
+      if (!comments.data?.data.comments.length) {
+        setIsLoading(false);
       }
     }
     fetchComment();
@@ -93,8 +97,11 @@ function BoardDetail() {
   // 예시글: http://localhost:3000/posting/4/18
   async function readPost() {
     const res = await postApis.readPost({ postId });
+    console.log("rrss", res);
     if (res.ok) {
       setData(res.data!.data);
+    } else if (res.code === 401) {
+      router.push("/login");
     }
   }
 
@@ -103,18 +110,10 @@ function BoardDetail() {
     if (res.ok) {
       //   navigate(-1);
       activateSnackbar();
+      onClose();
       router.back();
     }
   }
-  // useEffect(() => {
-  //   async function fetchComment() {
-  //     const comments = await commentApis.getComment(postId, 1);
-  //     console.log("comment", comments.data?.data.comments);
-
-  //     setCommentList(comments.data?.data.comments);
-  //   }
-  //   fetchComment();
-  // }, [postId, isSentComment]);
 
   useEffect(() => {
     boardId && postId && readPost();
@@ -148,7 +147,6 @@ function BoardDetail() {
               )
             }
           />
-          {/* 권한체크 */}
           <BoardView {...data} />
           <BoardCommentList>
             {commentList?.map(
@@ -162,6 +160,7 @@ function BoardDetail() {
                 parentComment: boolean;
                 myComment: boolean;
                 pressedLikeOnThisComment: boolean;
+                deleted: boolean;
               }) => {
                 return (
                   <>
@@ -176,6 +175,7 @@ function BoardDetail() {
                       likesCount={el.likesCount}
                       isReply={el.parentComment}
                       commentId={el.id}
+                      isDeleted={el.deleted}
                       pressedLikeOnThisComment={el.pressedLikeOnThisComment}
                     />
                   </>
@@ -210,7 +210,7 @@ function BoardDetail() {
         ""
       )}
 
-      {loading && <div>Loading...</div>}
+      {isLoading && <div>Loading...</div>}
     </AppContainer>
   );
 }

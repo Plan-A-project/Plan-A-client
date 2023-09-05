@@ -23,11 +23,27 @@ const PostsList = ({
   const boardId = BOARD_ID_MAP[boardName];
   const router = useRouter();
   const [order, setOrder] = useState<OrderType>("recent");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   const [isFinish, setIsFinish] = useState(false);
   const [boardList, setBoardList] = useState<any[]>([]);
   const boardListResponse = useBoardList({ boardId, order, page, type });
+  // const [loading, setLoading] = useState<boolean>(false);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (
+  //       window.innerHeight + window.scrollY >=
+  //         document.documentElement.scrollHeight - 500 &&
+  //       !loading
+  //     ) {
+  //       setPage(prevPage => prevPage + 1);
+  //     }
+  //   };
 
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [loading]);
   const handleChangeOrder = (type: OrderType) => {
     if (boardList === null) return;
     setPage(1);
@@ -42,6 +58,7 @@ const PostsList = ({
       setIsFinish(true);
       return;
     }
+
     setBoardList(p => [...p, ...boardListResponse]);
   }, [boardListResponse]);
 

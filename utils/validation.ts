@@ -16,7 +16,7 @@ const validateInput = (value: string, formType: string) => {
     nickname: "한글, 영어, 숫자 조합이 가능한 2~8자에요.",
     password: "비밀번호는 영어, 숫자, 특수문자 포함 8~20자 입니다.",
     username: "2글자 이상 실명을 입력해주세요.",
-    email: "영어, 숫자 조합이 가능한 2~8자에요.",
+    email: "영어, 숫자 조합이 가능한 6~20자에요.",
   };
   const validationResult: any = {
     nickname: "",

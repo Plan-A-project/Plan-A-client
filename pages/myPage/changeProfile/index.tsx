@@ -9,12 +9,13 @@ import CameraWithCircle from "@/components/icons/CameraWithCircle";
 import ProfileChange from "@/components/icons/ProfileChange";
 import UserInput from "@/components/signup/userInput";
 import useInput from "@/hooks/useInput";
+import { useRouter } from "next/router";
 
 const ChangeProfile = () => {
   const [fileURL, setFileURL] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
+  const router = useRouter();
   const {
     inputValues,
     errors,
@@ -52,18 +53,27 @@ const ChangeProfile = () => {
     // 닉네임 변경 했으면 api 요청함
     if (inputValues.nickname && !errors.nickname) {
       const response = await profileApis.changeNickname(inputValues.nickname);
-      console.log("nicknamee", response);
+      if (response.ok) {
+        alert("닉네임 변경이 완료되었습니다!");
+      } else {
+        alert("오류가 발생했습니다. 다시 시도해주세요.");
+      }
     }
     // 프로필 사진 변경했으면 api 요청함
     if (fileURL) {
       const formData = new FormData();
       if (selectedFile) {
-        console.log("ee", selectedFile);
         formData.append("file", selectedFile);
         const response = await profileApis.changeProfileImage(formData);
-        console.log("imagee", response);
+        if (response.ok) {
+          alert("프로필 사진 변경이 완료되었습니다!");
+          console.log("imagee", response);
+        } else {
+          alert("오류가 발생했습니다. 다시 시도해주세요.");
+        }
       }
     }
+    router.back();
   };
   return (
     <AppContainer>
