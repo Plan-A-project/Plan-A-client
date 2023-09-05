@@ -7,6 +7,9 @@ import { isCertificatedState } from "@/state/atoms/auth/loginAtom";
 import { AppContainer, Header } from "@/components/common";
 import { useEffect } from "react";
 
+import certificationApis from "@/api/certification";
+
+
 const CheckEmail = () => {
   const router = useRouter();
   const handleCertificate = () => {
@@ -18,9 +21,23 @@ const CheckEmail = () => {
   } = useRouter();
   const isCertificate = useRecoilValue(isCertificatedState);
   useEffect(() => {
-    if (isCertificate) {
-      router.push("/");
+
+    async function fetchCertification() {
+      const response = await certificationApis.getVerificationInfo();
+      console.log("verifs", response.data.status);
+
+      if (response.data.status === "SUCCESS") {
+        localStorage.setItem("isFirstCertif", "true");
+        router.push("/");
+      }
     }
+    fetchCertification();
+    console.log(323232, isCertificate);
+    const intervalId = setInterval(fetchCertification, 2000); // 2초마다 checkCertificate 함수 호출
+
+    return () => {
+      clearInterval(intervalId); // 컴포넌트가 언마운트될 때 타이머 정리
+    };
   }, [isCertificate]);
 
   return (

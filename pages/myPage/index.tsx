@@ -31,11 +31,10 @@ const MyPage = () => {
     useSnackbar("안녕히 가세요!");
 
   const handleLogout = async () => {
-    const response = authApis.logout();
-    // router.push("/");
-    //
+    const response = await authApis.logout();
+    router.push("/login");
+
     activateSnackbar();
-    console.log("logoutt", response);
   };
 
   useEffect(() => {
