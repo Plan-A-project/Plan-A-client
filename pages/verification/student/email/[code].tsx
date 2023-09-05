@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { isCertificatedState } from "@/state/atoms/auth/loginAtom";
 
 import { useRouter } from "next/router";
 
@@ -14,14 +16,15 @@ const VerifyCode = () => {
     query: { code },
   } = useRouter();
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] =
+    useRecoilState(isCertificatedState);
 
   const handleConfirm = async () => {
     const response = await certificationApis.verifyEmailCode(code);
     console.log("certif", response);
     if (response.ok) {
-      localStorage.setItem("certComplt", "true");
-      localStorage.setItem("certComplt2", "true");
-      router.push("/");
+      setIsAuthenticated(true);
+      alert("원래 창으로 돌아가주세요!");
     }
   };
 

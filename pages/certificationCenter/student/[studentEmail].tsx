@@ -1,8 +1,11 @@
 import { Box, Stack } from "@chakra-ui/layout";
 import { Button, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useRecoilValue } from "recoil";
+import { isCertificatedState } from "@/state/atoms/auth/loginAtom";
 
 import { AppContainer, Header } from "@/components/common";
+import { useEffect } from "react";
 
 const CheckEmail = () => {
   const router = useRouter();
@@ -13,6 +16,13 @@ const CheckEmail = () => {
   const {
     query: { studentEmail },
   } = useRouter();
+  const isCertificate = useRecoilValue(isCertificatedState);
+  useEffect(() => {
+    if (isCertificate) {
+      router.push("/");
+    }
+  }, [isCertificate]);
+
   return (
     <AppContainer>
       <Header back leftTitle title="인증센터" />

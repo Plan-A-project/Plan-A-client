@@ -9,27 +9,11 @@ import SearchModal from "@/components/common/SearchModal";
 import IconForward from "@/components/icons/IconForward";
 import IconNotice from "@/components/icons/IconNotice";
 import Navbar from "@/components/layout/Navbar";
-import { testAutocompleteFunction, wait } from "@/utils/utils";
+import { testAutocompleteFunction, searchFunctionFactory } from "@/utils/utils";
 
 function BoardMain() {
   const router = useRouter();
-
-  const testSearchFunction = async (keyword: string) => {
-    await wait(1000);
-    const returnArray = [];
-    const tmpItem = {
-      id: 1,
-      title: `제목 ${keyword}`,
-      description: "본문",
-      comments: 24,
-      likes: 3,
-      date: "2022-12-12",
-    };
-    returnArray.push({ ...tmpItem, id: 1, leftTag: "채용" });
-    returnArray.push({ ...tmpItem, id: 2, leftTag: "대외활동" });
-    returnArray.push({ ...tmpItem, id: 3, leftTag: "동아리" });
-    return returnArray;
-  };
+  const testSearchFunction = searchFunctionFactory("익명게시판");
 
   return (
     <div>

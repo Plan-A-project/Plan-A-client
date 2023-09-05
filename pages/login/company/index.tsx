@@ -3,17 +3,14 @@ import { useState, ChangeEvent } from "react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Stack, Button, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useSetRecoilState } from "recoil";
 
 import authApis from "@/api/authentication";
 import { AppContainer, Header } from "@/components/common";
 import UserInput from "@/components/login/userInput";
-import { isLoggedInState } from "@/state/atoms/auth/loginAtom";
 
 const Login = () => {
   const [hasError, setHasError] = useState(false);
   const router = useRouter();
-  const setLoggedIn = useSetRecoilState(isLoggedInState);
   const [inputValues, setInputValues] = useState({
     email: "",
     password: "",
@@ -58,11 +55,6 @@ const Login = () => {
         setHasError(false);
         if (response.data) {
           router.push("/");
-          setLoggedIn(true);
-          localStorage.setItem(
-            "accessToken",
-            response.data.headers["access-token"],
-          );
         }
       }
     }

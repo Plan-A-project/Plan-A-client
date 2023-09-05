@@ -20,7 +20,6 @@ import { BeforeLogin } from "@/components/myPage";
 
 import ProfileBasic from "@/components/icons/ProfileBasic";
 import CustomTag from "../components/CustomTag";
-import DarkModeButton from "../components/DarkModeButton";
 import authApis from "@/api/authentication";
 import useSnackbar from "@/hooks/useSnackbar";
 import { AppContainer } from "@/components/common";
