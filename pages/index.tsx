@@ -86,18 +86,32 @@ export default function Main() {
       }
     }
     fetchCertification();
+
     const isFirstCertificate = localStorage.getItem("isFirstCertif");
+
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     if (isLoggedIn) {
       setAlarmContent(`${isLoggedIn}님! 인플리에 오신걸 환영합니다!`);
       activateSnackbar();
       localStorage.removeItem("isLoggedIn");
     }
+
     if (isFirstCertificate) {
       setAlarmContent("인증이 완료되었어요!");
       localStorage.removeItem("isFirstCertif");
     }
+
   }, []);
+
+  useEffect(() => {
+    async function fetchCertificate() {
+      if (isAuthenticated) {
+        setAlarmContent("인증이 완료되었어요!");
+        setIsAuthenticated(false);
+      }
+    }
+    fetchCertificate();
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const fetchBoards = async () => {
