@@ -100,17 +100,7 @@ const StudentCertification = () => {
             <Stack>
               <Stack mb={"48px"} spacing={"12px"} mt={"24px"}>
                 <Text textStyle={"subtitle2"}>인증방법</Text>
-                <Text
-                  onClick={() => {
-                    async function fetchEmail() {
-                      const response = await certificationApis.verifyEmailCode(
-                        "f9b9fe1d-19a2-458d-a4e5-896c6559fa7a",
-                      );
-                    }
-                    fetchEmail();
-                  }}
-                  textStyle={"body1"}
-                >
+                <Text textStyle={"body1"}>
                   학교 이메일 계정을 입력해주세요.
                 </Text>
               </Stack>

@@ -20,7 +20,7 @@ function useBoardList({
   useEffect(() => {
     (async function () {
       const { data } = await axios.get(
-        `https://api.infli.co/boards/${boardId}/posts`,
+        `${process.env.NEXT_PUBLIC_API_URL}boards/${boardId}/posts`,
         {
           params: {
             type,
