@@ -9,7 +9,6 @@ import { useEffect } from "react";
 
 import certificationApis from "@/api/certification";
 
-
 const CheckEmail = () => {
   const router = useRouter();
   const {
@@ -17,7 +16,6 @@ const CheckEmail = () => {
   } = useRouter();
   const isCertificate = useRecoilValue(isCertificatedState);
   useEffect(() => {
-
     async function fetchCertification() {
       const response = await certificationApis.getVerificationInfo();
       console.log("verifs", response.data.status);
