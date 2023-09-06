@@ -1,7 +1,9 @@
 import { useState, ChangeEvent } from "react";
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Stack, Button, Text, Box } from "@chakra-ui/react";
+
+import { Stack, Button, Text, Flex, Box } from "@chakra-ui/react";
+
 import { useRouter } from "next/router";
 
 import authApis from "@/api/authentication";
@@ -106,10 +108,16 @@ const Login = () => {
               direction={"row"}
               justify={"space-between"}
               align={"center"}
-              px={"12px"}
+              paddingX={"12px"}
+              px={4}
             >
               <Text textStyle={"body3"}>계정이 없다면</Text>
-              <Flex fontSize={"16px"} padding={0}>
+              <Flex
+                fontSize={"16px"}
+                padding={0}
+                _hover={{ bg: "transparent" }}
+                backgroundColor={"transparent"}
+              >
                 <Text
                   onClick={() => router.push("/signup")}
                   textStyle={"subtitle1"}
