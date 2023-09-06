@@ -98,7 +98,7 @@ const Login = () => {
             >
               로그인하기
             </Button>
-            <Box mt={20}>
+            <Box mx={"auto"} mt={20} onClick={() => router.push("/signup")}>
               <SignUpIcon />
             </Box>
             {/* <Stack
