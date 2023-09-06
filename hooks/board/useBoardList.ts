@@ -52,7 +52,6 @@ function useBoardList({
       setBoardList(newBoardList);
     })();
   }, [type, order, boardId, page]);
-  console.log("121212", boardList);
   return boardList;
 }
 

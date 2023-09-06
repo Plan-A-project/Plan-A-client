@@ -15,7 +15,6 @@ function Anonymous() {
   const router = useRouter();
   const handlePost = async () => {
     const response = await postApis.checkAgree();
-    console.log(222, response);
     if (response.data?.data) {
       router.push(`/board/form?boardId=4&postType=NORMAL`);
     } else {

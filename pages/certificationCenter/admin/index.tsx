@@ -13,12 +13,10 @@ const Admin = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await adminApis.getCertificateStudents();
-      console.log(response);
       setStudentList(response.data?.data.studentVerifications);
 
       const response2 = await adminApis.getCertificateCompany();
       setCompanyList(response2.data?.data.studentVerifications);
-      console.log(response2);
       localStorage.setItem("certComplt", "true");
       localStorage.setItem("certComplt2", "true");
     };

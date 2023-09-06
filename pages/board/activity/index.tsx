@@ -26,7 +26,6 @@ function ActivityMain() {
     vAlign: "top", // ref 보다 위에 정렬
     onMenuClick: menu => {
       // menu = 인덱스 값 0 ~ 2
-      console.log(menu);
       menu
         ? router.push("/board/form?boardId=2&postType=RECRUITMENT")
         : router.push("/board/form?boardId=2&postType=NORMAL");

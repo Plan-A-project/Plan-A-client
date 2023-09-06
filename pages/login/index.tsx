@@ -1,13 +1,13 @@
 import { useState, ChangeEvent } from "react";
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Stack, Button, Text, Flex } from "@chakra-ui/react";
+import { Stack, Button, Text, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import authApis from "@/api/authentication";
 import { AppContainer, Header } from "@/components/common";
 import UserInput from "@/components/login/userInput";
-
+import SignUpIcon from "@/components/icons/SignUp";
 const Login = () => {
   const [hasError, setHasError] = useState(false);
   const router = useRouter();
@@ -55,7 +55,6 @@ const Login = () => {
       } else {
         setHasError(false);
         if (response.data) {
-          console.log("datad", response);
           localStorage.setItem("isLoggedIn", response.data.data.nickname);
           router.push("./");
         }
@@ -97,24 +96,20 @@ const Login = () => {
             >
               로그인하기
             </Button>
-
-            <Stack
+            <Box mt={20}>
+              <SignUpIcon />
+            </Box>
+            {/* <Stack
               bg={"background2"}
               height={"72px"}
               borderRadius={"16px"}
               direction={"row"}
               justify={"space-between"}
               align={"center"}
-              paddingX={"12px"}
-              px={4}
+              px={"12px"}
             >
               <Text textStyle={"body3"}>계정이 없다면</Text>
-              <Flex
-                fontSize={"16px"}
-                padding={0}
-                _hover={{ bg: "transparent" }}
-                backgroundColor={"transparent"}
-              >
+              <Flex fontSize={"16px"} padding={0}>
                 <Text
                   onClick={() => router.push("/signup")}
                   textStyle={"subtitle1"}
@@ -128,7 +123,7 @@ const Login = () => {
                   width={"fit-content"}
                 />
               </Flex>
-            </Stack>
+            </Stack> */}
           </Stack>
         </Stack>
       </form>

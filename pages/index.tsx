@@ -1,6 +1,6 @@
 import { Key, useEffect, useState } from "react";
 
-import { Box } from "@chakra-ui/react";
+import { Box, Image, Link } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { isCertificatedState } from "@/state/atoms/auth/loginAtom";
@@ -77,7 +77,6 @@ export default function Main() {
   useEffect(() => {
     async function fetchCertification() {
       const response = await certificationApis.getVerificationInfo();
-      console.log("verifs", response.data.status);
 
       if (response.data.status !== "SUCCESS") {
         setIsCertificate(false);
@@ -150,9 +149,9 @@ export default function Main() {
         <HyperLinks />
         <Box mt={"48px"} />
         <Carousel>
-          <img alt="banner" src="/assets/banner.png" />
-          <img alt="banner" src="/assets/banner.png" />
-          <img alt="banner" src="/assets/banner.png" />
+          <Link href="https://www.instagram.com/infli_official/">
+            <Image alt="banner" src="/assets/infli_instagram.jpg" />
+          </Link>
         </Carousel>
         <Box mb={"48px"} />
         <TextBanner />

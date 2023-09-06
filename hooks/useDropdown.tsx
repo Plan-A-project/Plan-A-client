@@ -92,7 +92,6 @@ export function useDropdown({
     if (e.currentTarget !== e.target) {
       return;
     }
-    console.log("hi");
     toggle(false);
   }
 

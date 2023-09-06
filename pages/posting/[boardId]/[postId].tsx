@@ -25,7 +25,7 @@ function BoardDetail() {
   const [parentCommentId, setParentCommentId] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("해당 게시글이 삭제되었습니다");
 
@@ -76,7 +76,6 @@ function BoardDetail() {
       setLoading(true);
 
       const comments = await commentApis.getComment(postId, page);
-      console.log("commentss", comments.data?.data.comments);
       if (comments.data) {
         setCommentList((prevComments: any) => [
           ...prevComments,
@@ -96,12 +95,14 @@ function BoardDetail() {
 
   // 예시글: http://localhost:3000/posting/4/18
   async function readPost() {
+    setIsLoading(true);
     const res = await postApis.readPost({ postId });
-    console.log("rrss", res);
     if (res.ok) {
       setData(res.data!.data);
+      setIsLoading(false);
     } else if (res.code === 401) {
       router.push("/login");
+      setIsLoading(false);
     }
   }
 

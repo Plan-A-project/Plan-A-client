@@ -26,7 +26,6 @@ type TableProps = {
 const TableContent: React.FC<TableProps> = ({ data, type = "학생" }) => {
   const handleCertificate = async (userId: number) => {
     const response = await adminApis.acceptMember(userId);
-    console.log(response);
   };
   return (
     <TableContainer>

@@ -87,7 +87,6 @@ const BoardComment: React.FC<BoardCommentProps> = ({
   async function handleLike() {
     if (!pressedLikeOnThisComment) {
       const res = await likesApis.commentLike(commentId);
-      console.log("likes", res);
     }
     if (pressedLikeOnThisComment) {
       const res = await likesApis.cancelCommentLike(commentId);

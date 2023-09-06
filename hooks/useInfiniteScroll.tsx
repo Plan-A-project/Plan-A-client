@@ -8,7 +8,6 @@ const useInfiniteScroll = (api: any, path: any) => {
   useEffect(() => {
     const loadData = async () => {
       const response = await api(page);
-      console.log(332, response);
       setData((prevData: any) => [...prevData, ...response.data.data[path]]);
     };
 

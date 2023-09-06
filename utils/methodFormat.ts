@@ -9,6 +9,7 @@ export const methodFormat = <T>(callback: Callback<T>) => {
     data?: T;
     message?: string;
     code?: any;
+    response?: any;
   }> => {
     try {
       const data = await callback(...args);
@@ -18,6 +19,7 @@ export const methodFormat = <T>(callback: Callback<T>) => {
       };
     } catch (error: any) {
       return {
+        response: error.response,
         ok: false,
         message: error.message,
         code: error.response.status || "",
