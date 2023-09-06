@@ -24,7 +24,7 @@ type BoardItemContentProps = {
   description?: string;
   image?: string;
   imageAlt?: string;
-  dday?: number;
+  dday?: any;
   bookmark?: boolean;
 };
 
@@ -133,7 +133,7 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
         <Flex gap={2} align={"end"}>
           {dday !== undefined ? (
             <Heading color={"primary.500"} size={"xs"}>
-              D-{dday}
+              {dday}
             </Heading>
           ) : null}
           <BottomText mr={"auto"}>{date}</BottomText>

@@ -49,7 +49,7 @@ function useBoardList({
         comments: el?.commentCount,
         createdAt: el.createdAt,
       }));
-      setBoardList(newBoardList);
+      setBoardList(data.posts);
     })();
   }, [type, order, boardId, page]);
   return boardList;
