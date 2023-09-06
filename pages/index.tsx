@@ -132,19 +132,16 @@ export default function Main() {
     <Layout>
       {isActivated && <Snackbar />}
       <Box bg={"#F7F8FA"} paddingX="4.2%">
+        {!isCertificate && <Box height={6} />}
         {!isCertificate && (
-          <Banner
-            mt={4}
-            alert
-            onClick={() => router.push("/certificationCenter")}
-          >
+          <Banner alert onClick={() => router.push("/certificationCenter")}>
             <Banner.AlertBanner
               notice={`지금은 일부 열람만 가능해요\n모든 기능을 사용하려면`}
               text="학생 인증하기"
             />
           </Banner>
         )}
-        <Box height={"10px"} />
+        <Box height={"5px"} />
         <MainBanner />
         <Box marginTop="-55" zIndex="99">
           <DeviderWave />

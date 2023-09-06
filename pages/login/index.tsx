@@ -1,9 +1,8 @@
 import { useState, ChangeEvent } from "react";
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Stack, Button, Text } from "@chakra-ui/react";
+import { Stack, Button, Text, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useSetRecoilState } from "recoil";
 
 import authApis from "@/api/authentication";
 import { AppContainer, Header } from "@/components/common";
@@ -107,12 +106,11 @@ const Login = () => {
               justify={"space-between"}
               align={"center"}
               paddingX={"12px"}
+              px={4}
             >
               <Text textStyle={"body3"}>계정이 없다면</Text>
-              <Button
+              <Flex
                 fontSize={"16px"}
-                width={"fit-content"}
-                height={"fit-content"}
                 padding={0}
                 _hover={{ bg: "transparent" }}
                 backgroundColor={"transparent"}
@@ -129,7 +127,7 @@ const Login = () => {
                   boxSize={6}
                   width={"fit-content"}
                 />
-              </Button>
+              </Flex>
             </Stack>
           </Stack>
         </Stack>
