@@ -9,7 +9,8 @@ const validateInput = (value: string, formType: string) => {
   let isValidate = true;
   const passwordRegex =
     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,20}$/;
-  const usernameRegex = /^[\p{Script=Hangul}]{2,6}$/u;
+  const usernameRegex = /^[\uAC00-\uD7A3]{2,6}$/;
+
   const emailRegex = /^[A-Za-z0-9]{6,20}$/;
   const nicknameRegex = /^[\p{Script=Hangul}\p{Script=Latin}\d]{2,8}$/u;
   const errorMessage: any = {

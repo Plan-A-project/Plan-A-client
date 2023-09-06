@@ -167,9 +167,7 @@ function BoardDetail() {
                   <>
                     <BoardComment
                       handleReply={() => handleReply(el.id)}
-                      username={
-                        el.postWriter ? "작성자" : `익명${el.identifier}`
-                      }
+                      username={el.postWriter ? "작성자" : `익명`}
                       myComment={el.myComment}
                       content={el.content}
                       createdAt={el.createdAt}
