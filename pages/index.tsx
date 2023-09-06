@@ -98,18 +98,7 @@ export default function Main() {
       setAlarmContent("인증이 완료되었어요!");
       localStorage.removeItem("isFirstCertif");
     }
-
   }, []);
-
-  useEffect(() => {
-    async function fetchCertificate() {
-      if (isAuthenticated) {
-        setAlarmContent("인증이 완료되었어요!");
-        setIsAuthenticated(false);
-      }
-    }
-    fetchCertificate();
-  }, [isAuthenticated]);
 
   useEffect(() => {
     const fetchBoards = async () => {
