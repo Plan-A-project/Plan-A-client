@@ -13,7 +13,6 @@ const InitialNotice = () => {
   const router = useRouter();
   const handleAgree = async () => {
     const response = await postApis.agreePolicy();
-    console.log(response);
     router.push(`/board/form?boardId=${boardId}&postType=${postType}`);
   };
   return (

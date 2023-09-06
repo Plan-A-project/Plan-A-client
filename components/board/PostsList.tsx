@@ -99,7 +99,6 @@ const PostsList = ({
       ) : (
         <BoardStack>
           {boardList.map(el => {
-            console.log("ele", el);
             const date = formatDate(el.createdAt);
             return (
               <FreeBoardItem
@@ -116,7 +115,7 @@ const PostsList = ({
         </BoardStack>
       )}
       {!isFinish ? (
-        <Box w={"full"} textAlign={"center"}>
+        <Box w={"full"} textAlign={"center"} my={4}>
           <Text textStyle={"subtitle2"} onClick={getMorePosts}>
             더보기
           </Text>

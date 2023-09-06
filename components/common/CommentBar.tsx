@@ -82,7 +82,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
           content: text,
         });
       }
-      location.reload();
+      // location.reload();
     }
 
     function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
@@ -110,7 +110,6 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
             textStyle="body3"
             onClick={() => {
               handleParentId(0);
-              console.log("1313", parentCommentId);
             }}
             className={parentCommentId ? "active" : ""}
             zIndex={998}

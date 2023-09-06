@@ -74,14 +74,6 @@ const SignUp = () => {
     Object.values(inputValues).every(value => value !== "");
 
   const handleSignUp = async () => {
-    console.log(2323, {
-      username: inputValues.email,
-      realName: inputValues.username,
-      password: inputValues.password,
-      passwordConfirm: inputValues.passwordConfirm,
-      nickname: inputValues.nickname,
-      universityId: 0,
-    });
     if (isReadyToSignUp) {
       const response = await authApis.studentSignup({
         username: inputValues.email,
@@ -96,7 +88,6 @@ const SignUp = () => {
           username: inputValues.email,
           password: inputValues.password,
         });
-        console.log(43, response);
         if (response.data) {
           router.push("/signup/complete");
         } else {

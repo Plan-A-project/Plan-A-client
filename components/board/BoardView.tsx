@@ -41,7 +41,6 @@ const BoardView: React.FC<BoardViewProps> = ({
   async function handleLike() {
     if (!pressedLike) {
       const res = await likesApis.postLike(postId);
-      console.log("likes", res);
     }
     if (pressedLike) {
       const res = await likesApis.cancelPostLike(postId);

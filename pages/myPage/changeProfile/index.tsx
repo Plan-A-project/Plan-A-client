@@ -67,7 +67,6 @@ const ChangeProfile = () => {
         const response = await profileApis.changeProfileImage(formData);
         if (response.ok) {
           alert("프로필 사진 변경이 완료되었습니다!");
-          console.log("imagee", response);
         } else {
           alert("오류가 발생했습니다. 다시 시도해주세요.");
         }

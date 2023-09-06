@@ -21,7 +21,6 @@ const VerifyCode = () => {
 
   const handleConfirm = async () => {
     const response = await certificationApis.verifyEmailCode(code);
-    console.log("certif", response);
     if (response.ok) {
       setIsAuthenticated(true);
       alert("원래 창으로 돌아가주세요!");

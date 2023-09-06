@@ -53,7 +53,6 @@ const Company = () => {
       if (response.ok) {
         router.push("/certificationCenter/requestComplete");
       }
-      console.log("fileAttach", response);
     }
   };
   return (

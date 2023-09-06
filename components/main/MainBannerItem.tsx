@@ -1,6 +1,7 @@
 import { Box, Text, Flex, Divider } from "@chakra-ui/react";
 
 import IconNotice from "../icons/IconNotice";
+import { useRouter } from "next/router";
 
 type MainBannerItemProps = {
   currentIndex: number;
@@ -13,6 +14,7 @@ const MainBannerItem: React.FC<MainBannerItemProps> = ({
   totalIndex,
   content,
 }) => {
+  const router = useRouter();
   return (
     <Box
       h="40"
@@ -22,6 +24,11 @@ const MainBannerItem: React.FC<MainBannerItemProps> = ({
       p="3"
       borderRadius="24px"
       w={"308px"}
+      onClick={() => {
+        if (currentIndex === 1) {
+          router.push("/posting/5/9"); // 공지글 작성하고 아이디 확인해서 수동으로 연결
+        }
+      }}
     >
       <Flex flexDir="row" gap="2" alignItems="center" justify={"space-between"}>
         <Flex align={"center"}>

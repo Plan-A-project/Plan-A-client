@@ -23,7 +23,6 @@ function RecruitMain() {
     vAlign: "top", // ref 보다 위에 정렬
     onMenuClick: menu => {
       // menu = 인덱스 값 0 ~ 2
-      console.log(menu);
       menu
         ? router.push("/board/form?boardId=1&postType=RECRUITMENT")
         : router.push("/board/form?boardId=1&postType=NORMAL");
@@ -46,7 +45,7 @@ function RecruitMain() {
           />
         }
       />
-      <Carousel>
+      {/* <Carousel>
         <img
           style={{ padding: "0 8px" }}
           alt="banner"
@@ -62,7 +61,7 @@ function RecruitMain() {
           alt="banner"
           src="/assets/banner.png"
         />
-      </Carousel>
+      </Carousel> */}
       <FreeBoardTab
         px={4}
         leftLabel="전체"

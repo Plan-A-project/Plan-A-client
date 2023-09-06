@@ -18,7 +18,6 @@ const CheckEmail = () => {
   useEffect(() => {
     async function fetchCertification() {
       const response = await certificationApis.getVerificationInfo();
-      console.log("verifs", response.data.status);
 
       if (response.data.status === "SUCCESS") {
         localStorage.setItem("isFirstCertif", "true");
@@ -26,7 +25,6 @@ const CheckEmail = () => {
       }
     }
     fetchCertification();
-    console.log(323232, isCertificate);
     const intervalId = setInterval(fetchCertification, 2000); // 2초마다 checkCertificate 함수 호출
 
     return () => {

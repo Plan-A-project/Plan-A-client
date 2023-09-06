@@ -214,6 +214,7 @@ const Carousel: React.FC<CarouselProps> = ({
       onMouseMove={handleSlideMove}
       onMouseUp={handleSlideEnd}
       onClick={handleClick}
+      borderRadius={"16px"}
     >
       <Box
         display="flex"

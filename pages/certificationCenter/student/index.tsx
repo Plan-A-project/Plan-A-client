@@ -61,12 +61,12 @@ const StudentCertification = () => {
       const response = await certificationApis.sendEmailLink({
         universityEmail: userEmail,
       });
-      console.log(1131, response);
       if (response.ok) {
         router.push(`/certificationCenter/student/${userEmail}`);
       }
+
       if (!response.ok) {
-        alert("이미 사용 중인 메일입니다. 다른 메일을 사용해 주세요.");
+        alert(`${response.response.data}`);
       }
     }
     if (!selectedTabNumber) {
@@ -75,7 +75,6 @@ const StudentCertification = () => {
         formData.append("file", selectedFile);
         const response =
           await certificationApis.postFileToCertificate(formData);
-        console.log("fileAttach", response);
         if (response.ok) {
           router.push("/certificationCenter/requestComplete");
         }
@@ -107,7 +106,6 @@ const StudentCertification = () => {
                       const response = await certificationApis.verifyEmailCode(
                         "f9b9fe1d-19a2-458d-a4e5-896c6559fa7a",
                       );
-                      console.log("certiff", response);
                     }
                     fetchEmail();
                   }}

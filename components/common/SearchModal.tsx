@@ -44,7 +44,6 @@ function SearchModal({ autocompleteFunction, searchFunction }: Props) {
     setInputValue(keyword);
     setLoading(true);
     const data = await searchFunction(keyword, page);
-    console.log("ddtt", data);
     setSearchData(data);
     setLoading(false);
   };

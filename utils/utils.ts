@@ -17,7 +17,6 @@ export const searchFunctionFactory = (type: string) => {
     const returnArray: BoardItemType[] = [];
     // 검색 api 연결
     const response = await searchApis.searchPosts(keyword, page);
-    console.log("search", response);
     const tmpItem: BoardItemType = {
       id: 1,
       views: 123,

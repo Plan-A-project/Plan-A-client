@@ -40,7 +40,6 @@ const MyPage = () => {
   useEffect(() => {
     const fetch = async () => {
       const response = await profileApis.getProfile();
-      console.log(1212, response);
       if (response.data && response.ok) {
         setUserInfo(response.data.data);
         setIsLoggedIn(true);
