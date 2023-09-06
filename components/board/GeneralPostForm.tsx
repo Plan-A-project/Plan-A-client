@@ -30,13 +30,20 @@ export default function GeneralPostForm({
     event: React.SyntheticEvent<HTMLDivElement>,
   ) {
     const _content = event?.currentTarget.innerHTML;
-    if (content) {
-      event.currentTarget.innerHTML = content;
-    } else if (content || _content === _placeholder) {
+    if (
+      event.type === "focus" &&
+      (_content === _placeholder || _content === "")
+    ) {
       event.currentTarget.innerHTML = "";
-    } else if (content || _content === "") {
+    } else if (
+      event.type === "blur" &&
+      (_content === "" || _content === _placeholder)
+    ) {
       event.currentTarget.innerHTML = _placeholder;
     }
+    // } else if (content || _content === "") {
+    //   event.currentTarget.innerHTML = _placeholder;
+    // }
   }
 
   // 포스팅 내용 갱신
@@ -82,11 +89,11 @@ export default function GeneralPostForm({
       : setBtnActive(false);
   }, [postContent]);
 
-  useEffect(() => {
-    if (content) {
-      editableDivRef.current!.innerHTML = content;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (content) {
+  //     editableDivRef.current!.innerHTML = content;
+  //   }
+  // }, []);
 
   return (
     <Box>
@@ -95,7 +102,7 @@ export default function GeneralPostForm({
         variant={"unstyled"}
         h={9}
         mt={3}
-        value={title}
+        // value={title}
         placeholder={"제목을 입력하세요."}
         onChange={setTitle}
       />

@@ -55,7 +55,7 @@ const BoardComment: React.FC<BoardCommentProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isActivated, activateSnackbar, Snackbar] =
-    useSnackbar("해당 게시글이 삭제되었습니다");
+    useSnackbar("해당 댓글이 삭제되었습니다");
   const [isPressLike, setIsPressLike] = useState<any>(false);
   const router = useRouter();
   const [dropdown, toggle] = useDropdown({

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 

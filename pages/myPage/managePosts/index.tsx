@@ -86,12 +86,7 @@ const ManagePosts = () => {
                       ? 5
                       : "";
                   return (
-                    <Box
-                      onClick={() =>
-                        router.push(`/posting/${boardId}/${el.postId}`)
-                      }
-                      key={el}
-                    >
+                    <Box key={el}>
                       <MyComment info={el} />
                     </Box>
                   );
