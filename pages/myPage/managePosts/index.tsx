@@ -26,8 +26,6 @@ const ManagePosts = () => {
   useEffect(() => {
     setMyPost(myPosts);
     setMyComment(myComments);
-    console.log("cctt", myComments);
-    console.log("cctts", myPosts);
   }, [myPosts, myComments]);
   return (
     <AppContainer>
@@ -47,7 +45,6 @@ const ManagePosts = () => {
             <Stack divider={<StackDivider borderColor="gray.200" />}>
               {myPost.length &&
                 myPost.map((el: any) => {
-                  console.log(1131, el);
                   const boardId =
                     el.boardName === "익명"
                       ? 4

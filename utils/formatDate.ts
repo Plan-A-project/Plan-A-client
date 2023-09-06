@@ -18,5 +18,3 @@ function formatDate(dateString: string) {
 }
 export default formatDate;
 // Test
-console.log(formatDate("2023-08-11T01:36:54.403929")); // Should display the current time if today is 2023-08-11
-console.log(formatDate("2023-07-23T01:36:54.403929")); // Should display 7/23

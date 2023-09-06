@@ -74,7 +74,6 @@ const CompanySignUp = () => {
         universityId: 1,
         companyName: inputValues.nickname,
       });
-      console.log(response);
       if (response.ok) {
         const response = await authApis.login({
           username: inputValues.email,
