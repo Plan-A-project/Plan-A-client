@@ -31,6 +31,7 @@ function Anonymous() {
     <AppContainer>
       <Navbar currentTab="mainBoard" />
       <Header
+        mt={4}
         leftTitle
         title="익명게시판"
         rightNode={

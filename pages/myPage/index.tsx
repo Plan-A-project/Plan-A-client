@@ -54,7 +54,9 @@ const MyPage = () => {
       {isActivated && <Snackbar />}
       <AppContainer>
         <Navbar currentTab="myProfile" />
-        <Text textStyle={"headline1"}>내 정보</Text>
+        <Text mt={4} textStyle={"headline1"}>
+          내 정보
+        </Text>
         <Stack spacing={47} mt={"14.5px"} mb={"24px"}>
           <Stack spacing={10.5}>
             <Flex justify={"space-between"}>
