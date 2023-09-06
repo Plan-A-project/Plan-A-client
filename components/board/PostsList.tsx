@@ -10,6 +10,8 @@ import formatDate from "@/utils/formatDate";
 
 import BoardStack from "./BoardStack";
 import FreeBoardItem from "./FreeBoardItem";
+import checkDday from "@/utils/checkDday";
+import formatDateRange from "@/utils/formatDateRange";
 
 type OrderType = "recent" | "popular";
 
@@ -66,7 +68,7 @@ const PostsList = ({
     if (isFinish) return;
     setPage(p => p + 1);
   };
-
+  console.log("bbb", boardList);
   return (
     <div>
       <div>
@@ -99,16 +101,23 @@ const PostsList = ({
       ) : (
         <BoardStack>
           {boardList.map(el => {
-            const date = formatDate(el.createdAt);
+            const date = el.recruitmentStartDate
+              ? formatDateRange(el.recruitmentStartDate, el.recruitmentEndDate)
+              : formatDate(el.createdAt);
             return (
               <FreeBoardItem
-                key={el.comments}
-                comments={el.comments}
-                likes={el.likes}
+                key={el.commentCount}
+                comments={el.commentCount}
+                likes={el.likeCount}
                 date={date}
-                views={el.views}
+                views={el.viewCount}
                 title={el.title}
-                onClick={() => router.push(`/posting/${boardId}/${el.id}`)}
+                dday={
+                  !el.recruitmentStartDate
+                    ? null
+                    : checkDday(el.recruitmentStartDate, el.recruitmentEndDate)
+                }
+                onClick={() => router.push(`/posting/${boardId}/${el.postId}`)}
               />
             );
           })}

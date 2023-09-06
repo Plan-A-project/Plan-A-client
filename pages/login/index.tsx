@@ -2,7 +2,7 @@ import { useState, ChangeEvent } from "react";
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
-import { Stack, Button, Text, Flex } from "@chakra-ui/react";
+import { Stack, Button, Text, Flex, Box } from "@chakra-ui/react";
 
 import { useRouter } from "next/router";
 
