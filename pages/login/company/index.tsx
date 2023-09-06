@@ -80,7 +80,7 @@ const Login = () => {
               lineHeight={"14px"}
               color={"#F90B66"}
             >
-              이메일 주소나 비밀번호가 올바르지 않습니다.
+              아이디나 비밀번호가 올바르지 않습니다.
             </Text>
           )}
           <Stack paddingTop={"129px"} spacing={"16px"}>
