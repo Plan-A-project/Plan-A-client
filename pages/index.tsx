@@ -23,7 +23,6 @@ import useDrawer from "@/hooks/useDrawer";
 import useSnackbar from "@/hooks/useSnackbar";
 import formatDate from "@/utils/formatDate";
 import certificationApis from "@/api/certification";
-import commentApis from "@/api/comment";
 
 const props = {
   header: "홈 설정",
@@ -71,9 +70,12 @@ export default function Main() {
   ];
   const [boardList, setBoardList] = useState<any>([]);
   const [alarmContent, setAlarmContent] = useState<string>("");
-  const [isActivated, activateSnackbar, Snackbar] = useSnackbar(alarmContent);
+  const [alarmDuration, setAlarmDuration] = useState<number>(3000);
+  const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
+    alarmContent,
+    alarmDuration,
+  );
   const [isCertificate, setIsCertificate] = useState<boolean>(true);
-
   useEffect(() => {
     async function fetchCertification() {
       const response = await certificationApis.getVerificationInfo();
@@ -95,6 +97,7 @@ export default function Main() {
 
     if (isFirstCertificate) {
       setAlarmContent("인증이 완료되었어요!");
+      setAlarmDuration(7000);
       localStorage.removeItem("isFirstCertif");
     }
   }, []);

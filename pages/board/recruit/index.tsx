@@ -11,6 +11,8 @@ import SearchModal from "@/components/common/SearchModal";
 import Navbar from "@/components/layout/Navbar";
 import { useDropdown } from "@/hooks/useDropdown";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
+import { Image } from "@chakra-ui/react";
+
 function RecruitMain() {
   const router = useRouter();
   const testSearchFunction = searchFunctionFactory("채용");
@@ -45,23 +47,9 @@ function RecruitMain() {
           />
         }
       />
-      {/* <Carousel>
-        <img
-          style={{ padding: "0 8px" }}
-          alt="banner"
-          src="/assets/banner.png"
-        />
-        <img
-          style={{ padding: "0 8px" }}
-          alt="banner"
-          src="/assets/banner.png"
-        />
-        <img
-          style={{ padding: "0 8px" }}
-          alt="banner"
-          src="/assets/banner.png"
-        />
-      </Carousel> */}
+      <Carousel>
+        <Image alt="banner" src="/assets/infli_banner.jpg" />
+      </Carousel>
       <FreeBoardTab
         px={4}
         leftLabel="전체"

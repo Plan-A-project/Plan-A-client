@@ -82,7 +82,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
           content: text,
         });
       }
-      // location.reload();
+      location.reload();
     }
 
     function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
