@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 
-import { Badge, Box, Text } from "@chakra-ui/layout";
+import { Badge, Box, Center, Text } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
 
 import useBoardList from "@/hooks/board/useBoardList";
@@ -12,6 +12,7 @@ import BoardStack from "./BoardStack";
 import FreeBoardItem from "./FreeBoardItem";
 import checkDday from "@/utils/checkDday";
 import formatDateRange from "@/utils/formatDateRange";
+import { Spinner } from "@chakra-ui/react";
 
 type OrderType = "recent" | "popular";
 
@@ -96,8 +97,10 @@ const PostsList = ({
           인기순
         </Badge>
       </div>
-      {boardList === null ? (
-        "loading..."
+      {boardListResponse === null ? (
+        <Center>
+          <Spinner color="primary.normal" />
+        </Center>
       ) : (
         <BoardStack>
           {boardList.map(el => {
@@ -123,7 +126,7 @@ const PostsList = ({
           })}
         </BoardStack>
       )}
-      {!isFinish ? (
+      {!isFinish && boardListResponse ? (
         <Box w={"full"} textAlign={"center"} my={4}>
           <Text textStyle={"subtitle2"} onClick={getMorePosts}>
             더보기

@@ -89,11 +89,11 @@ export default function GeneralPostForm({
       : setBtnActive(false);
   }, [postContent]);
 
-  // useEffect(() => {
-  //   if (content) {
-  //     editableDivRef.current!.innerHTML = content;
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (content) {
+      editableDivRef.current!.innerHTML = content;
+    }
+  }, []);
 
   return (
     <Box>
@@ -102,7 +102,7 @@ export default function GeneralPostForm({
         variant={"unstyled"}
         h={9}
         mt={3}
-        // value={title}
+        value={title}
         placeholder={"제목을 입력하세요."}
         onChange={setTitle}
       />

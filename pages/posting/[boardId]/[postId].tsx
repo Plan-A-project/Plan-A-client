@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Button } from "@chakra-ui/react";
+import { Button, Center, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import commentApis from "@/api/comment";
@@ -13,6 +13,7 @@ import ThreeDotsIcon from "@/components/icons/ThreeDotsIcon";
 import useDrawer from "@/hooks/useDrawer";
 import { useDropdown } from "@/hooks/useDropdown";
 import useSnackbar from "@/hooks/useSnackbar";
+import MyPost from "@/pages/components/MyPost";
 
 function BoardDetail() {
   const [data, setData] = useState<any>();
@@ -123,7 +124,8 @@ function BoardDetail() {
   const handleReply = (id: number) => {
     setParentCommentId(id);
   };
-
+  console.log("myPost", commentList);
+  console.log("myPost", data);
   return (
     <AppContainer>
       {data ? (
@@ -134,7 +136,7 @@ function BoardDetail() {
           <Header
             back
             rightNode={
-              data.myPost ? (
+              data.myPost || data.admin ? (
                 <Button
                   ref={ref}
                   onClick={() => toggle(true)}
@@ -209,7 +211,11 @@ function BoardDetail() {
         ""
       )}
 
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <Center>
+          <Spinner color="primary.normal" />
+        </Center>
+      )}
     </AppContainer>
   );
 }

@@ -17,11 +17,14 @@ const authApis = {
   companySignup: methodFormat(async data => {
     await client.post(`signup/company`, data);
   }),
-  login: methodFormat(async data => {
-    const response = await client.post(`login`, data, {
-      withCredentials: true,
-    });
-    return response;
+  login: methodFormat(async (data, rememberMe) => {
+    if (rememberMe) {
+      const response = await client.post(`login?remember-me=true`, data);
+      return response;
+    } else {
+      const response = await client.post(`login`, data);
+      return response;
+    }
   }),
   logout: methodFormat(async () => {
     const response = await client.post(`logout`);
