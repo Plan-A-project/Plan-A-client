@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Button } from "@chakra-ui/react";
+import { Button, Center, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import commentApis from "@/api/comment";
@@ -209,7 +209,11 @@ function BoardDetail() {
         ""
       )}
 
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <Center>
+          <Spinner color="primary.normal" />
+        </Center>
+      )}
     </AppContainer>
   );
 }

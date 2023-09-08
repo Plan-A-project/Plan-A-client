@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 
 import { AddIcon } from "@chakra-ui/icons";
-import { Badge } from "@chakra-ui/layout";
+import { Badge, Center } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
 
 import BoardStack from "@/components/board/BoardStack";
@@ -13,6 +13,7 @@ import SearchModal from "@/components/common/SearchModal";
 import Navbar from "@/components/layout/Navbar";
 import { useDropdown } from "@/hooks/useDropdown";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
+import { Spinner } from "@chakra-ui/react";
 
 function ActivityMain() {
   const router = useRouter();
@@ -145,7 +146,9 @@ export const RecruitPosts = () => {
         </Badge>
       </div>
       {loading ? (
-        "loading..."
+        <Center>
+          <Spinner color="primary.normal" />
+        </Center>
       ) : (
         <BoardStack>
           {boardList.map(el => (

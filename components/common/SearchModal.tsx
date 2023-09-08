@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { SearchIcon } from "@chakra-ui/icons";
-import { Flex, List, ListIcon, ListItem } from "@chakra-ui/layout";
+import { Center, Flex, List, ListIcon, ListItem } from "@chakra-ui/layout";
 import {
   Drawer,
   DrawerBody,
@@ -11,6 +11,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -107,7 +108,9 @@ function SearchModal({ autocompleteFunction, searchFunction }: Props) {
             ) : null}
             {!isSearchOpen ? (
               loading ? (
-                "Loading..."
+                <Center>
+                  <Spinner color="primary.normal" />
+                </Center>
               ) : (
                 <BoardStack>
                   {searchData.map(el => (
