@@ -11,7 +11,7 @@ import commentApis from "@/api/comment";
 import { useRouter } from "next/router";
 
 const ManagePosts = () => {
-  const [selectedTabNumber, setSelectedTabNumber] = useState<number>(1);
+  const [selectedTabNumber, setSelectedTabNumber] = useState<number>(0);
   const [myPost, setMyPost] = useState<any>([]);
   const [myComment, setMyComment] = useState<any>([]);
   const router = useRouter();
@@ -23,9 +23,11 @@ const ManagePosts = () => {
     commentApis.getMyComment,
     "comments",
   );
+
   useEffect(() => {
     setMyPost(myPosts);
     setMyComment(myComments);
+    console.log("cctt", myComments);
   }, [myPosts, myComments]);
   return (
     <AppContainer>
@@ -66,7 +68,6 @@ const ManagePosts = () => {
                     </Box>
                   );
                 })}
-              <Box ref={loader2}></Box>
             </Stack>
           </Box>
         )}
@@ -91,10 +92,11 @@ const ManagePosts = () => {
                     </Box>
                   );
                 })}
-              <Box ref={loader}></Box>
             </Stack>
           </Box>
         )}
+        <Box ref={loader}></Box>
+        <Box ref={loader2}></Box>
       </Container>
     </AppContainer>
   );

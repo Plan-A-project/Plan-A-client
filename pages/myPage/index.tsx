@@ -107,34 +107,36 @@ const MyPage = () => {
             ) : (
               <BeforeLogin />
             )}
-            <Stack spacing={25}>
-              {/* <Link
+            {isLoggedIn && (
+              <Stack spacing={25}>
+                {/* <Link
                 as={NextLink}
                 href="/myPage/managePosts"
                 textStyle={"body1"}
                 width={"fit-content"}
                 paddingX={"5px"}
-              >
+                >
                 스크랩 보기
               </Link> */}
-              <Link
-                as={NextLink}
-                href="/myPage/managePosts"
-                textStyle={"body1"}
-                width={"fit-content"}
-                paddingX={"5px"}
-              >
-                게시글 관리
-              </Link>
-              <Text
-                onClick={() => router.push("/certificationCenter")}
-                textStyle={"body1"}
-                width={"fit-content"}
-                paddingX={"5px"}
-              >
-                인증센터
-              </Text>
-            </Stack>
+                <Link
+                  as={NextLink}
+                  href="/myPage/managePosts"
+                  textStyle={"body1"}
+                  width={"fit-content"}
+                  paddingX={"5px"}
+                >
+                  게시글 관리
+                </Link>
+                <Text
+                  onClick={() => router.push("/certificationCenter")}
+                  textStyle={"body1"}
+                  width={"fit-content"}
+                  paddingX={"5px"}
+                >
+                  인증센터
+                </Text>
+              </Stack>
+            )}
           </Stack>
           <Stack spacing={23}>
             <Text textStyle={"headline2"} paddingTop={"10px"}>
