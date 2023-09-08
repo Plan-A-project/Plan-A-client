@@ -1,6 +1,7 @@
 import { useState, ChangeEvent } from "react";
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
+
 import { Stack, Button, Text, Box, Checkbox } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import SignUpIcon from "@/components/icons/SignUp";
