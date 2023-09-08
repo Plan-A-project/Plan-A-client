@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { AddIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
@@ -12,13 +12,24 @@ import Navbar from "@/components/layout/Navbar";
 import { useDropdown } from "@/hooks/useDropdown";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 import { Image } from "@chakra-ui/react";
+import profileApis from "@/api/profile";
 
 function RecruitMain() {
   const router = useRouter();
   const testSearchFunction = searchFunctionFactory("채용");
   const ref = useRef<HTMLButtonElement>(null);
+  const [role, setRole] = useState<string>("");
+
+  useEffect(() => {
+    async function getProfile() {
+      const response = await profileApis.getProfile();
+      setRole(response.data?.data.role);
+    }
+    getProfile();
+  }, []);
   const [dropdown, toggle] = useDropdown({
-    menus: ["일반글 쓰기", "모집글 쓰기"],
+    menus:
+      role === "STUDENT" ? ["일반글 쓰기"] : ["일반글 쓰기", "모집글 쓰기"],
     xGap: -60, // 정렬 위치로 부터 x 거리
     yGap: 10, // 정렬 위치로 부터 y 거리
     hAlign: "left", // ref의 왼쪽에 정렬
