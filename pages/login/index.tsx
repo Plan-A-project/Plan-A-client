@@ -76,53 +76,53 @@ const Login = () => {
 
   return (
     <AppContainer>
-      <Box />
-      <Header back leftTitle title="학생 로그인" />
-      <form>
-        <Stack pt={6}>
-          {loginInputData.map(data => {
-            return (
-              <UserInput
-                key={data.label}
-                {...data}
-                handleChange={handleChange}
-              />
-            );
-          })}
-          {hasError && (
-            <Text
-              fontSize={"12px"}
-              fontWeight={"400"}
-              lineHeight={"14px"}
-              color={"#F90B66"}
-            >
-              아이디나 비밀번호가 올바르지 않습니다.
-            </Text>
-          )}
-          <Stack paddingTop={"110px"} spacing={"16px"}>
-            <Button
-              onClick={handleLogin}
-              textStyle={"subtitle1"}
-              height={"52px"}
-              borderRadius={"16px"}
-              bg={checkFilled ? "primary.500" : "grey.200"}
-              color={checkFilled ? "background1" : "grey.500"}
-            >
-              로그인하기
-            </Button>
-            <Checkbox
-              colorScheme="twitter"
-              defaultChecked
-              textStyle={"body1"}
-              color={"#727272"}
-              onChange={handleCheckStay}
-            >
-              로그인 상태 유지
-            </Checkbox>
-            <Box mx={"auto"} mt={20} onClick={() => router.push("/signup")}>
-              <SignUpIcon />
-            </Box>
-            {/* <Stack
+      <Box maxW={"380px"} m={"auto"}>
+        <Header back leftTitle title="학생 로그인" />
+        <form>
+          <Stack pt={6}>
+            {loginInputData.map(data => {
+              return (
+                <UserInput
+                  key={data.label}
+                  {...data}
+                  handleChange={handleChange}
+                />
+              );
+            })}
+            {hasError && (
+              <Text
+                fontSize={"12px"}
+                fontWeight={"400"}
+                lineHeight={"14px"}
+                color={"#F90B66"}
+              >
+                아이디나 비밀번호가 올바르지 않습니다.
+              </Text>
+            )}
+            <Stack paddingTop={"110px"} spacing={"16px"}>
+              <Button
+                onClick={handleLogin}
+                textStyle={"subtitle1"}
+                height={"52px"}
+                borderRadius={"16px"}
+                bg={checkFilled ? "primary.500" : "grey.200"}
+                color={checkFilled ? "background1" : "grey.500"}
+              >
+                로그인하기
+              </Button>
+              <Checkbox
+                colorScheme="twitter"
+                defaultChecked
+                textStyle={"body1"}
+                color={"#727272"}
+                onChange={handleCheckStay}
+              >
+                로그인 상태 유지
+              </Checkbox>
+              <Box mx={"auto"} mt={20} onClick={() => router.push("/signup")}>
+                <SignUpIcon />
+              </Box>
+              {/* <Stack
               bg={"background2"}
               height={"72px"}
               borderRadius={"16px"}
@@ -153,9 +153,10 @@ const Login = () => {
                 />
               </Flex>
             </Stack> */}
+            </Stack>
           </Stack>
-        </Stack>
-      </form>
+        </form>
+      </Box>
     </AppContainer>
   );
 };
