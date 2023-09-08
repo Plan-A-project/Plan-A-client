@@ -5,7 +5,8 @@ import { Input } from "@chakra-ui/react";
 
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
 import { IPostContent } from "@/state/atoms/posting/postingAtom";
-
+import { useRecoilState } from "recoil";
+import { updatePostingAtom } from "@/state/atoms/posting/postingAtom";
 import { IPostForm } from "./RecruitingPostForm";
 
 export default function GeneralPostForm({
@@ -16,7 +17,7 @@ export default function GeneralPostForm({
   const editableDivRef = useRef<HTMLDivElement | null>(null);
   const { title, content } = postContent;
   const _placeholder = "내용을 입력하세요.";
-
+  const [updatePosting, setUpdatePosting] = useRecoilState(updatePostingAtom);
   // 포스팅 제목 갱신
   function setTitle(e: React.ChangeEvent<HTMLInputElement>) {
     setPostContent((prevData: IPostContent) => ({
@@ -90,8 +91,9 @@ export default function GeneralPostForm({
   }, [postContent]);
 
   useEffect(() => {
-    if (content) {
+    if (content && updatePosting) {
       editableDivRef.current!.innerHTML = content;
+      setUpdatePosting(false);
     }
   }, []);
 
@@ -102,7 +104,7 @@ export default function GeneralPostForm({
         variant={"unstyled"}
         h={9}
         mt={3}
-        value={title}
+        value={updatePosting ? title : undefined}
         placeholder={"제목을 입력하세요."}
         onChange={setTitle}
       />

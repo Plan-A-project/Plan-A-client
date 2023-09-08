@@ -10,7 +10,10 @@ export type IPostContent = {
   recruitmentStartDate?: Date;
   recruitmentEndDate?: Date;
 };
-
+export const updatePostingAtom = atom<boolean>({
+  key: "updatePostingAtom",
+  default: false,
+});
 export const postingContentAtom = atom<IPostContent>({
   key: "postingContentAtom",
   default: {

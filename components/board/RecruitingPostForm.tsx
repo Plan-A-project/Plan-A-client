@@ -20,6 +20,8 @@ import { FormLabel, Input } from "@chakra-ui/react";
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
 import { IPostContent } from "@/state/atoms/posting/postingAtom";
 import { deFormatDate } from "@/utils/date";
+import { useRecoilState } from "recoil";
+import { updatePostingAtom } from "@/state/atoms/posting/postingAtom";
 
 export type IPostForm = {
   postId?: number;
@@ -42,7 +44,7 @@ export default function RecruitingPostForm({
     recruitmentStartDate,
     recruitmentEndDate,
   } = postContent;
-
+  const [updatePosting, setUpdatePosting] = useRecoilState(updatePostingAtom);
   const _placeholder = "내용을 입력하세요.";
 
   // 포스팅 제목 갱신
@@ -145,8 +147,9 @@ export default function RecruitingPostForm({
   }, [postContent]);
 
   useEffect(() => {
-    if (content) {
+    if (content && updatePosting) {
       editableDivRef.current!.innerHTML = content;
+      setUpdatePosting(false);
     }
   }, []);
 
@@ -158,6 +161,7 @@ export default function RecruitingPostForm({
           placeholder="모집 공고의 제목을 입력해 주세요."
           value={title}
           setValue={setTitle}
+          updatePosting={updatePosting}
         />
         <Divider />
       </GridItem>
@@ -167,6 +171,7 @@ export default function RecruitingPostForm({
           value={recruitmentCompanyName as string}
           placeholder="기업/기관의 이름을 입력해주세요."
           setValue={setEnterprise}
+          updatePosting={updatePosting}
         />
         <Divider />
       </GridItem>
@@ -212,17 +217,19 @@ function CustomInputText({
   value,
   setValue,
   placeholder,
+  updatePosting,
 }: {
   value: string;
   setValue: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
+  updatePosting: boolean;
 }) {
   return (
     <Input
       type="text"
       placeholder={placeholder}
       onChange={setValue}
-      value={value}
+      value={updatePosting ? value : undefined}
       border={"none"}
       outline={"none"}
       px={0}
