@@ -58,7 +58,7 @@ function BoardMain() {
       <Box px={4}>
         <Carousel>
           <Link href="https://www.instagram.com/infli_official/">
-            <Image alt="banner" src="/assets/infli_instagram.jpg" />
+            <Image alt="banner" src="/assets/infli_banner.jpg" />
           </Link>
         </Carousel>
       </Box>

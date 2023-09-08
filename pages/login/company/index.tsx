@@ -1,8 +1,9 @@
 import { useState, ChangeEvent } from "react";
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Stack, Button, Text } from "@chakra-ui/react";
+import { Stack, Button, Text, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import SignUpIcon from "@/components/icons/SignUp";
 
 import authApis from "@/api/authentication";
 import { AppContainer, Header } from "@/components/common";
@@ -94,8 +95,14 @@ const Login = () => {
             >
               로그인하기
             </Button>
-
-            <Stack
+            <Box
+              mx={"auto"}
+              mt={20}
+              onClick={() => router.push("/signup/company")}
+            >
+              <SignUpIcon />
+            </Box>
+            {/* <Stack
               bg={"background2"}
               height={"72px"}
               borderRadius={"16px"}
@@ -126,7 +133,7 @@ const Login = () => {
                   width={"fit-content"}
                 />
               </Button>
-            </Stack>
+            </Stack> */}
           </Stack>
         </Stack>
       </form>

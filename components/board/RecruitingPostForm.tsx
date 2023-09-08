@@ -144,11 +144,11 @@ export default function RecruitingPostForm({
       : setBtnActive(false);
   }, [postContent]);
 
-  // useEffect(() => {
-  //   if (content) {
-  //     editableDivRef.current!.innerHTML = content;
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (content) {
+      editableDivRef.current!.innerHTML = content;
+    }
+  }, []);
 
   return (
     <Grid gap={3} p={2}>
@@ -222,7 +222,7 @@ function CustomInputText({
       type="text"
       placeholder={placeholder}
       onChange={setValue}
-      // value={value}
+      value={value}
       border={"none"}
       outline={"none"}
       px={0}

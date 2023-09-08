@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BoardItemType } from "@/types";
-import boardApis from "@/api/board";
 
 type Props = {
   boardId: number;
