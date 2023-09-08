@@ -127,8 +127,6 @@ function BoardDetail() {
   const handleReply = (id: number) => {
     setParentCommentId(id);
   };
-  console.log("myPost", commentList);
-  console.log("myPost", data);
   return (
     <AppContainer>
       {data ? (
