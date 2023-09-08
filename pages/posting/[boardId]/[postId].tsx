@@ -106,7 +106,8 @@ function BoardDetail() {
       setData(res.data!.data);
       setIsLoading(false);
     } else if (res.code === 401) {
-      router.push("/login");
+      alert("로그인을 진행해주세요.");
+      router.push("/myPage");
       setIsLoading(false);
     }
   }
