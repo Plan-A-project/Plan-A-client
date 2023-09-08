@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from "react";
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Stack, Button, Text, Box } from "@chakra-ui/react";
+import { Stack, Button, Text, Box, Checkbox } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import SignUpIcon from "@/components/icons/SignUp";
 
@@ -17,6 +17,7 @@ const Login = () => {
     password: "",
   });
   const checkFilled = Object.values(inputValues).every(value => value !== "");
+  const [isChecked, setIsChecked] = useState(true);
 
   const loginInputData = [
     {
@@ -46,10 +47,13 @@ const Login = () => {
   };
   const handleLogin = async () => {
     if (checkFilled) {
-      const response = await authApis.login({
-        email: inputValues.email,
-        password: inputValues.password,
-      });
+      const response = await authApis.login(
+        {
+          email: inputValues.email,
+          password: inputValues.password,
+        },
+        isChecked,
+      );
       if (!response.ok) {
         setHasError(true);
       } else {
@@ -59,6 +63,12 @@ const Login = () => {
         }
       }
     }
+  };
+  const handleCheckStay = (e: { target: { checked: any } }) => {
+    const checked = e.target.checked;
+    setIsChecked(checked);
+
+    console.log("Checkbox state:", checked);
   };
   return (
     <AppContainer>
@@ -95,6 +105,15 @@ const Login = () => {
             >
               로그인하기
             </Button>
+            <Checkbox
+              colorScheme="twitter"
+              defaultChecked
+              textStyle={"body1"}
+              color={"#727272"}
+              onChange={handleCheckStay}
+            >
+              로그인 상태 유지
+            </Checkbox>
             <Box
               mx={"auto"}
               mt={20}

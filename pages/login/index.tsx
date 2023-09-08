@@ -2,7 +2,7 @@ import { useState, ChangeEvent } from "react";
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
-import { Stack, Button, Text, Flex, Box } from "@chakra-ui/react";
+import { Stack, Button, Text, Flex, Box, Checkbox } from "@chakra-ui/react";
 
 import { useRouter } from "next/router";
 
@@ -17,6 +17,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [isChecked, setIsChecked] = useState(true);
 
   const checkFilled = Object.values(inputValues).every(value => value !== "");
 
@@ -48,10 +49,13 @@ const Login = () => {
   };
   const handleLogin = async () => {
     if (checkFilled) {
-      const response = await authApis.login({
-        username: inputValues.email,
-        password: inputValues.password,
-      });
+      const response = await authApis.login(
+        {
+          username: inputValues.email,
+          password: inputValues.password,
+        },
+        isChecked,
+      );
       if (!response.ok) {
         setHasError(true);
       } else {
@@ -63,8 +67,16 @@ const Login = () => {
       }
     }
   };
+  const handleCheckStay = (e: { target: { checked: any } }) => {
+    const checked = e.target.checked;
+    setIsChecked(checked);
+
+    console.log("Checkbox state:", checked);
+  };
+
   return (
     <AppContainer>
+      <Box />
       <Header back leftTitle title="학생 로그인" />
       <form>
         <Stack pt={6}>
@@ -87,7 +99,7 @@ const Login = () => {
               아이디나 비밀번호가 올바르지 않습니다.
             </Text>
           )}
-          <Stack paddingTop={"129px"} spacing={"16px"}>
+          <Stack paddingTop={"110px"} spacing={"16px"}>
             <Button
               onClick={handleLogin}
               textStyle={"subtitle1"}
@@ -98,6 +110,15 @@ const Login = () => {
             >
               로그인하기
             </Button>
+            <Checkbox
+              colorScheme="twitter"
+              defaultChecked
+              textStyle={"body1"}
+              color={"#727272"}
+              onChange={handleCheckStay}
+            >
+              로그인 상태 유지
+            </Checkbox>
             <Box mx={"auto"} mt={20} onClick={() => router.push("/signup")}>
               <SignUpIcon />
             </Box>
