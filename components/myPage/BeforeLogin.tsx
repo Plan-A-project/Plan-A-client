@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 type LoginButtonProps = {
@@ -21,7 +21,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({
       flexDirection="column"
       justifyContent="center"
       h="16"
-      w={"167px"}
+      w={"full"}
       p={"0px 12px"}
       alignItems="center"
       borderRadius={"16px"}
@@ -35,7 +35,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({
 
 const BeforeLogin = () => {
   return (
-    <Flex justifyContent="space-between">
+    <HStack gap={4} justifyContent="space-between">
       <LoginButton
         bgColor={"primary.100"}
         textColor={"primary.900"}
@@ -46,7 +46,7 @@ const BeforeLogin = () => {
         textColor={"secondary.900"}
         content={"기업 로그인"}
       />
-    </Flex>
+    </HStack>
   );
 };
 
