@@ -32,8 +32,8 @@ const carouselCss = css`
 const MainBanner = () => {
   const [carouselItem, setCarouselItem] = useState([
     "인플리 정식 오픈!",
-    "게시글을 작성해보세요!",
-    "We share you fly",
+    "인플리를 어플로 만드는 법",
+    "We share, you fly",
   ]);
   useEffect(() => {
     // setCarouselItem()
