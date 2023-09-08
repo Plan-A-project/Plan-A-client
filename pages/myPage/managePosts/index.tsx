@@ -27,6 +27,7 @@ const ManagePosts = () => {
   useEffect(() => {
     setMyPost(myPosts);
     setMyComment(myComments);
+    console.log("cctt", myComments);
   }, [myPosts, myComments]);
   return (
     <AppContainer>
