@@ -68,8 +68,6 @@ const Login = () => {
   const handleCheckStay = (e: { target: { checked: any } }) => {
     const checked = e.target.checked;
     setIsChecked(checked);
-
-    console.log("Checkbox state:", checked);
   };
   return (
     <AppContainer>

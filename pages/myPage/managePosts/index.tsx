@@ -76,18 +76,13 @@ const ManagePosts = () => {
             <Stack divider={<StackDivider borderColor="gray.200" />}>
               {myComment.length &&
                 myComment.map((el: any) => {
-                  const boardId =
-                    el.boardName === "익명"
-                      ? 4
-                      : el.boardName === "채용"
-                      ? 1
-                      : el.boardName === "대외활동"
-                      ? 2
-                      : el.boardName === "학교생활"
-                      ? 5
-                      : "";
                   return (
-                    <Box key={el}>
+                    <Box
+                      key={el}
+                      onClick={() =>
+                        router.push(`/posting/${el.boardId}/${el.postId}`)
+                      }
+                    >
                       <MyComment info={el} />
                     </Box>
                   );

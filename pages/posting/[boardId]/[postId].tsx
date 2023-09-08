@@ -13,7 +13,9 @@ import ThreeDotsIcon from "@/components/icons/ThreeDotsIcon";
 import useDrawer from "@/hooks/useDrawer";
 import { useDropdown } from "@/hooks/useDropdown";
 import useSnackbar from "@/hooks/useSnackbar";
-import MyPost from "@/pages/components/MyPost";
+
+import { useSetRecoilState } from "recoil";
+import { updatePostingAtom } from "@/state/atoms/posting/postingAtom";
 
 function BoardDetail() {
   const [data, setData] = useState<any>();
@@ -27,6 +29,7 @@ function BoardDetail() {
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const setUpdatePosting = useSetRecoilState(updatePostingAtom);
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("해당 게시글이 삭제되었습니다");
 
@@ -41,6 +44,7 @@ function BoardDetail() {
     onMenuClick: menu => {
       if (menu === 0) {
         // 수정하기페이지 이동
+        setUpdatePosting(true);
         router.push(`/board/form?postId=${postId}`);
       } else if (menu === 1) {
         onOpen();
@@ -124,8 +128,6 @@ function BoardDetail() {
   const handleReply = (id: number) => {
     setParentCommentId(id);
   };
-  console.log("myPost", commentList);
-  console.log("myPost", data);
   return (
     <AppContainer>
       {data ? (

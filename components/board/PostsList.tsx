@@ -69,7 +69,6 @@ const PostsList = ({
     if (isFinish) return;
     setPage(p => p + 1);
   };
-  console.log("bbb", boardList);
   return (
     <div>
       <div>
