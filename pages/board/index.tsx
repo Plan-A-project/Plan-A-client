@@ -56,10 +56,8 @@ function BoardMain() {
         </NewBoardBanner>
       </Flex>
       <Box px={4}>
-        <Carousel>
-          <Link href="https://www.instagram.com/infli_official/">
-            <Image alt="banner" src="/assets/infli_banner.jpg" />
-          </Link>
+        <Carousel auto>
+          <Image alt="banner" src="/assets/infli_banner.jpg" />
         </Carousel>
       </Box>
       <SimpleGrid columns={2} spacing={4} p={4} mt={8}>

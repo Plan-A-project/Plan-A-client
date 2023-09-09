@@ -166,12 +166,19 @@ function BoardDetail() {
                 myComment: boolean;
                 pressedLikeOnThisComment: boolean;
                 deleted: boolean;
+                nickname: string;
               }) => {
                 return (
                   <>
                     <BoardComment
                       handleReply={() => handleReply(el.id)}
-                      username={el.postWriter ? "작성자" : `익명`}
+                      username={
+                        el.postWriter
+                          ? "작성자"
+                          : el.nickname
+                          ? el.nickname
+                          : "익명"
+                      }
                       myComment={el.myComment}
                       content={el.content}
                       createdAt={el.createdAt}
