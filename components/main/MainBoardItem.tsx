@@ -24,11 +24,11 @@ type BoardItemContentProps = {
   description?: string;
   image?: string;
   imageAlt?: string;
-  dday?: number;
+  dday?: any;
   bookmark?: boolean;
 };
 
-type MainBoardItemProps = {
+type FreeBoardItemProps = {
   date?: string;
   comments?: number;
   likes?: number;
@@ -45,7 +45,7 @@ const BottomText = ({ children, ...props }: TextProps) => {
   );
 };
 
-export const MainBoardItemContent: React.FC<BoardItemContentProps> = ({
+export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   title,
   leftTag,
   tagType = "primary",
@@ -103,7 +103,7 @@ export const MainBoardItemContent: React.FC<BoardItemContentProps> = ({
   );
 };
 
-const MainBoardItem: React.FC<PropsWithChildren<MainBoardItemProps>> = ({
+const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   date,
   comments,
   likes,
@@ -119,16 +119,8 @@ const MainBoardItem: React.FC<PropsWithChildren<MainBoardItemProps>> = ({
   ...props
 }) => {
   return (
-    <Flex
-      bg={"background1"}
-      px={3}
-      py={4}
-      gap={3}
-      direction={"column"}
-      {...props}
-      borderRadius={"12px"}
-    >
-      <MainBoardItemContent
+    <Flex px={3} py={4} gap={3} direction={"column"} {...props}>
+      <FreeBoardItemContent
         tagType={tagType}
         title={title}
         leftTag={leftTag}
@@ -139,25 +131,27 @@ const MainBoardItem: React.FC<PropsWithChildren<MainBoardItemProps>> = ({
       />
       <Flex justify={"space-between"} align={"center"}>
         <Flex gap={2} align={"end"}>
-          {dday ? (
+          {dday !== undefined ? (
             <Heading color={"primary.500"} size={"xs"}>
-              D-{dday}
+              {dday}
             </Heading>
           ) : null}
           <BottomText mr={"auto"}>{date}</BottomText>
         </Flex>
 
         <Flex gap={"8px"} align={"center"}>
-          <Flex gap={"2px"} align={"center"}>
-            <HeartEmpty />
-            <BottomText>{likes}</BottomText>
-          </Flex>
-
-          <Flex gap={"2px"} align={"center"}>
-            <Comment />
-            <BottomText>{comments}</BottomText>
-          </Flex>
-
+          {likes !== undefined ? (
+            <Flex gap={"2px"} align={"center"}>
+              <HeartEmpty />
+              <BottomText>{likes}</BottomText>
+            </Flex>
+          ) : null}
+          {comments !== undefined ? (
+            <Flex gap={"2px"} align={"center"}>
+              <Comment />
+              <BottomText>{comments}</BottomText>
+            </Flex>
+          ) : null}
           <Flex gap={"2px"} align={"center"}>
             <WatchedIcon />
             <BottomText>{views}</BottomText>
@@ -168,4 +162,4 @@ const MainBoardItem: React.FC<PropsWithChildren<MainBoardItemProps>> = ({
   );
 };
 
-export default MainBoardItem;
+export default FreeBoardItem;

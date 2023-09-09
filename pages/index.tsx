@@ -4,6 +4,8 @@ import { Box, Image, Link } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { isCertificatedState } from "@/state/atoms/auth/loginAtom";
+import formatDateRange from "@/utils/formatDateRange";
+import checkDday from "@/utils/checkDday";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import boardApis from "@/api/board";
@@ -56,6 +58,7 @@ type BoardType = {
   title: string;
   boards: any[];
   boardId: number;
+  postType: string;
 };
 
 type BoardListType = BoardType[];
@@ -63,10 +66,10 @@ type BoardListType = BoardType[];
 export default function Main() {
   const [onOpen, ButtonDrawer, onClose] = useDrawer(props);
   const initialBoardList: BoardListType = [
-    { title: "채용", boards: [], boardId: 1 },
-    { title: "대외활동", boards: [], boardId: 2 },
-    { title: "익명", boards: [], boardId: 4 },
-    { title: "학교생활", boards: [], boardId: 5 },
+    { title: "채용", boards: [], boardId: 1, postType: "RECRUITMENT" },
+    { title: "대외활동", boards: [], boardId: 2, postType: "RECRUITMENT" },
+    { title: "익명", boards: [], boardId: 4, postType: "NORMAL" },
+    { title: "학교생활", boards: [], boardId: 5, postType: "NORMAL" },
   ];
   const [boardList, setBoardList] = useState<any>([]);
   const [alarmContent, setAlarmContent] = useState<string>("");
@@ -109,7 +112,7 @@ export default function Main() {
           (async function () {
             const response = await boardApis.getBoardList(
               el.boardId,
-              "NORMAL",
+              el.postType,
               1,
               "recent",
               5,
@@ -170,15 +173,31 @@ export default function Main() {
                   viewCount: number;
                   title: string;
                   createdAt: string;
+                  recruitmentStartDate: any;
+                  recruitmentEndDate: any;
                 }) => {
+                  const date = el2.recruitmentStartDate
+                    ? formatDateRange(
+                        el2.recruitmentStartDate,
+                        el2.recruitmentEndDate,
+                      )
+                    : formatDate(el2.createdAt);
                   return (
                     <MainBoardItem
                       key={el2.postId}
+                      date={date}
                       comments={el2.commentCount}
                       likes={el2.likeCount}
-                      date={formatDate(el2.createdAt)}
                       views={el2.viewCount}
                       title={el2.title}
+                      dday={
+                        !el2.recruitmentStartDate
+                          ? null
+                          : checkDday(
+                              el2.recruitmentStartDate,
+                              el2.recruitmentEndDate,
+                            )
+                      }
                       onClick={() =>
                         router.push(`/posting/${el.boardId}/${el2.postId}`)
                       }
