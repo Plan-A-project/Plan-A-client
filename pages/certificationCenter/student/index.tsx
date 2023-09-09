@@ -66,7 +66,6 @@ const StudentCertification = () => {
       }
 
       if (!response.ok) {
-        console.log(response);
         alert(`${response.response.data.message}`);
       }
     }
