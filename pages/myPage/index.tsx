@@ -17,19 +17,24 @@ import { useRouter } from "next/router";
 import profileApis from "@/api/profile";
 import Navbar from "@/components/layout/Navbar";
 import { BeforeLogin } from "@/components/myPage";
+import InfoContent from "@/components/common/InfoContent";
 
 import ProfileBasic from "@/components/icons/ProfileBasic";
 import CustomTag from "../components/CustomTag";
 import authApis from "@/api/authentication";
 import useSnackbar from "@/hooks/useSnackbar";
 import { AppContainer } from "@/components/common";
+import useCustomModal from "@/hooks/useModal";
+
 const MyPage = () => {
   const [userInfo, setUserInfo] = useState<any>({});
   const [isLoggedIn, setIsLoggedIn] = useState<any>(false);
   const router = useRouter();
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("안녕히 가세요!");
-
+  const { ModalComponent, onOpen } = useCustomModal();
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<any>();
   const handleLogout = async () => {
     const response = await authApis.logout();
     router.push("/login");
@@ -47,7 +52,26 @@ const MyPage = () => {
     };
     fetch();
   }, []);
-
+  const principle = [
+    {
+      title: "이용 제한 규칙",
+    },
+    {
+      title: "커뮤니티 이용 규칙",
+    },
+    {
+      title: "서비스 이용 약관",
+    },
+    {
+      title: "개인 정보 처리방침",
+    },
+    {
+      title: "청소년 보호 정책",
+    },
+    {
+      title: "오픈소스 라이선스",
+    },
+  ];
   return (
     <>
       {isActivated && <Snackbar />}
@@ -143,60 +167,23 @@ const MyPage = () => {
               이용약관
             </Text>
             <Stack spacing={25}>
-              <Link href="">
-                <Text
-                  textStyle={"body1"}
-                  width={"fit-content"}
-                  paddingX={"5px"}
-                >
-                  이용 제한 규칙
-                </Text>
-              </Link>
-              <Link href="">
-                <Text
-                  textStyle={"body1"}
-                  width={"fit-content"}
-                  paddingX={"5px"}
-                >
-                  커뮤니티 이용 규칙
-                </Text>
-              </Link>
-              <Link href="">
-                <Text
-                  textStyle={"body1"}
-                  width={"fit-content"}
-                  paddingX={"5px"}
-                >
-                  서비스 이용약관
-                </Text>
-              </Link>
-              <Link href="">
-                <Text
-                  textStyle={"body1"}
-                  width={"fit-content"}
-                  paddingX={"5px"}
-                >
-                  개인정보 처리방침
-                </Text>
-              </Link>
-              <Link href="">
-                <Text
-                  textStyle={"body1"}
-                  width={"fit-content"}
-                  paddingX={"5px"}
-                >
-                  청소년 보호 정책
-                </Text>
-              </Link>
-              <Link href="">
-                <Text
-                  textStyle={"body1"}
-                  width={"fit-content"}
-                  paddingX={"5px"}
-                >
-                  오픈소스 라이선스
-                </Text>
-              </Link>
+              {principle.map(el => {
+                return (
+                  <Text
+                    onClick={() => {
+                      setTitle(el.title);
+                      setContent(<InfoContent content="업데이트 중입니다." />);
+                      onOpen();
+                    }}
+                    key={el.title}
+                    textStyle={"body1"}
+                    width={"fit-content"}
+                    paddingX={"5px"}
+                  >
+                    {el.title}
+                  </Text>
+                );
+              })}
             </Stack>
           </Stack>
           {/* <Stack spacing={23}>
@@ -221,24 +208,33 @@ const MyPage = () => {
               이용 안내
             </Text>
             <Stack spacing={25}>
-              <Link href="">
-                <Text
-                  textStyle={"body1"}
-                  width={"fit-content"}
-                  paddingX={"5px"}
-                >
-                  앱 버전
-                </Text>
-              </Link>
-              <Link href="">
-                <Text
-                  textStyle={"body1"}
-                  width={"fit-content"}
-                  paddingX={"5px"}
-                >
-                  문의하기
-                </Text>
-              </Link>
+              <Text
+                textStyle={"body1"}
+                width={"fit-content"}
+                paddingX={"5px"}
+                onClick={() => {
+                  setTitle("앱 버전");
+                  setContent(<InfoContent content="v1.0.0" />);
+                  onOpen();
+                }}
+              >
+                앱 버전
+              </Text>
+
+              <Text
+                onClick={() => {
+                  setTitle("문의하기");
+                  setContent(
+                    <InfoContent content="dlwnstjr37@gmail.com으로 문의주세요." />,
+                  );
+                  onOpen();
+                }}
+                textStyle={"body1"}
+                width={"fit-content"}
+                paddingX={"5px"}
+              >
+                문의하기
+              </Text>
             </Stack>
           </Stack>
           {isLoggedIn && (
@@ -252,6 +248,8 @@ const MyPage = () => {
             </Button>
           )}
         </Stack>
+        <ModalComponent title={title} content={content} />
+
         <Box mb={20} />
       </AppContainer>
     </>
