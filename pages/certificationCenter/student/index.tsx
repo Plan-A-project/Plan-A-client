@@ -66,7 +66,7 @@ const StudentCertification = () => {
       }
 
       if (!response.ok) {
-        alert(`${response.response.data}`);
+        alert(`${response.response.data.message}`);
       }
     }
     if (!selectedTabNumber) {
