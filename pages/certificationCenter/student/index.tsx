@@ -25,7 +25,7 @@ const StudentCertification = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const router = useRouter();
   const checkEmailFormat = (email: string) =>
-    /@fudan\.edu\.cn$/.test(email) ? false : true;
+    /fudan\.edu\.cn$/.test(email) ? false : true;
 
   // 파일 첨부 시 파일 정보 저장
   const handleFileChange = (e: any) => {
