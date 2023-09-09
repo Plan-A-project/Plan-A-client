@@ -59,6 +59,7 @@ type BoardType = {
   boards: any[];
   boardId: number;
   postType: string;
+  order: string;
 };
 
 type BoardListType = BoardType[];
@@ -66,10 +67,34 @@ type BoardListType = BoardType[];
 export default function Main() {
   const [onOpen, ButtonDrawer, onClose] = useDrawer(props);
   const initialBoardList: BoardListType = [
-    { title: "채용", boards: [], boardId: 1, postType: "RECRUITMENT" },
-    { title: "대외활동", boards: [], boardId: 2, postType: "RECRUITMENT" },
-    { title: "익명", boards: [], boardId: 4, postType: "NORMAL" },
-    { title: "학교생활", boards: [], boardId: 5, postType: "NORMAL" },
+    {
+      title: "채용",
+      boards: [],
+      boardId: 1,
+      postType: "RECRUITMENT",
+      order: "recent",
+    },
+    {
+      title: "대외활동",
+      boards: [],
+      boardId: 2,
+      postType: "RECRUITMENT",
+      order: "recent",
+    },
+    {
+      title: "익명",
+      boards: [],
+      boardId: 4,
+      postType: "NORMAL",
+      order: "popular",
+    },
+    {
+      title: "학교생활",
+      boards: [],
+      boardId: 5,
+      postType: "NORMAL",
+      order: "recent",
+    },
   ];
   const [boardList, setBoardList] = useState<any>([]);
   const [alarmContent, setAlarmContent] = useState<string>("");
@@ -114,7 +139,7 @@ export default function Main() {
               el.boardId,
               el.postType,
               1,
-              "recent",
+              el.order,
               5,
             );
 
