@@ -26,9 +26,9 @@ const MainBannerItem: React.FC<MainBannerItemProps> = ({
       w={"308px"}
       onClick={() => {
         if (currentIndex === 1) {
-          router.push("/posting/5/4"); // 공지글 작성하고 아이디 확인해서 수동으로 연결
+          router.push("/notice/1"); // 공지글 작성하고 아이디 확인해서 수동으로 연결
         } else if (currentIndex === 2) {
-          router.push("/posting/5/5");
+          router.push("/notice/2");
         }
       }}
     >

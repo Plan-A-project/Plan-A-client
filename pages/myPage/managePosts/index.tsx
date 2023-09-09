@@ -11,7 +11,7 @@ import commentApis from "@/api/comment";
 import { useRouter } from "next/router";
 
 const ManagePosts = () => {
-  const [selectedTabNumber, setSelectedTabNumber] = useState<number>(0);
+  const [selectedTabNumber, setSelectedTabNumber] = useState<number>(1);
   const [myPost, setMyPost] = useState<any>([]);
   const [myComment, setMyComment] = useState<any>([]);
   const router = useRouter();
@@ -27,7 +27,6 @@ const ManagePosts = () => {
   useEffect(() => {
     setMyPost(myPosts);
     setMyComment(myComments);
-    console.log("cctt", myComments);
   }, [myPosts, myComments]);
   return (
     <AppContainer>
