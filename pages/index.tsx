@@ -186,8 +186,9 @@ export default function Main() {
         </Carousel>
         <Box mb={"48px"} />
         <TextBanner />
+        <Box mb={"-15px"} />
         {initialBoardList.map((el: any) => (
-          <Box key={el} mb={5} mt={5}>
+          <Box key={el} mb={5} mt={10}>
             <MainBoardTitle title={el.title} />
             <Box borderRadius={"12px"} overflow={"hidden"}>
               <MainBoardStack>
