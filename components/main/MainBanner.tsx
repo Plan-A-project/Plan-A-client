@@ -31,9 +31,9 @@ const carouselCss = css`
 
 const MainBanner = () => {
   const [carouselItem, setCarouselItem] = useState([
+    "인플리 어플 다운 방법 클릭!",
+    "건의사항 및 오류제보",
     "인플리 정식 오픈!",
-    "인플리를 어플로 만드는 법",
-    "We share, you fly",
   ]);
   useEffect(() => {
     // setCarouselItem()
