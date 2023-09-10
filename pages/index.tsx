@@ -186,51 +186,54 @@ export default function Main() {
         </Carousel>
         <Box mb={"48px"} />
         <TextBanner />
+        <Box mb={"-15px"} />
         {initialBoardList.map((el: any) => (
-          <Box key={el} mb={5} mt={5}>
+          <Box key={el} mb={5} mt={10}>
             <MainBoardTitle title={el.title} />
-            <MainBoardStack>
-              {boardList[el.title]?.map(
-                (el2: {
-                  postId: number;
-                  commentCount: number | undefined;
-                  likeCount: number | undefined;
-                  viewCount: number;
-                  title: string;
-                  createdAt: string;
-                  recruitmentStartDate: any;
-                  recruitmentEndDate: any;
-                }) => {
-                  const date = el2.recruitmentStartDate
-                    ? formatDateRange(
-                        el2.recruitmentStartDate,
-                        el2.recruitmentEndDate,
-                      )
-                    : formatDate(el2.createdAt);
-                  return (
-                    <MainBoardItem
-                      key={el2.postId}
-                      date={date}
-                      comments={el2.commentCount}
-                      likes={el2.likeCount}
-                      views={el2.viewCount}
-                      title={el2.title}
-                      dday={
-                        !el2.recruitmentStartDate
-                          ? null
-                          : checkDday(
-                              el2.recruitmentStartDate,
-                              el2.recruitmentEndDate,
-                            )
-                      }
-                      onClick={() =>
-                        router.push(`/posting/${el.boardId}/${el2.postId}`)
-                      }
-                    />
-                  );
-                },
-              )}
-            </MainBoardStack>
+            <Box borderRadius={"12px"} overflow={"hidden"}>
+              <MainBoardStack>
+                {boardList[el.title]?.map(
+                  (el2: {
+                    postId: number;
+                    commentCount: number | undefined;
+                    likeCount: number | undefined;
+                    viewCount: number;
+                    title: string;
+                    createdAt: string;
+                    recruitmentStartDate: any;
+                    recruitmentEndDate: any;
+                  }) => {
+                    const date = el2.recruitmentStartDate
+                      ? formatDateRange(
+                          el2.recruitmentStartDate,
+                          el2.recruitmentEndDate,
+                        )
+                      : formatDate(el2.createdAt);
+                    return (
+                      <MainBoardItem
+                        key={el2.postId}
+                        date={date}
+                        comments={el2.commentCount}
+                        likes={el2.likeCount}
+                        views={el2.viewCount}
+                        title={el2.title}
+                        dday={
+                          !el2.recruitmentStartDate
+                            ? null
+                            : checkDday(
+                                el2.recruitmentStartDate,
+                                el2.recruitmentEndDate,
+                              )
+                        }
+                        onClick={() =>
+                          router.push(`/posting/${el.boardId}/${el2.postId}`)
+                        }
+                      />
+                    );
+                  },
+                )}
+              </MainBoardStack>
+            </Box>
           </Box>
         ))}
         <Box mt={10} />

@@ -119,7 +119,14 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   ...props
 }) => {
   return (
-    <Flex px={3} py={4} gap={3} direction={"column"} {...props}>
+    <Flex
+      bg={"background1"}
+      px={3}
+      py={4}
+      gap={3}
+      direction={"column"}
+      {...props}
+    >
       <FreeBoardItemContent
         tagType={tagType}
         title={title}
