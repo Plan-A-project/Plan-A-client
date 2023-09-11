@@ -16,6 +16,7 @@ import { Spinner } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { boardListState } from "@/state/atoms/board/boardState";
 import { scrollPositionState } from "@/state/atoms/board/boardState";
+import { usePreviousRoute } from "@/hooks/usePreviousRoute"; // adjust the path accordingly
 
 type OrderType = "recent" | "popular";
 
@@ -35,6 +36,8 @@ const PostsList = ({
   const [scrollPosition, setScrollPosition] =
     useRecoilState(scrollPositionState);
   const boardListResponse = useBoardList({ boardId, order, page, type });
+  const previousRoute = usePreviousRoute();
+
   // const [loading, setLoading] = useState<boolean>(false);
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -59,6 +62,12 @@ const PostsList = ({
     setOrder(type);
     setBoardList([]);
   };
+  useEffect(() => {
+    // Check if the previous route does not match the pattern and refresh
+    if (previousRoute && !/^\/posting\/[^\/]+\/[^\/]+$/.test(previousRoute)) {
+      location.reload();
+    }
+  }, [previousRoute]);
   useEffect(() => {
     // 게시글 리스트가 Recoil 상태에 없을 경우에만 API 호출로 데이터를 가져옵니다.
     if (boardListResponse === null) return;
