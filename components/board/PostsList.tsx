@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 
 import { Badge, Box, Center, Text } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
@@ -13,6 +13,9 @@ import FreeBoardItem from "./FreeBoardItem";
 import checkDday from "@/utils/checkDday";
 import formatDateRange from "@/utils/formatDateRange";
 import { Spinner } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import { boardListState } from "@/state/atoms/board/boardState";
+import { scrollPositionState } from "@/state/atoms/board/boardState";
 
 type OrderType = "recent" | "popular";
 
@@ -28,7 +31,9 @@ const PostsList = ({
   const [order, setOrder] = useState<OrderType>("recent");
   const [page, setPage] = useState<number>(1);
   const [isFinish, setIsFinish] = useState(false);
-  const [boardList, setBoardList] = useState<any[]>([]);
+  const [boardList, setBoardList] = useRecoilState<any>(boardListState);
+  const [scrollPosition, setScrollPosition] =
+    useRecoilState(scrollPositionState);
   const boardListResponse = useBoardList({ boardId, order, page, type });
   // const [loading, setLoading] = useState<boolean>(false);
   // useEffect(() => {
@@ -54,16 +59,49 @@ const PostsList = ({
     setOrder(type);
     setBoardList([]);
   };
+  useEffect(() => {
+    // 게시글 리스트가 Recoil 상태에 없을 경우에만 API 호출로 데이터를 가져옵니다.
+    if (boardListResponse === null) return;
+    if (boardListResponse?.length < 20) {
+      setIsFinish(true);
+    }
+    if (boardListResponse && boardList) {
+      if (boardList[0]?.postId !== boardListResponse[0]?.postId) {
+        setBoardList((p: any) => [...p, ...boardListResponse]);
+      }
+    }
+  }, [boardListResponse]);
 
   useEffect(() => {
-    if (boardListResponse === null) return;
-    if (boardListResponse?.length === 0) {
-      setIsFinish(true);
-      return;
+    if (!boardList?.length) {
+      setBoardList(boardListResponse);
     }
-
-    setBoardList(p => [...p, ...boardListResponse]);
   }, [boardListResponse]);
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 스크롤 위치를 복원
+    window.scrollTo(0, scrollPosition);
+
+    const handleBeforeHistoryChange = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    router.events.on("beforeHistoryChange", handleBeforeHistoryChange);
+
+    return () => {
+      // 페이지 이동 전 스크롤 위치 저장을 위한 이벤트 리스너 제거
+      router.events.off("beforeHistoryChange", handleBeforeHistoryChange);
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   if (boardListResponse === null) return;
+  //   if (boardListResponse?.length === 0) {
+  //     setIsFinish(true);
+  //     return;
+  //   }
+
+  //   setBoardList(p => [...p, ...boardListResponse]);
+  // }, [boardListResponse]);
 
   const getMorePosts = () => {
     if (isFinish) return;
@@ -96,36 +134,55 @@ const PostsList = ({
           인기순
         </Badge>
       </div>
-      {boardListResponse === null ? (
+      {boardList === null ? (
         <Center>
           <Spinner color="primary.normal" />
         </Center>
       ) : (
         <BoardStack>
-          {boardList.map(el => {
-            const date = el.recruitmentStartDate
-              ? formatDateRange(el.recruitmentStartDate, el.recruitmentEndDate)
-              : formatDate(el.createdAt);
-            return (
-              <FreeBoardItem
-                key={el.commentCount}
-                comments={el.commentCount}
-                likes={el.likeCount}
-                date={date}
-                views={el.viewCount}
-                title={el.title}
-                dday={
-                  !el.recruitmentStartDate
-                    ? null
-                    : checkDday(el.recruitmentStartDate, el.recruitmentEndDate)
-                }
-                onClick={() => router.push(`/posting/${boardId}/${el.postId}`)}
-              />
-            );
-          })}
+          {boardList?.map(
+            (el: {
+              recruitmentStartDate: any;
+              recruitmentEndDate: any;
+              createdAt: string;
+              commentCount: number;
+              likeCount: number | undefined;
+              viewCount: number;
+              title: string;
+              postId: any;
+            }) => {
+              const date = el.recruitmentStartDate
+                ? formatDateRange(
+                    el.recruitmentStartDate,
+                    el.recruitmentEndDate,
+                  )
+                : formatDate(el.createdAt);
+              return (
+                <FreeBoardItem
+                  key={el.commentCount}
+                  comments={el.commentCount}
+                  likes={el.likeCount}
+                  date={date}
+                  views={el.viewCount}
+                  title={el.title}
+                  dday={
+                    !el.recruitmentStartDate
+                      ? null
+                      : checkDday(
+                          el.recruitmentStartDate,
+                          el.recruitmentEndDate,
+                        )
+                  }
+                  onClick={() =>
+                    router.push(`/posting/${boardId}/${el.postId}`)
+                  }
+                />
+              );
+            },
+          )}
         </BoardStack>
       )}
-      {!isFinish && boardListResponse ? (
+      {boardList?.length % 20 === 0 ? (
         <Box w={"full"} textAlign={"center"} my={4}>
           <Text textStyle={"subtitle2"} onClick={getMorePosts}>
             더보기
