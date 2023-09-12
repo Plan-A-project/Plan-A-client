@@ -76,7 +76,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
           content: text,
           parentCommentId: parentCommentId,
         });
-      } else {
+      } else if (!parentCommentId) {
         const response = await commentApis.postComment({
           postId: postId,
           content: text,
