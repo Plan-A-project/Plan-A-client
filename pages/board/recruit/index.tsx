@@ -59,7 +59,11 @@ function RecruitMain() {
         }
       />
       <Carousel>
-        <Image alt="banner" src="/assets/infli_report.svg" />
+        <Image
+          onClick={() => router.push("/posting/5/100")}
+          alt="banner"
+          src="/assets/infli_report.svg"
+        />
       </Carousel>
       <FreeBoardTab
         px={4}
