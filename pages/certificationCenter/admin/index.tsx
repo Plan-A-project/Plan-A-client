@@ -15,6 +15,7 @@ const Admin = () => {
       const response = await adminApis.getCertificateStudents();
       setStudentList(response.data?.data.studentVerifications);
       const response3 = await adminApis.getMemberList();
+      console.log(1234, response3);
       setTotalUser(response3.data?.data.members.length);
       const response2 = await adminApis.getCertificateCompany();
       setCompanyList(response2.data?.data.studentVerifications);
