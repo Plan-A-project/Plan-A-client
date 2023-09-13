@@ -5,10 +5,11 @@ import postApis from "@/api/post";
 import BoardBanner from "@/components/board/BoardBanner";
 import BoardFAB from "@/components/board/BoardFAB";
 import PostsList from "@/components/board/PostsList";
-import { AppContainer, Header } from "@/components/common";
+import { AppContainer, Header, Banner } from "@/components/common";
 import SearchModal from "@/components/common/SearchModal";
 import Navbar from "@/components/layout/Navbar";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
+import NoticeBanner from "@/components/board/NoticeBanner";
 
 function Anonymous() {
   const testSearchFunction = searchFunctionFactory("익명게시판");
@@ -40,9 +41,14 @@ function Anonymous() {
           />
         }
       />
-      <BoardBanner onClick={() => router.push("/posting/notice")}>
+      {/* <BoardBanner onClick={() => router.push("/posting/notice")}>
         게시판 이용 규칙 안내
-      </BoardBanner>
+      </BoardBanner> */}
+      <Box mt={4} />
+      <NoticeBanner
+        onClick={() => router.push("/posting/5/337")}
+        text="9/13 기능 업데이트 안내"
+      />
       <Box mt={4}>
         <PostsList boardName={"익명게시판"} />
       </Box>
