@@ -57,7 +57,11 @@ function BoardMain() {
       </Flex>
       <Box px={4}>
         <Carousel auto>
-          <Image alt="banner" src="/assets/infli_banner.jpg" />
+          <Image
+            onClick={() => router.push("/posting/5/100")}
+            alt="banner"
+            src="/assets/infli_report.svg"
+          />
         </Carousel>
       </Box>
       <SimpleGrid columns={2} spacing={4} p={4} mt={8}>

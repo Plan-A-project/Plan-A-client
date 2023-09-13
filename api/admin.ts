@@ -15,6 +15,10 @@ const adminApis = {
     const response = await client.post(`admin/certificate/members/${userId}`);
     return response;
   }),
+  getMemberList: methodFormat(async () => {
+    const response = await client.get(`admin/members`);
+    return response;
+  }),
 };
 
 export default adminApis;

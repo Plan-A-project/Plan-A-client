@@ -75,7 +75,6 @@ function BoardDetail() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [loading]);
-
   useEffect(() => {
     async function fetchComment() {
       setLoading(true);
@@ -88,15 +87,45 @@ function BoardDetail() {
         ]);
       }
 
-      if (comments.data?.data.comments.length) {
+      // Stop fetching comments if less than 20
+      if (comments.data?.data.comments.length < 20) {
+        setIsLoading(false);
+      } else {
         setLoading(false);
       }
-      if (!comments.data?.data.comments.length) {
-        setIsLoading(false);
-      }
     }
-    fetchComment();
+
+    // If isSentComment has changed, reset the page count to 1 and empty the comment list
+    if (isSentComment) {
+      setPage(1);
+      setCommentList([]);
+      setIsSentComment(false); // reset the isSentComment back to its initial state
+    } else {
+      fetchComment();
+    }
   }, [postId, page, isSentComment]);
+
+  // useEffect(() => {
+  //   async function fetchComment() {
+  //     setLoading(true);
+
+  //     const comments = await commentApis.getComment(postId, page);
+  //     if (comments.data) {
+  //       setCommentList((prevComments: any) => [
+  //         ...prevComments,
+  //         ...comments.data?.data.comments,
+  //       ]);
+  //     }
+
+  //     if (comments.data?.data.comments.length) {
+  //       setLoading(false);
+  //     }
+  //     if (!comments.data?.data.comments.length) {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  //   fetchComment();
+  // }, [postId, page, isSentComment]);
 
   // 예시글: http://localhost:3000/posting/4/18
   async function readPost() {
@@ -178,7 +207,7 @@ function BoardDetail() {
                           ? "작성자"
                           : el.nickname
                           ? el.nickname
-                          : "익명"
+                          : `익명${el.identifier}`
                       }
                       myComment={el.myComment}
                       content={el.content}
@@ -209,6 +238,7 @@ function BoardDetail() {
             <BoardComment username="하이" depth={0} content="댓글입니다." /> */}
           </BoardCommentList>
           <CommentBar
+            handleCommentList={setCommentList}
             handleParentId={setParentCommentId}
             postId={postId}
             parentCommentId={parentCommentId}

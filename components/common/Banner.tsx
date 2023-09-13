@@ -83,12 +83,14 @@ const TextBanner: React.FC<TextBannerProps> = ({
 
 type AlertBannerProps = TextBannerProps & {
   notice?: string;
+  leftAlign?: boolean;
 };
 
 const AlertBanner: React.FC<AlertBannerProps> = ({
   text,
   icon,
   notice,
+  leftAlign = false,
   ...props
 }) => {
   return (
@@ -99,7 +101,12 @@ const AlertBanner: React.FC<AlertBannerProps> = ({
         {notice}
       </Text>
 
-      <Text mr={3} textStyle="subtitle1" textAlign="right" flex={1}>
+      <Text
+        mr={3}
+        textStyle="subtitle1"
+        textAlign={leftAlign ? "left" : "right"}
+        flex={1}
+      >
         {text}
       </Text>
 

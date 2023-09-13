@@ -68,6 +68,13 @@ export default function Main() {
   const [onOpen, ButtonDrawer, onClose] = useDrawer(props);
   const initialBoardList: BoardListType = [
     {
+      title: "익명",
+      boards: [],
+      boardId: 4,
+      postType: "NORMAL",
+      order: "popular",
+    },
+    {
       title: "채용",
       boards: [],
       boardId: 1,
@@ -80,13 +87,6 @@ export default function Main() {
       boardId: 2,
       postType: "RECRUITMENT",
       order: "recent",
-    },
-    {
-      title: "익명",
-      boards: [],
-      boardId: 4,
-      postType: "NORMAL",
-      order: "popular",
     },
     {
       title: "학교생활",
@@ -181,8 +181,13 @@ export default function Main() {
         <Box mt={"48px"} />
         <Carousel>
           <Link href="https://www.instagram.com/infli_official/">
-            <Image alt="banner" src="/assets/infli_instagram.jpg" />
+            <Image alt="banner" src="/assets/infli_instagram.svg" />
           </Link>
+          <Image
+            onClick={() => router.push("/posting/5/100")}
+            alt="banner"
+            src="/assets/infli_report.svg"
+          />
         </Carousel>
         <Box mb={"48px"} />
         <TextBanner />

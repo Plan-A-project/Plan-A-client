@@ -66,7 +66,7 @@ const MainBanner = () => {
             interval={3000}
             showStatus={false}
             transitionTime={1000}
-            // showArrows={false}
+            showArrows={false}
           >
             {carouselItem.map((el, index) => {
               return (

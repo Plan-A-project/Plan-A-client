@@ -1,4 +1,5 @@
 export type BoardItemType = {
+  postId?: any;
   title: string;
   views: number;
   description?: string;
