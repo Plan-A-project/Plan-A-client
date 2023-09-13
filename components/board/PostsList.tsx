@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Key, useEffect, useState } from "react";
 
-import { Badge, Box, Center, Text } from "@chakra-ui/layout";
+import { Badge, Box, Center, Text, Flex } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
 
 import useBoardList from "@/hooks/board/useBoardList";
@@ -16,7 +16,7 @@ import { Spinner } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { boardListState } from "@/state/atoms/board/boardState";
 import { scrollPositionState } from "@/state/atoms/board/boardState";
-import { usePreviousRoute } from "@/hooks/usePreviousRoute"; // adjust the path accordingly
+import { RepeatIcon } from "@chakra-ui/icons";
 
 type OrderType = "recent" | "popular";
 
@@ -29,14 +29,13 @@ const PostsList = ({
 }) => {
   const boardId = BOARD_ID_MAP[boardName];
   const router = useRouter();
-  const [order, setOrder] = useState<OrderType>("recent");
+  const [boardInfo, setBoardInfo] = useRecoilState<any>(boardListState);
+  const [order, setOrder] = useState<OrderType>(boardInfo[boardId].type);
   const [page, setPage] = useState<number>(1);
   const [isFinish, setIsFinish] = useState(false);
-  const [boardList, setBoardList] = useRecoilState<any>(boardListState);
   const [scrollPosition, setScrollPosition] =
     useRecoilState(scrollPositionState);
   const boardListResponse = useBoardList({ boardId, order, page, type });
-  const previousRoute = usePreviousRoute();
 
   // const [loading, setLoading] = useState<boolean>(false);
   // useEffect(() => {
@@ -55,37 +54,71 @@ const PostsList = ({
   //     window.removeEventListener("scroll", handleScroll);
   //   };
   // }, [loading]);
-  const handleChangeOrder = (type: OrderType) => {
-    if (boardList === null) return;
+  const handleChangeOrder = (orderType: OrderType) => {
+    if (boardInfo[boardId] === null) return;
     setPage(1);
     setIsFinish(false);
-    setOrder(type);
-    setBoardList([]);
-  };
-  useEffect(() => {
-    // Check if the previous route does not match the pattern and refresh
-    if (previousRoute && !/^\/posting\/[^\/]+\/[^\/]+$/.test(previousRoute)) {
-      location.reload();
+    setOrder(orderType);
+    if (boardListResponse) {
+      setBoardInfo((p: any) => {
+        return {
+          ...p,
+          [boardId]: { ...p[boardId], [type]: [] },
+        };
+      });
     }
-  }, [previousRoute]);
+  };
+
   useEffect(() => {
     // 게시글 리스트가 Recoil 상태에 없을 경우에만 API 호출로 데이터를 가져옵니다.
     if (boardListResponse === null) return;
     if (boardListResponse?.length < 20) {
       setIsFinish(true);
     }
-    if (boardListResponse && boardList) {
-      if (boardList[0]?.postId !== boardListResponse[0]?.postId) {
-        setBoardList((p: any) => [...p, ...boardListResponse]);
+    if (boardListResponse && boardInfo[boardId][type]) {
+      // 전역상태와 방금 받아온 글 리스트가 다를 때(즉 새로운 페이지를 불러왔을 때) 및 마지막 페이지가 아닐때(20으로 나눠질 때)
+      if (
+        boardInfo[boardId][type][0]?.postId !== boardListResponse[0]?.postId &&
+        boardInfo[boardId][type].length % 20 === 0
+      ) {
+        setBoardInfo((p: any) => {
+          return {
+            ...p,
+            [boardId]: {
+              ...p[boardId],
+              [type]: [...boardInfo[boardId][type], ...boardListResponse],
+            },
+          };
+        });
       }
     }
   }, [boardListResponse]);
 
+  // 게시글 진입 후 다시 리스트로 돌아올 시 페이지를 설정해줘야함(매번 1이면 안됨)
   useEffect(() => {
-    if (!boardList?.length) {
-      setBoardList(boardListResponse);
+    setBoardInfo((p: any) => {
+      return {
+        ...p,
+        [boardId]: { ...p[boardId], type: "recent" },
+      };
+    });
+    setPage(Math.floor(boardInfo[boardId][type].length / 20) + 1);
+  }, []);
+
+  useEffect(() => {
+    if (!boardInfo[boardId][type]?.length && boardListResponse) {
+      setBoardInfo((p: any) => {
+        return {
+          ...p,
+          [boardId]: {
+            ...p[boardId],
+            [type]: [...boardInfo[boardId][type], ...boardListResponse],
+          },
+        };
+      });
     }
   }, [boardListResponse]);
+
   useEffect(() => {
     // 컴포넌트가 마운트될 때 스크롤 위치를 복원
     window.scrollTo(0, scrollPosition);
@@ -118,38 +151,47 @@ const PostsList = ({
   };
   return (
     <div>
-      <div>
-        <Badge
-          bg={order === "recent" ? "primary.100" : "gray.100"}
-          color={order === "recent" ? "primary.500" : "gray.400"}
-          borderColor={order === "recent" ? "primary.500" : "gray.400"}
-          border={order === "recent" ? "1px solid" : "none"}
-          borderRadius={"md"}
-          paddingY={"1px"}
-          mr={"8px"}
-          onClick={() => handleChangeOrder("recent")}
-        >
-          최신순
-        </Badge>
-        <Badge
-          bg={order === "popular" ? "primary.100" : "gray.100"}
-          color={order === "popular" ? "primary.500" : "gray.400"}
-          borderColor={order === "popular" ? "primary.500" : "gray.400"}
-          border={order === "popular" ? "1px solid" : "none"}
-          borderRadius={"md"}
-          paddingY={"1px"}
-          onClick={() => handleChangeOrder("popular")}
-        >
-          인기순
-        </Badge>
-      </div>
-      {boardList === null ? (
+      <Flex justify={"space-between"} align={"center"}>
+        <Box>
+          <Badge
+            bg={order === "recent" ? "primary.100" : "gray.100"}
+            color={order === "recent" ? "primary.500" : "gray.400"}
+            borderColor={order === "recent" ? "primary.500" : "gray.400"}
+            border={order === "recent" ? "1px solid" : "none"}
+            borderRadius={"md"}
+            paddingY={"1px"}
+            mr={"8px"}
+            onClick={() => handleChangeOrder("recent")}
+          >
+            최신순
+          </Badge>
+          <Badge
+            bg={order === "popular" ? "primary.100" : "gray.100"}
+            color={order === "popular" ? "primary.500" : "gray.400"}
+            borderColor={order === "popular" ? "primary.500" : "gray.400"}
+            border={order === "popular" ? "1px solid" : "none"}
+            borderRadius={"md"}
+            paddingY={"1px"}
+            onClick={() => handleChangeOrder("popular")}
+          >
+            인기순
+          </Badge>
+        </Box>
+        <RepeatIcon
+          boxSize={"22px"}
+          onClick={() => location.reload()}
+          color={"primary.normal"}
+        />
+      </Flex>
+      {!boardInfo[boardId][type]?.length &&
+      boardListResponse &&
+      boardListResponse.length ? (
         <Center>
           <Spinner color="primary.normal" />
         </Center>
       ) : (
         <BoardStack>
-          {boardList?.map(
+          {boardInfo[boardId][type]?.map(
             (el: {
               recruitmentStartDate: any;
               recruitmentEndDate: any;
@@ -191,7 +233,8 @@ const PostsList = ({
           )}
         </BoardStack>
       )}
-      {boardList?.length % 20 === 0 ? (
+      {boardInfo[boardId][type]?.length % 20 === 0 &&
+      boardInfo[boardId][type]?.length ? (
         <Box w={"full"} textAlign={"center"} my={4}>
           <Text textStyle={"subtitle2"} onClick={getMorePosts}>
             더보기

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export const usePreviousRoute = () => {
   const [previousRoute, setPreviousRoute] = useState<string | null>(null);
@@ -7,7 +7,10 @@ export const usePreviousRoute = () => {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      setPreviousRoute(url);
+      setPreviousRoute(router.asPath);
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("previousRoute", router.asPath);
+      }
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
@@ -16,6 +19,10 @@ export const usePreviousRoute = () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
   }, []);
+
+  if (typeof window !== "undefined") {
+    return sessionStorage.getItem("previousRoute");
+  }
 
   return previousRoute;
 };

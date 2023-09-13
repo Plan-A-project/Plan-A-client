@@ -59,6 +59,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
         handleCommentSend();
       }
     }
+
     useEffect(() => {
       if (parentCommentId && inputRef.current) {
         handler.onFocus();
@@ -76,7 +77,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
           content: text,
           parentCommentId: parentCommentId,
         });
-      } else {
+      } else if (!parentCommentId) {
         const response = await commentApis.postComment({
           postId: postId,
           content: text,
@@ -133,9 +134,6 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
             }}
           >
             {(parentCommentId && `답글 작성 중...`) || "..."}
-            {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;답글
-            작성 취소 */}
           </Text>
 
           <Flex gap={2} height={9} align="center">
