@@ -21,6 +21,7 @@ import commentApis from "@/api/comment";
 import IconComment from "@/components/icons/IconComment";
 import IconSend from "@/components/icons/IconSend";
 import useFocus from "@/hooks/useFocus";
+import { useRouter } from "next/router";
 
 type CommentBarProps = BoxProps & {
   replyTo?: string;
@@ -31,11 +32,13 @@ type CommentBarProps = BoxProps & {
   commentState: boolean;
   parentCommentId?: number;
   handleParentId: any;
+  handleCommentList: any;
 };
 
 const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
   (
     {
+      handleCommentList,
       postId,
       replyTo,
       onCommentSend,
@@ -53,6 +56,7 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
     const [primary] = useToken("colors", ["primary.500"]);
     const secondary = "#ACAEB9";
     const [text, setText] = useState<string>("");
+    const router = useRouter();
 
     function handleEnterPress(e: KeyboardEvent<HTMLInputElement>) {
       if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -69,7 +73,6 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
 
     async function handleCommentSend() {
       onCommentSend?.(text);
-      handleComment(!commentState);
       setText("");
       if (parentCommentId) {
         const response = await commentApis.postComment({
@@ -77,13 +80,20 @@ const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
           content: text,
           parentCommentId: parentCommentId,
         });
+        if (response.ok) {
+          handleComment(!commentState);
+        }
       } else if (!parentCommentId) {
         const response = await commentApis.postComment({
           postId: postId,
           content: text,
         });
+        if (response.ok) {
+          handleComment(!commentState);
+        }
       }
-      location.reload();
+
+      // router.replace(router.asPath);
     }
 
     function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
