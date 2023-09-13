@@ -57,7 +57,7 @@ function BoardMain() {
       </Flex>
       <Box px={4}>
         <Carousel auto>
-          <Image alt="banner" src="/assets/infli_banner.jpg" />
+          <Image alt="banner" src="/assets/infli_report.svg" />
         </Carousel>
       </Box>
       <SimpleGrid columns={2} spacing={4} p={4} mt={8}>

@@ -181,8 +181,13 @@ export default function Main() {
         <Box mt={"48px"} />
         <Carousel>
           <Link href="https://www.instagram.com/infli_official/">
-            <Image alt="banner" src="/assets/infli_instagram.jpg" />
+            <Image alt="banner" src="/assets/infli_instagram.svg" />
           </Link>
+          <Image
+            onClick={() => router.push("/posting/5/100")}
+            alt="banner"
+            src="/assets/infli_report.svg"
+          />
         </Carousel>
         <Box mb={"48px"} />
         <TextBanner />

@@ -59,7 +59,7 @@ function RecruitMain() {
         }
       />
       <Carousel>
-        <Image alt="banner" src="/assets/infli_banner.jpg" />
+        <Image alt="banner" src="/assets/infli_report.svg" />
       </Carousel>
       <FreeBoardTab
         px={4}
