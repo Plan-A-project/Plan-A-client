@@ -68,6 +68,13 @@ export default function Main() {
   const [onOpen, ButtonDrawer, onClose] = useDrawer(props);
   const initialBoardList: BoardListType = [
     {
+      title: "익명",
+      boards: [],
+      boardId: 4,
+      postType: "NORMAL",
+      order: "popular",
+    },
+    {
       title: "채용",
       boards: [],
       boardId: 1,
@@ -80,13 +87,6 @@ export default function Main() {
       boardId: 2,
       postType: "RECRUITMENT",
       order: "recent",
-    },
-    {
-      title: "익명",
-      boards: [],
-      boardId: 4,
-      postType: "NORMAL",
-      order: "popular",
     },
     {
       title: "학교생활",
