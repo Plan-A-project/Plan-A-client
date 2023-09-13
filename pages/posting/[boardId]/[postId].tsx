@@ -178,7 +178,7 @@ function BoardDetail() {
                           ? "작성자"
                           : el.nickname
                           ? el.nickname
-                          : "익명"
+                          : `익명${el.identifier}`
                       }
                       myComment={el.myComment}
                       content={el.content}
