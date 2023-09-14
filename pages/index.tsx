@@ -180,13 +180,20 @@ export default function Main() {
         <HyperLinks />
         <Box mt={"48px"} />
         <Carousel>
-          <Link href="https://www.instagram.com/infli_official/">
-            <Image alt="banner" src="/assets/infli_instagram.svg" />
-          </Link>
+          {/* <Link href="https://www.instagram.com/infli_official/"> */}
+          <Image
+            onClick={() =>
+              (window.location.href =
+                "https://www.instagram.com/infli_official/")
+            }
+            alt="banner"
+            src="/assets/infli_instagram.png"
+          />
+          {/* </Link> */}
           <Image
             onClick={() => router.push("/posting/5/100")}
             alt="banner"
-            src="/assets/infli_report.svg"
+            src="/assets/infli_report.png"
           />
         </Carousel>
         <Box mb={"48px"} />
