@@ -59,28 +59,7 @@ const PostsList = ({
   // }, [loading]);
   const handleReload = async () => {
     setRotate(true); // 애니메이션 시작
-
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}boards/${boardId}/posts`,
-      {
-        params: {
-          type,
-          page: 1,
-          order,
-          size: 20,
-        },
-      },
-    );
-    // 리로드 시 첫페이지 불러와서 리턴
-    setBoardInfo((p: any) => {
-      return {
-        ...p,
-        [boardId]: {
-          ...p[boardId],
-          [type]: data.posts,
-        },
-      };
-    });
+    location.reload();
   };
   const handleChangeOrder = (orderType: OrderType) => {
     if (boardInfo[boardId] === null) return;
@@ -102,13 +81,11 @@ const PostsList = ({
       return () => clearTimeout(timer);
     }
   }, [rotate]);
-
   useEffect(() => {
     if (boardListResponse && boardInfo[boardId][type] && firstPageList) {
       // 만약 새로운 글이 올라오면 전역상태 첫글과 서버에서 받아온 첫글을 비교하여 다시 렌더해줌
       if (boardInfo[boardId][type][0]?.postId !== firstPageList[0]?.postId) {
         // location.reload();
-
         setBoardInfo((p: any) => {
           return {
             ...p,
@@ -121,6 +98,7 @@ const PostsList = ({
       }
     }
   }, [firstPageList]);
+  
   useEffect(() => {
     // 게시글 리스트가 Recoil 상태에 없을 경우에만 API 호출로 데이터를 가져옵니다.
     if (boardListResponse === null) return;
