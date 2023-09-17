@@ -103,13 +103,11 @@ const PostsList = ({
       return () => clearTimeout(timer);
     }
   }, [rotate]);
-
   useEffect(() => {
     if (boardListResponse && boardInfo[boardId][type] && firstPageList) {
       // 만약 새로운 글이 올라오면 전역상태 첫글과 서버에서 받아온 첫글을 비교하여 다시 렌더해줌
       if (boardInfo[boardId][type][0]?.postId !== firstPageList[0]?.postId) {
         // location.reload();
-
         setBoardInfo((p: any) => {
           return {
             ...p,
@@ -122,6 +120,7 @@ const PostsList = ({
       }
     }
   }, [firstPageList]);
+
   useEffect(() => {
     // 게시글 리스트가 Recoil 상태에 없을 경우에만 API 호출로 데이터를 가져옵니다.
     if (boardListResponse === null) return;
