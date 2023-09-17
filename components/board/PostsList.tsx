@@ -98,6 +98,7 @@ const PostsList = ({
       }
     }
   }, [firstPageList]);
+
   useEffect(() => {
     // 게시글 리스트가 Recoil 상태에 없을 경우에만 API 호출로 데이터를 가져옵니다.
     if (boardListResponse === null) return;
