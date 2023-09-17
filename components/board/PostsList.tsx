@@ -59,28 +59,29 @@ const PostsList = ({
   // }, [loading]);
   const handleReload = async () => {
     setRotate(true); // 애니메이션 시작
-
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}boards/${boardId}/posts`,
-      {
-        params: {
-          type,
-          page: 1,
-          order,
-          size: 20,
-        },
-      },
-    );
-    // 리로드 시 첫페이지 불러와서 리턴
-    setBoardInfo((p: any) => {
-      return {
-        ...p,
-        [boardId]: {
-          ...p[boardId],
-          [type]: data.posts,
-        },
-      };
-    });
+    location.reload();
+    // const { data } = await axios.get(
+    //   `${process.env.NEXT_PUBLIC_API_URL}boards/${boardId}/posts`,
+    //   {
+    //     params: {
+    //       type,
+    //       page: 1,
+    //       order,
+    //       size: 20,
+    //     },
+    //   },
+    // );
+    // // 리로드 시 첫페이지 불러와서 리턴
+    // // setPage(1);
+    // setBoardInfo((p: any) => {
+    //   return {
+    //     ...p,
+    //     [boardId]: {
+    //       ...p[boardId],
+    //       [type]: data.posts,
+    //     },
+    //   };
+    // });
   };
   const handleChangeOrder = (orderType: OrderType) => {
     if (boardInfo[boardId] === null) return;
