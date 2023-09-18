@@ -6,7 +6,7 @@ import React, {
   ChangeEvent,
 } from "react";
 
-import { Flex, HStack, Spacer, Text } from "@chakra-ui/layout";
+import { Flex, HStack, Spacer, Text, Box } from "@chakra-ui/layout";
 
 import CameraIcon from "../icons/CameraIcon";
 import KeyboardIcon from "../icons/KeyboardIcon";
@@ -52,33 +52,36 @@ function KeyboardFixedElement() {
   }
 
   return (
-    <HStack
-      style={{
-        position: "fixed",
-        bottom: isKeyboardOpen ? "100px" : 0,
-        left: 0,
-        width: "100%",
-        padding: "10px",
-        border: "1px solid gray",
-        textAlign: "center",
-        background: "white",
-      }}
-    >
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        onChange={handleFileChange}
-        multiple
-      />
-      <Flex onClick={handleButtonClick}>
-        <CameraIcon />
-        <Text>{fileCount}/10</Text>
-      </Flex>
-      <Spacer />
-      <KeyboardIcon />
-    </HStack>
+    <>
+      <Box h={"70px"} />
+      <HStack
+        style={{
+          position: "fixed",
+          bottom: isKeyboardOpen ? "100px" : 0,
+          left: 0,
+          width: "100%",
+          padding: "10px",
+          border: "1px solid gray",
+          textAlign: "center",
+          background: "white",
+        }}
+      >
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+          multiple
+        />
+        <Flex onClick={handleButtonClick}>
+          <CameraIcon />
+          <Text>{fileCount}/10</Text>
+        </Flex>
+        <Spacer />
+        <KeyboardIcon />
+      </HStack>
+    </>
   );
 }
 

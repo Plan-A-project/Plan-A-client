@@ -122,7 +122,6 @@ export default function GeneralPostForm({
       >
         {_placeholder}
       </Box>
-      <Box h={"70px"} />
       <KeyboardFixedElement />
     </Box>
   );
