@@ -31,6 +31,11 @@ export default function App({ Component, pageProps }: AppProps) {
           `,
         }}
       />
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6093771403309017"
+        crossOrigin="anonymous"
+      ></Script>
       <ChakraProvider theme={theme}>
         <RecoilRoot>
           <Component {...pageProps} />
