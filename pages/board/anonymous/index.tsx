@@ -10,10 +10,18 @@ import SearchModal from "@/components/common/SearchModal";
 import Navbar from "@/components/layout/Navbar";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 import NoticeBanner from "@/components/board/NoticeBanner";
+import useBoardList from "@/hooks/board/useBoardList";
 
 function Anonymous() {
   const testSearchFunction = searchFunctionFactory("익명게시판");
   const router = useRouter();
+  const announcementList = useBoardList({
+    boardId: 5,
+    order: "recent",
+    page: 1,
+    type: "ANNOUNCEMENT",
+  });
+  console.log(132, announcementList);
   const handlePost = async () => {
     const response = await postApis.checkAgree();
     if (response.data?.data) {
@@ -27,6 +35,7 @@ function Anonymous() {
       }
     }
   };
+
   return (
     <AppContainer>
       <Navbar currentTab="mainBoard" />
@@ -46,8 +55,12 @@ function Anonymous() {
       </BoardBanner> */}
       <Box mt={4} />
       <NoticeBanner
-        onClick={() => router.push("/posting/5/337")}
-        text="9/13 기능 업데이트 안내"
+        onClick={() => {
+          if (announcementList) {
+            router.push(`/posting/5/${announcementList[0].postId}`);
+          }
+        }}
+        text={announcementList ? announcementList[0].title : ""}
       />
       <Box mt={4}>
         <PostsList boardName={"익명게시판"} />

@@ -171,7 +171,6 @@ export default function Main() {
             />
           </Banner>
         )}
-        <Box height={"5px"} />
         <MainBanner />
         <Box marginTop="-55" zIndex="99">
           <DeviderWave />
