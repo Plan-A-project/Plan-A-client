@@ -119,7 +119,7 @@ function SearchModal({ autocompleteFunction, searchFunction }: Props) {
                       comments={el.commentCount}
                       likes={el.likeCount}
                       views={el.viewCount}
-                      description={el.content}
+                      description={""}
                       date={formatDate(el.createdAt)}
                       title={el.title}
                       onClick={() =>
