@@ -17,6 +17,8 @@ import {
   postingContentAtom,
 } from "@/state/atoms/posting/postingAtom";
 import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecruit";
+import convertLinks from "@/utils/convertLinks";
+import { Center, Spinner } from "@chakra-ui/react";
 
 const pathByBoardId: { [key: number]: string } = {
   1: "/board/recruit",
@@ -39,6 +41,7 @@ export default function PostingForm() {
   const [postId, setPostId] = useState(0);
 
   const [isBtnActive, setBtnActive] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
     `${PAGE_TITLE[postType]}을 작성하였습니다.`,
   );
@@ -116,6 +119,11 @@ export default function PostingForm() {
   return (
     <AppContainer>
       {isActivated && <Snackbar />}
+      {isPosting && (
+        <Center>
+          <Spinner color="primary.normal" />
+        </Center>
+      )}
       <FormTitle
         title={`${PAGE_TITLE[postType]} 쓰기`}
         left={<CaretLeft />}
@@ -132,6 +140,8 @@ export default function PostingForm() {
                     createPostSuccess,
                     createPostFail,
                     uploadImgsSuccess,
+                    setBtnActive,
+                    setIsPosting,
                   )
                 : createPost(
                     boardId,
@@ -140,6 +150,8 @@ export default function PostingForm() {
                     createPostSuccess,
                     createPostFail,
                     uploadImgsSuccess,
+                    setBtnActive,
+                    setIsPosting,
                   )
             }
           />
@@ -205,21 +217,32 @@ async function updatePost(
   createPostSuccess: () => void,
   createPostFail: () => void,
   uploadImgsSuccess: (postId: number) => Promise<string>,
+  setBtnActive: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsPosting: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
+  setBtnActive(false);
+  setIsPosting(true);
   const _newContent = await uploadImgsSuccess(postId); // 이미지 처리
   const _postContent = filterRecruitment(postType, postContent);
-
+  // console.log(133, _newContent);
+  // console.log(135, convertLinks(_newContent));
+  // console.log(134, _postContent);
   const res = await postApis.updatePost({
     postType,
     body: {
       ..._postContent,
       content: _newContent,
+      // content: convertLinks(_newContent),
       boardId,
       postId,
     },
   });
-  if (res.ok) createPostSuccess();
-  else createPostFail();
+  if (res.ok) {
+    setIsPosting(false);
+    createPostSuccess();
+  } else {
+    createPostFail();
+  }
 }
 
 // img blob string을 s3 이미지 링크로 replace 하는 함수
@@ -242,10 +265,14 @@ async function readPost(postId: number) {
   return [title, content, postType, boardId, recruitment];
 }
 
+// 글 작성 전 하이퍼링크를 링크태그로 전환해줌
 function filterRecruitment(postType: string, postContent: IPostContent) {
+  const convertedContent = convertLinks(postContent.content);
   return postType === "RECRUITMENT"
     ? postContent
     : { title: postContent.title, content: postContent.content };
+  // ? { ...postContent, content: convertedContent }
+  // : { title: postContent.title, content: convertedContent };
 }
 
 // 포스팅 생성 함수
@@ -256,7 +283,11 @@ async function createPost(
   createPostSuccess: () => void,
   createPostFail: () => void,
   uploadImgsSuccess: (postId: number) => Promise<string>,
+  setBtnActive: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsPosting: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
+  setBtnActive(false);
+  setIsPosting(true);
   const encodedImgLst = extractImgBaseStr();
   const _postContent = filterRecruitment(postType, postContent);
 
@@ -270,8 +301,12 @@ async function createPost(
         postType,
       },
     });
-    if (res.ok) createPostSuccess();
-    else createPostFail();
+    if (res.ok) {
+      setIsPosting(false);
+      createPostSuccess();
+    } else {
+      createPostFail();
+    }
   } else {
     // 이미지가 있는 글은 뼈대 생성과 글 생성이 별도로 이뤄집니다
     const res = await postApis.initializePost({
@@ -293,6 +328,8 @@ async function createPost(
         createPostSuccess,
         createPostFail,
         uploadImgsSuccess,
+        setBtnActive,
+        setIsPosting,
       );
       await createPostSuccess();
     } else {
