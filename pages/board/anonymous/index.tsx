@@ -60,7 +60,7 @@ function Anonymous() {
             router.push(`/posting/5/${announcementList[0].postId}`);
           }
         }}
-        text={announcementList ? announcementList[0].title : ""}
+        text={announcementList ? announcementList[0]?.title : ""}
       />
       <Box mt={4}>
         <PostsList boardName={"익명게시판"} />
