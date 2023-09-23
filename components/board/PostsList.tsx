@@ -192,6 +192,7 @@ const PostsList = ({
             borderRadius={"md"}
             paddingY={"1px"}
             mr={"8px"}
+            fontSize="0.8rem"
             onClick={() => handleChangeOrder("recent")}
           >
             최신순
@@ -203,6 +204,7 @@ const PostsList = ({
             border={order === "popular" ? "1px solid" : "none"}
             borderRadius={"md"}
             paddingY={"1px"}
+            fontSize="0.8rem"
             onClick={() => handleChangeOrder("popular")}
           >
             인기순
@@ -233,6 +235,7 @@ const PostsList = ({
               viewCount: number;
               title: string;
               postId: any;
+              hasImage: boolean;
             }) => {
               const date = el.recruitmentStartDate
                 ? formatDateRange(
@@ -248,6 +251,7 @@ const PostsList = ({
                   date={date}
                   views={el.viewCount}
                   title={el.title}
+                  hasImage={el.hasImage}
                   dday={
                     !el.recruitmentStartDate
                       ? null

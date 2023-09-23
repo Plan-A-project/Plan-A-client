@@ -17,6 +17,8 @@ import {
   postingContentAtom,
 } from "@/state/atoms/posting/postingAtom";
 import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecruit";
+import convertLinks from "@/utils/convertLinks";
+import { Center, Spinner } from "@chakra-ui/react";
 
 const pathByBoardId: { [key: number]: string } = {
   1: "/board/recruit",
@@ -37,8 +39,9 @@ export default function PostingForm() {
   const [postType, setPostType] = useState("");
   const [boardId, setBoardId] = useState(0);
   const [postId, setPostId] = useState(0);
-
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
   const [isBtnActive, setBtnActive] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
     `${PAGE_TITLE[postType]}을 작성하였습니다.`,
   );
@@ -59,12 +62,15 @@ export default function PostingForm() {
   }
 
   function createPostFail() {
-    // 글 작성 실패 처리
+    setIsPosting(false);
+    setBtnActive(true);
   }
 
   async function uploadImgsSuccess(postId: number) {
     // 이미지 업로드 성공 처리
     const imgUrls = await uploadImgStrToS3(postId);
+    setThumbnailUrl(imgUrls);
+    console.log("imgUrls", imgUrls);
     const newContent = replaceImgStrToS3(imgUrls);
     return newContent;
   }
@@ -116,6 +122,11 @@ export default function PostingForm() {
   return (
     <AppContainer>
       {isActivated && <Snackbar />}
+      {isPosting && (
+        <Center>
+          <Spinner color="primary.normal" />
+        </Center>
+      )}
       <FormTitle
         title={`${PAGE_TITLE[postType]} 쓰기`}
         left={<CaretLeft />}
@@ -132,6 +143,9 @@ export default function PostingForm() {
                     createPostSuccess,
                     createPostFail,
                     uploadImgsSuccess,
+                    setBtnActive,
+                    setIsPosting,
+                    thumbnailUrl,
                   )
                 : createPost(
                     boardId,
@@ -140,6 +154,9 @@ export default function PostingForm() {
                     createPostSuccess,
                     createPostFail,
                     uploadImgsSuccess,
+                    setBtnActive,
+                    setIsPosting,
+                    thumbnailUrl,
                   )
             }
           />
@@ -205,21 +222,35 @@ async function updatePost(
   createPostSuccess: () => void,
   createPostFail: () => void,
   uploadImgsSuccess: (postId: number) => Promise<string>,
+  setBtnActive: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsPosting: React.Dispatch<React.SetStateAction<boolean>>,
+  thumbnailUrl: string,
 ) {
+  setBtnActive(false);
+  setIsPosting(true);
   const _newContent = await uploadImgsSuccess(postId); // 이미지 처리
   const _postContent = filterRecruitment(postType, postContent);
-
+  // console.log(133, _newContent);
+  // console.log(135, convertLinks(_newContent));
+  // console.log(134, _postContent);
   const res = await postApis.updatePost({
     postType,
     body: {
       ..._postContent,
+      // content: _newContent,
       content: _newContent,
       boardId,
       postId,
+      thumbnailUrl,
     },
   });
-  if (res.ok) createPostSuccess();
-  else createPostFail();
+  if (res.ok) {
+    setIsPosting(false);
+    createPostSuccess();
+  } else {
+    alert(res.response.data.validation.content);
+    createPostFail();
+  }
 }
 
 // img blob string을 s3 이미지 링크로 replace 하는 함수
@@ -242,10 +273,16 @@ async function readPost(postId: number) {
   return [title, content, postType, boardId, recruitment];
 }
 
+// 글 작성 전 하이퍼링크를 링크태그로 전환해줌
 function filterRecruitment(postType: string, postContent: IPostContent) {
+  console.log(1323, postContent);
+  const convertedContent = convertLinks(postContent.content);
   return postType === "RECRUITMENT"
-    ? postContent
+    ? // ?
+      postContent
     : { title: postContent.title, content: postContent.content };
+  //   { ...postContent, content: convertedContent }
+  // : { title: postContent.title, content: convertedContent };
 }
 
 // 포스팅 생성 함수
@@ -256,7 +293,12 @@ async function createPost(
   createPostSuccess: () => void,
   createPostFail: () => void,
   uploadImgsSuccess: (postId: number) => Promise<string>,
+  setBtnActive: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsPosting: React.Dispatch<React.SetStateAction<boolean>>,
+  thumbnailUrl: string,
 ) {
+  setBtnActive(false);
+  setIsPosting(true);
   const encodedImgLst = extractImgBaseStr();
   const _postContent = filterRecruitment(postType, postContent);
 
@@ -270,8 +312,13 @@ async function createPost(
         postType,
       },
     });
-    if (res.ok) createPostSuccess();
-    else createPostFail();
+    if (res.ok) {
+      setIsPosting(false);
+      createPostSuccess();
+    } else {
+      alert(res.response.data.validation.content);
+      createPostFail();
+    }
   } else {
     // 이미지가 있는 글은 뼈대 생성과 글 생성이 별도로 이뤄집니다
     const res = await postApis.initializePost({
@@ -281,6 +328,7 @@ async function createPost(
         boardId,
         content: "임시 내용",
         postType,
+        thumbnailUrl,
       }, // 글 뼈대 초기 생성
     });
     if (res.ok) {
@@ -293,9 +341,13 @@ async function createPost(
         createPostSuccess,
         createPostFail,
         uploadImgsSuccess,
+        setBtnActive,
+        setIsPosting,
+        thumbnailUrl,
       );
       await createPostSuccess();
     } else {
+      alert(res.response.data.validation.content);
       createPostFail();
     }
   }

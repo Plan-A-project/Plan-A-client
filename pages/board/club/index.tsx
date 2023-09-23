@@ -11,7 +11,7 @@ function ClubMain() {
   const testSearchFunction = searchFunctionFactory("동아리");
   const router = useRouter();
   return (
-    <AppContainer>
+    <AppContainer margin>
       <Navbar currentTab="infoBoard" />
       <Header
         py={4}
@@ -26,7 +26,7 @@ function ClubMain() {
       />
       <PostsList boardName={"동아리"} />
       <BoardFAB
-        bottom={"70px"}
+        bottom={"80px"}
         onClick={() => router.push("/board/form?boardId=3&postType=NORMAL")}
       />
     </AppContainer>

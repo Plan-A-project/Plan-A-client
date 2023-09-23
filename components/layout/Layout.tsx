@@ -13,7 +13,7 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <Header />
-      <Box pb={"42px"}>{children}</Box>
+      <Box pb={"52px"}>{children}</Box>
       <Navbar />
     </>
   );

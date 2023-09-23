@@ -45,7 +45,7 @@ function RecruitMain() {
     ref,
   });
   return (
-    <AppContainer>
+    <AppContainer margin>
       <Navbar currentTab="infoBoard" />
       <Header
         py={4}
@@ -76,7 +76,7 @@ function RecruitMain() {
         icon={<AddIcon boxSize={18} />}
         ref={ref}
         r={3}
-        b={"70px"}
+        b={"80px"}
         onClick={() => toggle(true)}
       ></FAB>
       {dropdown}

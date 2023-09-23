@@ -75,7 +75,7 @@ const MyPage = () => {
   return (
     <>
       {isActivated && <Snackbar />}
-      <AppContainer>
+      <AppContainer margin>
         <Navbar currentTab="myProfile" />
         <Text mt={4} textStyle={"headline1"}>
           내 정보
