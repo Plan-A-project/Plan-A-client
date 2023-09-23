@@ -192,6 +192,7 @@ const PostsList = ({
             borderRadius={"md"}
             paddingY={"1px"}
             mr={"8px"}
+            fontSize="0.8rem"
             onClick={() => handleChangeOrder("recent")}
           >
             최신순
@@ -203,6 +204,7 @@ const PostsList = ({
             border={order === "popular" ? "1px solid" : "none"}
             borderRadius={"md"}
             paddingY={"1px"}
+            fontSize="0.8rem"
             onClick={() => handleChangeOrder("popular")}
           >
             인기순
