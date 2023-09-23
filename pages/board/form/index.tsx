@@ -39,7 +39,7 @@ export default function PostingForm() {
   const [postType, setPostType] = useState("");
   const [boardId, setBoardId] = useState(0);
   const [postId, setPostId] = useState(0);
-
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
   const [isBtnActive, setBtnActive] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
@@ -62,12 +62,15 @@ export default function PostingForm() {
   }
 
   function createPostFail() {
-    // 글 작성 실패 처리
+    setIsPosting(false);
+    setBtnActive(true);
   }
 
   async function uploadImgsSuccess(postId: number) {
     // 이미지 업로드 성공 처리
     const imgUrls = await uploadImgStrToS3(postId);
+    setThumbnailUrl(imgUrls);
+    console.log("imgUrls", imgUrls);
     const newContent = replaceImgStrToS3(imgUrls);
     return newContent;
   }
@@ -142,6 +145,7 @@ export default function PostingForm() {
                     uploadImgsSuccess,
                     setBtnActive,
                     setIsPosting,
+                    thumbnailUrl,
                   )
                 : createPost(
                     boardId,
@@ -152,6 +156,7 @@ export default function PostingForm() {
                     uploadImgsSuccess,
                     setBtnActive,
                     setIsPosting,
+                    thumbnailUrl,
                   )
             }
           />
@@ -219,6 +224,7 @@ async function updatePost(
   uploadImgsSuccess: (postId: number) => Promise<string>,
   setBtnActive: React.Dispatch<React.SetStateAction<boolean>>,
   setIsPosting: React.Dispatch<React.SetStateAction<boolean>>,
+  thumbnailUrl: string,
 ) {
   setBtnActive(false);
   setIsPosting(true);
@@ -231,16 +237,18 @@ async function updatePost(
     postType,
     body: {
       ..._postContent,
+      // content: _newContent,
       content: _newContent,
-      // content: convertLinks(_newContent),
       boardId,
       postId,
+      thumbnailUrl,
     },
   });
   if (res.ok) {
     setIsPosting(false);
     createPostSuccess();
   } else {
+    alert(res.response.data.validation.content);
     createPostFail();
   }
 }
@@ -267,11 +275,13 @@ async function readPost(postId: number) {
 
 // 글 작성 전 하이퍼링크를 링크태그로 전환해줌
 function filterRecruitment(postType: string, postContent: IPostContent) {
+  console.log(1323, postContent);
   const convertedContent = convertLinks(postContent.content);
   return postType === "RECRUITMENT"
-    ? postContent
+    ? // ?
+      postContent
     : { title: postContent.title, content: postContent.content };
-  // ? { ...postContent, content: convertedContent }
+  //   { ...postContent, content: convertedContent }
   // : { title: postContent.title, content: convertedContent };
 }
 
@@ -285,6 +295,7 @@ async function createPost(
   uploadImgsSuccess: (postId: number) => Promise<string>,
   setBtnActive: React.Dispatch<React.SetStateAction<boolean>>,
   setIsPosting: React.Dispatch<React.SetStateAction<boolean>>,
+  thumbnailUrl: string,
 ) {
   setBtnActive(false);
   setIsPosting(true);
@@ -305,6 +316,7 @@ async function createPost(
       setIsPosting(false);
       createPostSuccess();
     } else {
+      alert(res.response.data.validation.content);
       createPostFail();
     }
   } else {
@@ -316,6 +328,7 @@ async function createPost(
         boardId,
         content: "임시 내용",
         postType,
+        thumbnailUrl,
       }, // 글 뼈대 초기 생성
     });
     if (res.ok) {
@@ -330,9 +343,11 @@ async function createPost(
         uploadImgsSuccess,
         setBtnActive,
         setIsPosting,
+        thumbnailUrl,
       );
       await createPostSuccess();
     } else {
+      alert(res.response.data.validation.content);
       createPostFail();
     }
   }

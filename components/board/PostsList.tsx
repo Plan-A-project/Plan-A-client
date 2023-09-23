@@ -233,6 +233,7 @@ const PostsList = ({
               viewCount: number;
               title: string;
               postId: any;
+              hasImage: boolean;
             }) => {
               const date = el.recruitmentStartDate
                 ? formatDateRange(
@@ -248,6 +249,7 @@ const PostsList = ({
                   date={date}
                   views={el.viewCount}
                   title={el.title}
+                  hasImage={el.hasImage}
                   dday={
                     !el.recruitmentStartDate
                       ? null

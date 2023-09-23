@@ -8,6 +8,8 @@ import {
   TextProps,
   Badge,
   Heading,
+  Stack,
+  HStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
 
@@ -16,6 +18,7 @@ import HeartEmpty from "../icons/HeartEmpty";
 import ScrapEmptyIcon from "../icons/ScrapEmptyIcon";
 import ScrapIcon from "../icons/ScrapIcon";
 import WatchedIcon from "../icons/WatchedIcon";
+import HasImageIcon from "../icons/HasImageIcon";
 
 type BoardItemContentProps = {
   title: string;
@@ -26,6 +29,7 @@ type BoardItemContentProps = {
   imageAlt?: string;
   dday?: any;
   bookmark?: boolean;
+  hasImage?: boolean;
 };
 
 type FreeBoardItemProps = {
@@ -53,6 +57,7 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   image,
   imageAlt,
   bookmark,
+  hasImage,
 }) => {
   const [mark, setMark] = useState(bookmark);
   const toggleMark = (event: React.MouseEvent<HTMLElement>) => {
@@ -73,9 +78,16 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
             {leftTag}
           </Badge>
         ) : null}
-        <Text color={"gray.900"} lineHeight={5} fontSize={18} mb={1}>
-          {title}
-        </Text>
+        <HStack gap={1} mb={1} align={"center"}>
+          {hasImage && (
+            <Box>
+              <HasImageIcon />
+            </Box>
+          )}
+          <Text color={"gray.900"} lineHeight={5} fontSize={18}>
+            {title}
+          </Text>
+        </HStack>
 
         {description && (
           <Text fontSize={"sm"} color={"gray.600"}>
@@ -116,6 +128,7 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   imageAlt,
   dday,
   bookmark,
+  hasImage,
   ...props
 }) => {
   return (
@@ -128,15 +141,21 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
         image={image}
         imageAlt={imageAlt}
         bookmark={bookmark}
+        hasImage={hasImage}
       />
       <Flex justify={"space-between"} align={"center"}>
         <Flex gap={2} align={"end"}>
-          {dday !== undefined ? (
+          {dday ? (
             <Heading color={"primary.500"} size={"xs"}>
               {dday}
             </Heading>
-          ) : null}
-          <BottomText mr={"auto"}>{date}</BottomText>
+          ) : (
+            ""
+          )}
+          <Text fontSize={"xs"} color={"gray.600"} lineHeight={3}>
+            {date}
+          </Text>
+          {/* <BottomText>{date}</BottomText> */}
         </Flex>
 
         <Flex gap={"8px"} align={"center"}>
