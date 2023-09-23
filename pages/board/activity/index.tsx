@@ -36,7 +36,7 @@ function ActivityMain() {
     ref,
   });
   return (
-    <AppContainer>
+    <AppContainer margin>
       <Navbar currentTab="infoBoard" />
       <Header
         py={4}
@@ -60,7 +60,7 @@ function ActivityMain() {
         icon={<AddIcon boxSize={18} />}
         ref={ref}
         r={3}
-        b={"70px"}
+        b={"80px"}
         onClick={() => toggle(true)}
       ></FAB>
       {dropdown}
@@ -140,6 +140,7 @@ export const RecruitPosts = () => {
           border={sort === "popular" ? "1px solid" : "none"}
           borderRadius={"md"}
           paddingY={"1px"}
+          fontSize="1rem"
           onClick={() => handleChangeSort("popular")}
         >
           인기순

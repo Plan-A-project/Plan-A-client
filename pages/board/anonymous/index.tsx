@@ -65,8 +65,8 @@ function Anonymous() {
       <Box mt={4}>
         <PostsList boardName={"익명게시판"} />
       </Box>
-      <BoardFAB bottom={"70px"} onClick={handlePost} />
-      <Box w={"full"} h={"64px"} />
+      <BoardFAB bottom={"80px"} onClick={handlePost} />
+      <Box w={"full"} h={"74px"} />
     </AppContainer>
   );
 }

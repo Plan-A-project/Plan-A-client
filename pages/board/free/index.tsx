@@ -13,7 +13,7 @@ function ClubMain() {
   const testSearchFunction = searchFunctionFactory("학교생활");
   const router = useRouter();
   return (
-    <AppContainer>
+    <AppContainer margin>
       <Navbar currentTab="infoBoard" />
       <Header
         py={4}
@@ -33,7 +33,7 @@ function ClubMain() {
         rightTab={<PostsList boardName={"학교생활"} type="ANNOUNCEMENT" />}
       ></FreeBoardTab>
       <BoardFAB
-        bottom={"70px"}
+        bottom={"80px"}
         onClick={() => router.push("/board/form?boardId=5&postType=NORMAL")}
       />
     </AppContainer>
