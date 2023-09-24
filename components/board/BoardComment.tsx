@@ -123,7 +123,9 @@ const BoardComment: React.FC<BoardCommentProps> = ({
                 {withProfile && (
                   <Avatar name={username} size={"sm"} src={profileImage} />
                 )}
-                <Text textStyle={"overline"}>{username}</Text>
+                <Text textStyle={"overline"} minW={10}>
+                  {username}
+                </Text>
               </Stack>
             </Stack>
             <Text textStyle={"body1"}>{content}</Text>
@@ -174,7 +176,9 @@ const BoardComment: React.FC<BoardCommentProps> = ({
                   {withProfile && (
                     <Avatar name={username} size={"sm"} src={profileImage} />
                   )}
-                  <Text textStyle={"overline"}>{username}</Text>
+                  <Text textStyle={"overline"} minW={10}>
+                    {username}
+                  </Text>
                 </Stack>
               </Stack>
               <Text color={isDeleted ? "red" : "black"} textStyle={"body1"}>

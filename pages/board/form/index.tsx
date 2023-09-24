@@ -70,7 +70,6 @@ export default function PostingForm() {
     // 이미지 업로드 성공 처리
     const imgUrls = await uploadImgStrToS3(postId);
     setThumbnailUrl(imgUrls);
-    console.log("imgUrls", imgUrls);
     const newContent = replaceImgStrToS3(imgUrls);
     return newContent;
   }
@@ -275,7 +274,6 @@ async function readPost(postId: number) {
 
 // 글 작성 전 하이퍼링크를 링크태그로 전환해줌
 function filterRecruitment(postType: string, postContent: IPostContent) {
-  console.log(1323, postContent);
   // const convertedContent = convertLinks(postContent.content);
   return postType === "RECRUITMENT"
     ? // ?
