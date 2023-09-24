@@ -17,7 +17,7 @@ import {
   postingContentAtom,
 } from "@/state/atoms/posting/postingAtom";
 import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecruit";
-import convertLinks from "@/utils/convertLinks";
+// import convertLinks from "@/utils/convertLinks";
 import { Center, Spinner } from "@chakra-ui/react";
 
 const pathByBoardId: { [key: number]: string } = {
@@ -276,7 +276,7 @@ async function readPost(postId: number) {
 // 글 작성 전 하이퍼링크를 링크태그로 전환해줌
 function filterRecruitment(postType: string, postContent: IPostContent) {
   console.log(1323, postContent);
-  const convertedContent = convertLinks(postContent.content);
+  // const convertedContent = convertLinks(postContent.content);
   return postType === "RECRUITMENT"
     ? // ?
       postContent
