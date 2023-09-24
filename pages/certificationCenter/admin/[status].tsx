@@ -25,7 +25,6 @@ const MemberListWithStatus = () => {
       setStudentList(getMember(memberList, status));
     }
     getMemberList();
-    console.log("afd", studentList);
   }, []);
 
   return (

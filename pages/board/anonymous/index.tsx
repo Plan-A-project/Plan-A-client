@@ -21,7 +21,6 @@ function Anonymous() {
     page: 1,
     type: "ANNOUNCEMENT",
   });
-  console.log(132, announcementList);
   const handlePost = async () => {
     const response = await postApis.checkAgree();
     if (response.data?.data) {

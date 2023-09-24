@@ -32,7 +32,6 @@ const Admin = () => {
       // 새로운 Date 객체를 생성합니다.
       const newDate = new Date(currentDate);
       const response3 = await adminApis.getMemberList("2023-09-17T00:00:00");
-      console.log(1234, response3);
       setTotalUser(response3.data?.data.members.length);
       const response2 = await adminApis.getCertificateCompany();
       setCompanyList(response2.data?.data.studentVerifications);
