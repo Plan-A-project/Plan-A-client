@@ -2,14 +2,20 @@ import { useState } from "react";
 
 import {
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   Flex,
-  Button,
+  InputGroup,
+  InputRightElement,
+  Box,
 } from "@chakra-ui/react";
 
+import { TbEyeOff, TbEye } from "react-icons/tb";
+
 const UserInput = ({ label, placeholder, title, type, handleChange }: any) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const handleClick = () => setShowPassword(!showPassword);
+
   return (
     <FormControl>
       <FormLabel
@@ -25,24 +31,58 @@ const UserInput = ({ label, placeholder, title, type, handleChange }: any) => {
         {title}
       </FormLabel>
       <Flex align={"center"}>
-        <Input
-          onChange={e => {
-            handleChange(e, label);
-          }}
-          type={type}
-          placeholder={placeholder}
-          h={"52px"}
-          fontSize={"16px"}
-          fontWeight={"400"}
-          lineHeight={"20px"}
-          borderRadius={16}
-          _placeholder={{
-            fontSize: "16px",
-            fontWeight: "400",
-            lineHeight: "20px",
-          }}
-          id={label}
-        />
+        {type === "password" ? (
+          <InputGroup>
+            <Input
+              onChange={e => {
+                handleChange(e, label);
+              }}
+              type={
+                type === "password"
+                  ? showPassword
+                    ? "text"
+                    : "password"
+                  : type
+              }
+              placeholder={placeholder}
+              h={"52px"}
+              fontSize={"16px"}
+              fontWeight={"400"}
+              lineHeight={"20px"}
+              borderRadius={16}
+              _placeholder={{
+                fontSize: "16px",
+                fontWeight: "400",
+                lineHeight: "20px",
+              }}
+              id={label}
+            />
+            <InputRightElement marginTop={"5px"} marginRight={1}>
+              <Box onClick={handleClick}>
+                {showPassword ? <TbEyeOff size={26} /> : <TbEye size={26} />}
+              </Box>
+            </InputRightElement>
+          </InputGroup>
+        ) : (
+          <Input
+            onChange={e => {
+              handleChange(e, label);
+            }}
+            type={type}
+            placeholder={placeholder}
+            h={"52px"}
+            fontSize={"16px"}
+            fontWeight={"400"}
+            lineHeight={"20px"}
+            borderRadius={16}
+            _placeholder={{
+              fontSize: "16px",
+              fontWeight: "400",
+              lineHeight: "20px",
+            }}
+            id={label}
+          />
+        )}
       </Flex>
     </FormControl>
   );

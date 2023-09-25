@@ -32,12 +32,10 @@ const Admin = () => {
       // 새로운 Date 객체를 생성합니다.
       const newDate = new Date(currentDate);
       const response3 = await adminApis.getMemberList("2023-09-17T00:00:00");
-      console.log(1234, response3);
-      setTotalUser(response3.data?.data.members.length);
+      const response4 = await adminApis.getMemberList();
+      setTotalUser(response4.data?.data.members.length);
       const response2 = await adminApis.getCertificateCompany();
       setCompanyList(response2.data?.data.studentVerifications);
-      localStorage.setItem("certComplt", "true");
-      localStorage.setItem("certComplt2", "true");
     };
     fetchApi();
   }, []);
@@ -69,8 +67,14 @@ const Admin = () => {
         >
           인증 실패 유저
         </Button>
+        <Button
+          onClick={() => router.push("/certificationCenter/admin/ALL")}
+          colorScheme="green"
+        >
+          전체 유저
+        </Button>
       </HStack>
-      <Box>{totalUser}</Box>
+      <Box>전체 유저 : {totalUser}</Box>
       <TabList mb="1em">
         <Tab>학생</Tab>
         <Tab>기업</Tab>
