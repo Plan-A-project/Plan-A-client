@@ -70,7 +70,6 @@ export default function PostingForm() {
     // 이미지 업로드 성공 처리
     const imgUrls = await uploadImgStrToS3(postId);
     setThumbnailUrl(imgUrls);
-    // console.log("imgUrls", imgUrls);
     const newContent = replaceImgStrToS3(imgUrls);
     return newContent;
   }
