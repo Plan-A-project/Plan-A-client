@@ -39,7 +39,6 @@ export default function PostingForm() {
   const [postType, setPostType] = useState("");
   const [boardId, setBoardId] = useState(0);
   const [postId, setPostId] = useState(0);
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
   const [isBtnActive, setBtnActive] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
@@ -69,7 +68,6 @@ export default function PostingForm() {
   async function uploadImgsSuccess(postId: number) {
     // 이미지 업로드 성공 처리
     const imgUrls = await uploadImgStrToS3(postId);
-    setThumbnailUrl(imgUrls);
     const newContent = replaceImgStrToS3(imgUrls);
     return newContent;
   }
@@ -144,7 +142,6 @@ export default function PostingForm() {
                     uploadImgsSuccess,
                     setBtnActive,
                     setIsPosting,
-                    thumbnailUrl,
                   )
                 : createPost(
                     boardId,
@@ -155,7 +152,6 @@ export default function PostingForm() {
                     uploadImgsSuccess,
                     setBtnActive,
                     setIsPosting,
-                    thumbnailUrl,
                   )
             }
           />
@@ -223,13 +219,13 @@ async function updatePost(
   uploadImgsSuccess: (postId: number) => Promise<string>,
   setBtnActive: React.Dispatch<React.SetStateAction<boolean>>,
   setIsPosting: React.Dispatch<React.SetStateAction<boolean>>,
-  thumbnailUrl: string,
+  // thumbnailUrl: string | null,
 ) {
   setBtnActive(false);
   setIsPosting(true);
   const _newContent = await uploadImgsSuccess(postId); // 이미지 처리
   const _postContent = filterRecruitment(postType, postContent);
-  // console.log(133, _newContent);
+  const newThumbnail = extractImgBaseStr()[0] ? "" : null;
   // console.log(135, convertLinks(_newContent));
   // console.log(134, _postContent);
   const res = await postApis.updatePost({
@@ -240,7 +236,7 @@ async function updatePost(
       content: _newContent,
       boardId,
       postId,
-      thumbnailUrl,
+      thumbnailUrl: newThumbnail,
     },
   });
   if (res.ok) {
@@ -293,7 +289,6 @@ async function createPost(
   uploadImgsSuccess: (postId: number) => Promise<string>,
   setBtnActive: React.Dispatch<React.SetStateAction<boolean>>,
   setIsPosting: React.Dispatch<React.SetStateAction<boolean>>,
-  thumbnailUrl: string,
 ) {
   setBtnActive(false);
   setIsPosting(true);
@@ -326,7 +321,6 @@ async function createPost(
         boardId,
         content: "임시 내용",
         postType,
-        thumbnailUrl,
       }, // 글 뼈대 초기 생성
     });
     if (res.ok) {
@@ -341,7 +335,6 @@ async function createPost(
         uploadImgsSuccess,
         setBtnActive,
         setIsPosting,
-        thumbnailUrl,
       );
       await createPostSuccess();
     } else {
