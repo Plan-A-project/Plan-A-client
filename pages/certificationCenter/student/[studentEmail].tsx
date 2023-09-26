@@ -43,7 +43,7 @@ const CheckEmail = () => {
             <br /> 해당 메일로 이동해
             <br /> 인증을 완료해주세요.
           </Text>
-          <Text mt={4} textStyle={"body1"} color={"red"}>
+          <Text mt={4} textStyle={"headline2"} color={"red"} fontWeight={700}>
             메일 확인이 안될 경우 스팸 메일함을 확인해 주세요. <br />
             수신까지 최대 5분이 소요될 수 있습니다.
           </Text>
