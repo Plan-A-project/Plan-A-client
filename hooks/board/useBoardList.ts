@@ -37,18 +37,16 @@ function useBoardList({
       //   5,
       // );
       // setBoardList(data.data.posts);
-      const newBoardList: BoardItemType[] = data?.posts?.map((el: any) => ({
-        id: el.postId,
-        title: el?.title ?? "제목 없음",
-        description: el?.main ?? "본문 없음",
-        views: el?.viewCount ?? 0,
-        image: el?.thumbnailUrl ?? "",
-        imageAlt: el?.thumbnailUrl ? "thumbnail" : null,
-        likes: el?.likeCount,
-        comments: el?.commentCount,
-        createdAt: el.createdAt,
-      }));
-      setBoardList(data.posts);
+      if (order === "popular") {
+        const boardList = data.posts.sort(
+          (a: { viewCount: number }, b: { viewCount: number }) => {
+            return b.viewCount - a.viewCount;
+          },
+        );
+        setBoardList(boardList);
+      } else {
+        setBoardList(data.posts);
+      }
     })();
   }, [type, order, boardId, page]);
   return boardList;
