@@ -25,7 +25,7 @@ import useDrawer from "@/hooks/useDrawer";
 import useSnackbar from "@/hooks/useSnackbar";
 import formatDate from "@/utils/formatDate";
 import certificationApis from "@/api/certification";
-
+// import { useColorMode } from "@chakra-ui/react";
 const props = {
   header: "홈 설정",
   subtitle: "보고싶은 게시판만 선택하고 정렬해 보세요.",
@@ -66,6 +66,7 @@ type BoardListType = BoardType[];
 
 export default function Main() {
   const [onOpen, ButtonDrawer, onClose] = useDrawer(props);
+  // const { colorMode, toggleColorMode } = useColorMode();
   const initialBoardList: BoardListType = [
     {
       title: "익명",
@@ -171,8 +172,17 @@ export default function Main() {
             />
           </Banner>
         )}
+        {/* <Box onClick={toggleColorMode}>
+          Toggle {colorMode === "light" ? "Dark" : "Light"}
+        </Box> */}
         <MainBanner />
-        <Box marginTop="-55" zIndex="99">
+        <Box
+          right={0}
+          left={0}
+          position={"absolute"}
+          marginTop="-55"
+          zIndex="99"
+        >
           <DeviderWave />
         </Box>
         <Box mt={"32px"} />
