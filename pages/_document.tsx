@@ -22,6 +22,10 @@ export default function Document() {
         />
         <meta name="description" content="Description" />
         <meta name="keywords" content="Keywords" />
+        <meta
+          name="google-site-verification"
+          content="1E7BOTZfUqEPefYQGc22A7p9xC-oAst420TLbz_gpzc"
+        />
         <title>infli</title>
 
         <link rel="manifest" href="/manifest.json" />
