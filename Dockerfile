@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm run build
 
-FROM public.ecr.aws/docker/library/nginx
+FROM public.ecr.aws/nginx/nginx:mainline-alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
 
