@@ -2,14 +2,17 @@ FROM public.ecr.aws/docker/library/node:17.8.0
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
 
 RUN npm install
 
 COPY . .
 
-EXPOSE 3000
-
 RUN npm run build
 
-CMD [ "npm", "start" ]
+FROM public.ecr.aws/docker/library/nginx
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]
+
