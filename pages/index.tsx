@@ -189,13 +189,13 @@ export default function Main() {
         <HyperLinks />
         <Box mt={"48px"} />
         <Carousel>
-          <Image
+          {/* <Image
             onClick={() =>
               (window.location.href = "https://infli-chat.vercel.app/")
             }
             alt="banner"
             src="/assets/infli_asianLogo.PNG"
-          />
+          /> */}
           <Image
             onClick={() => router.push("/posting/5/100")}
             alt="banner"
