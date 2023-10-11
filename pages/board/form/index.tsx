@@ -17,7 +17,7 @@ import {
   postingContentAtom,
 } from "@/state/atoms/posting/postingAtom";
 import { postingContentAtomRecruit } from "@/state/atoms/posting/postingAtomRecruit";
-// import convertLinks from "@/utils/convertLinks";
+import convertLinks from "@/utils/convertLinks";
 import { Center, Spinner } from "@chakra-ui/react";
 
 const pathByBoardId: { [key: number]: string } = {
@@ -225,7 +225,8 @@ async function updatePost(
   setIsPosting(true);
   const _newContent = await uploadImgsSuccess(postId); // 이미지 처리
   const _postContent = filterRecruitment(postType, postContent);
-  const newThumbnail = extractImgBaseStr()[0] ? "" : null;
+  const newThumbnail =
+    extractImgBaseStr()[0] || _newContent.includes("<img") ? "" : null;
   // console.log(135, convertLinks(_newContent));
   // console.log(134, _postContent);
   const res = await postApis.updatePost({
@@ -233,7 +234,7 @@ async function updatePost(
     body: {
       ..._postContent,
       // content: _newContent,
-      content: _newContent,
+      content: convertLinks(_newContent),
       boardId,
       postId,
       thumbnailUrl: newThumbnail,
@@ -270,13 +271,14 @@ async function readPost(postId: number) {
 
 // 글 작성 전 하이퍼링크를 링크태그로 전환해줌
 function filterRecruitment(postType: string, postContent: IPostContent) {
-  // const convertedContent = convertLinks(postContent.content);
+  const convertedContent = convertLinks(postContent.content);
+  // console.log()
   return postType === "RECRUITMENT"
     ? // ?
-      postContent
-    : { title: postContent.title, content: postContent.content };
-  //   { ...postContent, content: convertedContent }
-  // : { title: postContent.title, content: convertedContent };
+      //   postContent
+      // : { title: postContent.title, content: postContent.content };
+      { ...postContent, content: convertedContent }
+    : { title: postContent.title, content: convertedContent };
 }
 
 // 포스팅 생성 함수
