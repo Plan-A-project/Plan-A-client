@@ -197,13 +197,6 @@ export default function Main() {
             src="/assets/infli_asianLogo.PNG"
           /> */}
           <Image
-            onClick={() =>
-              (window.location.href = "https://infli-chat.vercel.app/")
-            }
-            alt="banner"
-            src="/assets/infli_asianLogo.PNG"
-          />
-          <Image
             onClick={() => router.push("/posting/5/100")}
             alt="banner"
             src="/assets/infli_report.png"
