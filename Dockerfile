@@ -2,7 +2,7 @@ FROM public.ecr.aws/docker/library/node:17.8.0
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
 
 RUN npm install
 
