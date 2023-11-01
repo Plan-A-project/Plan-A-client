@@ -56,8 +56,10 @@ const BoardComment: React.FC<BoardCommentProps> = ({
   const ref = useRef<HTMLDivElement>(null);
   const [isActivated, activateSnackbar, Snackbar] =
     useSnackbar("해당 댓글이 삭제되었습니다");
-  const [isPressLike, setIsPressLike] = useState<any>(false);
-  const router = useRouter();
+  const [likes, setLikes] = useState<number>(likesCount);
+  const [isPressedLike, setIsPressedLike] = useState<boolean>(
+    pressedLikeOnThisComment,
+  );
   const [dropdown, toggle] = useDropdown({
     menus: ["삭제하기"],
     xGap: -15,
@@ -81,17 +83,19 @@ const BoardComment: React.FC<BoardCommentProps> = ({
     if (res.ok) {
       activateSnackbar();
       onClose();
-      // location.reload();
     }
   }
   async function handleLike() {
-    if (!pressedLikeOnThisComment) {
-      const res = await likesApis.commentLike(commentId);
+    if (!isPressedLike) {
+      await likesApis.commentLike(commentId);
+      setLikes(p => p + 1);
+      setIsPressedLike(true);
     }
-    if (pressedLikeOnThisComment) {
-      const res = await likesApis.cancelCommentLike(commentId);
+    if (isPressedLike) {
+      await likesApis.cancelCommentLike(commentId);
+      setLikes(p => p - 1);
+      setIsPressedLike(false);
     }
-    location.reload();
   }
   const [onOpen, ButtonDrawer, onClose] = useDrawer({
     header: "정말 삭제하시겠어요?",
@@ -152,10 +156,10 @@ const BoardComment: React.FC<BoardCommentProps> = ({
               {formatCommentDate(createdAt)}
             </Text>
             <Box onClick={handleLike}>
-              {pressedLikeOnThisComment ? <HeartIcon /> : <HeartEmpty />}
+              {isPressedLike ? <HeartIcon /> : <HeartEmpty />}
             </Box>
             <Text ml={1} textStyle={"overline"}>
-              {likesCount}
+              {likes}
             </Text>
           </Flex>
         </Flex>
@@ -171,16 +175,30 @@ const BoardComment: React.FC<BoardCommentProps> = ({
           <ButtonDrawer />
           <HStack align={"center"} justify={"space-between"}>
             <Flex>
-              <Stack w={12} align={"start"}>
-                <Stack spacing={1} align={"start"}>
-                  {withProfile && (
-                    <Avatar name={username} size={"sm"} src={profileImage} />
-                  )}
-                  <Text textStyle={"overline"} minW={10}>
-                    {username}
-                  </Text>
+              {withProfile ? (
+                <Stack align={"start"} mr={4}>
+                  <Stack align={"center"}>
+                    {withProfile && (
+                      <Avatar name={username} size={"sm"} src={profileImage} />
+                    )}
+                    <Text align={"center"} maxW={"36px"} textStyle={"overline"}>
+                      {username}
+                    </Text>
+                  </Stack>
                 </Stack>
-              </Stack>
+              ) : (
+                <Stack w={12} align={"start"}>
+                  <Stack spacing={1} align={"start"}>
+                    {withProfile && (
+                      <Avatar name={username} size={"sm"} src={profileImage} />
+                    )}
+                    <Text textStyle={"overline"} minW={10}>
+                      {username}
+                    </Text>
+                  </Stack>
+                </Stack>
+              )}
+
               <Text color={isDeleted ? "red" : "black"} textStyle={"body1"}>
                 {content}
               </Text>
@@ -210,10 +228,10 @@ const BoardComment: React.FC<BoardCommentProps> = ({
                 {formatCommentDate(createdAt)}
               </Text>
               <Box onClick={handleLike}>
-                {pressedLikeOnThisComment ? <HeartIcon /> : <HeartEmpty />}
+                {isPressedLike ? <HeartIcon /> : <HeartEmpty />}
               </Box>
               <Text ml={1} textStyle={"overline"}>
-                {likesCount}
+                {likes}
               </Text>
             </Flex>
           </Flex>

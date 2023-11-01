@@ -19,17 +19,20 @@ import ScrapEmptyIcon from "../icons/ScrapEmptyIcon";
 import ScrapIcon from "../icons/ScrapIcon";
 import WatchedIcon from "../icons/WatchedIcon";
 import HasImageIcon from "../icons/HasImageIcon";
+import postApis from "@/api/post";
 
 type BoardItemContentProps = {
   title: string;
   leftTag?: string;
-  tagType?: "primary" | "secondary" | "grey";
+  tagType?: "primary" | "secondary" | "grey" | "error";
   description?: string;
   image?: string;
   imageAlt?: string;
   dday?: any;
   bookmark?: boolean;
   hasImage?: boolean;
+  isEvent?: boolean;
+  postId: number;
 };
 
 type FreeBoardItemProps = {
@@ -52,25 +55,28 @@ const BottomText = ({ children, ...props }: TextProps) => {
 export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   title,
   leftTag,
-  tagType = "primary",
+  tagType = "error",
   description,
   image,
   imageAlt,
   bookmark,
   hasImage,
+  postId,
 }) => {
   const [mark, setMark] = useState(bookmark);
-  const toggleMark = (event: React.MouseEvent<HTMLElement>) => {
+  const toggleMark = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     setMark(p => !p);
+    const response = await postApis.scrapPost(postId);
+    console.log(1132, response);
   };
   return (
-    <Flex align={"center"}>
+    <Flex align={"flex-end"}>
       <Box flex={1}>
         {leftTag ? (
           <Badge
             bg={`${tagType}.100`}
-            color={`${tagType}.500`}
+            color={`${tagType}.normal`}
             borderRadius={"md"}
             paddingY={"1px"}
             mb={"4px"}
@@ -106,11 +112,11 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
           />
         </Box>
       ) : null}
-      {bookmark !== undefined ? (
+      {/* {bookmark ? (
         <button onClick={toggleMark}>
           {mark === false ? <ScrapEmptyIcon /> : <ScrapIcon />}
         </button>
-      ) : null}
+      ) : null} */}
     </Flex>
   );
 };
@@ -129,6 +135,8 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   dday,
   bookmark,
   hasImage,
+  isEvent,
+  postId,
   ...props
 }) => {
   return (
@@ -142,9 +150,10 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
         imageAlt={imageAlt}
         bookmark={bookmark}
         hasImage={hasImage}
+        postId={postId}
       />
       <Flex justify={"space-between"} align={"center"}>
-        <Flex gap={2} align={"end"}>
+        <Flex gap={2} align={"center"}>
           {dday ? (
             <Heading color={"primary.500"} size={"xs"}>
               {dday}

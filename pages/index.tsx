@@ -1,31 +1,23 @@
-import { Key, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Box, Image, Link } from "@chakra-ui/react";
+import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { isCertificatedState } from "@/state/atoms/auth/loginAtom";
-import formatDateRange from "@/utils/formatDateRange";
-import checkDday from "@/utils/checkDday";
+import MainBanner_v2 from "@/components/main/MainBanner_v2";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import boardApis from "@/api/board";
-import { BoxButton, Carousel, Banner } from "@/components/common";
-import { DeviderWave } from "@/components/icons";
+import { Carousel, Banner } from "@/components/common";
 import Layout from "@/components/layout/Layout";
-import {
-  HomeSettingList,
-  HyperLinks,
-  TextBanner,
-  MainBoardStack,
-  MainBoardTitle,
-  MainBoardItem,
-  MainBanner,
-} from "@/components/main";
+import { HomeSettingList, HyperLinks, TextBanner } from "@/components/main";
 import useDrawer from "@/hooks/useDrawer";
 import useSnackbar from "@/hooks/useSnackbar";
-import formatDate from "@/utils/formatDate";
 import certificationApis from "@/api/certification";
-// import { useColorMode } from "@chakra-ui/react";
+import GridClub from "@/components/icons/GridClub";
+import NoticeLogoIcon from "@/components/icons/NoticeLogoIcon";
+import GridRecruit from "@/components/icons/GridRecruit";
+import GridEvent from "@/components/icons/GridEvent";
+import QuestionIcon from "@/components/icons/QuestionIcon";
+
+//{ useColorMode } f import rom "@chakra-ui/react";
 const props = {
   header: "홈 설정",
   subtitle: "보고싶은 게시판만 선택하고 정렬해 보세요.",
@@ -53,7 +45,12 @@ const props = {
   ),
   btnContent: "설정 완료",
 };
-
+const gridProps = [
+  { name: "채용공고", title: <GridRecruit />, link: "recruitment" },
+  { name: "이벤트", title: <GridEvent />, link: "event" },
+  { name: "coming soon", title: <GridClub />, link: "club" },
+  { name: "인플리 공지", title: <NoticeLogoIcon />, link: "announcement" },
+];
 type BoardType = {
   title: string;
   boards: any[];
@@ -67,37 +64,6 @@ type BoardListType = BoardType[];
 export default function Main() {
   const [onOpen, ButtonDrawer, onClose] = useDrawer(props);
   // const { colorMode, toggleColorMode } = useColorMode();
-  const initialBoardList: BoardListType = [
-    {
-      title: "익명",
-      boards: [],
-      boardId: 4,
-      postType: "NORMAL",
-      order: "popular",
-    },
-    {
-      title: "채용",
-      boards: [],
-      boardId: 1,
-      postType: "RECRUITMENT",
-      order: "recent",
-    },
-    {
-      title: "대외활동",
-      boards: [],
-      boardId: 2,
-      postType: "RECRUITMENT",
-      order: "recent",
-    },
-    {
-      title: "학교생활",
-      boards: [],
-      boardId: 5,
-      postType: "NORMAL",
-      order: "recent",
-    },
-  ];
-  const [boardList, setBoardList] = useState<any>([]);
   const [alarmContent, setAlarmContent] = useState<string>("");
   const [alarmDuration, setAlarmDuration] = useState<number>(3000);
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
@@ -131,37 +97,19 @@ export default function Main() {
     }
   }, []);
 
-  useEffect(() => {
-    const fetchBoards = async () => {
-      if (true) {
-        initialBoardList.forEach(el => {
-          (async function () {
-            const response = await boardApis.getBoardList(
-              el.boardId,
-              el.postType,
-              1,
-              el.order,
-              5,
-            );
-
-            setBoardList((p: any) => {
-              if (response.data) {
-                return { ...p, [el.title]: response.data.data.posts };
-              }
-            });
-          })();
-        });
-        // const response = await boardApis.checkBoardsExist(token);
-      }
-    };
-    fetchBoards();
-  }, []);
+  // useEffect(() => {
+  //   const backgroundColor = "#F7F8FA"; // 현재 배경색상을 얻는 함수
+  //   document
+  //     .querySelector('meta[name="theme-color"]')
+  //     ?.setAttribute("content", backgroundColor);
+  // }, []);
 
   const router = useRouter();
 
   return (
     <Layout>
       {isActivated && <Snackbar />}
+      <MainBanner_v2 />
       <Box bg={"#F7F8FA"} paddingX="4.2%">
         {!isCertificate && <Box height={6} />}
         {!isCertificate && (
@@ -175,17 +123,14 @@ export default function Main() {
         {/* <Box onClick={toggleColorMode}>
           Toggle {colorMode === "light" ? "Dark" : "Light"}
         </Box> */}
-        <MainBanner />
         <Box
           right={0}
           left={0}
           position={"absolute"}
           marginTop="-55"
           zIndex="99"
-        >
-          <DeviderWave />
-        </Box>
-        <Box mt={"32px"} />
+        ></Box>
+        <Box h={8} />
         <HyperLinks />
         <Box mt={"48px"} />
         <Carousel>
@@ -196,65 +141,42 @@ export default function Main() {
             alt="banner"
             src="/assets/infli_asianLogo.PNG"
           /> */}
+
           <Image
-            onClick={() => router.push("/posting/5/100")}
+            onClick={() => router.push("/posting/5/1009")}
             alt="banner"
-            src="/assets/infli_report.png"
+            src="/assets/sub_logo_v3.jpg"
           />
         </Carousel>
         <Box mb={"48px"} />
         <TextBanner />
         <Box mb={"-15px"} />
-        {initialBoardList.map((el: any) => (
-          <Box key={el} mb={5} mt={10}>
-            <MainBoardTitle title={el.title} />
-            <Box borderRadius={"12px"} overflow={"hidden"}>
-              <MainBoardStack>
-                {boardList[el.title]?.map(
-                  (el2: {
-                    postId: number;
-                    commentCount: number | undefined;
-                    likeCount: number | undefined;
-                    viewCount: number;
-                    title: string;
-                    createdAt: string;
-                    recruitmentStartDate: any;
-                    recruitmentEndDate: any;
-                  }) => {
-                    const date = el2.recruitmentStartDate
-                      ? formatDateRange(
-                          el2.recruitmentStartDate,
-                          el2.recruitmentEndDate,
-                        )
-                      : formatDate(el2.createdAt);
-                    return (
-                      <MainBoardItem
-                        key={el2.postId}
-                        date={date}
-                        comments={el2.commentCount}
-                        likes={el2.likeCount}
-                        views={el2.viewCount}
-                        title={el2.title}
-                        dday={
-                          !el2.recruitmentStartDate
-                            ? null
-                            : checkDday(
-                                el2.recruitmentStartDate,
-                                el2.recruitmentEndDate,
-                              )
-                        }
-                        onClick={() =>
-                          router.push(`/posting/${el.boardId}/${el2.postId}`)
-                        }
-                      />
-                    );
-                  },
-                )}
-              </MainBoardStack>
-            </Box>
-          </Box>
-        ))}
-        <Box mt={10} />
+        <SimpleGrid columns={2} spacing={4} pb={4} mt={8}>
+          {gridProps.map(el => (
+            <Flex
+              justify={"space-between"}
+              direction={"column"}
+              p={4}
+              key={el.name}
+              bg={"#fff"}
+              style={{
+                objectFit: "cover",
+                aspectRatio: 1.01,
+                width: "100%",
+              }}
+              borderRadius={"16px"}
+              onClick={() => {
+                if (el.link !== "club") {
+                  router.push(`/board/${el.link}`);
+                }
+              }}
+            >
+              <Text textStyle={"headline2"}>{el.name}</Text>
+              <Flex justify={"flex-end"}>{el.title}</Flex>
+            </Flex>
+          ))}
+        </SimpleGrid>
+        <Box h={10} />
         {/* <Box mb={8} onClick={() => activateSnackbar()}>
           <BoxButton btnContent={"홈 설정"} type={"Filled"} onOpen={onOpen} />
         </Box> */}

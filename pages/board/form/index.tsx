@@ -21,8 +21,8 @@ import convertLinks from "@/utils/convertLinks";
 import { Center, Spinner } from "@chakra-ui/react";
 
 const pathByBoardId: { [key: number]: string } = {
-  1: "/board/recruit",
-  2: "/board/activity",
+  1: "/board/recruitment",
+  2: "/board/event",
   3: "/board/club",
   4: "/board/anonymous",
   5: "/board/free",
@@ -42,7 +42,9 @@ export default function PostingForm() {
   const [isBtnActive, setBtnActive] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
-    `${PAGE_TITLE[postType]}을 작성하였습니다.`,
+    `${
+      boardId === 2 && postType === "NORMAL" ? "후기글" : PAGE_TITLE[postType]
+    }을 작성하였습니다.`,
   );
 
   const [postContent, setPostContent] = useRecoilState(
@@ -125,7 +127,11 @@ export default function PostingForm() {
         </Center>
       )}
       <FormTitle
-        title={`${PAGE_TITLE[postType]} 쓰기`}
+        title={
+          boardId === 2 && postType === "NORMAL"
+            ? "후기 쓰기"
+            : `${PAGE_TITLE[postType]} 쓰기`
+        }
         left={<CaretLeft />}
         right={
           <CreatePostButton
@@ -181,7 +187,7 @@ export default function PostingForm() {
 
 const PAGE_TITLE: { [key: string]: string } = {
   RECRUITMENT: "모집글",
-  NORMAL: "일반글",
+  NORMAL: "글",
   ANNOUNCEMENT: "공지글",
 };
 

@@ -37,12 +37,6 @@ export default function Navbar({ currentTab = "home" }) {
           홈
         </Text>
       </Box>
-      <Box onClick={() => router.push("/timetable")}>
-        {currentTab === "timeTable" ? <TimeTableBlue /> : <TimeTableIcon />}
-        <Text textStyle={"overline"} textAlign={"center"}>
-          시간표
-        </Text>
-      </Box>
       <Flex
         onClick={() => router.push("/board/anonymous")}
         direction={"column"}
@@ -53,7 +47,13 @@ export default function Navbar({ currentTab = "home" }) {
           익명게시판
         </Text>
       </Flex>
-      <Flex
+      <Box onClick={() => router.push("/timetable")}>
+        {currentTab === "timeTable" ? <TimeTableBlue /> : <TimeTableIcon />}
+        <Text textStyle={"overline"} textAlign={"center"}>
+          시간표
+        </Text>
+      </Box>
+      {/* <Flex
         onClick={() => router.push("/board")}
         direction={"column"}
         align={"center"}
@@ -62,7 +62,7 @@ export default function Navbar({ currentTab = "home" }) {
         <Text textStyle={"overline"} textAlign={"center"}>
           정보공유
         </Text>
-      </Flex>
+      </Flex> */}
       <Flex
         onClick={() => router.push("/myPage")}
         direction={"column"}

@@ -5,6 +5,7 @@ import HeartEmpty from "../icons/HeartEmpty";
 import Comment from "../icons/Comment";
 import HeartIcon from "../icons/HeartIcon";
 import likesApis from "@/api/like";
+import { useState } from "react";
 
 type BoardViewProps = {
   boardName: string;
@@ -38,14 +39,19 @@ const BoardView: React.FC<BoardViewProps> = ({
   const author = boardName == "익명" ? "익명" : enterprise || nickname;
   const timeline = `${startDate} ~ ${endDate}`; // 모집글이 아닌 경우
   const dday = substractDate(startDate, endDate);
+  const [likes, setLikes] = useState<number>(likeCount);
+  const [isPressedLike, setIsPressedLike] = useState<boolean>(pressedLike);
   async function handleLike() {
-    if (!pressedLike) {
-      const res = await likesApis.postLike(postId);
+    if (!isPressedLike) {
+      await likesApis.postLike(postId);
+      setLikes(p => p + 1);
+      setIsPressedLike(true);
     }
-    if (pressedLike) {
-      const res = await likesApis.cancelPostLike(postId);
+    if (isPressedLike) {
+      await likesApis.cancelPostLike(postId);
+      setLikes(p => p - 1);
+      setIsPressedLike(false);
     }
-    location.reload();
   }
   return (
     <>
@@ -79,10 +85,10 @@ const BoardView: React.FC<BoardViewProps> = ({
       >
         <Flex align={"center"}>
           <Box onClick={handleLike}>
-            {pressedLike ? <HeartIcon /> : <HeartEmpty />}
+            {isPressedLike ? <HeartIcon /> : <HeartEmpty />}
           </Box>
           <Text pl={1} fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-            {likeCount}
+            {likes}
           </Text>
         </Flex>
         <Flex align={"center"}>

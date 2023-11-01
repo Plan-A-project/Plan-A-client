@@ -24,7 +24,7 @@ const FreeBoardTab: React.FC<BoardTabProps> = ({
   ...props
 }) => {
   return (
-    <Tabs variant={"unstyled"} isFitted mt={6} {...props}>
+    <Tabs variant={"unstyled"} isFitted {...props}>
       <TabList borderBottom={"2px solid"} borderColor={"gray.200"} pb={1}>
         <Tab
           _selected={{

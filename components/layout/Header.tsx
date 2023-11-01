@@ -7,7 +7,14 @@ import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 export default function Header() {
   const testSearchFunction = searchFunctionFactory("익명게시판");
   return (
-    <Flex bg={"#F7F8FA"} justify="space-between" p={"0.6rem 1rem"}>
+    <Flex
+      zIndex={99}
+      position={"absolute"}
+      w={"full"}
+      bg={"transparent"}
+      justify="space-between"
+      p={"0.6rem 1rem"}
+    >
       <Logo />
       <Flex justify="space-between">
         <SearchModal

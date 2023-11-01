@@ -43,7 +43,7 @@ export default function BottomDrawer({
             </Heading>
           )}
           {subtitle && <Text fontSize={"sm"}>{subtitle}</Text>}
-          <DrawerBody p={0} my={4}>
+          <DrawerBody p={0} my={4} overflowY={"auto"} maxH={"600px"}>
             {children}
           </DrawerBody>
           {btnContent && (

@@ -111,6 +111,14 @@ const postApis = {
     const response = await client.get(`members/posts?page=${page}`);
     return response;
   }),
+  scrapPost: methodFormat(async postId => {
+    const response = await client.post(`posts/${postId}/scraps`);
+    return response;
+  }),
+  unScrapPost: methodFormat(async postId => {
+    const response = await client.delete(`posts/${postId}/scraps`);
+    return response;
+  }),
 };
 
 export default postApis;

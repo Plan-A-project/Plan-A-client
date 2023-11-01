@@ -94,11 +94,11 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
           />
         </Box>
       ) : null}
-      {bookmark !== undefined ? (
+      {/* {bookmark !== undefined ? (
         <button onClick={toggleMark}>
           {mark === false ? <ScrapEmptyIcon /> : <ScrapIcon />}
         </button>
-      ) : null}
+      ) : null} */}
     </Flex>
   );
 };

@@ -4,7 +4,11 @@ import { Box, Flex, Heading, Link, SimpleGrid, Text } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
 
 import NewBoardBanner from "@/components/board/NewBoardBanner";
-import { Carousel, Header as MyHeader } from "@/components/common";
+import {
+  Carousel,
+  Header as MyHeader,
+  AppContainer,
+} from "@/components/common";
 import SearchModal from "@/components/common/SearchModal";
 import IconForward from "@/components/icons/IconForward";
 import IconNotice from "@/components/icons/IconNotice";
@@ -14,7 +18,7 @@ import GridActivity from "@/components/icons/GridActivity";
 import GridClub from "@/components/icons/GridClub";
 import GridFree from "@/components/icons/GridFree";
 import GridRecruit from "@/components/icons/GridRecruit";
-import { title } from "process";
+import GridEvent from "@/components/icons/GridEvent";
 import { Image } from "@chakra-ui/react";
 
 function BoardMain() {
@@ -23,15 +27,16 @@ function BoardMain() {
   const gridProps = [
     { name: "채용", title: <GridRecruit />, link: "recruit" },
     { name: "대외활동", title: <GridActivity />, link: "activity" },
+    { name: "이벤트", title: <GridEvent />, link: "event" },
     { name: "동아리", title: <GridClub />, link: "club" },
     { name: "학교생활", title: <GridFree />, link: "free" },
   ];
 
   return (
-    <div>
+    <AppContainer margin>
       <Navbar currentTab="infoBoard" />
       <MyHeader
-        p={4}
+        py={4}
         leftTitle
         title="정보공유"
         rightNode={
@@ -41,7 +46,7 @@ function BoardMain() {
           />
         }
       />
-      <Flex p={4} align={"center"}>
+      <Flex pb={4} align={"center"}>
         <NewBoardBanner
           onClick={() => router.push("/posting/notice")}
           justify={"space-between"}
@@ -55,7 +60,7 @@ function BoardMain() {
           <IconForward />
         </NewBoardBanner>
       </Flex>
-      <Box px={4}>
+      <Box>
         <Carousel auto>
           <Image
             onClick={() => router.push("/posting/5/100")}
@@ -64,7 +69,7 @@ function BoardMain() {
           />
         </Carousel>
       </Box>
-      <SimpleGrid columns={2} spacing={4} p={4} mt={8}>
+      <SimpleGrid columns={2} spacing={4} pb={4} mt={8}>
         {gridProps.map(el => (
           <Flex
             justify={"space-between"}
@@ -72,7 +77,7 @@ function BoardMain() {
             p={4}
             key={el.name}
             bg={"#EDF3FC"}
-            style={{ objectFit: "cover", aspectRatio: 1, width: "100%" }}
+            style={{ objectFit: "cover", aspectRatio: 1.078, width: "100%" }}
             borderRadius={"16px"}
             onClick={() => router.push(`/board/${el.link}`)}
           >
@@ -81,7 +86,7 @@ function BoardMain() {
           </Flex>
         ))}
       </SimpleGrid>
-    </div>
+    </AppContainer>
   );
 }
 

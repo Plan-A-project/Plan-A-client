@@ -119,7 +119,7 @@ export const theme = extendTheme({
       800: "#005249",
       900: "#003D36",
     },
-    // error: #F90B66,
+    error: { 100: "#FFDDEB", normal: "#F90B66" },
     background1: "#FFFFFF",
 
     background2: "#F7F8FA",
@@ -128,6 +128,7 @@ export const theme = extendTheme({
       50: "#F7F8FA",
       100: "#ECECEF",
       200: "#DBDCE1",
+      normal: "#75788A",
       300: "#C8C9D0",
       500: "#9193A1",
       900: "#303136",
