@@ -181,7 +181,6 @@ const PostsList = ({
 
   //   setBoardList(p => [...p, ...boardListResponse]);
   // }, [boardListResponse]);
-  console.log(11323, boardInfo[boardId][type]);
   const isEventReview = boardId === 2 && type === "NORMAL";
   const getMorePosts = () => {
     if (isFinish) return;

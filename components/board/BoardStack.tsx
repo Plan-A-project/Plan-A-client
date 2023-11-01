@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 interface BoardStackProps extends StackProps {
-  isEventReview: boolean;
+  isEventReview?: boolean;
 }
 
 const BoardStack: React.FC<PropsWithChildren<BoardStackProps>> = ({

@@ -59,7 +59,6 @@ const ReviewCommentBar: React.FC<CommentBarProps> = ({ postId }) => {
     // } else {
     fetchComment();
     // }
-    console.log(11111, commentList);
   }, [postId, isSentComment]);
   const handleReply = (id: number) => {
     setParentCommentId(id);
