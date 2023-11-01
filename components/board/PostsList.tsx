@@ -17,7 +17,7 @@ import { useRecoilState } from "recoil";
 import { boardListState } from "@/state/atoms/board/boardState";
 import { scrollPositionState } from "@/state/atoms/board/boardState";
 import { RepeatIcon } from "@chakra-ui/icons";
-import axios from "axios";
+import ReviewBoardItem from "./ReviewBoardItem";
 
 type OrderType = "recent" | "popular";
 
@@ -25,7 +25,13 @@ const PostsList = ({
   boardName,
   type = "NORMAL",
 }: {
-  boardName: "채용" | "대외활동" | "동아리" | "익명게시판" | "학교생활";
+  boardName:
+    | "채용"
+    | "대외활동"
+    | "동아리"
+    | "익명게시판"
+    | "학교생활"
+    | "이벤트";
   type?: "NORMAL" | "ANNOUNCEMENT" | "RECRUITMENT";
 }) => {
   const boardId = BOARD_ID_MAP[boardName];
@@ -175,7 +181,8 @@ const PostsList = ({
 
   //   setBoardList(p => [...p, ...boardListResponse]);
   // }, [boardListResponse]);
-
+  console.log(11323, boardInfo[boardId][type]);
+  const isEventReview = boardId === 2 && type === "NORMAL";
   const getMorePosts = () => {
     if (isFinish) return;
     setPage(p => p + 1);
@@ -224,7 +231,8 @@ const PostsList = ({
           <Spinner color="primary.normal" />
         </Center>
       ) : (
-        <BoardStack>
+        <BoardStack isEventReview={isEventReview}>
+          {/* boardId가 1번이면 위에 뱃지에 기업이름, 2번이면 모집중 status넣어주기(이벤트탭이므로) */}
           {boardInfo[boardId][type]?.map(
             (el: {
               recruitmentStartDate: any;
@@ -236,6 +244,8 @@ const PostsList = ({
               title: string;
               postId: any;
               hasImage: boolean;
+              thumbnailUrl: string | null;
+              pressedLike: boolean;
             }) => {
               const date = el.recruitmentStartDate
                 ? formatDateRange(
@@ -243,10 +253,48 @@ const PostsList = ({
                     el.recruitmentEndDate,
                   )
                 : formatDate(el.createdAt);
+              const date1: any = new Date();
+              const date2: any = new Date(el.recruitmentEndDate);
+
+              // Calculate difference in milliseconds
+              const diffMilliseconds = date2 - date1;
+              const diffDays = Math.ceil(
+                diffMilliseconds / (1000 * 60 * 60 * 24),
+              );
+
+              const tagName = diffDays < 0 ? "마감" : "모집중";
+              if (isEventReview) {
+                return (
+                  <ReviewBoardItem
+                    key={el.postId}
+                    pressedLike={el.pressedLike}
+                    bookmark={!!el.recruitmentEndDate}
+                    {...(el.recruitmentEndDate ? { leftTag: tagName } : {})}
+                    tagType={tagName === "마감" ? "grey" : "error"}
+                    comments={el.commentCount}
+                    thumbnailUrl={el.thumbnailUrl}
+                    postId={el.postId}
+                    likes={el.likeCount}
+                    date={date}
+                    views={el.viewCount}
+                    title={el.title}
+                    hasImage={el.hasImage}
+                    dday={
+                      !el.recruitmentStartDate
+                        ? null
+                        : checkDday(new Date(), el.recruitmentEndDate)
+                    }
+                  />
+                );
+              }
               return (
                 <FreeBoardItem
-                  key={el.commentCount}
+                  key={el.postId}
+                  bookmark={!!el.recruitmentEndDate}
+                  {...(el.recruitmentEndDate ? { leftTag: tagName } : {})}
+                  tagType={tagName === "마감" ? "grey" : "error"}
                   comments={el.commentCount}
+                  postId={el.postId}
                   likes={el.likeCount}
                   date={date}
                   views={el.viewCount}
@@ -255,10 +303,7 @@ const PostsList = ({
                   dday={
                     !el.recruitmentStartDate
                       ? null
-                      : checkDday(
-                          el.recruitmentStartDate,
-                          el.recruitmentEndDate,
-                        )
+                      : checkDday(new Date(), el.recruitmentEndDate)
                   }
                   onClick={() =>
                     router.push(`/posting/${boardId}/${el.postId}`)
