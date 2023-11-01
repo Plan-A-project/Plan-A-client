@@ -32,7 +32,7 @@ type BoardItemContentProps = {
   bookmark?: boolean;
   hasImage?: boolean;
   isEvent?: boolean;
-  postId: number;
+  postId?: number;
 };
 
 type FreeBoardItemProps = {
@@ -68,7 +68,6 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
     event.stopPropagation();
     setMark(p => !p);
     const response = await postApis.scrapPost(postId);
-    console.log(1132, response);
   };
   return (
     <Flex align={"flex-end"}>
