@@ -10,9 +10,9 @@ const NewBoardBanner = ({ children, ...props }: Props) => {
       h={"72px"}
       p={"0 12px"}
       w={"100%"}
-      bg={"gray.100"}
+      bg={"gray.50"}
       align={"center"}
-      borderRadius={"lg"}
+      borderRadius={"16px"}
       {...props}
     >
       {children}

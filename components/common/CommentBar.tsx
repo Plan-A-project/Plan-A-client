@@ -28,11 +28,11 @@ type CommentBarProps = BoxProps & {
   onCommentSend?: (text: string) => void;
   withoutDummy?: boolean;
   postId: string | undefined | string[];
-  handleComment: any;
-  commentState: boolean;
+  handleComment?: any;
+  commentState?: boolean;
   parentCommentId?: number;
-  handleParentId: any;
-  handleCommentList: any;
+  handleParentId?: any;
+  handleCommentList?: any;
 };
 
 const CommentBar = forwardRef<HTMLDivElement, CommentBarProps>(
