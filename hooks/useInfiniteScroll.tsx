@@ -10,7 +10,6 @@ const useInfiniteScroll = (api: any, path: any, postId = 0) => {
       let response: { data: { data: { [x: string]: any } } };
       if (postId) {
         response = await api(postId, page);
-        console.log(13232, response);
       } else {
         response = await api(page);
       }
