@@ -85,7 +85,12 @@ const MyPage = () => {
             <Flex justify={"space-between"}>
               <Text textStyle={"headline2"}>프로필</Text>
               <Text
-                onClick={() => router.push("/myPage/changeProfile")}
+                onClick={() => {
+                  setTitle("닉네임 & 프로필 사진 변경");
+                  setContent(<InfoContent content="업데이트 중입니다." />);
+                  onOpen();
+                  // router.push("/myPage/changeProfile");
+                }}
                 textStyle={"body3"}
               >
                 {isLoggedIn ? "변경" : ""}
@@ -95,7 +100,7 @@ const MyPage = () => {
               <Container bgColor="#F7F8FA" borderRadius={8}>
                 <Center
                   p={"20px 12px"}
-                  onClick={() => router.push("/myPage/changeProfile")}
+                  // onClick={() => router.push("/myPage/changeProfile")}
                 >
                   <Flex gap={"10px"} width={"100%"}>
                     <Circle size={"56px"} overflow={"hidden"}>
