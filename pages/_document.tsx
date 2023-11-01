@@ -20,12 +20,16 @@ export default function Document() {
           name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
         />
+
+        <meta name="theme-color" content="#fff" />
+
         <meta name="description" content="Description" />
         <meta name="keywords" content="Keywords" />
         <meta
           name="google-site-verification"
           content="1E7BOTZfUqEPefYQGc22A7p9xC-oAst420TLbz_gpzc"
         />
+
         <title>infli</title>
 
         <link rel="manifest" href="/manifest.json" />
