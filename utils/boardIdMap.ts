@@ -4,4 +4,5 @@ export const BOARD_ID_MAP = {
   동아리: 3,
   익명게시판: 4,
   학교생활: 5,
+  이벤트: 6,
 };
