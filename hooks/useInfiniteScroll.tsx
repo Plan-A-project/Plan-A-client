@@ -1,14 +1,20 @@
 import { useState, useEffect, useRef } from "react";
 
-const useInfiniteScroll = (api: any, path: any) => {
+const useInfiniteScroll = (api: any, path: any, postId = 0) => {
   const [data, setData] = useState<any>([]);
   const [page, setPage] = useState(1);
   const loader = useRef(null);
 
   useEffect(() => {
     const loadData = async () => {
-      const response = await api(page);
-      setData((prevData: any) => [...prevData, ...response.data.data[path]]);
+      let response: { data: { data: { [x: string]: any } } };
+      if (postId) {
+        response = await api(postId, page);
+        console.log(13232, response);
+      } else {
+        response = await api(page);
+      }
+      // setData((prevData: any) => [...prevData, ...response.data.data[path]]);
     };
 
     loadData();
