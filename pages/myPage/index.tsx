@@ -10,6 +10,7 @@ import {
   Circle,
   Center,
   Link,
+  Avatar,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
@@ -86,10 +87,7 @@ const MyPage = () => {
               <Text textStyle={"headline2"}>프로필</Text>
               <Text
                 onClick={() => {
-                  setTitle("닉네임 & 프로필 사진 변경");
-                  setContent(<InfoContent content="업데이트 중입니다." />);
-                  onOpen();
-                  // router.push("/myPage/changeProfile");
+                  router.push("/myPage/changeProfile");
                 }}
                 textStyle={"body3"}
               >
@@ -100,16 +98,12 @@ const MyPage = () => {
               <Container bgColor="#F7F8FA" borderRadius={8}>
                 <Center
                   p={"20px 12px"}
-                  // onClick={() => router.push("/myPage/changeProfile")}
+                  onClick={() => router.push("/myPage/changeProfile")}
                 >
                   <Flex gap={"10px"} width={"100%"}>
                     <Circle size={"56px"} overflow={"hidden"}>
                       {userInfo.thumbnailUrl ? (
-                        <img
-                          src={userInfo.thumbnailUrl}
-                          alt="Uploaded Preview"
-                          width="100"
-                        />
+                        <Avatar src={userInfo.thumbnailUrl} size={"lg"} />
                       ) : (
                         <ProfileBasic />
                       )}
