@@ -13,6 +13,7 @@ import { useDropdown } from "@/hooks/useDropdown";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
 import { Image } from "@chakra-ui/react";
 import profileApis from "@/api/profile";
+import postApis from "@/api/post";
 
 function RecruitMain() {
   const router = useRouter();
@@ -37,12 +38,25 @@ function RecruitMain() {
       // menu = 인덱스 값 0 ~ 2
       menu
         ? router.push("/board/form?boardId=2&postType=RECRUITMENT")
-        : router.push("/board/form?boardId=2&postType=NORMAL");
+        : handlePost();
       // 클릭시 닫기도 가능
       // toggle(false);});
     },
     ref,
   });
+  const handlePost = async () => {
+    const response = await postApis.checkAgree();
+    if (response.data?.data) {
+      router.push(`/board/form?boardId=2&postType=NORMAL`);
+    } else {
+      // 최초 1회 공지
+      if (response.code === 401) {
+        router.push("/login");
+      } else {
+        router.push("/board/initialNotice?boardId=2&postType=NORMAL");
+      }
+    }
+  };
   return (
     <AppContainer margin>
       <Navbar currentTab="infoBoard" />
