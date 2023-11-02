@@ -1,7 +1,7 @@
 import { useState, useRef, ChangeEvent } from "react";
 
-import { Box, Stack } from "@chakra-ui/layout";
-import { Input, Circle, Button } from "@chakra-ui/react";
+import { Box, Center, Stack, Text } from "@chakra-ui/layout";
+import { Input, Circle, Button, Avatar, Spinner } from "@chakra-ui/react";
 
 import profileApis from "@/api/profile";
 import { AppContainer, Header } from "@/components/common";
@@ -15,6 +15,7 @@ const ChangeProfile = () => {
   const [fileURL, setFileURL] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const {
     inputValues,
@@ -51,6 +52,7 @@ const ChangeProfile = () => {
   };
   const handleModify = async () => {
     // 닉네임 변경 했으면 api 요청함
+    setIsLoading(true);
     if (inputValues.nickname && !errors.nickname) {
       const response = await profileApis.changeNickname(inputValues.nickname);
       if (response.ok) {
@@ -58,6 +60,7 @@ const ChangeProfile = () => {
       } else {
         alert("오류가 발생했습니다. 다시 시도해주세요.");
       }
+      setIsLoading(false);
     }
     // 프로필 사진 변경했으면 api 요청함
     if (fileURL) {
@@ -70,6 +73,7 @@ const ChangeProfile = () => {
         } else {
           alert("오류가 발생했습니다. 다시 시도해주세요.");
         }
+        setIsLoading(false);
       }
     }
     router.back();
@@ -77,6 +81,15 @@ const ChangeProfile = () => {
   return (
     <AppContainer>
       <Header back leftTitle title="프로필 변경" />
+      {isLoading && (
+        <Center flexDirection={"column"}>
+          <Spinner color="primary.normal" />
+          <Text mt={2} textStyle={"subtitle2"} color={"primary.normal"}>
+            알고 계셨나요? <br />
+            프로필 사진을 변경하면 연애 확률이 올라간답니다!
+          </Text>
+        </Center>
+      )}
       <Stack mt={12} align={"center"} gap={12}>
         <Input
           type="file"
@@ -92,7 +105,7 @@ const ChangeProfile = () => {
             border={fileURL ? "2px solid var(--grey-grey-500, #9193A1)" : ""}
           >
             {fileURL ? (
-              <img src={fileURL} alt="Uploaded Preview" width="100" />
+              <Avatar src={fileURL} size={"full"} />
             ) : (
               <ProfileChange />
             )}
