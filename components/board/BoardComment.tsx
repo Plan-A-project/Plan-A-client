@@ -8,6 +8,7 @@ import {
   Text,
   Flex,
   Divider,
+  Circle,
 } from "@chakra-ui/react";
 import Close from "../icons/Close";
 
@@ -23,6 +24,7 @@ import ThreeDotsSmallIcon from "../icons/ThreeDotsSmallIcon";
 import commentApis from "@/api/comment";
 import likesApis from "@/api/like";
 import HeartIcon from "../icons/HeartIcon";
+import ProfileBasic from "../icons/ProfileBasic";
 
 type BoardCommentProps = {
   username: string;
@@ -124,9 +126,13 @@ const BoardComment: React.FC<BoardCommentProps> = ({
             <ReplyIcon />
             <Stack w={12} align={"flex-start"}>
               <Stack spacing={1} align={"center"}>
-                {withProfile && (
-                  <Avatar name={username} size={"sm"} src={profileImage} />
-                )}
+                {/* <Circle size={"28px"} overflow={"hidden"}>
+                  {profileImage ? (
+                    <Avatar size={"sm"} src={profileImage} />
+                  ) : (
+                    <ProfileBasic />
+                  )}
+                </Circle> */}
                 <Text textStyle={"overline"} minW={10}>
                   {username}
                 </Text>
@@ -174,13 +180,17 @@ const BoardComment: React.FC<BoardCommentProps> = ({
           {isActivated && <Snackbar />}
           <ButtonDrawer />
           <HStack align={"center"} justify={"space-between"}>
-            <Flex>
+            <Flex alignItems="flex-start">
               {withProfile ? (
                 <Stack align={"start"} mr={4}>
                   <Stack align={"center"}>
-                    {withProfile && (
-                      <Avatar name={username} size={"sm"} src={profileImage} />
-                    )}
+                    <Circle size={"28px"} overflow={"hidden"}>
+                      {profileImage ? (
+                        <Avatar size={"sm"} src={profileImage} />
+                      ) : (
+                        <ProfileBasic />
+                      )}
+                    </Circle>
                     <Text align={"center"} maxW={"36px"} textStyle={"overline"}>
                       {username}
                     </Text>
@@ -189,9 +199,6 @@ const BoardComment: React.FC<BoardCommentProps> = ({
               ) : (
                 <Stack w={12} align={"start"}>
                   <Stack spacing={1} align={"start"}>
-                    {withProfile && (
-                      <Avatar name={username} size={"sm"} src={profileImage} />
-                    )}
                     <Text textStyle={"overline"} minW={10}>
                       {username}
                     </Text>
@@ -246,6 +253,8 @@ const BoardComment: React.FC<BoardCommentProps> = ({
           commentId={commentId}
           myComment={myComment}
           pressedLikeOnThisComment={pressedLikeOnThisComment}
+          profileImage={profileImage}
+          // withProfile
         />
       )}
     </Box>

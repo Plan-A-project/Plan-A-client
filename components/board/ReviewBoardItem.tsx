@@ -10,6 +10,7 @@ import {
   Circle,
   Image,
   Button,
+  Avatar,
 } from "@chakra-ui/react";
 
 import Comment from "../icons/Comment";
@@ -120,8 +121,9 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
           <Flex>
             <Circle size={"28px"} overflow={"hidden"} mr={2}>
               {thumbnailUrl ? (
-                <Image src={thumbnailUrl} alt="Uploaded Preview" width="100" />
+                <Avatar size={"sm"} src={thumbnailUrl} />
               ) : (
+                // <Image src={thumbnailUrl} alt="Uploaded Preview" width="100" />
                 <ProfileBasic />
               )}
             </Circle>
@@ -235,7 +237,7 @@ const ReviewBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
         createdAt={postData.createdAt}
         isAdmin={postData.admin}
         isMyPost={postData.myPost}
-        thumbnailUrl={thumbnailUrl}
+        thumbnailUrl={postData.profileUrl}
       />
       <Flex
         p={"7px"}

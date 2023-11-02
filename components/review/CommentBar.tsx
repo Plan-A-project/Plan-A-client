@@ -42,23 +42,8 @@ const ReviewCommentBar: React.FC<CommentBarProps> = ({ postId }) => {
         }
         setIsLoading(false);
       }
-
-      // Stop fetching comments if less than 20
-      // if (comments.data?.data.comments.length < 20) {
-      //   setIsLoading(false);
-      // } else {
-      //   setLoading(false);
-      // }
     }
-
-    // If isSentComment has changed, reset the page count to 1 and empty the comment list
-    // if (isSentComment) {
-    //   setPage(1);
-    //   setCommentList([]);
-    //   setIsSentComment(false); // reset the isSentComment back to its initial state
-    // } else {
     fetchComment();
-    // }
   }, [postId, isSentComment]);
   const handleReply = (id: number) => {
     setParentCommentId(id);
@@ -88,6 +73,7 @@ const ReviewCommentBar: React.FC<CommentBarProps> = ({ postId }) => {
               pressedLikeOnThisComment: boolean;
               deleted: boolean;
               nickname: string;
+              profileImageUrl: string;
             }) => {
               return (
                 <Box key={el.id} overflowY={"auto"} maxH={"600px"}>
@@ -102,6 +88,7 @@ const ReviewCommentBar: React.FC<CommentBarProps> = ({ postId }) => {
                     }
                     myComment={el.myComment}
                     content={el.content}
+                    profileImage={el.profileImageUrl}
                     createdAt={el.createdAt}
                     likesCount={el.likesCount}
                     isReply={el.parentComment}
