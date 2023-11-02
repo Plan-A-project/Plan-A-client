@@ -69,7 +69,7 @@ const MainBanner_v2 = () => {
         renderIndicator={CustomIndicator}
       >
         {carouselItem.map((el, index) => {
-          return <Image key={el} src="/assets/event_movie_v7.jpg" alt="hi" />;
+          return <Image key={el} src="/assets/event_movie_v9.jpg" alt="hi" />;
         })}
       </Carousel>
     </Box>
