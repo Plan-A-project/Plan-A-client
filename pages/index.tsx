@@ -148,9 +148,8 @@ export default function Main() {
             src="/assets/sub_logo_v3.jpg"
           />
         </Carousel>
-        <Box mb={"48px"} />
+        <Box mb={"26px"} />
         <TextBanner />
-        <Box mb={"-15px"} />
         <SimpleGrid columns={2} spacing={4} pb={4} mt={8}>
           {gridProps.map(el => (
             <Flex
