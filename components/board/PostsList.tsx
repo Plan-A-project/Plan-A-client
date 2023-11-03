@@ -252,16 +252,10 @@ const PostsList = ({
                     el.recruitmentEndDate,
                   )
                 : formatDate(el.createdAt);
-              const date1: any = new Date();
-              const date2: any = new Date(el.recruitmentEndDate);
 
-              // Calculate difference in milliseconds
-              const diffMilliseconds = date2 - date1;
-              const diffDays = Math.ceil(
-                diffMilliseconds / (1000 * 60 * 60 * 24),
-              );
+              const diffDay = checkDday(new Date(), el.recruitmentEndDate)[1];
 
-              const tagName = diffDays < 0 ? "마감" : "모집중";
+              const tagName = diffDay === "+" ? "마감" : "모집중";
               if (isEventReview) {
                 return (
                   <ReviewBoardItem
