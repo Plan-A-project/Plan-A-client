@@ -14,20 +14,18 @@ export default function checkDday(date1Str: any, date2Str: any) {
 
   const date1: any = new Date(date1Str);
   const date2: any = new Date(toNextMidnight(date2Str));
-
   // Calculate difference in milliseconds
   const diffMilliseconds = date2 - date1;
-
+  console.log(11323, diffMilliseconds);
   // Convert difference to days
   const diffDays = Math.ceil(diffMilliseconds / (1000 * 60 * 60 * 24));
-
   // Check if d-day has passed, is today, or is in the future
-  if (diffDays < 0) {
-    return `D+${Math.abs(diffDays + 1)}`;
+  if (diffDays <= 0) {
+    return `D+${Math.abs(diffDays) + 1}`;
   } else if (diffDays === 1) {
     return "D-Day";
   } else {
-    return `D-${diffDays - 1}`;
+    return `D-${diffDays}`;
   }
 }
 
