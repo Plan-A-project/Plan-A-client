@@ -56,7 +56,7 @@ const MainBanner_v2 = () => {
   };
 
   return (
-    <Box w="100vw">
+    <Box w="100vw" onClick={() => router.push("/posting/5/558")}>
       <Carousel
         infiniteLoop={true}
         dynamicHeight={true}
@@ -68,8 +68,14 @@ const MainBanner_v2 = () => {
         showArrows={false}
         renderIndicator={CustomIndicator}
       >
-        {carouselItem.map((el, index) => {
-          return <Image key={el} src="/assets/event_banner_v3.jpg" alt="hi" />;
+        {carouselItem.map(el => {
+          return (
+            <Image
+              key={el}
+              src="/assets/event_banner_v4.jpg"
+              alt="main_banner"
+            />
+          );
         })}
       </Carousel>
     </Box>
