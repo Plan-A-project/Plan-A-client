@@ -186,11 +186,19 @@ const Carousel: React.FC<CarouselProps> = ({
 
       if (Math.abs(dx) < 5) {
         clearAdjust();
-        setIndex(Math.abs(dtx / width) + 1);
+        const newIndex = Math.abs(dtx / width) + 1;
+        setIndex(newIndex);
+
+        // 여기서 index가 childrenCount와 같으면 첫 번째 페이지로 리셋
+        if (newIndex > childrenCount) {
+          lastX.current = 0;
+          setIndex(1);
+        }
+
         return dtx;
       }
 
-      const distx = dx * 0.2;
+      const distx = dx * 0.03;
       return prevTx + distx;
     });
 
