@@ -133,7 +133,7 @@ export default function Main() {
         <Box h={8} />
         <HyperLinks />
         <Box mt={"48px"} />
-        <Carousel>
+        <Carousel loop auto interval={4}>
           {/* <Image
             onClick={() =>
               (window.location.href = "https://infli-chat.vercel.app/")

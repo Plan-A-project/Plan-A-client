@@ -16,9 +16,12 @@ import { useRouter } from "next/router";
 
 const MainBanner_v2 = () => {
   const router = useRouter();
-  const [carouselItem, setCarouselItem] = useState(["영화 이벤트"]);
+  const [carouselItem, setCarouselItem] = useState<any>(["영화 이벤트"]);
   useEffect(() => {
-    // setCarouselItem()
+    setCarouselItem([
+      { title: "꿀 정보 배너", src: "/assets/event_honey.jpg" },
+      { title: "기본 배너", src: "/assets/event_banner_v4.jpg" },
+    ]);
   }, []);
 
   const CustomIndicator = (
@@ -56,7 +59,7 @@ const MainBanner_v2 = () => {
   };
 
   return (
-    <Box w="100vw" onClick={() => router.push("/posting/5/558")}>
+    <Box w="100vw">
       <Carousel
         infiniteLoop={true}
         dynamicHeight={true}
@@ -67,15 +70,17 @@ const MainBanner_v2 = () => {
         transitionTime={1000}
         showArrows={false}
         renderIndicator={CustomIndicator}
+        onClickItem={(index, item) => {
+          if (!index) {
+            router.push("/posting/2/1072");
+          }
+          if (index === 1) {
+            router.push("/posting/5/558");
+          }
+        }}
       >
-        {carouselItem.map(el => {
-          return (
-            <Image
-              key={el}
-              src="/assets/event_banner_v4.jpg"
-              alt="main_banner"
-            />
-          );
+        {carouselItem.map((el: any) => {
+          return <Image key={el} src={el.src} alt={el.title} />;
         })}
       </Carousel>
     </Box>
