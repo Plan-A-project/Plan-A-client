@@ -59,7 +59,7 @@ const MainBanner_v2 = () => {
   };
 
   return (
-    <Box w="100vw" onClick={() => router.push("/posting/5/558")}>
+    <Box w="100vw">
       <Carousel
         infiniteLoop={true}
         dynamicHeight={true}
@@ -74,9 +74,9 @@ const MainBanner_v2 = () => {
           if (index === 0) {
             router.push("/posting/2/1072");
           }
-          if (index === 1) {
-            router.push("/posting/5/558");
-          }
+          // if (index === 1) {
+          //   router.push("/posting/5/558");
+          // }
         }}
       >
         {carouselItem.map((el: any) => {
