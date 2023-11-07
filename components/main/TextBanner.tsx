@@ -11,8 +11,12 @@ export default function TextBanner() {
           틈새 꿀정보
         </Text>
       </Flex>
-      <Text textStyle={"body1"}>
-        알고 계셨나요? 위챗페이 연간 한도는 10만 위안이랍니다!
+
+      <Flex textStyle={"body1"}>
+        알고 계셨나요? 탁구를 치면 기분이 좋아진답니다!
+      </Flex>
+      <Text fontWeight={600} align={"right"}>
+        - 인플리 운영자 -
       </Text>
     </>
   );
