@@ -71,7 +71,7 @@ const MainBanner_v2 = () => {
         showArrows={false}
         renderIndicator={CustomIndicator}
         onClickItem={(index, item) => {
-          if (!index) {
+          if (index === 0) {
             router.push("/posting/2/1072");
           }
           if (index === 1) {
