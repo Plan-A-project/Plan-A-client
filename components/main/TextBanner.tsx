@@ -13,10 +13,11 @@ export default function TextBanner() {
       </Flex>
 
       <Flex textStyle={"body1"}>
-        알고 계셨나요? 탁구를 치면 기분이 좋아진답니다!
+        알고 계셨나요? 중국은 40도가 넘어가면 노동자들의 실외작업을
+        중단시킵니다!
       </Flex>
       <Text fontWeight={600} align={"right"}>
-        - 인플리 운영자 -
+        - 냥냥 -
       </Text>
     </>
   );
