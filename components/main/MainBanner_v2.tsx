@@ -59,7 +59,7 @@ const MainBanner_v2 = () => {
   };
 
   return (
-    <Box w="100vw">
+    <Box w="100vw" onClick={() => router.push("/posting/5/558")}>
       <Carousel
         infiniteLoop={true}
         dynamicHeight={true}
