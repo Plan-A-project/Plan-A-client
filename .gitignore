@@ -31,10 +31,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-# CI/CD conflict resolve
-.eslintrc.json
-.prettierrc
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
