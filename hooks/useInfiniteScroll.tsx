@@ -13,7 +13,7 @@ const useInfiniteScroll = (api: any, path: any, postId = 0) => {
       } else {
         response = await api(page);
       }
-      // setData((prevData: any) => [...prevData, ...response.data.data[path]]);
+      setData((prevData: any) => [...prevData, ...response.data.data[path]]);
     };
 
     loadData();
