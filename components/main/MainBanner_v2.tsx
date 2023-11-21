@@ -19,7 +19,7 @@ const MainBanner_v2 = () => {
   const [carouselItem, setCarouselItem] = useState<any>(["영화 이벤트"]);
   useEffect(() => {
     setCarouselItem([
-      { title: "꿀 정보 배너", src: "/assets/event_honey.jpg" },
+      { title: "클라이밍 이벤트 배너", src: "/assets/event_climbing.jpg" },
       { title: "기본 배너", src: "/assets/event_banner_v4.jpg" },
     ]);
   }, []);
@@ -59,20 +59,20 @@ const MainBanner_v2 = () => {
   };
 
   return (
-    <Box w="100vw" onClick={() => router.push("/posting/5/558")}>
+    <Box w="100vw">
       <Carousel
         infiniteLoop={true}
         dynamicHeight={true}
         showThumbs={false}
         autoPlay={true}
-        interval={3000}
+        interval={2000}
         showStatus={false}
         transitionTime={1000}
         showArrows={false}
         renderIndicator={CustomIndicator}
         onClickItem={(index, item) => {
           if (index === 0) {
-            router.push("/posting/2/1072");
+            router.push("/posting/2/1160");
           }
           // if (index === 1) {
           //   router.push("/posting/5/558");
