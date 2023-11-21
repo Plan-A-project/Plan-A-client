@@ -13,11 +13,10 @@ export default function TextBanner() {
       </Flex>
 
       <Flex textStyle={"body1"}>
-        알고 계셨나요? 중국은 40도가 넘어가면 노동자들의 실외작업을
-        중단시킵니다!
+        알고 계셨나요? 짝사랑의 성공 확률은 33.9% 라고 합니다!
       </Flex>
       <Text fontWeight={600} align={"right"}>
-        - 냥냥 -
+        - 백수 -
       </Text>
     </>
   );
