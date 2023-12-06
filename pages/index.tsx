@@ -143,9 +143,9 @@ export default function Main() {
           /> */}
 
           <Image
-            onClick={() => router.push("/posting/2/1068")}
+            onClick={() => router.push("/posting/2/1219")}
             alt="banner"
-            src="/assets/event_banner_woodPencil.jpg"
+            src="/assets/event_banner_woodPencil_xmas.jpg"
           />
           <Image
             onClick={() => router.push("/posting/5/1009")}
