@@ -13,10 +13,11 @@ export default function TextBanner() {
       </Flex>
 
       <Flex textStyle={"body1"}>
-        알고 계셨나요? 짝사랑의 성공 확률은 33.9% 라고 합니다!
+        알고 계셨나요? 저는 초속 2,200km로 이동해야 하고 가구당 0.0003초 만에
+        선물을 놓고 나와야 한답니다!
       </Flex>
       <Text fontWeight={600} align={"right"}>
-        - 백수 -
+        - 산타 클로스 -
       </Text>
     </>
   );
