@@ -53,14 +53,15 @@ function Anonymous() {
         게시판 이용 규칙 안내
       </BoardBanner> */}
       <Box mt={4} />
-      <NoticeBanner
+      {/* <NoticeBanner
         onClick={() => {
           if (announcementList) {
             router.push(`/posting/5/${announcementList[0].postId}`);
           }
         }}
         text={announcementList ? announcementList[0]?.title : ""}
-      />
+      /> */}
+
       <Box mt={4}>
         <PostsList boardName={"익명게시판"} />
       </Box>
