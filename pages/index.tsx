@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import MainBanner_v2 from "@/components/main/MainBanner_v2";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel, Banner } from "@/components/common";
+import { Carousel, Banner, AppContainer } from "@/components/common";
 import Layout from "@/components/layout/Layout";
 import { HomeSettingList, HyperLinks, TextBanner } from "@/components/main";
 import useDrawer from "@/hooks/useDrawer";
@@ -16,6 +16,8 @@ import NoticeLogoIcon from "@/components/icons/NoticeLogoIcon";
 import GridRecruit from "@/components/icons/GridRecruit";
 import GridEvent from "@/components/icons/GridEvent";
 import QuestionIcon from "@/components/icons/QuestionIcon";
+import Navbar from "@/components/layout/Navbar";
+import WaitingTimeTable from "@/components/icons/WaitingTimeTable";
 
 //{ useColorMode } f import rom "@chakra-ui/react";
 const props = {
@@ -62,6 +64,21 @@ type BoardType = {
 type BoardListType = BoardType[];
 
 export default function Main() {
+  // return (
+  //   <AppContainer>
+  //     <Stack gap={10} align={"center"} h={"90vh"} justify={"center"}>
+  //       <Image boxSize={"240px"} alt="image" src="/assets/spacecraft.jpg" />
+  //       <Text textStyle={"headline2"} fontWeight={600} lineHeight={7}>
+  //         인플리가 새 단장 중이에요!
+  //         <br />더 나은 모습으로 다음 학기에 만나요💙
+  //         <br />
+  //         (~2024.02.20)
+  //       </Text>
+  //     </Stack>
+  //     <HyperLinks />
+  //   </AppContainer>
+  // );
+
   const [onOpen, ButtonDrawer, onClose] = useDrawer(props);
   // const { colorMode, toggleColorMode } = useColorMode();
   const [alarmContent, setAlarmContent] = useState<string>("");
@@ -96,13 +113,6 @@ export default function Main() {
       localStorage.removeItem("isFirstCertif");
     }
   }, []);
-
-  // useEffect(() => {
-  //   const backgroundColor = "#F7F8FA"; // 현재 배경색상을 얻는 함수
-  //   document
-  //     .querySelector('meta[name="theme-color"]')
-  //     ?.setAttribute("content", backgroundColor);
-  // }, []);
 
   const router = useRouter();
 
@@ -141,16 +151,10 @@ export default function Main() {
             alt="banner"
             src="/assets/infli_asianLogo.PNG"
           /> */}
-
           <Image
-            onClick={() => router.push("/posting/2/1219")}
+            // onClick={() => router.push("/posting/5/1009")}
             alt="banner"
-            src="/assets/event_banner_woodPencil_xmas.jpg"
-          />
-          <Image
-            onClick={() => router.push("/posting/5/1009")}
-            alt="banner"
-            src="/assets/sub_logo_v3.jpg"
+            src="/assets/infli_welcome.jpg"
           />
         </Carousel>
         <Box mb={"26px"} />
