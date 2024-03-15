@@ -231,8 +231,20 @@ async function updatePost(
   setIsPosting(true);
   const _newContent = await uploadImgsSuccess(postId); // 이미지 처리
   const _postContent = filterRecruitment(postType, postContent);
-  const newThumbnail =
-    extractImgBaseStr()[0] || _newContent.includes("<img") ? "" : null;
+  const newContent = await uploadImgsSuccess(postId);
+
+  function extractFirstImage(htmlContent: string): string | null {
+    const imgSrcPattern = /<img[^>]+src="([^">]+)"/;
+    const match = htmlContent.match(imgSrcPattern);
+    return match ? match[1] : null;
+  }
+  // Check if there are images in the content
+  const hasImages = newContent.includes("<img");
+
+  // Determine thumbnail
+  const newThumbnail = hasImages ? extractFirstImage(newContent) : null;
+  // const newThumbnail =
+  //   extractImgBaseStr()[0] || _newContent.includes("<img") ? "" : null;
   // console.log(135, convertLinks(_newContent));
   // console.log(134, _postContent);
   const res = await postApis.updatePost({
@@ -278,7 +290,7 @@ async function readPost(postId: number) {
 // 글 작성 전 하이퍼링크를 링크태그로 전환해줌
 function filterRecruitment(postType: string, postContent: IPostContent) {
   const convertedContent = convertLinks(postContent.content);
-  // console.log()
+
   return postType === "RECRUITMENT"
     ? // ?
       //   postContent
@@ -317,7 +329,12 @@ async function createPost(
       setIsPosting(false);
       createPostSuccess();
     } else {
-      alert(res.response.data.validation.content);
+      console.log(111, res.response);
+      if (res.response.status) {
+        alert("학생 인증을 진행해주세요.");
+      } else {
+        alert(res.response.data.message);
+      }
       createPostFail();
     }
   } else {
@@ -346,7 +363,7 @@ async function createPost(
       );
       await createPostSuccess();
     } else {
-      alert(res.response.data.validation.content);
+      // alert(res.response.data.validation.content);
       createPostFail();
     }
   }

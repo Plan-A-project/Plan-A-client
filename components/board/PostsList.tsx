@@ -18,7 +18,7 @@ import { boardListState } from "@/state/atoms/board/boardState";
 import { scrollPositionState } from "@/state/atoms/board/boardState";
 import { RepeatIcon } from "@chakra-ui/icons";
 import ReviewBoardItem from "./ReviewBoardItem";
-
+import MarketBoardItem from "./MarketBoardItem";
 type OrderType = "recent" | "popular";
 
 const PostsList = ({
@@ -46,23 +46,6 @@ const PostsList = ({
   const firstPageList: any = useBoardList({ boardId, order, page: 1, type });
   const [rotate, setRotate] = useState(false);
 
-  // const [loading, setLoading] = useState<boolean>(false);
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (
-  //       window.innerHeight + window.scrollY >=
-  //         document.documentElement.scrollHeight - 500 &&
-  //       !loading
-  //     ) {
-  //       setPage(prevPage => prevPage + 1);
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [loading]);
   const handleReload = async () => {
     setRotate(true); // 애니메이션 시작
     location.reload();
@@ -172,16 +155,8 @@ const PostsList = ({
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (boardListResponse === null) return;
-  //   if (boardListResponse?.length === 0) {
-  //     setIsFinish(true);
-  //     return;
-  //   }
-
-  //   setBoardList(p => [...p, ...boardListResponse]);
-  // }, [boardListResponse]);
   const isEventReview = boardId === 2 && type === "NORMAL";
+  const isMarket = boardId === 5 && type === "NORMAL";
   const getMorePosts = () => {
     if (isFinish) return;
     setPage(p => p + 1);
@@ -230,7 +205,7 @@ const PostsList = ({
           <Spinner color="primary.normal" />
         </Center>
       ) : (
-        <BoardStack isEventReview={isEventReview}>
+        <BoardStack isEventReview={isEventReview} isMarket={isMarket}>
           {/* boardId가 1번이면 위에 뱃지에 기업이름, 2번이면 모집중 status넣어주기(이벤트탭이므로) */}
           {boardInfo[boardId][type]?.map(
             (el: {
@@ -276,6 +251,31 @@ const PostsList = ({
                       !el.recruitmentStartDate
                         ? null
                         : checkDday(new Date(), el.recruitmentEndDate)
+                    }
+                  />
+                );
+              } else if (isMarket) {
+                return (
+                  <MarketBoardItem
+                    key={el.postId}
+                    bookmark={!!el.recruitmentEndDate}
+                    {...(el.recruitmentEndDate ? { leftTag: tagName } : {})}
+                    tagType={tagName === "마감" ? "grey" : "error"}
+                    comments={el.commentCount}
+                    postId={el.postId}
+                    likes={el.likeCount}
+                    date={date}
+                    views={el.viewCount}
+                    title={el.title}
+                    hasImage={el.hasImage}
+                    image={el.thumbnailUrl}
+                    dday={
+                      !el.recruitmentStartDate
+                        ? null
+                        : checkDday(new Date(), el.recruitmentEndDate)
+                    }
+                    onClick={() =>
+                      router.push(`/posting/${boardId}/${el.postId}`)
                     }
                   />
                 );

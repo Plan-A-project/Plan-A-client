@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { Box, Flex, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Image,
+  Link,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import MainBanner_v2 from "@/components/main/MainBanner_v2";
 
@@ -18,6 +26,7 @@ import GridEvent from "@/components/icons/GridEvent";
 import QuestionIcon from "@/components/icons/QuestionIcon";
 import Navbar from "@/components/layout/Navbar";
 import WaitingTimeTable from "@/components/icons/WaitingTimeTable";
+import SecondMarketIcon from "@/components/icons/SecondMarketIcon";
 
 //{ useColorMode } f import rom "@chakra-ui/react";
 const props = {
@@ -50,7 +59,11 @@ const props = {
 const gridProps = [
   { name: "채용공고", title: <GridRecruit />, link: "recruitment" },
   { name: "이벤트", title: <GridEvent />, link: "event" },
-  { name: "coming soon", title: <GridClub />, link: "club" },
+  {
+    name: "FLI 마켓",
+    title: <SecondMarketIcon />,
+    link: "free",
+  },
   { name: "인플리 공지", title: <NoticeLogoIcon />, link: "announcement" },
 ];
 type BoardType = {
@@ -143,7 +156,7 @@ export default function Main() {
         <Box h={8} />
         <HyperLinks />
         <Box mt={"48px"} />
-        <Carousel loop auto interval={4}>
+        <Carousel loop auto interval={3}>
           {/* <Image
             onClick={() =>
               (window.location.href = "https://infli-chat.vercel.app/")
@@ -151,11 +164,14 @@ export default function Main() {
             alt="banner"
             src="/assets/infli_asianLogo.PNG"
           /> */}
-          <Image
+          {/* <Image
             // onClick={() => router.push("/posting/5/1009")}
             alt="banner"
             src="/assets/infli_welcome.jpg"
-          />
+          /> */}
+          <Link href="https://www.instagram.com/infli_official/">
+            <Image alt="banner" src="/assets/infli_instagram.png" />
+          </Link>
         </Carousel>
         <Box mb={"26px"} />
         <TextBanner />
@@ -174,9 +190,7 @@ export default function Main() {
               }}
               borderRadius={"16px"}
               onClick={() => {
-                if (el.link !== "club") {
-                  router.push(`/board/${el.link}`);
-                }
+                router.push(`/board/${el.link}`);
               }}
             >
               <Text textStyle={"headline2"}>{el.name}</Text>
