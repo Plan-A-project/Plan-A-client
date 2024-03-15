@@ -7,6 +7,7 @@ import authApis from "@/api/authentication";
 import { AppContainer, Header } from "@/components/common";
 import UserInput from "@/components/signup/userInput";
 import validateInput from "@/utils/validation";
+import postApis from "@/api/post";
 
 const SignUp = () => {
   type signUpDataType = {
@@ -89,6 +90,7 @@ const SignUp = () => {
           password: inputValues.password,
         });
         if (response.data) {
+          await postApis.agreePolicy();
           router.push("/signup/complete");
         } else {
           alert("오류가 발생했습니다.");

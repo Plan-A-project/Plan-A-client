@@ -22,11 +22,11 @@ const NoticeBanner: React.FC<AlertBannerProps> = ({
       bg={"white"}
       borderRadius={"16px"}
       p={3}
-      border={"1px solid #00AB9A"}
+      border={"1px solid #3F52E4"}
       {...props}
     >
       <Flex align="center" flex={1} flexShrink={0} {...props}>
-        <IconNoticeMark color="#00AB9A" />
+        <IconNoticeMark color="#3F52E4" />
         <Text mx={2} textStyle="caption2" whiteSpace={"pre-wrap"}>
           {notice}
         </Text>

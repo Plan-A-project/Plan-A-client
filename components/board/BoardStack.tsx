@@ -10,6 +10,7 @@ import {
 
 interface BoardStackProps extends StackProps {
   isEventReview?: boolean;
+  isMarket?: boolean;
 }
 
 const BoardStack: React.FC<PropsWithChildren<BoardStackProps>> = ({

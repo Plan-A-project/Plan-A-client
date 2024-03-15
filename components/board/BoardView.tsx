@@ -56,7 +56,7 @@ const BoardView: React.FC<BoardViewProps> = ({
   return (
     <>
       <Text color={"gray.900"} fontWeight={"semibold"} lineHeight={5} p={2}>
-        {title}
+        {title.split("$%$%$%").length == 1 ? title : title.split("$%$%$%")[0]}
       </Text>
       <Flex
         justify={"space-between"}
@@ -82,20 +82,28 @@ const BoardView: React.FC<BoardViewProps> = ({
         gap={3}
         align={"center"}
         minH={30}
+        justifyContent={"space-between"}
       >
-        <Flex align={"center"}>
-          <Box onClick={handleLike}>
-            {isPressedLike ? <HeartIcon /> : <HeartEmpty />}
-          </Box>
-          <Text pl={1} fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-            {likes}
-          </Text>
-        </Flex>
-        <Flex align={"center"}>
-          <Comment />
-          <Text pl={1} fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
-            {commentCount}
-          </Text>
+        <Text color={"gray.900"} lineHeight={5} fontSize={19} fontWeight={700}>
+          {title.split("$%$%$%").length == 1
+            ? ""
+            : `¥${parseInt(title.split("$%$%$%")[1]).toLocaleString("zh-CN")}`}
+        </Text>
+        <Flex gap={3}>
+          <Flex align={"center"}>
+            <Box onClick={handleLike}>
+              {isPressedLike ? <HeartIcon /> : <HeartEmpty />}
+            </Box>
+            <Text pl={1} fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
+              {likes}
+            </Text>
+          </Flex>
+          <Flex align={"center"}>
+            <Comment />
+            <Text pl={1} fontSize={"xs"} lineHeight={0.75} color={"gray.600"}>
+              {commentCount}
+            </Text>
+          </Flex>
         </Flex>
       </Flex>
     </>
