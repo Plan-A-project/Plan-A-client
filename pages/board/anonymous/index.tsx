@@ -53,14 +53,16 @@ function Anonymous() {
         게시판 이용 규칙 안내
       </BoardBanner> */}
       <Box mt={4} />
-      {/* <NoticeBanner
+      <NoticeBanner
         onClick={() => {
-          if (announcementList) {
-            router.push(`/posting/5/${announcementList[0].postId}`);
-          }
+          router.push("/posting/2/1590");
+          // if (announcementList) {
+          //   router.push(`/posting/5/${announcementList[0].postId}`);
+          // }
         }}
-        text={announcementList ? announcementList[0]?.title : ""}
-      /> */}
+        // text={announcementList ? announcementList[0]?.title : ""}
+        text="[League of legends❤️‍🔥] 인플리 챔피언십 개최 안내✨️"
+      />
 
       <Box mt={4}>
         <PostsList boardName={"익명게시판"} />
