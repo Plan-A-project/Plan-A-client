@@ -20,6 +20,7 @@ const MainBanner_v2 = () => {
   useEffect(() => {
     setCarouselItem([
       // { title: "클라이밍 이벤트 배너", src: "/assets/event_climbing.jpg" },
+      { title: "기본 배너", src: "/assets/event_banner_lol.jpg" },
       { title: "기본 배너", src: "/assets/event_banner_market3.jpg" },
       { title: "기본 배너", src: "/assets/event_banner_v7.jpg" },
     ]);
@@ -73,9 +74,12 @@ const MainBanner_v2 = () => {
         renderIndicator={CustomIndicator}
         onClickItem={(index, item) => {
           if (index === 0) {
-            router.push("/board/free");
+            router.push("/posting/2/1590");
           }
           if (index === 1) {
+            router.push("/board/free");
+          }
+          if (index === 2) {
             router.push("/posting/5/1505");
           }
         }}
