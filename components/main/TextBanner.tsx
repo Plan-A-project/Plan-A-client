@@ -13,7 +13,7 @@ export default function TextBanner() {
       </Flex>
 
       <Flex textStyle={"body1"}>
-        알고 계셨나요? 인플리 챔피언십 총 상금은 1500이랍니다!
+        알고 계셨나요? 인플리 챔피언십 총 상금은 1500원이랍니다!
       </Flex>
       <Text fontWeight={600} align={"right"}>
         - 복단대 구마유시 -
