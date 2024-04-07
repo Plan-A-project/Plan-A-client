@@ -105,28 +105,6 @@ function BoardDetail() {
     }
   }, [postId, page, isSentComment]);
 
-  // useEffect(() => {
-  //   async function fetchComment() {
-  //     setLoading(true);
-
-  //     const comments = await commentApis.getComment(postId, page);
-  //     if (comments.data) {
-  //       setCommentList((prevComments: any) => [
-  //         ...prevComments,
-  //         ...comments.data?.data.comments,
-  //       ]);
-  //     }
-
-  //     if (comments.data?.data.comments.length) {
-  //       setLoading(false);
-  //     }
-  //     if (!comments.data?.data.comments.length) {
-  //       setIsLoading(false);
-  //     }
-  //   }
-  //   fetchComment();
-  // }, [postId, page, isSentComment]);
-
   // 예시글: http://localhost:3000/posting/4/18
   async function readPost() {
     setIsLoading(true);
@@ -158,6 +136,7 @@ function BoardDetail() {
   const handleReply = (id: number) => {
     setParentCommentId(id);
   };
+
   return (
     <AppContainer>
       {data ? (
@@ -209,7 +188,7 @@ function BoardDetail() {
                           ? el.nickname
                           : `익명${el.identifier}`
                       }
-                      myComment={el.myComment}
+                      myComment={el.myComment || data?.admin}
                       content={el.content}
                       createdAt={el.createdAt}
                       likesCount={el.likesCount}
