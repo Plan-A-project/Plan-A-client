@@ -164,11 +164,13 @@ export default function Main() {
             alt="banner"
             src="/assets/infli_asianLogo.PNG"
           /> */}
-          {/* <Image
-            // onClick={() => router.push("/posting/5/1009")}
+          <Image
+            width="auto"
+            height={"99.98px"}
+            onClick={() => router.push("/posting/2/1873")}
             alt="banner"
-            src="/assets/infli_welcome.jpg"
-          /> */}
+            src="/assets/infli_wangyu.jpg"
+          />
           <Link href="https://www.instagram.com/infli_official/">
             <Image alt="banner" src="/assets/infli_instagram.png" />
           </Link>

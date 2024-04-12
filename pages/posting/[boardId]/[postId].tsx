@@ -188,7 +188,7 @@ function BoardDetail() {
                           ? el.nickname
                           : `익명${el.identifier}`
                       }
-                      myComment={el.myComment}
+                      myComment={el.myComment || data?.admin}
                       content={el.content}
                       createdAt={el.createdAt}
                       likesCount={el.likesCount}
