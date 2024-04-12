@@ -13,10 +13,11 @@ export default function TextBanner() {
       </Flex>
 
       <Flex textStyle={"body1"}>
-        알고 계셨나요? 인플리 유저의 70%가 아이폰을 사용한답니다!
+        알고 계셨나요? 채용공고 탭에는 매 주 엄선된 5개의 채용공고가
+        ⬇️⬇️올라온답니다!⬇️⬇️
       </Flex>
       <Text fontWeight={600} align={"right"}>
-        - 팀 쿡 -
+        - 이재용 -
       </Text>
     </>
   );
