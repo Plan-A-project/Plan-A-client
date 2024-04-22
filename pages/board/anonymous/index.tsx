@@ -55,13 +55,13 @@ function Anonymous() {
       <Box mt={4} />
       <NoticeBanner
         onClick={() => {
-          router.push("/posting/2/1867");
+          router.push("/posting/2/1962");
           // if (announcementList) {
           //   router.push(`/posting/5/${announcementList[0].postId}`);
           // }
         }}
         // text={announcementList ? announcementList[0]?.title : ""}
-        text="[League of legends❤️‍🔥] 제 1회 인플리 챔피언십 후기🔥"
+        text="[인플리]아찔한 블라인드 데이트💙"
       />
 
       <Box mt={4}>

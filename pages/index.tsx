@@ -166,7 +166,7 @@ export default function Main() {
           /> */}
           <Image
             width="auto"
-            height={"99.98px"}
+            height={"100.98px"}
             onClick={() => router.push("/posting/2/1873")}
             alt="banner"
             src="/assets/infli_wangyu.jpg"
