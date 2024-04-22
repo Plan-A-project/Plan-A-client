@@ -13,7 +13,7 @@ export default function TextBanner() {
       </Flex>
 
       <Flex textStyle={"body1"}>
-        알고 계셨나요? 채용공고 탭에는 매 주 엄선된 5개의 채용공고가
+        알고 계셨나요? 채용공고 탭에는 매주 엄선된 5개의 채용공고가
         ⬇️⬇️올라온답니다!⬇️⬇️
       </Flex>
       <Text fontWeight={600} align={"right"}>
