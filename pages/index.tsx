@@ -130,7 +130,7 @@ export default function Main() {
   const router = useRouter();
 
   return (
-    <Layout>
+    <Layout currentTab="home">
       {isActivated && <Snackbar />}
       <MainBanner_v2 />
       <Box bg={"#F7F8FA"} paddingX="4.2%">
@@ -165,15 +165,21 @@ export default function Main() {
             src="/assets/infli_asianLogo.PNG"
           /> */}
           <Image
-            width="auto"
-            height={"100.98px"}
+            onClick={() => router.push("/posting/2/2004")}
+            alt="banner"
+            src="/assets/infli_woodpencil.jpg"
+          />
+          <Image
             onClick={() => router.push("/posting/2/1873")}
             alt="banner"
             src="/assets/infli_wangyu.jpg"
           />
-          <Link href="https://www.instagram.com/infli_official/">
+          {/* <Link
+            href="https://www.instagram.com/infli_official/"
+            height={"100%"}
+          >
             <Image alt="banner" src="/assets/infli_instagram.png" />
-          </Link>
+          </Link> */}
         </Carousel>
         <Box mb={"26px"} />
         <TextBanner />
