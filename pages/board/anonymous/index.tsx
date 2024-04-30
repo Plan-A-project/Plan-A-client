@@ -15,12 +15,12 @@ import useBoardList from "@/hooks/board/useBoardList";
 function Anonymous() {
   const testSearchFunction = searchFunctionFactory("익명게시판");
   const router = useRouter();
-  const announcementList = useBoardList({
-    boardId: 5,
-    order: "recent",
-    page: 1,
-    type: "ANNOUNCEMENT",
-  });
+  // const announcementList = useBoardList({
+  //   boardId: 5,
+  //   order: "recent",
+  //   page: 1,
+  //   type: "ANNOUNCEMENT",
+  // });
   const handlePost = async () => {
     const response = await postApis.checkAgree();
     if (response.data?.data) {
@@ -55,13 +55,13 @@ function Anonymous() {
       <Box mt={4} />
       <NoticeBanner
         onClick={() => {
-          router.push("/posting/2/1962");
+          router.push("/posting/5/2023");
           // if (announcementList) {
           //   router.push(`/posting/5/${announcementList[0].postId}`);
           // }
         }}
         // text={announcementList ? announcementList[0]?.title : ""}
-        text="[인플리]아찔한 블라인드 데이트💙"
+        text="익명 게시판 운영정책 업데이트 안내🚨"
       />
 
       <Box mt={4}>
