@@ -229,3 +229,19 @@
     transform: rotate(0deg);
   }
 }
+
+@keyframes scrollRightToLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-400%);
+  }
+}
+
+.scrollWrapper {
+  display: flex;
+  /* overflow: hidden; */
+  /* width: 100%; */
+  animation: scrollRightToLeft 36s linear infinite;
+}

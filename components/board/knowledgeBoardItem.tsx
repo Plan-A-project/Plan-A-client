@@ -9,30 +9,28 @@ import {
   Badge,
   Heading,
   Stack,
-  HStack,
+  Image,
+  Center,
 } from "@chakra-ui/react";
-import Image from "next/image";
 
 import Comment from "../icons/Comment";
 import HeartEmpty from "../icons/HeartEmpty";
-import ScrapEmptyIcon from "../icons/ScrapEmptyIcon";
-import ScrapIcon from "../icons/ScrapIcon";
 import WatchedIcon from "../icons/WatchedIcon";
 import HasImageIcon from "../icons/HasImageIcon";
-import postApis from "@/api/post";
 
 type BoardItemContentProps = {
   title: string;
   leftTag?: string;
   tagType?: "primary" | "secondary" | "grey" | "error";
   description?: string;
-  image?: string;
+  image?: string | null;
   imageAlt?: string;
   dday?: any;
   bookmark?: boolean;
   hasImage?: boolean;
   isEvent?: boolean;
   postId?: number;
+  date?: string;
 };
 
 type FreeBoardItemProps = {
@@ -51,7 +49,17 @@ const BottomText = ({ children, ...props }: TextProps) => {
     </Text>
   );
 };
-
+type BadgeType = {
+  [key: string]: {
+    bg: string;
+  };
+};
+const badges: BadgeType = {
+  "분야 미정": { bg: "grey" },
+  "IT/테크": { bg: "blue" },
+  "건강/운동": { bg: "red" },
+  "문화/생활": { bg: "purple" },
+};
 export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   title,
   leftTag,
@@ -62,69 +70,74 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   bookmark,
   hasImage,
   postId,
+  date,
 }) => {
-  const [mark, setMark] = useState(bookmark);
-  const toggleMark = async (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation();
-    setMark(p => !p);
-    const response = await postApis.scrapPost(postId);
-  };
+  const badgeName =
+    title.split("$%$%$%").length == 1 ? "분야 미정" : title.split("$%$%$%")[1];
   return (
-    <Flex align={"flex-end"}>
-      <Box flex={1}>
-        {leftTag ? (
+    <Flex align={"stetch"}>
+      <Flex flexDir={"column"} justifyContent={"space-between"} flex={1}>
+        <Box>
           <Badge
-            bg={`${tagType}.100`}
-            color={`${tagType}.normal`}
-            borderRadius={"md"}
-            paddingY={"1px"}
+            colorScheme={badges[badgeName]["bg"]}
+            borderRadius={"4px"}
+            py={"1px"}
+            px={"5px"}
             mb={"4px"}
+            fontWeight={"semibold"}
           >
-            {leftTag}
+            {badgeName}
           </Badge>
-        ) : null}
-        <HStack gap={1} mb={1} align={"center"}>
-          {hasImage && (
-            <Box>
-              <HasImageIcon />
-            </Box>
-          )}
-          <Text
-            textStyle={"subtitle1"}
-            color={"gray.900"}
-            fontWeight={"normal"}
-          >
-            {title}
-          </Text>
-        </HStack>
-
-        {description && (
-          <Text fontSize={"sm"} color={"gray.600"}>
-            {description}
-          </Text>
-        )}
-      </Box>
-      {image ? (
-        <Box w={14} h={14} borderRadius={8} ml={6} overflow={"hidden"}>
+          {/* ) : null} */}
+          <Stack gap={1} mb={1} align={"left"}>
+            <Text color={"gray.900"} textStyle={"subtitle2"}>
+              {title.split("$%$%$%").length == 1
+                ? title
+                : title.split("$%$%$%")[0]}
+            </Text>
+          </Stack>
+        </Box>
+        <Text fontSize={"xs"} color={"gray.600"} lineHeight={3}>
+          {date}
+        </Text>
+      </Flex>
+      <Box
+        w={"100px"}
+        h={"100px"}
+        // borderRadius={8}
+        border={"1px solid #ddd"}
+        // boxShadow={"0 0 5px rgba(0, 0, 0, 0.1)"}
+        ml={6}
+        overflow={"hidden"}
+      >
+        {image ? (
           <Image
             src={image}
-            width={56}
-            height={56}
             alt={imageAlt || "이미지"}
-            style={{ objectFit: "cover", width: 56, height: 56 }}
+            objectFit="cover"
+            w="100%"
+            h="100%"
           />
-        </Box>
-      ) : null}
-      {/* {bookmark ? (
-        <button onClick={toggleMark}>
-          {mark === false ? <ScrapEmptyIcon /> : <ScrapIcon />}
-        </button>
-      ) : null} */}
+        ) : (
+          <Center
+            w={"100%"}
+            h={"100%"}
+            bg={
+              "linear-gradient(0deg,rgb(0 0 0 / .24) 0%,rgb(0 0 0 / .24) 100%),linear-gradient(222deg,rgb(0 0 0 / 0) 17.62%,rgb(0 0 0 / .64) 100.06%)"
+            }
+            textStyle={"subtitle2"}
+            color={"white"}
+            textAlign={"center"}
+          >
+            {badgeName}
+          </Center>
+        )}
+      </Box>
     </Flex>
   );
 };
 
-const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
+const KnowledgeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   date,
   comments,
   likes,
@@ -138,7 +151,6 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
   dday,
   bookmark,
   hasImage,
-  isEvent,
   postId,
   ...props
 }) => {
@@ -154,20 +166,14 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
         bookmark={bookmark}
         hasImage={hasImage}
         postId={postId}
+        date={date}
       />
-      <Flex justify={"space-between"} align={"center"}>
+
+      {/* <Flex justify={"space-between"} align={"center"}>
         <Flex gap={2} align={"center"}>
-          {dday ? (
-            <Heading color={"primary.500"} size={"xs"}>
-              {dday}
-            </Heading>
-          ) : (
-            ""
-          )}
           <Text fontSize={"xs"} color={"gray.600"} lineHeight={3}>
             {date}
           </Text>
-          {/* <BottomText>{date}</BottomText> */}
         </Flex>
 
         <Flex gap={"8px"} align={"center"}>
@@ -188,9 +194,9 @@ const FreeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
             <BottomText>{views}</BottomText>
           </Flex>
         </Flex>
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 };
 
-export default FreeBoardItem;
+export default KnowledgeBoardItem;

@@ -87,7 +87,9 @@ const BoardView: React.FC<BoardViewProps> = ({
         <Text color={"gray.900"} lineHeight={5} fontSize={19} fontWeight={700}>
           {title.split("$%$%$%").length == 1
             ? ""
-            : `¥${parseInt(title.split("$%$%$%")[1]).toLocaleString("zh-CN")}`}
+            : !Number.isNaN(parseInt(title.split("$%$%$%")[1]))
+            ? `¥${parseInt(title.split("$%$%$%")[1]).toLocaleString("zh-CN")}`
+            : ""}
         </Text>
         <Flex gap={3}>
           <Flex align={"center"}>

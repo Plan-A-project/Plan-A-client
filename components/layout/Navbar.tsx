@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Image, Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import {
@@ -13,6 +13,9 @@ import HomeIconGrey from "../icons/HomeIconGrey";
 import InfoBoardBlue from "../icons/InfoBoardBlue";
 import MainBoardBlue from "../icons/MainBoardBlue";
 import MyProfileBlue from "../icons/MyProfileBlue";
+import KnowledgeIcon from "../icons/KnowledgeIcon";
+import KnowledgeIconBlue from "../icons/KnowledgeIconBlue";
+import { RiLightbulbLine } from "react-icons/ri";
 
 export default function Navbar({ currentTab = "home" }) {
   const router = useRouter();
@@ -47,12 +50,20 @@ export default function Navbar({ currentTab = "home" }) {
           익명게시판
         </Text>
       </Flex>
-      <Box onClick={() => router.push("/timetable")}>
-        {currentTab === "timeTable" ? <TimeTableBlue /> : <TimeTableIcon />}
+      <Flex
+        onClick={() => router.push("/knowledge")}
+        direction={"column"}
+        align={"center"}
+      >
+        {currentTab === "knowledge" ? (
+          <KnowledgeIconBlue />
+        ) : (
+          <RiLightbulbLine size={24} color="#9193A1" />
+        )}
         <Text textStyle={"overline"} textAlign={"center"}>
-          시간표
+          지식IN플리
         </Text>
-      </Box>
+      </Flex>
       {/* <Flex
         onClick={() => router.push("/board")}
         direction={"column"}

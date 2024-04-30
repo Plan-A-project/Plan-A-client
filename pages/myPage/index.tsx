@@ -213,7 +213,7 @@ const MyPage = () => {
                 paddingX={"5px"}
                 onClick={() => {
                   setTitle("앱 버전");
-                  setContent(<InfoContent content="v1.3.0" />);
+                  setContent(<InfoContent content="v1.4.0" />);
                   onOpen();
                 }}
               >

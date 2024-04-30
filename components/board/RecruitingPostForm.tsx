@@ -26,6 +26,7 @@ import { updatePostingAtom } from "@/state/atoms/posting/postingAtom";
 export type IPostForm = {
   postId?: number;
   boardId: number;
+  postType?: string;
   postContent: IPostContent;
   setPostContent: (newValue: any) => void;
   setBtnActive: Dispatch<React.SetStateAction<boolean>>;
@@ -246,7 +247,6 @@ function DateInput({ setDate }: { setDate: (date: string) => void }) {
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth() + 1);
   const [day, setDay] = useState(today.getDate());
-
   useEffect(() => {
     if (year && month && day) {
       const _deformattedDate = deFormatDate(`${year}-${month}-${day}`);
