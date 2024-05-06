@@ -13,11 +13,11 @@ export default function TextBanner() {
       </Flex>
 
       <Flex textStyle={"body1"}>
-        알고 계셨나요? 채용공고 탭에는 매주 엄선된 5개의 채용공고가
-        ⬇️⬇️올라온답니다!⬇️⬇️
+        알고 계셨나요? 이번주는 `전략 컨설턴트` 졸업생 인터뷰가 올라왔어요!
+        지식IN플리에서 지금 확인해보세요!
       </Flex>
       <Text fontWeight={600} align={"right"}>
-        - 이재용 -
+        - 지식IN플리 -
       </Text>
     </>
   );
