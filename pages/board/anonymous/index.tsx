@@ -55,13 +55,13 @@ function Anonymous() {
       <Box mt={4} />
       <NoticeBanner
         onClick={() => {
-          router.push("/posting/5/2023");
+          router.push("/knowledge");
           // if (announcementList) {
           //   router.push(`/posting/5/${announcementList[0].postId}`);
           // }
         }}
         // text={announcementList ? announcementList[0]?.title : ""}
-        text="익명 게시판 운영정책 업데이트 안내🚨"
+        text="💡지식IN플리 출시! 클릭 시 이동 ➡️"
       />
 
       <Box mt={4}>
