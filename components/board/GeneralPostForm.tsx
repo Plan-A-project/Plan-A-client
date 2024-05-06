@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, ChangeEvent, useState } from "react";
 
-import { Box, Divider, GridItem, Grid } from "@chakra-ui/layout";
+import { Box, Divider, GridItem, Grid, Text } from "@chakra-ui/layout";
 import { Input, FormLabel, Select } from "@chakra-ui/react";
 
 import KeyboardFixedElement from "@/components/common/KeyboardFixedElement";
@@ -171,20 +171,35 @@ export default function GeneralPostForm({
             <option value="IT/테크">IT/테크</option>
             <option value="문화/생활">문화/생활</option>
             <option value="인문/철학">인문/철학</option>
-            <option value="음악/미술">음악</option>
+            <option value="음악/미술">음악/미술</option>
             <option value="주식/제태크">주식/제태크</option>
             <option value="경제/경영">경제/경영</option>
+            <option value="창업/비즈니스">창업/비즈니스</option>
             <option value="졸업생 인터뷰">졸업생 인터뷰</option>
           </Select>
-          {/* <Input
-            flexShrink={0}
-            variant={"unstyled"}
-            h={9}
-            value={updatePosting ? title.split("$%$%$%")[1] : undefined}
-            placeholder={"금액을 입력하세요.(위안화 숫자만 입력/ex: 300)"}
-            onChange={setPrice}
-          /> */}
-          <Divider />
+          <Divider mt={4} />
+          <Text mt={4} mb={2} textStyle={"subtitle2"}>
+            ✍🏻 게시글 작성 유의사항
+          </Text>
+          <Box textStyle={"body2"}>
+            <Text mb={4}>
+              ✅ 썸네일 사진은 첫번째 사진으로 자동 지정됩니다. 아무 사진도 안
+              올릴 시 기본 사진으로 지정되니 주의해주세요.
+            </Text>
+            <Text mb={4}>
+              ✅ 사진 업로드가 안될 시 사진 파일 크기를 줄여서 다시
+              시도해주세요.
+            </Text>
+            <Text mb={4}>
+              ✅ 글을 꾸미고 싶다면 (예: 소제목은 굵게, 특정 단어 밑줄 등) 다른
+              에디터 (워드, 한글 등)에서 글을 작성 후 복사 붙여넣기로 글을
+              작성해주시면 됩니다.
+            </Text>
+            <Text mb={4}>
+              ✅ 사진은 되도록 jpg로 올려주세요.(webp같은 확장자는 업로드가 안될
+              수 있음)
+            </Text>
+          </Box>
         </GridItem>
       )}
       <Divider />

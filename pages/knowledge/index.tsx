@@ -2,7 +2,7 @@ import { AppContainer } from "@/components/common";
 import { Box, Text, Flex, HStack, Divider } from "@chakra-ui/layout";
 import Layout from "@/components/layout/Layout";
 import BadgeSet from "./BadgeSet";
-import { useRef, useEffect } from "react"; // Import useRef and useEffect hooks
+import { useRef, useEffect, useState } from "react"; // Import useRef and useEffect hooks
 import PostsList from "@/components/board/PostsList";
 import { Button } from "@chakra-ui/react";
 import postApis from "@/api/post";
@@ -15,6 +15,7 @@ import InfoBoardBlue from "@/components/icons/InfoBoardBlue";
 // 각 요소마다 마진값 따로 줘야함
 const Knowledge = () => {
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the Flex container
+  const [mostPopularBoard, setMostPopularBoard] = useState<any>(null);
   const router = useRouter();
   const recentBoardlist: any = useBoardList({
     boardId: 2,
@@ -22,6 +23,29 @@ const Knowledge = () => {
     page: 1,
     type: "NORMAL",
   });
+
+  function findMaxViewPost(posts: any) {
+    if (posts) {
+      if (posts.length === 0) {
+        return null; // 포스트가 없을 경우 null 반환
+      }
+
+      let maxViewPost = posts[0]; // 첫 번째 포스트를 최대 조회수를 가진 포스트로 초기 설정
+
+      for (let i = 1; i < posts.length; i++) {
+        if (posts[i].viewCount > maxViewPost.viewCount) {
+          maxViewPost = posts[i]; // 더 높은 조회수를 가진 포스트를 찾으면 업데이트
+        }
+      }
+
+      return maxViewPost; // 최대 조회수를 가진 포스트 반환
+    }
+  }
+
+  useEffect(() => {
+    setMostPopularBoard(findMaxViewPost(recentBoardlist));
+  }, [recentBoardlist]);
+
   const handlePost = async () => {
     const response = await postApis.checkAgree();
     if (response.data?.data) {
@@ -156,18 +180,18 @@ const Knowledge = () => {
               {formattedDate}, 지식IN플리 인기글
             </Text>
           </Flex>
-          {recentBoardlist && (
+          {mostPopularBoard && (
             <KnowledgeBestBoardItem
-              key={recentBoardlist[0].postId}
-              comments={recentBoardlist[0].commentCount}
-              postId={recentBoardlist[0].postId}
-              likes={recentBoardlist[0].likeCount}
-              views={recentBoardlist[0].viewCount}
-              title={recentBoardlist[0].title}
-              hasImage={recentBoardlist[0].hasImage}
-              image={recentBoardlist[0].thumbnailUrl}
+              key={mostPopularBoard.postId}
+              comments={mostPopularBoard.commentCount}
+              postId={mostPopularBoard.postId}
+              likes={mostPopularBoard.likeCount}
+              views={mostPopularBoard.viewCount}
+              title={mostPopularBoard.title}
+              hasImage={mostPopularBoard.hasImage}
+              image={mostPopularBoard.thumbnailUrl}
               onClick={() =>
-                router.push(`/posting/2/${recentBoardlist[0].postId}`)
+                router.push(`/posting/2/${mostPopularBoard.postId}`)
               }
             />
           )}

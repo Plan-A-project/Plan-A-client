@@ -21,7 +21,7 @@ const MainBanner_v2 = () => {
     setCarouselItem([
       // { title: "클라이밍 이벤트 배너", src: "/assets/event_climbing.jpg" },
       // { title: "기본 배너", src: "/assets/event_banner_final.jpg" },
-      { title: "블라인드 데이트 배너", src: "/assets/event_blind_v2.jpg" },
+      { title: "지식 인플리 배너", src: "/assets/event_knowledge3.gif" },
       { title: "기본 배너", src: "/assets/event_banner_market3.jpg" },
     ]);
   }, []);
@@ -74,7 +74,7 @@ const MainBanner_v2 = () => {
         renderIndicator={CustomIndicator}
         onClickItem={(index, item) => {
           if (index === 0) {
-            router.push("/posting/2/1962");
+            router.push("/knowledge");
           }
           if (index === 1) {
             router.push("/board/free");

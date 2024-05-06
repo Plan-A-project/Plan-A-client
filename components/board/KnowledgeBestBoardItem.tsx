@@ -43,6 +43,12 @@ const badges: BadgeType = {
   "IT/테크": { bg: "blue" },
   "건강/운동": { bg: "red" },
   "문화/생활": { bg: "purple" },
+  "졸업생 인터뷰": { bg: "cyan" },
+  "경제/경영": { bg: "orange" },
+  "인문/철학": { bg: "yellow" },
+  "음악/미술": { bg: "green" },
+  "주식/제태크": { bg: "teal" },
+  "창업/비즈니스": { bg: "pink" },
 };
 export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   title,

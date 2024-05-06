@@ -17,6 +17,7 @@ import Comment from "../icons/Comment";
 import HeartEmpty from "../icons/HeartEmpty";
 import WatchedIcon from "../icons/WatchedIcon";
 import HasImageIcon from "../icons/HasImageIcon";
+import Eyeballs from "../icons/Eyeballs";
 
 type BoardItemContentProps = {
   title: string;
@@ -31,6 +32,7 @@ type BoardItemContentProps = {
   isEvent?: boolean;
   postId?: number;
   date?: string;
+  views?: number;
 };
 
 type FreeBoardItemProps = {
@@ -59,6 +61,12 @@ const badges: BadgeType = {
   "IT/테크": { bg: "blue" },
   "건강/운동": { bg: "red" },
   "문화/생활": { bg: "purple" },
+  "졸업생 인터뷰": { bg: "cyan" },
+  "경제/경영": { bg: "orange" },
+  "인문/철학": { bg: "yellow" },
+  "음악/미술": { bg: "green" },
+  "주식/제태크": { bg: "teal" },
+  "창업/비즈니스": { bg: "pink" },
 };
 export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   title,
@@ -71,6 +79,7 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
   hasImage,
   postId,
   date,
+  views,
 }) => {
   const badgeName =
     title.split("$%$%$%").length == 1 ? "분야 미정" : title.split("$%$%$%")[1];
@@ -97,9 +106,15 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
             </Text>
           </Stack>
         </Box>
-        <Text fontSize={"xs"} color={"gray.600"} lineHeight={3}>
-          {date}
-        </Text>
+        <Flex alignItems={"baseline"}>
+          <Text fontSize={"xs"} color={"gray.600"} lineHeight={3}>
+            {date}
+          </Text>
+          <Text color={"grey.300"}>&nbsp;|</Text>
+          <Text fontSize={"xs"} color={"gray.600"} lineHeight={3}>
+            &nbsp;조회수 {views}
+          </Text>
+        </Flex>
       </Flex>
       <Box
         w={"100px"}
@@ -167,6 +182,7 @@ const KnowledgeBoardItem: React.FC<PropsWithChildren<FreeBoardItemProps>> = ({
         hasImage={hasImage}
         postId={postId}
         date={date}
+        views={views}
       />
 
       {/* <Flex justify={"space-between"} align={"center"}>
