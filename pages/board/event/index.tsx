@@ -11,7 +11,7 @@ import SearchModal from "@/components/common/SearchModal";
 import Navbar from "@/components/layout/Navbar";
 import { useDropdown } from "@/hooks/useDropdown";
 import { searchFunctionFactory, testAutocompleteFunction } from "@/utils/utils";
-import { Image } from "@chakra-ui/react";
+
 import profileApis from "@/api/profile";
 import postApis from "@/api/post";
 
@@ -71,19 +71,22 @@ function RecruitMain() {
           />
         }
       />
-      <FreeBoardTab
+      <PostsList boardName={"대외활동"} type="RECRUITMENT" />
+      {/* <FreeBoardTab
         leftLabel="모집"
         rightLabel="후기"
         leftTab={<PostsList boardName={"대외활동"} type="RECRUITMENT" />}
         rightTab={<PostsList boardName={"대외활동"} />}
-      ></FreeBoardTab>
-      <FAB
-        icon={<AddIcon boxSize={18} />}
-        ref={ref}
-        r={3}
-        b={"80px"}
-        onClick={() => toggle(true)}
-      ></FAB>
+      ></FreeBoardTab> */}
+      {role === "ADMIN" && (
+        <FAB
+          icon={<AddIcon boxSize={18} />}
+          ref={ref}
+          r={3}
+          b={"80px"}
+          onClick={() => toggle(true)}
+        ></FAB>
+      )}
       {dropdown}
     </AppContainer>
   );

@@ -43,7 +43,9 @@ export default function PostingForm() {
   const [isPosting, setIsPosting] = useState(false);
   const [isActivated, activateSnackbar, Snackbar] = useSnackbar(
     `${
-      boardId === 2 && postType === "NORMAL" ? "후기글" : PAGE_TITLE[postType]
+      boardId === 2 && postType === "NORMAL"
+        ? "지식IN플리글"
+        : PAGE_TITLE[postType]
     }을 작성하였습니다.`,
   );
 
@@ -58,7 +60,11 @@ export default function PostingForm() {
     setTimeout(() => {
       resetList();
       const pathName = pathByBoardId[boardId];
-      router.push(pathName);
+      if (boardId === 2 && postType === "NORMAL") {
+        router.push("/knowledge");
+      } else {
+        router.push(pathName);
+      }
     }, 1000);
   }
 
@@ -129,7 +135,7 @@ export default function PostingForm() {
       <FormTitle
         title={
           boardId === 2 && postType === "NORMAL"
-            ? "후기 쓰기"
+            ? "지식IN플리 글 쓰기"
             : `${PAGE_TITLE[postType]} 쓰기`
         }
         left={<CaretLeft />}
@@ -174,6 +180,7 @@ export default function PostingForm() {
       )}
       {(postType === "NORMAL" || postType === "ANNOUNCEMENT") && (
         <GeneralPostForm
+          postType={postType}
           postId={postId}
           boardId={boardId}
           postContent={postContent}

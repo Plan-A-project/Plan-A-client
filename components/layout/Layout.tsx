@@ -8,13 +8,21 @@ import Navbar from "./Navbar";
 interface Props {
   children: ReactNode;
   currentTab: string;
+  bgColor?: string;
 }
 
-export default function Layout({ children, currentTab }: Props) {
+export default function Layout({
+  children,
+  currentTab,
+  bgColor = "#F7F8FA",
+}: Props) {
+  const paddingBottom = currentTab == "knowledge" ? "80px" : "52px";
   return (
     <>
       <Header />
-      <Box pb={"52px"}>{children}</Box>
+      <Box bg={bgColor} pb={paddingBottom}>
+        {children}
+      </Box>
       <Navbar currentTab={currentTab} />
     </>
   );

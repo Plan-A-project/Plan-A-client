@@ -89,7 +89,11 @@ export const FreeBoardItemContent: React.FC<BoardItemContentProps> = ({
               <HasImageIcon />
             </Box>
           )}
-          <Text color={"gray.900"} lineHeight={5} fontSize={18}>
+          <Text
+            textStyle={"subtitle1"}
+            color={"gray.900"}
+            fontWeight={"normal"}
+          >
             {title}
           </Text>
         </HStack>

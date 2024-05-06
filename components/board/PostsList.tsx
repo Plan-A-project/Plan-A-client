@@ -19,6 +19,8 @@ import { scrollPositionState } from "@/state/atoms/board/boardState";
 import { RepeatIcon } from "@chakra-ui/icons";
 import ReviewBoardItem from "./ReviewBoardItem";
 import MarketBoardItem from "./MarketBoardItem";
+import KnowledgeBoardItem from "./knowledgeBoardItem";
+import formatYearDate from "@/utils/formatYearDate";
 type OrderType = "recent" | "popular";
 
 const PostsList = ({
@@ -154,8 +156,8 @@ const PostsList = ({
       router.events.off("beforeHistoryChange", handleBeforeHistoryChange);
     };
   }, []);
-
-  const isEventReview = boardId === 2 && type === "NORMAL";
+  const isKnowledge = boardId === 2 && type === "NORMAL";
+  const isEventReview = false;
   const isMarket = boardId === 5 && type === "NORMAL";
   const getMorePosts = () => {
     if (isFinish) return;
@@ -163,41 +165,43 @@ const PostsList = ({
   };
   return (
     <div>
-      <Flex justify={"space-between"} align={"center"}>
-        <Box>
-          <Badge
-            bg={order === "recent" ? "primary.100" : "gray.100"}
-            color={order === "recent" ? "primary.500" : "gray.400"}
-            borderColor={order === "recent" ? "primary.500" : "gray.400"}
-            border={order === "recent" ? "1px solid" : "none"}
-            borderRadius={"md"}
-            paddingY={"1px"}
-            mr={"8px"}
-            fontSize="0.8rem"
-            onClick={() => handleChangeOrder("recent")}
-          >
-            최신순
-          </Badge>
-          <Badge
-            bg={order === "popular" ? "primary.100" : "gray.100"}
-            color={order === "popular" ? "primary.500" : "gray.400"}
-            borderColor={order === "popular" ? "primary.500" : "gray.400"}
-            border={order === "popular" ? "1px solid" : "none"}
-            borderRadius={"md"}
-            paddingY={"1px"}
-            fontSize="0.8rem"
-            onClick={() => handleChangeOrder("popular")}
-          >
-            인기순
-          </Badge>
-        </Box>
-        <RepeatIcon
-          boxSize={"22px"}
-          onClick={handleReload}
-          color={"primary.normal"}
-          style={rotate ? { animation: "rotateIcon 2s linear" } : {}}
-        />
-      </Flex>
+      {!isKnowledge && (
+        <Flex justify={"space-between"} align={"center"}>
+          <Box>
+            <Badge
+              bg={order === "recent" ? "primary.100" : "gray.100"}
+              color={order === "recent" ? "primary.500" : "gray.400"}
+              borderColor={order === "recent" ? "primary.500" : "gray.400"}
+              border={order === "recent" ? "1px solid" : "none"}
+              borderRadius={"md"}
+              paddingY={"1px"}
+              mr={"8px"}
+              fontSize="0.8rem"
+              onClick={() => handleChangeOrder("recent")}
+            >
+              최신순
+            </Badge>
+            <Badge
+              bg={order === "popular" ? "primary.100" : "gray.100"}
+              color={order === "popular" ? "primary.500" : "gray.400"}
+              borderColor={order === "popular" ? "primary.500" : "gray.400"}
+              border={order === "popular" ? "1px solid" : "none"}
+              borderRadius={"md"}
+              paddingY={"1px"}
+              fontSize="0.8rem"
+              onClick={() => handleChangeOrder("popular")}
+            >
+              인기순
+            </Badge>
+          </Box>
+          <RepeatIcon
+            boxSize={"22px"}
+            onClick={handleReload}
+            color={"primary.normal"}
+            style={rotate ? { animation: "rotateIcon 2s linear" } : {}}
+          />
+        </Flex>
+      )}
       {!boardInfo[boardId][type]?.length &&
       boardListResponse &&
       boardListResponse.length ? (
@@ -205,7 +209,7 @@ const PostsList = ({
           <Spinner color="primary.normal" />
         </Center>
       ) : (
-        <BoardStack isEventReview={isEventReview} isMarket={isMarket}>
+        <BoardStack isKnowledge={isKnowledge} isMarket={isMarket}>
           {/* boardId가 1번이면 위에 뱃지에 기업이름, 2번이면 모집중 status넣어주기(이벤트탭이므로) */}
           {boardInfo[boardId][type]?.map(
             (el: {
@@ -229,31 +233,57 @@ const PostsList = ({
                 : formatDate(el.createdAt);
 
               const diffDay = checkDday(new Date(), el.recruitmentEndDate)[1];
-
+              const yearDate = formatYearDate(el.createdAt);
               const tagName = diffDay === "+" ? "마감" : "모집중";
-              if (isEventReview) {
+              if (isKnowledge) {
                 return (
-                  <ReviewBoardItem
+                  <KnowledgeBoardItem
                     key={el.postId}
-                    pressedLike={el.pressedLike}
                     bookmark={!!el.recruitmentEndDate}
                     {...(el.recruitmentEndDate ? { leftTag: tagName } : {})}
                     tagType={tagName === "마감" ? "grey" : "error"}
                     comments={el.commentCount}
-                    thumbnailUrl={el.thumbnailUrl}
                     postId={el.postId}
                     likes={el.likeCount}
-                    date={date}
+                    date={yearDate}
                     views={el.viewCount}
                     title={el.title}
                     hasImage={el.hasImage}
+                    image={el.thumbnailUrl}
                     dday={
                       !el.recruitmentStartDate
                         ? null
                         : checkDday(new Date(), el.recruitmentEndDate)
                     }
+                    onClick={() =>
+                      router.push(`/posting/${boardId}/${el.postId}`)
+                    }
                   />
                 );
+                // if (isEventReview) {
+                //   return (
+                //     <ReviewBoardItem
+                //       key={el.postId}
+                //       pressedLike={el.pressedLike}
+                //       bookmark={!!el.recruitmentEndDate}
+                //       {...(el.recruitmentEndDate ? { leftTag: tagName } : {})}
+                //       tagType={tagName === "마감" ? "grey" : "error"}
+                //       comments={el.commentCount}
+                //       thumbnailUrl={el.thumbnailUrl}
+                //       postId={el.postId}
+                //       likes={el.likeCount}
+                //       date={date}
+                //       views={el.viewCount}
+                //       title={el.title}
+                //       hasImage={el.hasImage}
+                //       dday={
+                //         !el.recruitmentStartDate
+                //           ? null
+                //           : checkDday(new Date(), el.recruitmentEndDate)
+                //       }
+                //     />
+                //   );
+                // }
               } else if (isMarket) {
                 return (
                   <MarketBoardItem
@@ -280,6 +310,7 @@ const PostsList = ({
                   />
                 );
               }
+              // const isAdminAnnouncement = el.admin && el.title[0] == '['
               return (
                 <FreeBoardItem
                   key={el.postId}
