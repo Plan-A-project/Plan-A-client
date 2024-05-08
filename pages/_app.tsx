@@ -9,6 +9,7 @@ import { theme } from "../styles/theme";
 import type { AppProps } from "next/app";
 import Script from "next/script";
 import * as gtag from "lib/gtag";
+import ViewTransition from "@/components/common/ViewTransition";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -38,7 +39,9 @@ export default function App({ Component, pageProps }: AppProps) {
       ></Script>
       <ChakraProvider theme={theme}>
         <RecoilRoot>
-          <Component {...pageProps} />
+          <ViewTransition>
+            <Component {...pageProps} />
+          </ViewTransition>
         </RecoilRoot>
         <meta
           http-equiv="Content-Security-Policy"
