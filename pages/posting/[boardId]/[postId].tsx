@@ -136,7 +136,7 @@ function BoardDetail() {
   const handleReply = (id: number) => {
     setParentCommentId(id);
   };
-
+  console.log(1324, data);
   return (
     <AppContainer>
       {data ? (
@@ -147,7 +147,7 @@ function BoardDetail() {
           <Header
             back
             rightNode={
-              data.myPost ? (
+              data.myPost || data.admin ? (
                 <Button
                   ref={ref}
                   onClick={() => toggle(true)}
