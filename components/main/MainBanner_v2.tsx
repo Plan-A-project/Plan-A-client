@@ -20,6 +20,7 @@ const MainBanner_v2 = () => {
   useEffect(() => {
     setCarouselItem([
       // { title: "클라이밍 이벤트 배너", src: "/assets/event_climbing.jpg" },
+      { title: "기본 배너", src: "/assets/event_beggar.gif" },
       // { title: "기본 배너", src: "/assets/event_banner_final.jpg" },
       { title: "기본 배너", src: "/assets/basic_poster.gif" },
     ]);
@@ -71,6 +72,17 @@ const MainBanner_v2 = () => {
         transitionTime={1000}
         showArrows={false}
         renderIndicator={CustomIndicator}
+        onClickItem={(index, item) => {
+          if (index === 0) {
+            router.push("/posting/2/2523");
+          }
+          //   if (index === 1) {
+          //     router.push("/knowledge");
+          //   }
+          //   if (index === 2) {
+          //     router.push("/board/free");
+          //   }
+        }}
         // onClickItem={(index, item) => {
         //   if (index === 0) {
         //     router.push("/posting/2/2186");
