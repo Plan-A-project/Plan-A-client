@@ -13,11 +13,11 @@ export default function TextBanner() {
       </Flex>
 
       <Flex textStyle={"body1"}>
-        알고 계셨나요? 수강인원이 초과된 수업은 事务申请을 통해 신청할 수
-        있답니다. jwfw에서 확인해보세요!
+        알고 계셨나요? 학생인증 이메일이 오지 않는다면 사진인증을 해주시거나
+        위챗 qny13252으로 문의하면 된답니다!
       </Flex>
       <Text fontWeight={600} align={"right"}>
-        - 事务申请 고인물 -
+        - 인플리 개발자 -
       </Text>
     </>
   );
