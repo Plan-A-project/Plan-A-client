@@ -20,7 +20,6 @@ const MainBanner_v2 = () => {
   useEffect(() => {
     setCarouselItem([
       // { title: "클라이밍 이벤트 배너", src: "/assets/event_climbing.jpg" },
-      // { title: "기본 배너", src: "/assets/event_beggar.gif" },
       { title: "기본 배너", src: "/assets/basic_poster.gif" },
     ]);
   }, []);
