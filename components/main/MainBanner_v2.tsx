@@ -19,7 +19,7 @@ const MainBanner_v2 = () => {
   const [carouselItem, setCarouselItem] = useState<any>(["영화 이벤트"]);
   useEffect(() => {
     setCarouselItem([
-      // { title: "클라이밍 이벤트 배너", src: "/assets/event_climbing.jpg" },
+      { title: "러브캐처 이벤트 배너", src: "/assets/event_love.jpg" },
       // { title: "기본 배너", src: "/assets/event_beggar.gif" },
       { title: "기본 배너", src: "/assets/basic_poster.gif" },
     ]);
@@ -72,15 +72,15 @@ const MainBanner_v2 = () => {
         showArrows={false}
         renderIndicator={CustomIndicator}
         onClickItem={(index, item) => {
-          // if (index === 0) {
-          //   router.push("/posting/2/2523");
+          if (index === 0) {
+            router.push("/posting/2/2562");
+          }
+          // if (index === 1) {
+          //   router.push("/knowledge");
           // }
-          //   if (index === 1) {
-          //     router.push("/knowledge");
-          //   }
-          //   if (index === 2) {
-          //     router.push("/board/free");
-          //   }
+          // if (index === 2) {
+          //   router.push("/board/free");
+          // }
         }}
       >
         {carouselItem.map((el: any) => {
