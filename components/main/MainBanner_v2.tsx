@@ -75,12 +75,6 @@ const MainBanner_v2 = () => {
           if (index === 0) {
             router.push("/posting/2/2562");
           }
-          // if (index === 1) {
-          //   router.push("/knowledge");
-          // }
-          // if (index === 2) {
-          //   router.push("/board/free");
-          // }
         }}
       >
         {carouselItem.map((el: any) => {
