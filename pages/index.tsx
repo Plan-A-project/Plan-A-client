@@ -164,17 +164,17 @@ export default function Main() {
             alt="banner"
             src="/assets/infli_asianLogo.PNG"
           /> */}
-          {/* <Image
-            onClick={() => router.push("/posting/2/1873")}
+          <Image
+            onClick={() => router.push("/posting/2/2622")}
             alt="banner"
-            src="/assets/infli_newStart2.jpg"
-          /> */}
-          <Link
+            src="/assets/infli_halloween.jpg"
+          />
+          {/* <Link
             href="https://www.instagram.com/infli_official/"
             height={"100%"}
           >
             <Image alt="banner" src="/assets/infli_instagram.png" />
-          </Link>
+          </Link> */}
         </Carousel>
         <Box mb={"26px"} />
         <TextBanner />
