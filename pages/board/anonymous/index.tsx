@@ -55,13 +55,13 @@ function Anonymous() {
       <Box mt={4} />
       <NoticeBanner
         onClick={() => {
-          router.push("/posting/2/2547");
+          router.push("/posting/2/2626");
           // if (announcementList) {
           //   router.push(`/posting/5/${announcementList[0].postId}`);
           // }
         }}
         // text={announcementList ? announcementList[0]?.title : ""}
-        text="💡19학번 영문과 이동민 궁금한 사람? ➡️"
+        text="💡18학번 신방과 정현 궁금한 사람? ➡️"
       />
 
       <Box mt={4}>
