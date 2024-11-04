@@ -10,16 +10,39 @@ export default function Concert() {
   };
   const members = {
     "신과 함께": ["김철수", "박영희", "이민수", "최진영", "정현우", "문지호"],
-    MUTE: Array(30)
-      .fill("홍길동")
-      .map((name, i) => name + (i + 1)), // MUTE 그룹은 30명, 이름을 구분하기 위해 숫자 추가
+    MUTE: [
+      "주혜진",
+      "정승우",
+      "조민경",
+      "김채연",
+      "류지안",
+      "김민희",
+      "유성민",
+      "정승현",
+      "이혜인",
+      "이정현",
+      "최수연",
+      "김은채",
+      "경승예",
+      "박미담",
+      "김동환",
+      "박세은",
+      "이희서",
+      "신도현",
+      "문수연",
+      "이채은",
+      "정고은",
+      "김두호",
+      "이정",
+    ],
+    // MUTE 그룹은 30명, 이름을 구분하기 위해 숫자 추가
   };
 
   return (
     <Flex direction="column" bg="black" overflowY="scroll">
       <Box flex="1" overflow="hidden">
         <video
-          src="/assets/concert.mp4"
+          src="/assets/concert2.mp4"
           alt="concert"
           autoPlay
           loop
