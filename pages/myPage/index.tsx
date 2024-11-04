@@ -212,6 +212,7 @@ const MyPage = () => {
                 width={"fit-content"}
                 paddingX={"5px"}
                 onClick={() => {
+                  router.push("/beyond_the_silence");
                   setTitle("앱 버전");
                   setContent(<InfoContent content="v1.4.0" />);
                   onOpen();
