@@ -90,7 +90,7 @@ export default function Concert() {
     <Flex direction="column" bg="black" overflowY="scroll">
       <Box flex="1" overflow="hidden">
         <video
-          src="/assets/concert.mp4"
+          src="/assets/concert2.mp4"
           alt="concert"
           autoPlay
           loop
