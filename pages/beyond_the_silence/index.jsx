@@ -1,24 +1,39 @@
 import { Box, Center, Flex, Text, VStack } from "@chakra-ui/layout";
-import { Collapse, Button } from "@chakra-ui/react";
+import { Collapse, Button, Wrap, WrapItem } from "@chakra-ui/react";
 import { useState } from "react";
 import { Logo } from "@/components/icons";
-// import SeatChecker from "./SeatChecker";
 import { useRouter } from "next/router";
 
 export default function Concert() {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const router = useRouter();
+
   const handleToggleGroup = group => {
     setSelectedGroup(prevGroup => (prevGroup === group ? null : group));
   };
+
   const handleRouter = () => {
     router.push("/beyond_the_silence/seatcheck");
   };
+  
   const members = {
-    "신과 함께": ["김철수", "박영희", "이민수", "최진영", "정현우", "문지호"],
+    "신과 함께": {
+      보컬: ["송유신", "박서화"],
+      음향: ["이범규"],
+      "1팀": {
+        "일렉 기타": ["김예건", "이찬형"],
+        베이스: ["옥선우"],
+        드럼: ["공대원"],
+        키보드: ["임성현"],
+      },
+      "2팀": {
+        기타: ["오우빈", "공도훈"],
+        베이스: ["여진성"],
+        드럼: ["윤정현"],
+        키보드: ["최현정"],
+      },
+    },
     MUTE: [
-      "주혜진",
-      "정승우",
       "조민경",
       "김채연",
       "류지안",
@@ -47,43 +62,42 @@ export default function Concert() {
     "1부 MUTE": [
       { title: "Sucker", artist: "Jonas Brothers" },
       { title: "All I Wanna Do", artist: "Jay Park (박재범)" },
-      { title: "Drama", artist: "9와 숫자들" },
-      { title: "Reflection", artist: "Mulan OST (뮤지컬)" },
-      { title: "Easy", artist: "KISS OF LIFE" },
+      { title: "Drama", artist: "Aespa (에스파)" },
+      { title: "Reflection", artist: "Fifth Hormony" },
+      { title: "Easy", artist: "LE SSERAFIM (르세라핌)" },
       { title: "Midas Touch", artist: "KISS OF LIFE" },
-      { title: "Power", artist: "EXO" },
-      { title: "Friday", artist: "IU (아이유) feat. Jang Yi-jeong (장이정)" },
-      { title: "Siren", artist: "Sunmi (선미)" },
+      { title: "Power", artist: "Queendom" },
+      { title: "Friday", artist: "Perri$" },
+      { title: "Siren", artist: "RIIZE" },
       { title: "Love Shot", artist: "EXO" },
       { title: "예쁘다 (Pretty U)", artist: "SEVENTEEN (세븐틴)" },
       { title: "DM", artist: "fromis_9" },
       { title: "Shape of You", artist: "Ed Sheeran" },
       { title: "Shut Down", artist: "BLACKPINK" },
-      { title: "마지막 인사 (Last Farewell)", artist: "BIGBANG" },
       { title: "Rush Hour", artist: "Crush feat. j-hope of BTS" },
     ],
     "2부 신과 함께": [
-      { title: "그대에게", artist: "무한궤도" },
-      { title: "우리의 꿈", artist: "부활" },
+      { title: "그대에게", artist: "신해철" },
+      { title: "우리의 꿈", artist: "코요태" },
       { title: "불장난 (Playing with Fire)", artist: "BLACKPINK" },
       { title: "Welcome to the Show", artist: "DAY6" },
-      { title: "Happy", artist: "Pharrell Williams" },
+      { title: "Happy", artist: "DAY6" },
       { title: "사건의 지평선", artist: "Younha (윤하)" },
       { title: "Tomboy", artist: "(G)I-DLE" },
-      { title: "고민중독", artist: "검정치마" },
-      { title: "자니", artist: "프라이머리 (Primary) feat. Dynamic Duo" },
       { title: "박하사탕", artist: "YB (윤도현 밴드)" },
       { title: "낭만고양이", artist: "체리필터" },
-      { title: "뜨거운 안녕", artist: "싸이 (PSY) feat. 성시경" },
+      { title: "고민중독", artist: "QWER" },
+      { title: "자니", artist: "프라이머리 (Primary) feat. Dynamic Duo" },
+      { title: "예술이야", artist: "싸이 (PSY) feat. 성시경" },
     ],
   };
 
   const staffList = [
     { role: "공연 기획 총괄", name: "이범규" },
-    { role: "음향 감독", name: "김상훈" },
-    { role: "조명 감독", name: "이정민" },
-    { role: "무대 디자이너", name: "박지은" },
-    { role: "프로모션 팀", name: "최영수, 김미나" },
+    { role: "음향 감독", name: "전유진" },
+    { role: "조명 감독", name: "유병현" },
+    { role: "MC", name: "이준석" },
+    { role: "프로덕션 팀", name: "조윤빈, 김령은, 김창범, 김동환, 김민서" },
   ];
 
   return (
@@ -145,11 +159,66 @@ export default function Concert() {
         </Flex>
         <Collapse in={selectedGroup !== null} animateOpacity>
           <Box mt={4} textColor="gray.300">
-            <VStack spacing={1} mt={2}>
-              {members[selectedGroup]?.map((member, index) => (
-                <Text key={index}>{member}</Text>
-              ))}
-            </VStack>
+            {selectedGroup === "신과 함께" && (
+              <VStack spacing={3} align="center">
+                {Object.entries(members["신과 함께"]).map(
+                  ([role, teamMembers], index) =>
+                    typeof teamMembers === "object" &&
+                    !Array.isArray(teamMembers) ? (
+                      <Box key={index}>
+                        <Text fontWeight="bold" fontSize="lg">
+                          {role}
+                        </Text>
+                        {Object.entries(teamMembers).map(
+                          ([subRole, names], subIndex) => (
+                            <Text key={subIndex} pl={4}>
+                              <Text as="span" fontWeight="bold">
+                                {subRole}:
+                              </Text>{" "}
+                              {Array.isArray(names) ? names.join(", ") : names}
+                            </Text>
+                          ),
+                        )}
+                      </Box>
+                    ) : (
+                      <Text key={index}>
+                        <Text fontSize="lg" as="span" fontWeight="bold">
+                          {role}
+                        </Text>
+                        <Text>
+                          {Array.isArray(teamMembers)
+                            ? teamMembers.join(`  `)
+                            : teamMembers}
+                        </Text>
+                      </Text>
+                    ),
+                )}
+              </VStack>
+            )}
+            {selectedGroup === "MUTE" && (
+              <>
+                <Text fontSize="lg" as="span" fontWeight="bold">
+                  회장
+                </Text>
+                <Text>{"정승우 주혜진"}</Text>
+                <VStack spacing={2} mt={4}>
+                  <Text fontSize="lg" as="span" fontWeight="bold">
+                    팀원
+                  </Text>
+                  {members["MUTE"].reduce((result, member, index, array) => {
+                    if (index % 2 === 0) {
+                      result.push(
+                        <Flex key={index} justify="center" gap={4}>
+                          <Text>{member}</Text>
+                          {array[index + 1] && <Text>{array[index + 1]}</Text>}
+                        </Flex>,
+                      );
+                    }
+                    return result;
+                  }, [])}
+                </VStack>
+              </>
+            )}
           </Box>
         </Collapse>
       </Box>
