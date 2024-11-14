@@ -15,7 +15,7 @@ export default function Concert() {
   const handleRouter = () => {
     router.push("/beyond_the_silence/seatcheck");
   };
-
+  
   const members = {
     "신과 함께": {
       보컬: ["송유신", "박서화"],
@@ -255,6 +255,7 @@ export default function Concert() {
           </Text>
         ))}
       </Box>
+      {/* <SeatChecker /> */}
       <Center bg="black" py={4}>
         <Logo />
       </Center>
