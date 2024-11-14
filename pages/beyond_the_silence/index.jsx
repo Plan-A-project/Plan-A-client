@@ -97,7 +97,7 @@ export default function Concert() {
     { role: "음향 감독", name: "전유진" },
     { role: "조명 감독", name: "유병현" },
     { role: "MC", name: "이준석" },
-    { role: "프로덕션 팀", name: "조윤빈, 김령은, 김창범, 김동환, 김민서" },
+    { role: "프로덕션 팀", name: "조윤빈, 김령은, 김창범, 김민서" },
   ];
 
   return (
