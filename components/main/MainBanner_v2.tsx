@@ -73,7 +73,7 @@ const MainBanner_v2 = () => {
         renderIndicator={CustomIndicator}
         onClickItem={(index, item) => {
           if (index === 0) {
-            router.push("/posting/2/2629");
+            router.push("/beyond_the_silence");
           }
         }}
       >
